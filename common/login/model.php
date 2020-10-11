@@ -45,7 +45,8 @@ class ModelLoginCYC {
 			$clave = $_POST["password"];
 
 			if($dominio){
-
+				require_once('/var/www/html/nusoap/lib/nusoap.php');
+                /*
 				$client = new \SoapClient("http://172.25.16.18/bus/webservice/ws.php?wsdl");
 
 				$params = array(
@@ -56,12 +57,19 @@ class ModelLoginCYC {
 				$response = $client->__soapCall("autentifica_ldap", $params);
 
 				print_r($response);
-
-				if($response->resp==1){
+                */
+				$params = array(
+					"id" => $usuario,
+					"clave" => $clave
+				);
+				$client = new \soapclient('http://172.25.16.18/bus/webservice/ws.php?wsdl');
+                $response = $client->call('autentifica_ldap', $params);
+			
+				if($response["resp"]==1){
 					session_destroy();
 					session_start();
 					$_SESSION["mail"] = $mail;
-					$_SESSION["nombre"] = $response->nombre;
+					$_SESSION["nombre"] = $response["nombre"];
 					header("Location: ". base() . "/home");
 				}
 

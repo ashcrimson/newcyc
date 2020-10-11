@@ -17,7 +17,7 @@ class ModelAlertaContrato {
 	//filtro de licitacion
 	private $nro_licitacion;
 	//pagina 
-	private int $page;
+	private  $page;
 	//resultados por pagina
 	private $resultados = 10;
 

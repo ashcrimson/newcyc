@@ -1,5 +1,4 @@
 <?php
-
 /**
  * pagina principal, captura las rutas y las traduce a las peticiones en el enrutador, 
  * tambien carga automaticamente todo lo necesario extra
@@ -8,16 +7,17 @@
 //para mostrar todos los errores
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
+error_reporting(E_ALL & ~E_NOTICE);
 
 //carga paginas individuales
 require_directory_recursive("./pages");
 //carga plantillas, y cosas comunes 
 require_directory_recursive("./common");
 
-
 $request = isset($_SERVER['REDIRECT_URL']) ? $_SERVER['REDIRECT_URL'] : "";
 //$request = $_SERVER['REDIRECT_URL'];
+
+
 $router = new Router();
 
 $base =  "/newcyc";
@@ -29,7 +29,9 @@ switch ($request) {
 	case '' :
 	case $base . '/home' :
 	case $base . '/home/' :
-		$router->home(); 
+		
+		$router->home();
+		
 		break;
 	case $base . '/login' :
 	case $base . '/login/' :
@@ -49,6 +51,7 @@ switch ($request) {
 		break;
 	case $base . '/contratos' :
 	case $base . '/contratos/' :
+		
 		$router->contratosList(); 
 		break;
 	case $base . '/contratos/new' :
@@ -133,10 +136,12 @@ switch ($request) {
 		break;
 
 	default:
+		
 		$router->notFound();
 	break;
 }
 //"renderiza" la pagina resultante dentro de la plantilla
+
 $router->display();
 
 

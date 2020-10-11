@@ -10,7 +10,7 @@ namespace Home;
 class ViewHome {
 	
 	public function output(\Home\ModelHome $model){
-
+        session_start(); 
 		ob_start();
 
 		?>
@@ -34,7 +34,7 @@ class ViewHome {
                                 </div>
                             @endif -->
                             <p>
-                                Bienvenido $usuario
+                                Bienvenido <?php echo $_SESSION["nombre"]; ?>
                             </p>
                         </div>
                     </div>

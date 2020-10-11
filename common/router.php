@@ -271,10 +271,15 @@ class Router{
 	//"renderiza" la vista solicitada anteriormente dentro de la plantilla
 	public function display(){
 		$this->templateModel = new \TemplateCYC\ModelTemplateCYC($this->pdo);
+		
 		$this->templateView = new \TemplateCYC\ViewTemplateCYC;
+		
 		$this->templateController = new \TemplateCYC\ControllerTemplateCYC;
+	
 		$this->templateController->all($this->templateModel);
+		
 		echo $this->templateView->output($this->templateModel, $this->view->output($this->model));
+			
 		oci_close($this->pdo);
 	}
 
@@ -292,10 +297,13 @@ class Router{
 
 	//solo estan para mantener esquema
 	public function home(){
+		
 		$this->model = new \Home\ModelHome($this->pdo);
 		$this->view = new \Home\ViewHome;
 		$this->controller = new \Home\ControllerHome;
+		
 		$this->controller->all($this->model);
+		
 	}
 
 	//solo estan para mantener esquema

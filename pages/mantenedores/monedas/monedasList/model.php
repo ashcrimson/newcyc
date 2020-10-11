@@ -18,7 +18,7 @@ class ModelMonedas {
 	//filtro de licitacion
 	private $id;
 	//pagina 
-	private int $page;
+	private  $page;
 	//resultados por pagina
 	private $resultados = 10;
 
