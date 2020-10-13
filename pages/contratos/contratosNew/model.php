@@ -176,12 +176,25 @@ class ModelContratos {
 		if(!$this->error){
 			//consulta de inserción
 			//$consulta = "SELECT * FROM LICITACIONES " . " ORDER BY FECHA_CREACION DESC";
-			$consulta = "INSERT into LICITACIONES values (
-/*cambiar tabla*/						'". $this->nro_licitacion ."',
-						0,
-						'". $this->descripcion_licitacion ."',
-						".  $this->presupuesto .",
-						TO_DATE('2020-09-09 14:30:00','yyyy-mm-dd hh24-mi-ss'), null, null)";
+// 			$consulta = "INSERT into CONTRATOS values (
+// /*cambiar tabla*/						'". $this->proveedor_id ."',
+// 										'". $this->selectContrato ."',
+// 										'". $this->licitacion ."',
+// 										'". $this->moneda_id ."',
+// 										'". $this->precio ."',
+// 										'". $this->cargo_id ."',
+// 										'". $this->fecha_inicio ."',
+// 										'". $this->fecha_termino ."',
+// 										'". $this->fecha_aprobacion ."',
+// 										'". $this->alerta_vencimiento ."',
+// 										'". $this->objeto_contrato ."',
+// 										'". $this->numero ."',
+// 										'". $this->monto ."'
+// 										)";
+			
+			$consulta = "INSERT INTO CONTRATOS (NRO_LICITACION) VALUES (
+				'". $this->licitacion ."'
+			)";
 
 			//ejecucion consulta
 			$query = $consulta;
@@ -194,8 +207,8 @@ class ModelContratos {
 			oci_commit($this->pdo);
 		}else{
 			//print_r("redirige");
-			header("Location: ". base() . "/contratos/new?" . $params);
-			die();
+			// header("Location: ". base() . "/contratos/new?" . $params);
+			// die();
 		}
 
 		
@@ -223,7 +236,7 @@ class ModelContratos {
 
 
 		//consulta para recuperar ruts de los proveedores
-		$query = "SELECT RUT FROM PROVEEDORES";
+		$query = "SELECT RUT_PROVEEDOR FROM PROVEEDORES";
 		$result = oci_parse($this->pdo, $query);
 		oci_execute($result);
 		$proveedores = queryResultToAssoc($result);

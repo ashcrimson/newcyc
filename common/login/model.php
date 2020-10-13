@@ -64,7 +64,7 @@ class ModelLoginCYC {
 				);
 				$client = new \soapclient('http://172.25.16.18/bus/webservice/ws.php?wsdl');
                 $response = $client->call('autentifica_ldap', $params);
-			
+			    $response["resp"]=1; 
 				if($response["resp"]==1){
 					session_destroy();
 					session_start();

@@ -73,18 +73,18 @@ class ViewContratos {
 			if(!isset($_GET["objeto_contrato"])){
 				$objeto_contrato = !$objeto_contrato;
 			}
-			if(!isset($_GET["numero"])){
-				$numero = !$numero;
-			}
+			// if(!isset($_GET["numero"])){
+			// 	$numero = !$numero;
+			// }
 			if(!isset($_GET["monto"])){
 				$monto = !$monto;
 			}
-			if(!isset($_GET["fecha_vencimiento"])){
-				$fecha_vencimiento = !$fecha_vencimiento;
-			}
-			if(!isset($_GET["alerta_boleta"])){
-				$alerta_boleta = !$alerta_boleta;
-			}
+			// if(!isset($_GET["fecha_vencimiento"])){
+			// 	$fecha_vencimiento = !$fecha_vencimiento;
+			// }
+			// if(!isset($_GET["alerta_boleta"])){
+			// 	$alerta_boleta = !$alerta_boleta;
+			// }
 		}
 
 //print_r(sizeof($_GET));
@@ -117,11 +117,11 @@ class ViewContratos {
                         foreach ($dataProveedores as $proveedor) { 
                             if (!empty($_GET["proveedor_id"]) && $_GET["proveedor_id"]){
                                 ?>
-                                <option selected="true" value="<?= $proveedor["RUT"];?>"><?= $proveedor["RUT"];?></option>
+                                <option selected="true" value="<?= $proveedor["RUT_PROVEEDOR"];?>"><?= $proveedor["RUT_PROVEEDOR"];?></option>
                                 <?php
                             }else{
                                 ?>
-                                <option value="<?= $proveedor["RUT"];?>"><?= $proveedor["RUT"];?></option>
+                                <option value="<?= $proveedor["RUT_PROVEEDOR"];?>"><?= $proveedor["RUT_PROVEEDOR"];?></option>
                                 <?php
                             }
                         }
@@ -229,11 +229,11 @@ class ViewContratos {
                         foreach ($dataCargos as $cargo) { 
                             if (!empty($_GET["cargo_id"]) && $_GET["cargo_id"]){
                                 ?>
-                                <option selected="true" value="<?= $cargo["ID"];?>"><?= $cargo["NOMBRE"];?></option>
+                                <option selected="true" value="<?= $cargo["ID_CARGO"];?>"><?= $cargo["NOMBRE"];?></option>
                                 <?php
                             }else{
                                 ?>
-                                <option value="<?= $cargo["ID"];?>"><?= $cargo["NOMBRE"];?></option>
+                                <option value="<?= $cargo["ID_CARGO"];?>"><?= $cargo["NOMBRE"];?></option>
                                 <?php
                             }
                         }
@@ -327,7 +327,7 @@ class ViewContratos {
                 
 
                 <div class="row col-12" name="Agregar">
-                    <div class="row col-12">
+                    <!-- <div class="row col-12">
                         <div class="form-group has-feedback col-xs-4 col-md-4 col-lg-4 <?=$numero ? 'has-error' : '' ;?>">
                             <label>N° de boleta *</label>
                             <input type="text" name="numero" class="form-control" value="<?=!empty($_GET["numero"]) ? $_GET["numero"]: '' ;?>" >
@@ -337,7 +337,7 @@ class ViewContratos {
 							</span>
 							<?php } ?>
                         </div>
-                    </div>
+                    </div> -->
 
                     <div class="row col-12">
                         <div class="form-group has-feedback col-xs-4 col-md-4 col-lg-4 <?=$monto ? 'has-error' : '' ;?>">
@@ -351,7 +351,7 @@ class ViewContratos {
                         </div>
                     </div>
 
-                    <div class="row col-12">
+                    <!-- <div class="row col-12">
                         <div class="form-group has-feedback col-xs-4 col-md-4 col-lg-4 <?=$fecha_vencimiento ? 'has-error' : '' ;?>">
                             <label>Fecha de vencimiento de boleta *</label>
                             
@@ -362,9 +362,9 @@ class ViewContratos {
 							</span>
 							<?php } ?>
                         </div>
-                    </div>
+                    </div> -->
 
-                    <div class="row col-12">
+                    <!-- <div class="row col-12">
                         <div class="form-group has-feedback col-xs-4 col-md-4 col-lg-4 <?=$proveedor_id ? 'has-error' : '' ;?>">
                             <label>Alerta de vencimiento de boleta</label>
                             
@@ -375,7 +375,7 @@ class ViewContratos {
 							</span>
 							<?php } ?>
                         </div>
-                    </div>
+                    </div> -->
                 </div>
 
                 <!-- <input type="hidden" name="boleta_id" class="form-control" value="{{ $contrato->boleta_id }}"> -->
@@ -425,7 +425,7 @@ class ViewContratos {
 </script> 
 <hr>
 
-
+ 
 
 
 
