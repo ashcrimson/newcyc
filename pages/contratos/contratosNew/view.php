@@ -138,31 +138,60 @@ class ViewContratos {
 
 					<div class="container">
 						<div class="row col-12">
-							<div class="form-group has-feedback col-xs-4 col-md-4 col-lg-4">
-								<label>Número Licitación</label>
-								<input type="number" name="nro_licitacion" class="form-control" value="<?=$_GET["nro_licitacion"] ?: '' ?>">
-
-								<?php if ($nro_licitacion){ ?>
-								<span class="help-block text-danger"> 
-									<strong>Error: Número licitación inválido.</strong>
-								</span>
-								<?php } ?>
-							</div>
+						<div class="form-group has-feedback col-xs-4 col-md-4 col-lg-4 <?=$nro_licitacion ? 'has-error' : '' ;?>" id="nro_licitacion" >
+                    <label>Licitacion *</label>
+                    <select name='nro_licitacion' class ='selectpicker selectField' placeholder='Seleccione Licitacion' data-live-search='true' id ='nro_licitacion'>
+                    	<option value=""></option>
+                        <?php 
+                        foreach ($dataLicitaciones as $licitacionn) { 
+                            if (!empty($_GET["nro_licitacion"]) && $_GET["nro_licitacion"]){
+                                ?>
+                                <option selected="true" value="<?= $licitacionn["NRO_LICITACION"];?>"><?= $licitacionn["NRO_LICITACION"];?></option>
+                                <?php
+                            }else{
+                                ?>
+                                <option value="<?= $licitacionn["NRO_LICITACION"];?>"><?= $licitacionn["NRO_LICITACION"];?></option>
+                                <?php
+                            }
+                        }
+                        ?>
+                    </select>
+					<?php if ($nro_licitacion){ ?>
+					<span class="help-block text-danger"> 
+						<strong>Error: Numero de licitacion vacio</strong>
+					</span>
+					<?php } ?>
+                </div>
 						</div>
 					</div>
 
                     <div class="container">
 						<div class="row col-12">
-							<div class="form-group has-feedback col-xs-4 col-md-4 col-lg-4">
-								<label>Rut Proveedor</label>
-								<input type="number" name="rut_proveedor" class="form-control" value="<?=$_GET["rut_proveedor"] ?: '' ?>">
+						<div class="form-group has-feedback col-xs-4 col-md-4 col-lg-4 <?=$rut_proveedor ? 'has-error' : '' ;?>">
+                    <label>Proveedor *</label>
 
-								<?php if ($rut_proveedor){ ?>
-								<span class="help-block text-danger"> 
-									<strong>Error: RUT proveedor inválido.</strong>
-								</span>
-								<?php } ?>
-							</div>
+                    <select class="selectpicker selectField" name='proveedor_id'  class ='form-control selectpicker selectField' placeholder='Seleccione Proveedor' data-live-search='true' id ='proveedor_id' >
+                    	<option value=""></option>
+                        <?php 
+                        foreach ($dataProveedores as $proveedor) { 
+                            if (!empty($_GET["rut_proveedor"]) && $_GET["rut_proveedor"]){
+                                ?>
+                                <option selected="true" value="<?= $proveedor["RUT_PROVEEDOR"];?>"><?= $proveedor["RUT_PROVEEDOR"];?></option>
+                                <?php
+                            }else{
+                                ?>
+                                <option value="<?= $proveedor["RUT_PROVEEDOR"];?>"><?= $proveedor["RUT_PROVEEDOR"];?></option>
+                                <?php
+                            }
+                        }
+                        ?>
+                    </select>
+					<?php if ($rut_proveedor){ ?>
+					<span class="help-block text-danger"> 
+						<strong>Error: Numero de licitacion vacio</strong>
+					</span>
+					<?php } ?>
+                </div>
 						</div>
 					</div>
 
@@ -198,32 +227,49 @@ class ViewContratos {
 
                     <div class="container">
 						<div class="row col-12">
-							<div class="form-group has-feedback col-xs-4 col-md-4 col-lg-4">
-								<label>ID Moneda</label>
-								<input type="number" name="id_moneda" class="form-control" value="<?=$_GET["id_moneda"] ?: '' ?>">
+						<div class="form-group has-feedback col-xs-4 col-md-4 col-lg-4 <?=$id_moneda ? 'has-error' : '' ;?>" >
+                    <label>Moneda *</label>
 
-								<?php if ($id_moneda){ ?>
-								<span class="help-block text-danger"> 
-									<strong>Error: ID Admin inválido.</strong>
-								</span>
-								<?php } ?>
-							</div>
+                    <select name='id_moneda' class ='selectpicker selectField' placeholder='Seleccione Moneda' data-live-search='true' id ='id_moneda' >
+                    	<option value=""></option>
+                        <?php 
+                        foreach ($dataMoneda as $moneda) { 
+                            if (!empty($_GET["id_moneda"]) && $_GET["id_moneda"]){
+                                ?>
+                                <option selected="true" value="<?= $moneda["NOMBRE"];?>"><?= $moneda["NOMBRE"];?></option>
+                                <?php
+                            }else{
+                                ?>
+                                <option value="<?= $moneda["NOMBRE"];?>"><?= $moneda["NOMBRE"];?></option>
+                                <?php
+                            }
+                        }
+                        ?>
+                    </select>
+					<?php if ($id_moneda){ ?>
+					<span class="help-block text-danger"> 
+						<strong>Error: Numero de licitacion vacio</strong>
+					</span>
+					<?php } ?>
+                </div>
 						</div>
 					</div>
 
                     <div class="container">
-						<div class="row col-12">
-							<div class="form-group has-feedback col-xs-4 col-md-4 col-lg-4">
-								<label>Tipo</label>
-								<input type="text" name="tipo" class="form-control" value="<?=$_GET["tipo"] ?: '' ?>">
-
-								<?php if ($tipo){ ?>
-								<span class="help-block text-danger"> 
-									<strong>Error: Tipo inválido.</strong>
-								</span>
-								<?php } ?>
-							</div>
-						</div>
+					<div class="row col-12">
+                <div class="form-group has-feedback col-xsñ-4 col-md-4 col-lg-4 <?=$tipo ? 'has-error' : '' ;?>">
+                    <label>Tipo Contrato</label>
+                    <select class="selectpicker selectField" placeholder='Seleccione Tipo de Contrato' name="tipo" id="tipo">
+                        <option value="0">Licitación</option>
+                        <option value="1">Trato Directo</option>              
+                    </select>
+					<?php if ($tipo){ ?>
+					<span class="help-block text-danger"> 
+						<strong>Error: Numero de licitacion vacio</strong>
+					</span>
+					<?php } ?>
+                </div>
+            </div>
 					</div>
 
                     <div class="container">

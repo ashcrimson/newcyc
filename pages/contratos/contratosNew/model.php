@@ -21,22 +21,22 @@ class ModelContratos {
 
 
 	private $id_contrato;
-	private $nro_licitacion;
-	private $rut_proveedor;
-	private $id_area;
-	private $id_admin;
-	private $id_moneda;
-	private $tipo;
-	private $monto;
-	private $estado_alerta;
-	private $fecha_inicio;
-	private $fecha_termino;
-	private $fecha_aprobacion;
-	private $fecha_alerta_vencimiento;
-	private $fecha_creacion;
-	private $fecha_actualizacion;
-	private $fecha_eliminacion;
-	private $objeto_contrato;
+	// private $nro_licitacion;
+	// private $rut_proveedor;
+	// private $id_area;
+	// private $id_admin;
+	// private $id_moneda;
+	// private $tipo;
+	// private $monto;
+	// private $estado_alerta;
+	// private $fecha_inicio;
+	// private $fecha_termino;
+	// private $fecha_aprobacion;
+	// private $fecha_alerta_vencimiento;
+	// private $fecha_creacion;
+	// private $fecha_actualizacion;
+	// private $fecha_eliminacion;
+	// private $objeto_contrato;
 
 
 	//Constructor
@@ -206,27 +206,27 @@ class ModelContratos {
 
 			//consulta de inserción
 			
-			// $consulta = "INSERT into CONTRATOS values (
-			// 			'". $this->id_contrato ."',
-			// 			'". $this->nro_licitacion ."',
-			// 			'". $this->rut_proveedor ."',
-			// 			'". $this->id_area ."',
-			// 			'". $this->id_admin ."',
-			// 			'". $this->id_moneda ."',
-			// 			'". $this->tipo ."',
-			// 			'". $this->monto ."',
-			// 			'". $this->estado_alerta ."',
-			// 			'". $this->fecha_inicio ."',
-			// 			'". $this->fecha_termino ."',
-			// 			'". $this->fecha_aprobacion ."',
-			// 			'". $this->fecha_alerta_vencimiento ."',
-			// 			'". $this->fecha_creacion ."',
-			// 			'". $this->fecha_actualizacion ."',
-			// 			'". $this->fecha_eliminacion ."',
-			// 			'". $this->objeto_contrato."'
-			// 			)";
+			$consulta = "INSERT into CONTRATOS values (
+						'". $this->id_contrato ."',
+						'". $this->nro_licitacion ."',
+						'". $this->rut_proveedor ."',
+						'". $this->id_area ."',
+						'". $this->id_admin ."',
+						'". $this->id_moneda ."',
+						'". $this->tipo ."',
+						'". $this->monto ."',
+						'". $this->estado_alerta ."',
+						'". $this->fecha_inicio ."',
+						'". $this->fecha_termino ."',
+						'". $this->fecha_aprobacion ."',
+						'". $this->fecha_alerta_vencimiento ."',
+						'". $this->fecha_creacion ."',
+						'". $this->fecha_actualizacion ."',
+						'". $this->fecha_eliminacion ."',
+						'". $this->objeto_contrato."'
+						)";
 
-			$consulta = "INSERT INTO CONTRATOS VALUES (44, '111', '111', '1', '1', '1', '1', 1000, 1, '14/10/20', '14/10/20', '14/10/20', '14/10/20', '14/10/20', '14/10/20', '14/10/20', 'hola')";
+			// $consulta = "INSERT INTO CONTRATOS VALUES (44, '111', '111', '1', '1', '1', '1', 1000, 1, '14/10/20', '14/10/20', '14/10/20', '14/10/20', '14/10/20', '14/10/20', '14/10/20', 'hola')";
 
 			//ejecucion consulta
 			$query = $consulta;
