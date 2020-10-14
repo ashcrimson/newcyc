@@ -83,38 +83,37 @@ class ModelLicitaciones {
 		if(!$this->error){
 
 			$numero = 0;
-			if(isset($_FILES["archivo_licitacion"]) && $_FILES["archivo_licitacion"] != ""){
+			// if(isset($_FILES["archivo_licitacion"]) && $_FILES["archivo_licitacion"] != ""){
 				
-				$cons = "SELECT COUNT(*)+1 AS CTA FROM DOC_DETALLE";
-				$result = oci_parse($this->pdo, $cons);
-				oci_execute($result);
-				$numero = queryResultToAssoc($result)[0]["CTA"];
-				print_r($numero);
+			// 	$cons = "SELECT COUNT(*)+1 AS CTA FROM DOC_DETALLE";
+			// 	$result = oci_parse($this->pdo, $cons);
+			// 	oci_execute($result);
+			// 	$numero = queryResultToAssoc($result)[0]["CTA"];
+			// 	print_r($numero);
 
-				$directorio = "uploads/";
-				$archivo = $directorio . basename($_FILES["archivo_licitacion"]["name"]);
-				move_uploaded_file($_FILES["archivo_licitacion"]["tmp_name"], $archivo);
+			// 	$directorio = "uploads/";
+			// 	$archivo = $directorio . basename($_FILES["archivo_licitacion"]["name"]);
+			// 	move_uploaded_file($_FILES["archivo_licitacion"]["tmp_name"], $archivo);
 
-				//consulta de inserción
-				//$consulta = "SELECT * FROM LICITACIONES " . " ORDER BY FECHA_CREACION DESC";
-				$consulta = "INSERT into DOC_DETALLE (NRO_DOCUMENTO, NOMBRE, FECHA_CREACION) values (
-							'". $numero ."',
-							'". $archivo ."',
-							TO_DATE('". date('yy-m-d') ."','yyyy-mm-dd'))";
+			// 	//consulta de inserción
+			// 	//$consulta = "SELECT * FROM LICITACIONES " . " ORDER BY FECHA_CREACION DESC";
+			// 	$consulta = "INSERT into DOC_DETALLE (NRO_DOCUMENTO, NOMBRE, FECHA_CREACION) values (
+			// 				'". $numero ."',
+			// 				'". $archivo ."',
+			// 				TO_DATE('". date('yy-m-d') ."','yyyy-mm-dd'))";
 
-				//ejecucion consulta
-				$query = $consulta;
-				$result = oci_parse($this->pdo, $query);
-				//print_r($consulta);
-				oci_execute($result);
-			}
+			// 	//ejecucion consulta
+			// 	$query = $consulta;
+			// 	$result = oci_parse($this->pdo, $query);
+			// 	//print_r($consulta);
+			// 	oci_execute($result);
+			// }
 
 
 			//consulta de inserción
 			//$consulta = "SELECT * FROM LICITACIONES " . " ORDER BY FECHA_CREACION DESC";
 			$consulta = "INSERT into LICITACIONES values (
 						'". $this->nro_licitacion ."',
-						". $numero .",
 						'". $this->descripcion_licitacion ."',
 						".  $this->presupuesto .",
 						TO_DATE('". date('yy-m-d') ."','yyyy-mm-dd'), null, null)";
