@@ -23,12 +23,12 @@ class ViewContratos {
 		$dataCargos = $data[3];
 
 		$id_contrato = false;
-		$nro_licitacion = false;
-		$rut_proveedor = false;
+		$licitacion = false;
+		$proveedor_id = false;
         $id_area = false;
         $id_admin = false;
-        $id_moneda = false;
-        $tipo = false;
+        $moneda_id = false;
+        $selectContrato = false;
         $monto = false;
         $estado_alerta = false;
         $fecha_inicio = false;
@@ -44,8 +44,8 @@ class ViewContratos {
 			if(!isset($_GET["id_contrato"])){
 				$id_contrato = !$id_contrato;
 			}
-			if(!isset($_GET["nro_licitacion"])){
-				$nro_licitacion = !$nro_licitacion;
+			if(!isset($_GET["licitacion"])){
+				$nro_licitacion = !$licitacion;;
 			}
 			if(!isset($_GET["rut_proveedor"])){
 				$rut_proveedor = !$rut_proveedor;
@@ -56,11 +56,11 @@ class ViewContratos {
             if(!isset($_GET["id_admin"])){
 				$id_admin = !$id_admin;
             }
-            if(!isset($_GET["id_moneda"])){
-				$id_moneda = !$id_moneda;
+            if(!isset($_GET["moneda_id"])){
+				$moneda_id = !$moneda_id;
             }
-            if(!isset($_GET["tipo"])){
-				$tipo = !$tipo;
+            if(!isset($_GET["selectContrato"])){
+				$selectContrato = !$selectContrato;
             }
             if(!isset($_GET["monto"])){
 				$monto = !$monto;
@@ -138,13 +138,13 @@ class ViewContratos {
 
 					<div class="container">
 						<div class="row col-12">
-						<div class="form-group has-feedback col-xs-4 col-md-4 col-lg-4 <?=$nro_licitacion ? 'has-error' : '' ;?>" id="nro_licitacion" >
+						<div class="form-group has-feedback col-xs-4 col-md-4 col-lg-4 <?=$licitacion ? 'has-error' : '' ;?>" id="licitacion" >
                     <label>Licitacion *</label>
-                    <select name='nro_licitacion' class ='selectpicker selectField' placeholder='Seleccione Licitacion' data-live-search='true' id ='nro_licitacion'>
+                    <select name='licitacion' class ='selectpicker selectField' placeholder='Seleccione Licitacion' data-live-search='true' id ='licitacion_id'>
                     	<option value=""></option>
                         <?php 
                         foreach ($dataLicitaciones as $licitacionn) { 
-                            if (!empty($_GET["nro_licitacion"]) && $_GET["nro_licitacion"]){
+                            if (!empty($_GET["licitacion"]) && $_GET["licitacion"]){
                                 ?>
                                 <option selected="true" value="<?= $licitacionn["NRO_LICITACION"];?>"><?= $licitacionn["NRO_LICITACION"];?></option>
                                 <?php
@@ -156,25 +156,28 @@ class ViewContratos {
                         }
                         ?>
                     </select>
-					<?php if ($nro_licitacion){ ?>
+					<?php if ($licitacion){ ?>
 					<span class="help-block text-danger"> 
 						<strong>Error: Numero de licitacion vacio</strong>
 					</span>
 					<?php } ?>
                 </div>
+                </div>
 						</div>
 					</div>
 
                     <div class="container">
-						<div class="row col-12">
-						<div class="form-group has-feedback col-xs-4 col-md-4 col-lg-4 <?=$rut_proveedor ? 'has-error' : '' ;?>">
+					<div class="row col-12">
+                <!-- <input type="hidden" name="id" value="{{ $contrato->id }}" > -->
+
+                <div class="form-group has-feedback col-xs-4 col-md-4 col-lg-4 <?=$proveedor_id ? 'has-error' : '' ;?>">
                     <label>Proveedor *</label>
 
                     <select class="selectpicker selectField" name='proveedor_id'  class ='form-control selectpicker selectField' placeholder='Seleccione Proveedor' data-live-search='true' id ='proveedor_id' >
                     	<option value=""></option>
                         <?php 
                         foreach ($dataProveedores as $proveedor) { 
-                            if (!empty($_GET["rut_proveedor"]) && $_GET["rut_proveedor"]){
+                            if (!empty($_GET["proveedor_id"]) && $_GET["proveedor_id"]){
                                 ?>
                                 <option selected="true" value="<?= $proveedor["RUT_PROVEEDOR"];?>"><?= $proveedor["RUT_PROVEEDOR"];?></option>
                                 <?php
@@ -186,13 +189,13 @@ class ViewContratos {
                         }
                         ?>
                     </select>
-					<?php if ($rut_proveedor){ ?>
+					<?php if ($proveedor_id){ ?>
 					<span class="help-block text-danger"> 
 						<strong>Error: Numero de licitacion vacio</strong>
 					</span>
 					<?php } ?>
                 </div>
-						</div>
+            </div>
 					</div>
 
                     <div class="container">
@@ -227,14 +230,14 @@ class ViewContratos {
 
                     <div class="container">
 						<div class="row col-12">
-						<div class="form-group has-feedback col-xs-4 col-md-4 col-lg-4 <?=$id_moneda ? 'has-error' : '' ;?>" >
+						<div class="form-group has-feedback col-xs-4 col-md-4 col-lg-4 <?=$moneda_id ? 'has-error' : '' ;?>" >
                     <label>Moneda *</label>
 
-                    <select name='id_moneda' class ='selectpicker selectField' placeholder='Seleccione Moneda' data-live-search='true' id ='id_moneda' >
+                    <select name='moneda_id' class ='selectpicker selectField' placeholder='Seleccione Moneda' data-live-search='true' id ='moneda_id' >
                     	<option value=""></option>
                         <?php 
                         foreach ($dataMoneda as $moneda) { 
-                            if (!empty($_GET["id_moneda"]) && $_GET["id_moneda"]){
+                            if (!empty($_GET["moneda_id"]) && $_GET["moneda_id"]){
                                 ?>
                                 <option selected="true" value="<?= $moneda["NOMBRE"];?>"><?= $moneda["NOMBRE"];?></option>
                                 <?php
@@ -246,7 +249,7 @@ class ViewContratos {
                         }
                         ?>
                     </select>
-					<?php if ($id_moneda){ ?>
+					<?php if ($moneda_id){ ?>
 					<span class="help-block text-danger"> 
 						<strong>Error: Numero de licitacion vacio</strong>
 					</span>
@@ -257,13 +260,13 @@ class ViewContratos {
 
                     <div class="container">
 					<div class="row col-12">
-                <div class="form-group has-feedback col-xsñ-4 col-md-4 col-lg-4 <?=$tipo ? 'has-error' : '' ;?>">
+					<div class="form-group has-feedback col-xsñ-4 col-md-4 col-lg-4 <?=$selectContrato ? 'has-error' : '' ;?>">
                     <label>Tipo Contrato</label>
-                    <select class="selectpicker selectField" placeholder='Seleccione Tipo de Contrato' name="tipo" id="tipo">
+                    <select class="selectpicker selectField" placeholder='Seleccione Tipo de Contrato' name="selectContrato" id="selectContrato">
                         <option value="0">Licitación</option>
                         <option value="1">Trato Directo</option>              
                     </select>
-					<?php if ($tipo){ ?>
+					<?php if ($selectContrato){ ?>
 					<span class="help-block text-danger"> 
 						<strong>Error: Numero de licitacion vacio</strong>
 					</span>
@@ -274,16 +277,15 @@ class ViewContratos {
 
                     <div class="container">
 						<div class="row col-12">
-							<div class="form-group has-feedback col-xs-4 col-md-4 col-lg-4">
-								<label>Monto</label>
-								<input type="number" name="monto" class="form-control" value="<?=$_GET["monto"] ?: '' ?>">
-
-								<?php if ($monto){ ?>
-								<span class="help-block text-danger"> 
-									<strong>Error: Monto inválido.</strong>
-								</span>
-								<?php } ?>
-							</div>
+						<div class="form-group has-feedback col-xs-4 col-md-4 col-lg-4 <?=$monto ? 'has-error' : '' ;?>">
+                            <label>Monto *</label> <!--Sección que guarda el monto del contrato   -->
+                            <input type="number" name="monto" class="form-control" value="<?=!empty($_GET["monto"]) ? $_GET["monto"]: '' ;?>">
+							<?php if ($monto){ ?>
+							<span class="help-block text-danger"> 
+								<strong>Error: Numero de licitacion vacio</strong>
+							</span>
+							<?php } ?>
+                        </div>
 						</div>
 					</div>
 
@@ -304,16 +306,16 @@ class ViewContratos {
 
                     <div class="container">
 						<div class="row col-12">
-							<div class="form-group has-feedback col-xs-4 col-md-4 col-lg-4">
-								<label>Fecha Inicio</label>
-								<input type="date" name="fecha_inicio" class="form-control" value="<?=$_GET["fecha_inicio"] ?: '' ?>">
-
-								<?php if ($fecha_inicio){ ?>
-								<span class="help-block text-danger"> 
-									<strong>Error: Fecha Inicio inválida.</strong>
-								</span>
-								<?php } ?>
-							</div>
+						<div class="form-group has-feedback col-xs-4 col-md-4 col-lg-4 <?=$fecha_inicio ? 'has-error' : '' ;?>">
+                    <label>Fecha de inicio *</label>
+                    
+                    <input type="date" name="fecha_inicio" class="form-control" value="<?=!empty($_GET["fecha_inicio"]) ? $_GET["fecha_inicio"]: '' ;?>">
+					<?php if ($fecha_inicio){ ?>
+					<span class="help-block text-danger"> 
+						<strong>Fecha incorrecta</strong>
+					</span>
+					<?php } ?>
+                </div>
 						</div>
 					</div>
 
@@ -405,9 +407,16 @@ class ViewContratos {
 
                     <div class="container">
 						<div class="row col-12">
-							<div class="form-group has-feedback col-xs-4 col-md-4 col-lg-4">
-								<label>Objeto Contrato</label>
-								<input type="text" name="objeto_contrato" class="form-control" value="<?=$_GET["objeto_contrato"] ?: '' ?>">
+						<div class="form-group has-feedback col-xs-4 col-md-4 col-lg-4 <?=$objeto_contrato ? 'has-error' : '' ;?>">
+                    <label>Objeto del contrato *</label>
+                    
+                    <input type="text" name="objeto_contrato" class="form-control" value="<?=!empty($_GET["objeto_contrato"]) ? $_GET["objeto_contrato"]: '' ;?>" >
+					<?php if ($objeto_contrato){ ?>
+					<span class="help-block text-danger"> 
+						<strong>Error: Numero de licitacion vacio</strong>
+					</span>
+					<?php } ?>
+                </div>
 
 							
 							</div>
@@ -448,6 +457,21 @@ class ViewContratos {
 				dropdownParent: 'body'
 			});
 		</script>  
+
+<script>
+    
+    $(function() {
+    $('#licitacion').show(); 
+    $('#selectContrato').change(function(){
+        if($('#selectContrato').val() == '0') {
+            $('#licitacion').show(); 
+        } else {
+            $('#licitacion').hide(); 
+        } 
+    });
+});
+</script> 
+<hr>
 
 
 
