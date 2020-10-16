@@ -20,24 +20,18 @@ class ViewOrdenCompra {
 		$dataContratos = $data[0];
 
 		$id_contrato = false;
-		$presupuesto = false;
-		$archivo_licitacion = false;
-		$descripcion_licitacion = false;
+		$nro_orden_compra = false;
+		
 
 
 		if(sizeof($_GET)){
 			if(!isset($_GET["id_contrato"])){
 				$id_contrato = !$id_contrato;
 			}
-			if(!isset($_GET["presupuesto"])){
-				$presupuesto = !$presupuesto;
+			if(!isset($_GET["nro_orden_compra"])){
+				$nro_orden_compra = !$nro_orden_compra;
 			}
-			if(!isset($_GET["archivo_licitacion"])){
-				$archivo_licitacion = !$archivo_licitacion;
-			}
-			if(!isset($_GET["descripcion_licitacion"])){
-				$descripcion_licitacion = !$descripcion_licitacion;
-			}
+			
 		}
 
 //print_r(sizeof($_GET));
@@ -57,51 +51,45 @@ class ViewOrdenCompra {
         <div class="card mb-3">
             <div class="card-header">
                 <form method="post" class="form-horizontal" action="<?=base("/ordenCompra/new");?>" enctype="multipart/form-data">
-                    <!-- {!! csrf_field() !!} -->
+                    
                     <div class="container">
                         <div class="row col-12">
                         <div class="form-group has-feedback col-xs-4 col-md-4 col-lg-4 <?=$id_contrato ? 'has-error' : '' ;?>" id="id_contrato" >
-                    <label>ID Contrato *</label>
-                    <select name='id_contrato' class ='selectpicker selectField' placeholder='Seleccione Contrato' data-live-search='true' id ='id_contrato'>
-                    	<option value=""></option>
-                        <?php 
-                        foreach ($dataContratos as $contrato) { 
-                            if (!empty($_GET["contrato"]) && $_GET["contrato"]){
-                                ?>
-                                <option selected="true" value="<?= $contrato["ID_CONTRATO"];?>"><?= $contrato["ID_CONTRATO"];?></option>
-                                <?php
-                            }else{
-                                ?>
-                                <option value="<?= $contrato["ID_CONTRATO"];?>"><?= $contrato["ID_CONTRATO"];?></option>
-                                <?php
+                        <label>ID Contrato *</label>
+                        <select name='id_contrato' class ='selectpicker selectField' placeholder='Seleccione Contrato' data-live-search='true' id ='id_contrato'>
+                            <option value=""></option>
+                            <?php 
+                            foreach ($dataContratos as $contrato) { 
+                                if (!empty($_GET["id_contrato"]) && $_GET["id_contrato"]){
+                                    ?>
+                                    <option selected="true" value="<?= $contrato["ID_CONTRATO"];?>"><?= $contrato["ID_CONTRATO"];?></option>
+                                    <?php
+                                }else{
+                                    ?>
+                                    <option value="<?= $contrato["ID_CONTRATO"];?>"><?= $contrato["ID_CONTRATO"];?></option>
+                                    <?php
+                                }
                             }
-                        }
-                        ?>
-                    </select>
-					
-                </div>
-                                    </div>
-                                </div>                        
+                            ?>
+                        </select>
+                        </div>
+                        </div>
+                    </div>                        
 
-                                <div class="container">
-                                    <div class="row col 12">
-                                        <div class="form-group has-feedback col-xs-4 col-md-4 col-lg4 {{ $errors->has('numeroOrdenCompra') ? 'has-error' : ''}}">
-                                            <label>Número Orden de Compra * </label>
+                        <div class="container">
+                            <div class="row col 12">
+                                <div class="form-group has-feedback col-xs-4 col-md-4 col-lg-4 <?=$nro_orden_compra ? 'has-error' : '' ;?>" id="nro_orden_compra">
+                                    <label>Número Orden de Compra * </label>
 
-                                            <!-- <input type="text" name="numeroOrdenCompra"  class="form-control" value="{{ $ordenCompraData->numeroOrdenCompra ?: old('numeroOrdenCompra') }}"> -->
-                                            <input type="text" name="numeroOrdenCompra"  class="form-control" >
+                                    <!-- <input type="text" name="numeroOrdenCompra"  class="form-control" value="{{ $ordenCompraData->numeroOrdenCompra ?: old('numeroOrdenCompra') }}"> -->
+                                    <input type="text" name="nro_orden_compra"  class="form-control" >
 
-<!--                                     @if ($errors->has('numeroOrdenCompra'))
-                                        <span class="help-block text-danger">
-                                            <strong>{{ $errors->first('numeroOrdenCompra')}}</strong>
-                                        </span>
-                                    @endif
-                                -->
-                                <?php if ($nro_licitacion){ ?>
-                                    <span class="help-block text-danger"> 
-                                        <strong>Error: Numero de licitacion vacio</strong>
-                                    </span>
-                                <?php } ?>
+<!--                                    
+                        <?php if ($nro_orden_compra){ ?>
+                            <span class="help-block text-danger"> 
+                                <strong>Error: Numero orden de compra</strong>
+                            </span>
+                        <?php } ?>
 
                             </div>
                         </div>
@@ -129,34 +117,7 @@ class ViewOrdenCompra {
                                             </div>
                                         </div>
                                     </div>    
-
-
-                                    <div class="container">
-                                        <div class="row col-12">
-                                            <div class="form-group has-feedback col-xs-4 col-md-4 col-lg-4 {{ $errors->has('total') ? 'has-error' : ''}}">
-                                                <label>Total *</label>
-
-                                                <input type="number" name="total" class="form-control" value="{{ $ordenCompraData->total}}">
-                                                <?php if ($nro_licitacion){ ?>
-                                                    <span class="help-block text-danger"> 
-                                                        <strong>Error: Numero de licitacion vacio</strong>
-                                                    </span>
-                                                <?php } ?>
-
-                                            <!-- @if (session('total'))
-                                                <div class="help-block text-danger">
-                                                    {{ session('total') }}
-                                                </div>
-                                            @endif
-                                            
-                                            @if ($errors->has('total'))
-                                                <span class="help-block text-danger">
-                                                    <strong>{{ $errors->first('total') }}</strong>
-                                                </span>                        
-                                                @endif -->
-                                            </div>
-                                        </div>
-                                    </div>    
+ 
 
                                     <div class="container">
                                         <div class="row col-12">

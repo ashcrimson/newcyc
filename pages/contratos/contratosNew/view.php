@@ -134,6 +134,23 @@ class ViewContratos {
 						</div>
 					</div>
 
+					<div class="container">
+					<div class="row col-12">
+					<div class="form-group has-feedback col-xsñ-4 col-md-4 col-lg-4 <?=$selectContrato ? 'has-error' : '' ;?>">
+                    <label>Tipo Contrato</label>
+                    <select class="selectpicker selectField" placeholder='Seleccione Tipo de Contrato' name="selectContrato" id="selectContrato">
+                        <option value="0">Licitación</option>
+                        <option value="1">Trato Directo</option>              
+                    </select>
+					<?php if ($selectContrato){ ?>
+					<span class="help-block text-danger"> 
+						<strong>Error: Numero de licitacion vacio</strong>
+					</span>
+					<?php } ?>
+                </div>
+            	</div>
+			</div>
+
 
 					<div class="container">
 						<div class="row col-12">
@@ -197,30 +214,17 @@ class ViewContratos {
             </div>
 					</div>
 
-                    <div class="container">
-						<div class="row col-12">
-							<div class="form-group has-feedback col-xs-4 col-md-4 col-lg-4">
-								<label>ID Área</label>
-								<input type="number" name="id_area" class="form-control" value="<?=$_GET["id_area"] ?: '' ?>">
-
-								<?php if ($id_area){ ?>
-								<span class="help-block text-danger"> 
-									<strong>Error: ID Área inválido.</strong>
-								</span>
-								<?php } ?>
-							</div>
-						</div>
-					</div>
+                    
 
                     <div class="container">
 						<div class="row col-12">
 							<div class="form-group has-feedback col-xs-4 col-md-4 col-lg-4">
-								<label>ID Admin</label>
+								<label>Cargo</label>
 								<input type="number" name="id_admin" class="form-control" value="<?=$_GET["id_admin"] ?: '' ?>">
 
 								<?php if ($id_admin){ ?>
 								<span class="help-block text-danger"> 
-									<strong>Error: ID Admin inválido.</strong>
+									<strong>Error: Cargo inválido.</strong>
 								</span>
 								<?php } ?>
 							</div>
@@ -257,22 +261,7 @@ class ViewContratos {
 						</div>
 					</div>
 
-                    <div class="container">
-					<div class="row col-12">
-					<div class="form-group has-feedback col-xsñ-4 col-md-4 col-lg-4 <?=$selectContrato ? 'has-error' : '' ;?>">
-                    <label>Tipo Contrato</label>
-                    <select class="selectpicker selectField" placeholder='Seleccione Tipo de Contrato' name="selectContrato" id="selectContrato">
-                        <option value="0">Licitación</option>
-                        <option value="1">Trato Directo</option>              
-                    </select>
-					<?php if ($selectContrato){ ?>
-					<span class="help-block text-danger"> 
-						<strong>Error: Numero de licitacion vacio</strong>
-					</span>
-					<?php } ?>
-                </div>
-            </div>
-					</div>
+            
 
                     <div class="container">
 						<div class="row col-12">
@@ -288,25 +277,12 @@ class ViewContratos {
 						</div>
 					</div>
 
-                    <div class="container">
-						<div class="row col-12">
-							<div class="form-group has-feedback col-xs-4 col-md-4 col-lg-4">
-								<label>Estado Alerta</label>
-								<input type="number" name="estado_alerta" class="form-control" value="<?=$_GET["estado_alerta"] ?: '' ?>">
-
-								<?php if ($estado_alerta){ ?>
-								<span class="help-block text-danger"> 
-									<strong>Error: Estado Alerta inválido.</strong>
-								</span>
-								<?php } ?>
-							</div>
-						</div>
-					</div>
+                   
 
                     <div class="container">
 						<div class="row col-12">
 						<div class="form-group has-feedback col-xs-4 col-md-4 col-lg-4 <?=$fecha_inicio ? 'has-error' : '' ;?>">
-                    <label>Fecha de inicio *</label>
+                    <label>Fecha Inicio Contrato*</label>
                     
                     <input type="date" name="fecha_inicio" class="form-control" value="<?=!empty($_GET["fecha_inicio"]) ? $_GET["fecha_inicio"]: '' ;?>">
 					<?php if ($fecha_inicio){ ?>
@@ -321,7 +297,7 @@ class ViewContratos {
                     <div class="container">
 						<div class="row col-12">
 							<div class="form-group has-feedback col-xs-4 col-md-4 col-lg-4">
-								<label>Fecha Término</label>
+								<label>Fecha Término Contrato</label>
 								<input type="date" name="fecha_termino" class="form-control" value="<?=$_GET["fecha_termino"] ?: '' ?>">
 
 								<?php if ($fecha_termino){ ?>
@@ -336,7 +312,7 @@ class ViewContratos {
                     <div class="container">
 						<div class="row col-12">
 							<div class="form-group has-feedback col-xs-4 col-md-4 col-lg-4">
-								<label>Fecha Aprobación</label>
+								<label>Resolución Aprueba</label>
 								<input type="date" name="fecha_aprobacion" class="form-control" value="<?=$_GET["fecha_aprobacion"] ?: '' ?>">
 
 								<?php if ($fecha_aprobacion){ ?>
@@ -351,7 +327,7 @@ class ViewContratos {
                     <div class="container">
 						<div class="row col-12">
 						<div class="form-group has-feedback col-xs-4 col-md-4 col-lg-4">
-								<label>Fecha Alerta</label>
+								<label>Fecha Alerta Término Contrato</label>
 								<input type="date" name="fecha_alert" class="form-control" value="<?=$_GET["fecha_alert"] ?: '' ?>">
 
 								<?php if ($fecha_alert){ ?>
