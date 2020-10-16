@@ -32,7 +32,7 @@ class ModelContratos {
 	private $fecha_inicio;
 	private $fecha_termino;
 	private $fecha_aprobacion;
-	private $alerta_vencimiento;
+	private $fecha_alert;
 	private $objeto_contrato;
 	private $numero;
 	private $monto;
@@ -156,11 +156,11 @@ class ModelContratos {
 				$this->errores["fecha_aprobacion"] = true;
 				$this->eror = true;
 			}
-			if(isset($_POST["alerta_vencimiento"]) && $_POST["alerta_vencimiento"] != ""){
-				$this->params .= "alerta_vencimiento" . $_POST["alerta_vencimiento"] . "&";
-				$this->alerta_vencimiento = $_POST["alerta_vencimiento"];
+			if(isset($_POST["fecha_alert"]) && $_POST["fecha_alert"] != ""){
+				$this->params .= "fecha_alert" . $_POST["fecha_alert"] . "&";
+				$this->fecha_alert = $_POST["fecha_alert"];
 			}else{
-				$this->errores["alerta_vencimiento"] = true;
+				$this->errores["fecha_alert"] = true;
 				$this->eror = true;
 			}
 			if(isset($_POST["objeto_contrato"]) && $_POST["objeto_contrato"] != ""){
@@ -184,13 +184,7 @@ class ModelContratos {
 				$this->errores["monto"] = true;
 				$this->eror = true;
 			}
-			if(isset($_POST["fecha_vencimiento"]) && $_POST["fecha_vencimiento"] != ""){
-				$this->params .= "fecha_vencimiento" . $_POST["fecha_vencimiento"] . "&";
-				$this->fecha_vencimiento = $_POST["fecha_vencimiento"];
-			}else{
-				$this->errores["fecha_vencimiento"] = true;
-				$this->eror = true;
-			}
+			
 			if(isset($_POST["estado_alerta"]) && $_POST["estado_alerta"] != ""){
 				$this->params .= "estado_alerta" . $_POST["estado_alerta"] . "&";
 				$this->estado_alerta = $_POST["estado_alerta"];
@@ -209,42 +203,25 @@ class ModelContratos {
 		
 		//validar si faltó algo
 		if(!$this->error){
-			//consulta de inserción
-			//$consulta = "SELECT * FROM LICITACIONES " . " ORDER BY FECHA_CREACION DESC";
-// 			$consulta = "INSERT into CONTRATOS values (
-// /*cambiar tabla*/						'". $this->proveedor_id ."',
-// 										'". $this->selectContrato ."',
-// 										'". $this->licitacion ."',
-// 										'". $this->moneda_id ."',
-// 										'". $this->precio ."',
-// 										'". $this->cargo_id ."',
-// 										'". $this->fecha_inicio ."',
-// 										'". $this->fecha_termino ."',
-// 										'". $this->fecha_aprobacion ."',
-// 										'". $this->alerta_vencimiento ."',
-// 										'". $this->objeto_contrato ."',
-// 										'". $this->numero ."',
-// 										'". $this->monto ."'
-// 										)";
 			
-			// $consulta = "INSERT INTO CONTRATOS (NRO_LICITACION) VALUES (
-			// 	'". $this->licitacion ."'
-			// )";
 
-			$consulta = "INSERT INTO CONTRATOS VALUES ('". $this->id_contrato ."', 
-			'". $this->licitacion ."', '". $this->proveedor_id ."', 
-			'". $this->id_area ."', '". $this->id_admin ."', 
+			$consulta = "INSERT INTO CONTRATOS VALUES (
+			'". $this->id_contrato ."', 
+			'". $this->licitacion ."', 
+			'". $this->proveedor_id ."', 
+			'". $this->id_area ."', 
+			'". $this->id_admin ."', 
 			'". $this->moneda_id ."', 
 			'". $this->selectContrato ."', 
 			'". $this->monto ."', 
 			'". $this->estado_alerta ."', 
-			'". $this->fecha_inicio ."', 
-			'14/10/20', 
-			'14/10/20', 
-			'14/10/20', 
-			'14/10/20', 
-			'14/10/20', 
-			'14/10/20', 
+			TO_DATE('". $this->fecha_inicio ."','yyyy-mm-dd'), 
+			TO_DATE('". $this->fecha_termino ."','yyyy-mm-dd'), 
+			TO_DATE('". $this->fecha_aprobacion ."','yyyy-mm-dd'), 
+			TO_DATE('". $this->fecha_alert ."','yyyy-mm-dd'), 
+			TO_DATE('". date('yy-m-d') ."','yyyy-mm-dd'),
+			'15/10/20', 
+			'15/10/20', 
 			'". $this->objeto_contrato ."')";
 
 
@@ -253,24 +230,18 @@ class ModelContratos {
 			$query = $consulta;
 			$result = oci_parse($this->pdo, $query);
 			//print_r($consulta);
+			
 			oci_execute($result);
 
-			//oci_error();
-			//$listado = queryResultToAssoc($result);
 			oci_commit($this->pdo);
 		}else{
-			//print_r("redirige");
-			// header("Location: ". base() . "/contratos/new?" . $params);
-			// die();
+			print_r("TODO MALO");
+			die();
 		}
 
 		
 
 		//agrega resultados a retorno
-		//array_push($assoc, $listado);
-		//array_push($assoc, $errores);
-
-		//$results["result"] = $result;
 
 		oci_close($this->pdo);
 		//return $assoc;

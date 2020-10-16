@@ -13,17 +13,21 @@ class ViewOrdenCompra {
 
 		if(!empty($_POST)){
 			$model->execute();
-		}
+        }
+        
+        $data = $model->get();
 
-		$nro_licitacion = false;
+		$dataContratos = $data[0];
+
+		$id_contrato = false;
 		$presupuesto = false;
 		$archivo_licitacion = false;
 		$descripcion_licitacion = false;
 
 
 		if(sizeof($_GET)){
-			if(!isset($_GET["nro_licitacion"])){
-				$nro_licitacion = !$nro_licitacion;
+			if(!isset($_GET["id_contrato"])){
+				$id_contrato = !$id_contrato;
 			}
 			if(!isset($_GET["presupuesto"])){
 				$presupuesto = !$presupuesto;
@@ -41,47 +45,6 @@ class ViewOrdenCompra {
 
 		?>
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
         <!-- Breadcrumbs-->
         <ol class="breadcrumb">
             <li class="breadcrumb-item">
@@ -97,29 +60,26 @@ class ViewOrdenCompra {
                     <!-- {!! csrf_field() !!} -->
                     <div class="container">
                         <div class="row col-12">
-                            <div class="form-group has-feedback col-xs-4 col-md-4 col-lg-4 {{ $errors->has('numeroLicitacion') ? 'has-error' : ''}}">
-                                <label> ID Contrato *</label><br>
-                                <select class="selectpicker selectField" aceholder='Ingrese Número de Contrato' name="numeroLicitacion" id="numeroLicitacion" >                                        
-                                    <?php 
-                                    foreach ($dataProveedores as $proveedor) { 
-                                        if (!empty($_GET["numeroLicitacion"]) && $_GET["numeroLicitacion"] == $proveedor["RUT"]){
-                                            ?>
-                                            <option selected="true" value="<?= $proveedor["RUT"];?>"><?= $proveedor["RUT"];?></option>
-                                            <?php
-                                        }else{
-                                            ?>
-                                            <option value="<?= $proveedor["RUT"];?>"><?= $proveedor["RUT"];?></option>
-                                            <?php
-                                        }
-                                    }
-                                    ?>
-                                        <!-- 
-                                            @foreach($contratos as $entityId => $entityValue)
-                                                <option selected="true" value="{{ $entityId }}" >{{ $entityValue == 0 ? 'LC-'.$entityId : 'TD-' .$entityId }}</option>
-                                                @endforeach                                  -->
-                                            </select>                                       
-
-                                        </div>
+                        <div class="form-group has-feedback col-xs-4 col-md-4 col-lg-4 <?=$id_contrato ? 'has-error' : '' ;?>" id="id_contrato" >
+                    <label>ID Contrato *</label>
+                    <select name='id_contrato' class ='selectpicker selectField' placeholder='Seleccione Contrato' data-live-search='true' id ='id_contrato'>
+                    	<option value=""></option>
+                        <?php 
+                        foreach ($dataContratos as $contrato) { 
+                            if (!empty($_GET["contrato"]) && $_GET["contrato"]){
+                                ?>
+                                <option selected="true" value="<?= $contrato["ID_CONTRATO"];?>"><?= $contrato["ID_CONTRATO"];?></option>
+                                <?php
+                            }else{
+                                ?>
+                                <option value="<?= $contrato["ID_CONTRATO"];?>"><?= $contrato["ID_CONTRATO"];?></option>
+                                <?php
+                            }
+                        }
+                        ?>
+                    </select>
+					
+                </div>
                                     </div>
                                 </div>                        
 
@@ -128,7 +88,9 @@ class ViewOrdenCompra {
                                         <div class="form-group has-feedback col-xs-4 col-md-4 col-lg4 {{ $errors->has('numeroOrdenCompra') ? 'has-error' : ''}}">
                                             <label>Número Orden de Compra * </label>
 
-                                            <input type="text" name="numeroOrdenCompra"  class="form-control" value="{{ $ordenCompraData->numeroOrdenCompra ?: old('numeroOrdenCompra') }}">
+                                            <!-- <input type="text" name="numeroOrdenCompra"  class="form-control" value="{{ $ordenCompraData->numeroOrdenCompra ?: old('numeroOrdenCompra') }}"> -->
+                                            <input type="text" name="numeroOrdenCompra"  class="form-control" >
+
 <!--                                     @if ($errors->has('numeroOrdenCompra'))
                                         <span class="help-block text-danger">
                                             <strong>{{ $errors->first('numeroOrdenCompra')}}</strong>
@@ -255,37 +217,6 @@ class ViewOrdenCompra {
                 </script>
 
                 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
                 <?php
 

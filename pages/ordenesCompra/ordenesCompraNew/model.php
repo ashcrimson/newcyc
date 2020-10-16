@@ -20,7 +20,7 @@ class ModelOrdenCompra {
 	private $params = "";
 
 
-	private $nro_licitacion;
+	private $id_contrato;
 	private $presupuesto;
 	private $archivo_licitacion;
 	private $descripcion_licitacion;
@@ -41,11 +41,11 @@ class ModelOrdenCompra {
 		//validacion de datos recividos
 		$params = "";
 		if(isset($_POST["submit"])){
-			if(isset($_POST["nro_licitacion"]) && $_POST["nro_licitacion"] != ""){
-				$this->params .= "nro_licitacion=" . $_POST["nro_licitacion"] . "&";
-				$this->nro_licitacion = $_POST["nro_licitacion"];
+			if(isset($_POST["id_contrato"]) && $_POST["id_contrato"] != ""){
+				$this->params .= "id_contrato" . $_POST["id_contrato"] . "&";
+				$this->contratos = $_POST["id_contrato"];
 			}else{
-				$this->errores["nro_licitacion"] = true;
+				$this->errores["id_contrato"] = true;
 				$this->error = true;
 			}
 
@@ -83,12 +83,23 @@ class ModelOrdenCompra {
 		if(!$this->error){
 			//consulta de inserción
 			//$consulta = "SELECT * FROM LICITACIONES " . " ORDER BY FECHA_CREACION DESC";
-			$consulta = "INSERT into LICITACIONES values (
-						'". $this->nro_licitacion ."',
-						0,
-						'". $this->descripcion_licitacion ."',
-						".  $this->presupuesto .",
-						TO_DATE('2020-09-09 14:30:00','yyyy-mm-dd hh24-mi-ss'), null, null)";
+			// $consulta = "INSERT into ORDEN_COMPRA values (
+			// 			'". $this->nro_licitacion ."',
+			// 			0,
+			// 			'". $this->descripcion_licitacion ."',
+			// 			".  $this->presupuesto .",
+			// 			TO_DATE('2020-09-09 14:30:00','yyyy-mm-dd hh24-mi-ss'), null, null)";
+
+			$consulta = "INSERT INTO ORDEN_COMPRA VALUES (
+				'111', 
+				'". $this->id_contrato ."', 
+				TO_DATE('2020-09-09 14:30:00','yyyy-mm-dd hh24-mi-ss'),
+				'111',
+				'111',
+				TO_DATE('2020-09-09 14:30:00','yyyy-mm-dd hh24-mi-ss'),
+				TO_DATE('2020-09-09 14:30:00','yyyy-mm-dd hh24-mi-ss'),
+				TO_DATE('2020-09-09 14:30:00','yyyy-mm-dd hh24-mi-ss')
+				)";
 
 			//ejecucion consulta
 			$query = $consulta;
@@ -115,5 +126,26 @@ class ModelOrdenCompra {
 
 		oci_close($this->pdo);
 		//return $assoc;
+	}
+
+	public function get(){
+		
+		$assoc = [];
+
+
+		//consulta para recuperar los ids de los contratos
+		$query = "SELECT ID_CONTRATO FROM CONTRATOS";
+		$result = oci_parse($this->pdo, $query);
+		oci_execute($result);
+		$contratos = queryResultToAssoc($result);
+		array_push($assoc, $contratos);
+
+
+
+
+		oci_close($this->pdo);
+		return $assoc;
+
+
 	}
 }

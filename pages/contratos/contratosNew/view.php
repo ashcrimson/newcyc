@@ -34,7 +34,7 @@ class ViewContratos {
         $fecha_inicio = false;
         $fecha_termino = false;
         $fecha_aprobacion = false;
-        $fecha_alerta_vencimiento = false;
+        $fecha_alert = false;
         $fecha_creacion = false;
         $fecha_actualizacion = false;
         $fecha_eliminacion = false;
@@ -77,8 +77,8 @@ class ViewContratos {
             if(!isset($_GET["fecha_aprobacion"])){
 				$fecha_aprobacion = !$fecha_aprobacion;
             }
-            if(!isset($_GET["fecha_alerta_vencimiento"])){
-				$fecha_alerta_vencimiento = !$fecha_alerta_vencimiento;
+            if(!isset($_GET["fecha_alert"])){
+				$fecha_alert = !$fecha_alert;
             }
             if(!isset($_GET["fecha_creacion"])){
 				$fecha_creacion = !$fecha_creacion;
@@ -91,7 +91,6 @@ class ViewContratos {
 			}
 		}
 
-//print_r(sizeof($_GET));
 		ob_start();
 
 		?>
@@ -112,13 +111,13 @@ class ViewContratos {
 			<li class="breadcrumb-item">
                 <a href="<?=base("/contratos/new");?>">Contratos</a>
 			</li>
-			<!-- <li class="breadcrumb-item active">Mantenedor</li> -->
+			
 		</ol>
 
 		<div class="card mb-3">
 			<div class="card-header">
 				<form method="post" class="form-horizontal" action="<?=base();?>/contratos/new" enctype="multipart/form-data">
-					<!-- {!! csrf_field() !!} -->
+					
 					<div class="container">
 						<div class="row col-12">
 							<div class="form-group has-feedback col-xs-4 col-md-4 col-lg-4 {{ $errors->has('id_contrato') ? 'has-error' : '' }}">
@@ -351,20 +350,20 @@ class ViewContratos {
 
                     <div class="container">
 						<div class="row col-12">
-							<div class="form-group has-feedback col-xs-4 col-md-4 col-lg-4">
-								<label>Fecha Alerta Vencimienton</label>
-								<input type="date" name="fecha_alerta_vencimiento" class="form-control" value="<?=$_GET["fecha_alerta_vencimiento"] ?: '' ?>">
+						<div class="form-group has-feedback col-xs-4 col-md-4 col-lg-4">
+								<label>Fecha Alerta</label>
+								<input type="date" name="fecha_alert" class="form-control" value="<?=$_GET["fecha_alert"] ?: '' ?>">
 
-								<?php if ($fecha_alerta_vencimiento){ ?>
+								<?php if ($fecha_alert){ ?>
 								<span class="help-block text-danger"> 
-									<strong>Error: Fecha Alerta Vencimiento inválida.</strong>
+									<strong>Error: Fecha Aprobación inválida.</strong>
 								</span>
 								<?php } ?>
 							</div>
 						</div>
 					</div>
 
-                    <div class="container">
+                    <!-- <div class="container">
 						<div class="row col-12">
 							<div class="form-group has-feedback col-xs-4 col-md-4 col-lg-4">
 								<label>Fecha Creación</label>
@@ -377,9 +376,9 @@ class ViewContratos {
 								<?php } ?>
 							</div>
 						</div>
-					</div>
+					</div> -->
 
-                    <div class="container">
+                    <!-- <div class="container">
 						<div class="row col-12">
 							<div class="form-group has-feedback col-xs-4 col-md-4 col-lg-4">
 								<label>Fecha Actualización</label>
@@ -392,9 +391,9 @@ class ViewContratos {
 								<?php } ?>
 							</div>
 						</div>
-					</div>
+					</div> -->
 
-                    <div class="container">
+                    <!-- <div class="container">
 						<div class="row col-12">
 							<div class="form-group has-feedback col-xs-4 col-md-4 col-lg-4">
 								<label>Fecha Eliminación</label>
@@ -403,7 +402,7 @@ class ViewContratos {
 								
 							</div>
 						</div>
-					</div>
+					</div> -->
 
                     <div class="container">
 						<div class="row col-12">
