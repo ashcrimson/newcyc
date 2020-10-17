@@ -50,11 +50,12 @@ class ViewOrdenCompra {
         <!-- DataTables -->
         <div class="card mb-3">
             <div class="card-header">
-                <form method="post" class="form-horizontal" action="<?=base("/ordenCompra/new");?>" enctype="multipart/form-data">
+                
+                <form method="post" class="form-horizontal" action="<?=base();?>/ordenCompra/new" enctype="multipart/form-data">
                     
                     <div class="container">
                         <div class="row col-12">
-                        <div class="form-group has-feedback col-xs-4 col-md-4 col-lg-4 <?=$id_contrato ? 'has-error' : '' ;?>" id="id_contrato" >
+                        <div class="form-group has-feedback col-xs-4 col-md-4 col-lg-4 <?=$id_contrato ? 'has-error' : '' ;?>" >
                         <label>ID Contrato *</label>
                         <select name='id_contrato' class ='selectpicker selectField' placeholder='Seleccione Contrato' data-live-search='true' id ='id_contrato'>
                             <option value=""></option>

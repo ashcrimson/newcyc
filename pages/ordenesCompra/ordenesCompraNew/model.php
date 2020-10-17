@@ -39,6 +39,7 @@ class ModelOrdenCompra {
 		//validacion de datos recibidos
 		$params = "";
 		if(isset($_POST["submit"])){
+
 			if(isset($_POST["nro_orden_compra"]) && $_POST["nro_orden_compra"] != ""){
 				$this->params .= "nro_orden_compra" . $_POST["nro_orden_compra"] . "&";
 				$this->nro_orden_compra = $_POST["nro_orden_compra"];
@@ -69,7 +70,7 @@ class ModelOrdenCompra {
 			
 
 			$consulta = "INSERT INTO ORDEN_COMPRA VALUES (
-				'". $this->nro_orden_compra ."', 
+				'111', 
 				'". $this->id_contrato ."', 
 				TO_DATE('2020-09-09 14:30:00','yyyy-mm-dd hh24-mi-ss'),
 				'111',
@@ -89,21 +90,15 @@ class ModelOrdenCompra {
 			//$listado = queryResultToAssoc($result);
 			oci_commit($this->pdo);
 		}else{
-			//print_r("redirige");
-			header("Location: ". base() . "/ordenCompra/new?" . $params);
+			print_r("TODO MALO");
+			// header("Location: ". base() . "/ordenCompra/new?" . $params);
 			die();
 		}
 
-		
-
-		//agrega resultados a retorno
-		//array_push($assoc, $listado);
-		//array_push($assoc, $errores);
-
-		//$results["result"] = $result;
 
 		oci_close($this->pdo);
-		//return $assoc;
+		// return $assoc;
+		
 	}
 
 	public function get(){

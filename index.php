@@ -20,6 +20,7 @@ $request = isset($_SERVER['REDIRECT_URL']) ? $_SERVER['REDIRECT_URL'] : "";
 
 $router = new Router();
 
+
 $base =  "/newcyc";
 //ruta base, cambiar cuando se tire a prod
 // print_r($_SERVER);
