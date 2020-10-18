@@ -52,7 +52,7 @@ class ModelOrdenCompra {
 				$this->params .= "id_contrato" . $_POST["id_contrato"] . "&";
 				$this->id_contrato = $_POST["id_contrato"];
 			}else{
-				$this->errores["id_contrato"] = true;
+				$this->errores[] = "No mando el id del contrato";
 				$this->error = true;
 			}
 			
@@ -64,13 +64,15 @@ class ModelOrdenCompra {
 	}
 
 	public function execute(){
+
+		
 		
 		//validar si faltó algo
 		if(!$this->error){
 			
 
 			$consulta = "INSERT INTO ORDEN_COMPRA VALUES (
-				'111', 
+				'1119', 
 				'". $this->id_contrato ."', 
 				TO_DATE('2020-09-09 14:30:00','yyyy-mm-dd hh24-mi-ss'),
 				'111',
@@ -90,7 +92,10 @@ class ModelOrdenCompra {
 			//$listado = queryResultToAssoc($result);
 			oci_commit($this->pdo);
 		}else{
-			print_r("TODO MALO");
+
+			foreach($this->errores as $e){
+				echo $e."<br>";
+			}
 			// header("Location: ". base() . "/ordenCompra/new?" . $params);
 			die();
 		}

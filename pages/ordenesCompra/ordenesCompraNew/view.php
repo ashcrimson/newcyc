@@ -159,7 +159,7 @@ class ViewOrdenCompra {
                                     <div class="card-footer">
                                         <div class="row">
                                             <div class="col-sm-8">
-                                                <button type="submit" class="btn-primary btn rounded" ><i class="icon-floppy-disk"></i> Guardar</button>
+                                                <button type="submit" class="btn-primary btn rounded" name="submit" value="1" ><i class="icon-floppy-disk"></i> Guardar</button>
                                             </div>
                                         </div>
                                     </div>
