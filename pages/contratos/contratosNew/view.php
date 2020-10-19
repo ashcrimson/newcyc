@@ -438,9 +438,9 @@ class ViewContratos {
 <script>
 function myFunction() {
 
-  $("#boton-misterioso").click(function(){
+  $("#boton-misterioso").click(
     $("#licitacion").hide();
-  });
+  );
 }
 
 </script>
