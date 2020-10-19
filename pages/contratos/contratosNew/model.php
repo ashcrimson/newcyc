@@ -66,7 +66,7 @@ class ModelContratos {
 				$this->id_contrato = $_POST["id_contrato"];
 			}else{
 				$this->errores["id_contrato"] = true;
-				$this->eror = true;
+				$this->error = true;
 			}
 
 			if(isset($_POST["id_area"]) && $_POST["id_area"] != ""){
@@ -74,7 +74,7 @@ class ModelContratos {
 				$this->id_area = $_POST["id_area"];
 			}else{
 				$this->errores["id_area"] = true;
-				$this->eror = true;
+				$this->error = true;
 			}
 
 			if(isset($_POST["id_admin"]) && $_POST["id_admin"] != ""){
@@ -82,107 +82,100 @@ class ModelContratos {
 				$this->id_admin = $_POST["id_admin"];
 			}else{
 				$this->errores["id_admin"] = true;
-				$this->eror = true;
+				$this->error = true;
 			}
 
-			if(isset($_POST["id_admin"]) && $_POST["id_admin"] != ""){
-				$this->params .= "id_admin" . $_POST["id_admin"] . "&";
-				$this->id_admin = $_POST["id_admin"];
-			}else{
-				$this->errores["id_admin"] = true;
-				$this->eror = true;
-			}
 
 			if(isset($_POST["proveedor_id"]) && $_POST["proveedor_id"] != ""){
 				$this->params .= "proveedor_id" . $_POST["proveedor_id"] . "&";
 				$this->proveedor_id = $_POST["proveedor_id"];
 			}else{
 				$this->errores["proveedor_id"] = true;
-				$this->eror = true;
+				$this->error = true;
 			}
 			if(isset($_POST["selectContrato"]) && $_POST["selectContrato"] != ""){
 				$this->params .= "selectContrato" . $_POST["selectContrato"] . "&";
 				$this->selectContrato = $_POST["selectContrato"];
 			}else{
 				$this->errores["selectContrato"] = true;
-				$this->eror = true;
+				$this->error = true;
 			}
 			if(isset($_POST["licitacion"]) && $_POST["licitacion"] != ""){
 				$this->params .= "licitacion" . $_POST["licitacion"] . "&";
 				$this->licitacion = $_POST["licitacion"];
 			}else{
 				$this->errores["licitacion"] = true;
-				$this->eror = true;
+				$this->error = true;
 			}
 			if(isset($_POST["moneda_id"]) && $_POST["moneda_id"] != ""){
 				$this->params .= "moneda_id" . $_POST["moneda_id"] . "&";
 				$this->moneda_id = $_POST["moneda_id"];
 			}else{
 				$this->errores["moneda_id"] = true;
-				$this->eror = true;
+				$this->error = true;
 			}
 			if(isset($_POST["precio"]) && $_POST["precio"] != ""){
 				$this->params .= "precio" . $_POST["precio"] . "&";
 				$this->precio = $_POST["precio"];
 			}else{
 				$this->errores["precio"] = true;
-				$this->eror = true;
+				$this->error = true;
 			}
 			if(isset($_POST["cargo_id"]) && $_POST["cargo_id"] != ""){
 				$this->params .= "cargo_id" . $_POST["cargo_id"] . "&";
 				$this->cargo_id = $_POST["cargo_id"];
 			}else{
 				$this->errores["cargo_id"] = true;
-				$this->eror = true;
+				$this->error = true;
 			}
 			if(isset($_POST["fecha_inicio"]) && $_POST["fecha_inicio"] != ""){
 				$this->params .= "fecha_inicio" . $_POST["fecha_inicio"] . "&";
 				$this->fecha_inicio = $_POST["fecha_inicio"];
 			}else{
 				$this->errores["fecha_inicio"] = true;
-				$this->eror = true;
+				$this->error = true;
 			}
 			if(isset($_POST["fecha_termino"]) && $_POST["fecha_termino"] != ""){
 				$this->params .= "fecha_termino" . $_POST["fecha_termino"] . "&";
 				$this->fecha_termino = $_POST["fecha_termino"];
 			}else{
 				$this->errores["fecha_termino"] = true;
-				$this->eror = true;
+				$this->error = true;
 			}
 			if(isset($_POST["fecha_aprobacion"]) && $_POST["fecha_aprobacion"] != ""){
 				$this->params .= "fecha_aprobacion" . $_POST["fecha_aprobacion"] . "&";
 				$this->fecha_aprobacion = $_POST["fecha_aprobacion"];
 			}else{
 				$this->errores["fecha_aprobacion"] = true;
-				$this->eror = true;
+				$this->error = true;
 			}
 			if(isset($_POST["fecha_alert"]) && $_POST["fecha_alert"] != ""){
 				$this->params .= "fecha_alert" . $_POST["fecha_alert"] . "&";
 				$this->fecha_alert = $_POST["fecha_alert"];
 			}else{
 				$this->errores["fecha_alert"] = true;
-				$this->eror = true;
+				$this->error = true;
 			}
 			if(isset($_POST["objeto_contrato"]) && $_POST["objeto_contrato"] != ""){
 				$this->params .= "objeto_contrato" . $_POST["objeto_contrato"] . "&";
 				$this->objeto_contrato = $_POST["objeto_contrato"];
 			}else{
 				$this->errores["objeto_contrato"] = true;
-				$this->eror = true;
+				$this->error = true;
 			}
 			if(isset($_POST["numero"]) && $_POST["numero"] != ""){
 				$this->params .= "numero" . $_POST["numero"] . "&";
 				$this->numero = $_POST["numero"];
 			}else{
 				$this->errores["numero"] = true;
-				$this->eror = true;
+				$this->error = true;
 			}
 			if(isset($_POST["monto"]) && $_POST["monto"] != ""){
 				$this->params .= "monto" . $_POST["monto"] . "&";
 				$this->monto = $_POST["monto"];
 			}else{
 				$this->errores["monto"] = true;
-				$this->eror = true;
+				$this->error = true;
 			}
 			
 			if(isset($_POST["estado_alerta"]) && $_POST["estado_alerta"] != ""){
@@ -190,7 +183,7 @@ class ModelContratos {
 				$this->estado_alerta = $_POST["estado_alerta"];
 			}else{
 				$this->errores["estado_alerta"] = true;
-				$this->eror = true;
+				$this->error = true;
 			}
 
 		}
@@ -271,7 +264,7 @@ class ModelContratos {
 
 			oci_commit($this->pdo);
 		}else{
-			print_r("TODO MALO");
+			print_r($this->error);
 			die();
 		}
 

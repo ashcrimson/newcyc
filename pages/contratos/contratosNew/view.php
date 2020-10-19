@@ -107,6 +107,8 @@ class ViewContratos {
 		//valida si es admin
 		?>
 		<!-- Breadcrumbs-->
+
+		
 		<ol class="breadcrumb">
 			<li class="breadcrumb-item">
                 <a href="<?=base("/contratos/new");?>">Contratos</a>
@@ -127,7 +129,7 @@ class ViewContratos {
 								<input type="hidden" name="submit" value="true">
 								<select class="selectpicker selectField" placeholder='Seleccione Tipo de Contrato' name="selectContrato" id="selectContrato">
 									<option value="lc">Licitación</option>
-									<option value="td" onclick="myFunction()">Trato Directo</option>              
+									<option value="td">Trato Directo</option>              
 								</select>
 								<?php if ($selectContrato){ ?>
 								<span class="help-block text-danger"> 
@@ -142,7 +144,7 @@ class ViewContratos {
 
 					<div class="container">
 						<div class="row col-12">
-							<div class="form-group has-feedback col-xs-4 col-md-4 col-lg-4 <?=$licitacion ? 'has-error' : '' ;?>" id="licitacion" >
+							<div class="form-group has-feedback col-xs-4 col-md-4 col-lg-4 <?=$licitacion ? 'has-error' : '' ;?>" id="licitacion"  >
 								<label>Licitacion *</label>
 								<select name='licitacion' class ='selectpicker selectField' placeholder='Seleccione Licitacion' data-live-search='true' id ='licitacion_id'>
 									<option value=""></option>
@@ -160,7 +162,7 @@ class ViewContratos {
 									}
 									?>
 								</select>
-								<?php if ($licitacion){ ?>
+								<?php if (!isset($licitacion)){ ?>
 								<span class="help-block text-danger"> 
 									<strong>Error: Numero de licitacion vacio</strong>
 								</span>
@@ -205,7 +207,7 @@ class ViewContratos {
 
                     <div class="container">
 						<div class="row col-12">
-							<div class="form-group has-feedback col-xs-4 col-md-4 col-lg-4">
+							<div class="form-group has-feedback col-xs-4 col-md-4 col-lg-4 ">
 								<label>Cargo</label>
 								<input type="number" name="id_admin" class="form-control" value="<?=$_GET["id_admin"] ?: '' ?>">
 
@@ -393,7 +395,7 @@ class ViewContratos {
 								<button type="submit" class="btn-primary btn rounded" ><i class="icon-floppy-disk"></i> Guardar</button>
 							</div>
 						</div>
-						<p id="boton-misterioso">Click me to hide paragraphs</p>
+						
 					</div>
 
 				</form>
@@ -436,12 +438,11 @@ class ViewContratos {
 </script> 
 
 <script>
-function myFunction() {
-
+$(document).ready(function(){
+  $$('#selectContrato option:contains("td")').click(function(){
     $("#licitacion").hide();
-
-}
-
+  });
+});
 </script>
 <hr>
 
