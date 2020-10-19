@@ -205,24 +205,60 @@ class ModelContratos {
 		if(!$this->error){
 			
 
-			$consulta = "INSERT INTO CONTRATOS VALUES (
-			'". $this->id_contrato ."', 
-			'". $this->licitacion ."', 
-			'". $this->proveedor_id ."', 
-			null, 
-			'". $this->id_admin ."', 
-			'". $this->moneda_id ."', 
-			'". $this->selectContrato ."', 
-			'". $this->monto ."', 
-			null, 
-			TO_DATE('". $this->fecha_inicio ."','yyyy-mm-dd'), 
-			TO_DATE('". $this->fecha_termino ."','yyyy-mm-dd'), 
-			TO_DATE('". $this->fecha_aprobacion ."','yyyy-mm-dd'), 
-			TO_DATE('". $this->fecha_alert ."','yyyy-mm-dd'), 
-			TO_DATE('". date('yy-m-d') ."','yyyy-mm-dd'),
-			'15/10/20', 
-			'15/10/20', 
-			'". $this->objeto_contrato ."')";
+			// $consulta = "INSERT INTO CONTRATOS VALUES (
+			// '". $this->id_contrato ."', 
+			// '". $this->licitacion ."', 
+			// '". $this->proveedor_id ."', 
+			// null, 
+			// '". $this->id_admin ."', 
+			// '". $this->moneda_id ."', 
+			// '". $this->selectContrato ."', 
+			// '". $this->monto ."', 
+			// null, 
+			// TO_DATE('". $this->fecha_inicio ."','yyyy-mm-dd'), 
+			// TO_DATE('". $this->fecha_termino ."','yyyy-mm-dd'), 
+			// TO_DATE('". $this->fecha_aprobacion ."','yyyy-mm-dd'), 
+			// TO_DATE('". $this->fecha_alert ."','yyyy-mm-dd'), 
+			// TO_DATE('". date('yy-m-d') ."','yyyy-mm-dd'),
+			// '15/10/20', 
+			// '15/10/20', 
+			// '". $this->objeto_contrato ."')";
+
+			$consulta = "INSERT INTO CONTRATOS (
+				NRO_LICITACION, 
+				RUT_PROVEEDOR, 
+				ID_AREA, 
+				ID_ADMIN, 
+				ID_MONEDA, 
+				TIPO, 
+				MONTO, 
+				ESTADO_ALERTA, 
+				FECHA_INICIO, 
+				FECHA_TERMINO, 
+				FECHA_APROBACION, 
+				FECHA_ALERTA_VENCIMIENTO, 
+				FECHA_CREACION, 
+				FECHA_ACTUALIZACION, 
+				FECHA_ELIMINACION, 
+				OBJETO_CONTRATO
+				) 
+			VALUES (
+				'". $this->licitacion ."',  
+				'". $this->proveedor_id ."',
+				null, 
+				'". $this->id_admin ."', 
+				'". $this->moneda_id ."',  
+				'". $this->selectContrato ."',  
+				'". $this->monto ."', 
+				null, 
+				TO_DATE('". $this->fecha_inicio ."','yyyy-mm-dd'),  
+				TO_DATE('". $this->fecha_termino ."','yyyy-mm-dd'), 
+				TO_DATE('". $this->fecha_aprobacion ."','yyyy-mm-dd'), 
+				TO_DATE('". $this->fecha_alert ."','yyyy-mm-dd'), 
+				TO_DATE('2020-10-19 00:00:00', 'YYYY-MM-DD HH24:MI:SS'), 
+				TO_DATE('2020-10-19 00:00:00', 'YYYY-MM-DD HH24:MI:SS'), 
+				TO_DATE('2020-10-19 00:00:00', 'YYYY-MM-DD HH24:MI:SS'), 
+				'". $this->objeto_contrato ."')";
 
 
 

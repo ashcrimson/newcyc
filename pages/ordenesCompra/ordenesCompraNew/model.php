@@ -21,7 +21,8 @@ class ModelOrdenCompra {
 
 	private $nro_orden_compra;
 	private $id_contrato;
-	
+	private $estado;
+	private $total;
 
 	//Constructor
 	function __construct($pdo){
@@ -55,6 +56,22 @@ class ModelOrdenCompra {
 				$this->errores[] = "No mando el id del contrato";
 				$this->error = true;
 			}
+
+			if(isset($_POST["estado"]) && $_POST["estado"] != ""){
+				$this->params .= "estado" . $_POST["estado"] . "&";
+				$this->estado = $_POST["estado"];
+			}else{
+				$this->errores[] = "No mando el estado";
+				$this->error = true;
+			}
+
+			if(isset($_POST["total"]) && $_POST["total"] != ""){
+				$this->params .= "total" . $_POST["total"] . "&";
+				$this->total = $_POST["total"];
+			}else{
+				$this->errores[] = "No mando el total";
+				$this->error = true;
+			}
 			
 			
 		}
@@ -72,11 +89,11 @@ class ModelOrdenCompra {
 			
 
 			$consulta = "INSERT INTO ORDEN_COMPRA VALUES (
-				'1119', 
+				'". $this->nro_orden_compra ."', 
 				'". $this->id_contrato ."', 
-				TO_DATE('2020-09-09 14:30:00','yyyy-mm-dd hh24-mi-ss'),
-				'111',
-				'111',
+				TO_DATE('". date('yy-m-d') ."','yyyy-mm-dd'),
+				'". $this->total ."', 
+				'". $this->estado ."', 
 				TO_DATE('2020-09-09 14:30:00','yyyy-mm-dd hh24-mi-ss'),
 				TO_DATE('2020-09-09 14:30:00','yyyy-mm-dd hh24-mi-ss'),
 				TO_DATE('2020-09-09 14:30:00','yyyy-mm-dd hh24-mi-ss')

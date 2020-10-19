@@ -20,7 +20,9 @@ class ViewOrdenCompra {
 		$dataContratos = $data[0];
 
 		$id_contrato = false;
-		$nro_orden_compra = false;
+        $nro_orden_compra = false;
+        $estado = false;
+        $total = false;
 		
 
 
@@ -30,6 +32,12 @@ class ViewOrdenCompra {
 			}
 			if(!isset($_GET["nro_orden_compra"])){
 				$nro_orden_compra = !$nro_orden_compra;
+            }
+            if(!isset($_GET["estado"])){
+				$estado = !$estado;
+            }
+            if(!isset($_GET["total"])){
+				$estado = !$total;
 			}
 			
 		}
@@ -117,7 +125,23 @@ class ViewOrdenCompra {
                                                 @endif -->
                                             </div>
                                         </div>
-                                    </div>    
+                                    </div> 
+
+                                    <div class="container">
+                                        <div class="row col-12">
+                                            <div class="form-group has-feedback col-xs-4 col-md-4 col-lg-4 {{ $errors->has('total') ? 'has-error' : '' }}">
+                                                <label>Total</label>
+                                                
+                                                <input type="text" name="total" class="form-control" value="<?=isset($_GET["total"]) ? $_GET["total"]: '' ?>">
+
+                                                <?php if ($total){ ?>
+                                                <span class="help-block text-danger"> 
+                                                    <strong>Error: Total vacio</strong>
+                                                </span>
+                                                <?php } ?>
+                                            </div>
+                                        </div>
+                                    </div>   
  
 
                                     <div class="container">
@@ -130,9 +154,9 @@ class ViewOrdenCompra {
                                                     <option value="Recepción Conforme">Recepción Conforme</option>
 
                                                 </select>
-                                                <?php if ($nro_licitacion){ ?>
+                                                <?php if ($estado){ ?>
                                                     <span class="help-block text-danger"> 
-                                                        <strong>Error: Numero de licitacion vacio</strong>
+                                                        <strong>Error: Numero de estado vacio</strong>
                                                     </span>
                                                 <?php } ?>
 
