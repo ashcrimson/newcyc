@@ -27,6 +27,7 @@ class ModelLicitaciones {
 	private $nro_documento;
 	private $archivo_nombre;
 	private $fecha_creacion;
+	private $pdf;
 
 	//Constructor
 	function __construct($pdo){
@@ -97,25 +98,44 @@ class ModelLicitaciones {
 
 				$directorio = "uploads/";
 				$archivo = $directorio . basename($_FILES["archivo_licitacion"]["name"]);
+				$tipo = $_FILES["archivo_licitacion"]["type"];
+				$peso = $_FILES["archivo_licitacion"]["size"];
+				
+				$pdf = file_get_contents($_FILES['archivo_licitacion']['tmp_name']);
 				move_uploaded_file($_FILES["archivo_licitacion"]["tmp_name"], $archivo);
 
 				//consulta de inserción
 				//$consulta = "SELECT * FROM LICITACIONES " . " ORDER BY FECHA_CREACION DESC";
-				$consulta = "INSERT into DOCUMENTO (NRO_DOCUMENTO, NOMBRE, FECHA_CREACION) values (
+				$consulta = "INSERT into DOCUMENTO (NRO_DOCUMENTO, NOMBRE, ARCHIVO, PESO_ARCHIVO, TIPO_ARCHIVO, FECHA_CREACION) values (
 							'". $nro_documento ."',
 							'". $archivo ."',
-							TO_DATE('". date('yy-m-d') ."','yyyy-mm-dd'))";
+							empty_blob(),
+							'". $peso ."',
+							'". $tipo ."',
+							TO_DATE('". date('yy-m-d') ."','yyyy-mm-dd'))
+							RETURNING pdf INTO :pdf";
 
 				//ejecucion consulta
 				$query = $consulta;
 				$result = oci_parse($this->pdo, $query);
+				$blob = oci_new_descriptor($this->pdo, OCI_D_LOB);
+				oci_bind_by_name($result, ":pdf", $blob, -1, OCI_B_BLOB);
 				//print_r($consulta);
-				oci_execute($result);
+				oci_execute($result, OCI_DEFAULT) or die ("Unable to execute query");
+
+				if(!$blob->save($pdf)) {
+					oci_rollback($this->pdo);
+				}
+				else {
+					oci_commit($this->pdo);
+				}
+
+				oci_free_statement($result);
+				$blob->free();
 			}
 
 
-			//consulta de inserción
-			//$consulta = "SELECT * FROM LICITACIONES " . " ORDER BY FECHA_CREACION DESC";
+			
 			$consulta = "INSERT into LICITACIONES values (
 						'". $this->nro_licitacion ."',
 						'". $this->descripcion_licitacion ."',

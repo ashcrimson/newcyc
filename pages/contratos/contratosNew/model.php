@@ -65,16 +65,16 @@ class ModelContratos {
 				$this->params .= "id_contrato" . $_POST["id_contrato"] . "&";
 				$this->id_contrato = $_POST["id_contrato"];
 			}else{
-				$this->errores["id_contrato"] = true;
-				$this->error = true;
+				// $this->errores["id_contrato"] = true;
+				// $this->error = true;
 			}
 
 			if(isset($_POST["id_area"]) && $_POST["id_area"] != ""){
 				$this->params .= "id_area" . $_POST["id_area"] . "&";
 				$this->id_area = $_POST["id_area"];
 			}else{
-				$this->errores["id_area"] = true;
-				$this->error = true;
+				// $this->errores["id_area"] = true;
+				// $this->error = true;
 			}
 
 			if(isset($_POST["id_admin"]) && $_POST["id_admin"] != ""){
@@ -82,7 +82,7 @@ class ModelContratos {
 				$this->id_admin = $_POST["id_admin"];
 			}else{
 				$this->errores["id_admin"] = true;
-				$this->error = true;
+				// $this->error = true;
 			}
 
 
@@ -118,15 +118,15 @@ class ModelContratos {
 				$this->params .= "precio" . $_POST["precio"] . "&";
 				$this->precio = $_POST["precio"];
 			}else{
-				$this->errores["precio"] = true;
-				$this->error = true;
+				// $this->errores["precio"] = true;
+				// $this->error = true;
 			}
 			if(isset($_POST["cargo_id"]) && $_POST["cargo_id"] != ""){
 				$this->params .= "cargo_id" . $_POST["cargo_id"] . "&";
 				$this->cargo_id = $_POST["cargo_id"];
 			}else{
-				$this->errores["cargo_id"] = true;
-				$this->error = true;
+				// $this->errores["cargo_id"] = true;
+				// $this->error = true;
 			}
 			if(isset($_POST["fecha_inicio"]) && $_POST["fecha_inicio"] != ""){
 				$this->params .= "fecha_inicio" . $_POST["fecha_inicio"] . "&";
@@ -168,7 +168,7 @@ class ModelContratos {
 				$this->numero = $_POST["numero"];
 			}else{
 				$this->errores["numero"] = true;
-				$this->error = true;
+				// $this->error = true;
 			}
 			if(isset($_POST["monto"]) && $_POST["monto"] != ""){
 				$this->params .= "monto" . $_POST["monto"] . "&";
@@ -183,7 +183,7 @@ class ModelContratos {
 				$this->estado_alerta = $_POST["estado_alerta"];
 			}else{
 				$this->errores["estado_alerta"] = true;
-				$this->error = true;
+				// $this->error = true;
 			}
 
 		}
@@ -264,7 +264,7 @@ class ModelContratos {
 
 			oci_commit($this->pdo);
 		}else{
-			print_r($this->error);
+			print_r($this->errores);
 			die();
 		}
 
