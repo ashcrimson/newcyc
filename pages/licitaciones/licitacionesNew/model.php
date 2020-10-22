@@ -88,54 +88,8 @@ class ModelLicitaciones {
 		if(!$this->error){
 
 			$numero = 0;
-			if(isset($_FILES["archivo_licitacion"]) && $_FILES["archivo_licitacion"] != ""){
-				
-				$cons = "SELECT COUNT(*)+1 AS NRO_DOCUMENTO FROM DOCUMENTO";
-				$result = oci_parse($this->pdo, $cons);
-				oci_execute($result);
-				$nro_documento = queryResultToAssoc($result)[0]["NRO_DOCUMENTO"];
-				print_r($nro_documento);
-
-				$directorio = "uploads/";
-				$archivo = $directorio . basename($_FILES["archivo_licitacion"]["name"]);
-				$tipo = $_FILES["archivo_licitacion"]["type"];
-				$peso = $_FILES["archivo_licitacion"]["size"];
-				
-				$pdf = file_get_contents($_FILES['archivo_licitacion']['tmp_name']);
-				move_uploaded_file($_FILES["archivo_licitacion"]["tmp_name"], $archivo);
-
-				//consulta de inserción
-				//$consulta = "SELECT * FROM LICITACIONES " . " ORDER BY FECHA_CREACION DESC";
-				$consulta = "INSERT into DOCUMENTO (NRO_DOCUMENTO, NOMBRE, ARCHIVO, PESO_ARCHIVO, TIPO_ARCHIVO, FECHA_CREACION) values (
-							'". $nro_documento ."',
-							'". $archivo ."',
-							empty_blob(),
-							'". $peso ."',
-							'". $tipo ."',
-							TO_DATE('". date('yy-m-d') ."','yyyy-mm-dd'))
-							RETURNING pdf INTO :pdf";
-
-				//ejecucion consulta
-				$query = $consulta;
-				$result = oci_parse($this->pdo, $query);
-				$blob = oci_new_descriptor($this->pdo, OCI_D_LOB);
-				oci_bind_by_name($result, ":pdf", $blob, -1, OCI_B_BLOB);
-				//print_r($consulta);
-				oci_execute($result, OCI_DEFAULT) or die ("Unable to execute query");
-
-				if(!$blob->save($pdf)) {
-					oci_rollback($this->pdo);
-				}
-				else {
-					oci_commit($this->pdo);
-				}
-
-				oci_free_statement($result);
-				$blob->free();
-			}
-
-
 			
+
 			$consulta = "INSERT into LICITACIONES values (
 						'". $this->nro_licitacion ."',
 						'". $this->descripcion_licitacion ."',
@@ -155,6 +109,69 @@ class ModelLicitaciones {
 			//print_r("redirige");
 			header("Location: ". base() . "/licitaciones/new?" . $params);
 			die();
+		}
+
+		if(isset($_FILES["archivo_licitacion"]) && $_FILES["archivo_licitacion"] != ""){
+				
+			$cons = "select documentos_sequence.nextval as NRO_DOCUMENTO from dual";
+			$result = oci_parse($this->pdo, $cons);
+			oci_execute($result);
+			$nro_documento = queryResultToAssoc($result)[0]["NRO_DOCUMENTO"];
+			print_r($nro_documento);
+
+			$directorio = "uploads/";
+			$archivo = $directorio . basename($_FILES["archivo_licitacion"]["name"]);
+			$tipo = $_FILES["archivo_licitacion"]["type"];
+			$peso = $_FILES["archivo_licitacion"]["size"];
+			
+			$pdf = file_get_contents($_FILES['archivo_licitacion']['tmp_name']);
+
+
+			move_uploaded_file($_FILES["archivo_licitacion"]["tmp_name"], $archivo);
+
+			//consulta de inserción
+			//$consulta = "SELECT * FROM LICITACIONES " . " ORDER BY FECHA_CREACION DESC";
+			$consulta = "INSERT into DOCUMENTO (NRO_DOCUMENTO, TIPO_DOCUMENTO, NOMBRE, ARCHIVO, PESO_ARCHIVO, TIPO_ARCHIVO, FECHA_CREACION) values (
+						'". $nro_documento ."',
+						'rl',
+						'". $archivo ."',
+						empty_blob(),
+						'". $peso ."',
+						'". $tipo ."',
+						TO_DATE('". date('yy-m-d') ."','yyyy-mm-dd'))
+						RETURNING archivo INTO :archivo";
+
+			//ejecucion consulta
+			$query = $consulta;
+			$result = oci_parse($this->pdo, $query);
+
+			$blob = oci_new_descriptor($this->pdo, OCI_D_LOB);
+			oci_bind_by_name($result, ":archivo", $blob, -1, OCI_B_BLOB);
+			//print_r($consulta);
+			oci_execute($result, OCI_DEFAULT) or die ("Unable to execute query");
+
+			if(!$blob->save($archivo)) {
+				oci_rollback($this->pdo);
+			}
+			else {
+				oci_commit($this->pdo);
+			}
+
+			oci_free_statement($result);
+			$blob->free();
+			//OJOOOOOOOOOOOOOO
+			//DESPUES DE INSERTAR EL BLOB
+			////Guardar en lka tbla documento_lictacion
+			///LA RELACION DE ESTE DOCUMENTO $nro_documento ----> id y  $this->nro_licitacion ---> nro_lictacion
+
+			$consulta2 = "INSERT into DOCUMENTO_LICITACIONES (NRO_DOCUMENTO, NRO_LICITACION) values (
+				'". $this->nro_licitacion ."',
+				'". $nro_documento ."'
+			)";
+
+			$query2 = $consulta2;
+			$result2 = oci_parse($this->pdo, $query2);
+			oci_execute($result2, OCI_DEFAULT) or die ("No se pudo");
 		}
 
 		
