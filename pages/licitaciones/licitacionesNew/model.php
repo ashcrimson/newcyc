@@ -106,8 +106,10 @@ class ModelLicitaciones {
 			//$listado = queryResultToAssoc($result);
 			oci_commit($this->pdo);
 		}else{
-			//print_r("redirige");
-			header("Location: ". base() . "/licitaciones/new?" . $params);
+			foreach($this->errores as $e){
+				echo $e."<br>";
+			}
+			// header("Location: ". base() . "/ordenCompra/new?" . $params);
 			die();
 		}
 
@@ -165,8 +167,8 @@ class ModelLicitaciones {
 			///LA RELACION DE ESTE DOCUMENTO $nro_documento ----> id y  $this->nro_licitacion ---> nro_lictacion
 
 			$consulta2 = "INSERT into DOCUMENTO_LICITACIONES (NRO_DOCUMENTO, NRO_LICITACION) values (
-				'". $this->nro_licitacion ."',
-				'". $nro_documento ."'
+				'". $nro_documento ."',
+				'". $this->nro_licitacion ."'
 			)";
 
 			$query2 = $consulta2;

@@ -21,6 +21,7 @@ class ViewOrdenCompra {
 
 		$id_contrato = false;
         $nro_orden_compra = false;
+        $archivo_orden_compra = false;
         $estado = false;
         $total = false;
 		
@@ -36,6 +37,9 @@ class ViewOrdenCompra {
             if(!isset($_GET["estado"])){
 				$estado = !$estado;
             }
+            if(!isset($_GET["archivo_orden_compra"])){
+				$archivo_orden_compra = !$archivo_orden_compra;
+			}
             if(!isset($_GET["total"])){
 				$estado = !$total;
 			}
@@ -174,7 +178,10 @@ class ViewOrdenCompra {
                                         <div class="row col-12">
                                             <div class="form-group has-feedback col-xsñ-4 col-md-4 col-lg-4">
                                                 <label for="">Adjuntar Orden de Compra</label>
-                                                <input type="file" class="form-control-file" name="archivo_orden_c">
+                                                <div class="custom-file">
+                                                    <input type="file" name="archivo_orden_compra" class="custom-file-input" id="customFileLangHTML" lang="es" >
+                                                    <label class="custom-file-label" for="customFileLangHTML" data-browse="Buscar">Seleccionar Archivo</label>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>

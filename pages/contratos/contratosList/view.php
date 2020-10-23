@@ -13,7 +13,7 @@ class ViewContratos {
 
 		$data = $model->get();
 
-		$listacontratos = $data[0];
+		$contratos = $data[0];
         $proveedores = $data[1];
         $cargos = $data[2];
         $licitaciones = $data[3];
@@ -55,11 +55,11 @@ class ViewContratos {
                                 foreach ($proveedores as $proveedor) { 
                                     if (!empty($_GET["proveedores"]) && $_GET["proveedores"]){
                                         ?>
-                                        <option selected="true" value="<?= $proveedor["RUT"];?>"><?= $proveedor["RUT"];?></option>
+                                        <option selected="true" value="<?= $proveedor["RUT_PROVEEDOR"];?>"><?= $proveedor["RUT_PROVEEDOR"];?></option>
                                         <?php
                                     }else{
                                         ?>
-                                        <option value="<?= $proveedor["RUT"];?>"><?= $proveedor["RUT"];?></option>
+                                        <option value="<?= $proveedor["RUT_PROVEEDOR"];?>"><?= $proveedor["RUT_PROVEEDOR"];?></option>
                                         <?php
                                     }
                                 }
@@ -74,13 +74,13 @@ class ViewContratos {
                                 <option value=""></option>
                                 <?php 
                                 foreach ($proveedores as $proveedor) { 
-                                    if (!empty($_GET["proveedoresNombre"]) && $_GET["proveedoresNombre"] == $proveedor["RUT"]){
+                                    if (!empty($_GET["proveedoresNombre"]) && $_GET["proveedoresNombre"] == $proveedor["RUT_PROVEEDOR"]){
                                         ?>
-                                        <option selected="true" value="<?= $proveedor["RUT"];?>"><?= $proveedor["NOMBRE"];?></option>
+                                        <option selected="true" value="<?= $proveedor["RUT_PROVEEDOR"];?>"><?= $proveedor["RAZON_SOCIAL"];?></option>
                                         <?php
                                     }else{
                                         ?>
-                                        <option value="<?= $proveedor["RUT"];?>"><?= $proveedor["NOMBRE"];?></option>
+                                        <option value="<?= $proveedor["RUT_PROVEEDOR"];?>"><?= $proveedor["RAZON_SOCIAL"];?></option>
                                         <?php
                                     }
                                 }
@@ -91,17 +91,17 @@ class ViewContratos {
                     <div class="col-3">
                         <label>ID Contrato</label>
                         <div>
-                            <select name="licitaciones" class="selectpicker selectField" placeholder='Seleccione Contrato' data-live-search='true'>
+                            <select name="contratos" class="selectpicker selectField" placeholder='Seleccione Contrato' data-live-search='true'>
                                 <option value=""></option>
                                 <?php 
-                                foreach ($listacontratos as $contrato) { 
-                                    if (!empty($_GET["licitaciones"]) && $_GET["licitaciones"] == $contrato["ID"]){
+                                foreach ($contratos as $contrato) { 
+                                    if (!empty($_GET["contratos"]) && $_GET["contratos"] == $contrato["ID_CONTRATO"]){
                                         ?>
-                                        <option selected="true" value="<?= $contrato["ID"];?>"><?= $contrato["ID"];?></option>
+                                        <option selected="true" value="<?= $contrato["ID_CONTRATO"];?>"><?= $contrato["ID_CONTRATO"];?></option>
                                         <?php
                                     }else{
                                         ?>
-                                        <option value="<?= $contrato["ID"];?>"><?= $contrato["ID"];?></option>
+                                        <option value="<?= $contrato["ID_CONTRATO"];?>"><?= $contrato["ID_CONTRATO"];?></option>
                                         <?php
                                     }
                                 }
@@ -211,7 +211,7 @@ class ViewContratos {
                 </tr>
                 </thead>
                     <?php 
-                    foreach ($listacontratos as $contrato) {
+                    foreach ($contratos as $contrato) {
                         ?>
                     <tr>
                         <td><?= $contrato["RUT"]; ?></td>

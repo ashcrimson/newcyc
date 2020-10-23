@@ -23,6 +23,11 @@ class ModelOrdenCompra {
 	private $id_contrato;
 	private $estado;
 	private $total;
+	private $archivo_orden_compra;
+	private $nro_documento;
+	private $archivo_nombre;
+	private $fecha_creacion;
+	private $pdf;
 
 	//Constructor
 	function __construct($pdo){
@@ -72,7 +77,13 @@ class ModelOrdenCompra {
 				$this->errores[] = "No mando el total";
 				$this->error = true;
 			}
-			
+
+			if(isset($_POST["archivo_orden_compra"]) && $_POST["archivo_orden_compra"] != ""){
+				$params .= "archivo_orden_compra=" . $_POST["archivo_orden_compra"] . "&";
+			}else{
+				$errores["archivo_orden_compra"] = true;
+				$error = true;
+			}
 			
 		}
 
@@ -83,10 +94,10 @@ class ModelOrdenCompra {
 	public function execute(){
 
 		
-		
 		//validar si faltó algo
 		if(!$this->error){
 			
+			$numero = 0;
 
 			$consulta = "INSERT INTO ORDEN_COMPRA VALUES (
 				'". $this->nro_orden_compra ."', 
@@ -115,6 +126,69 @@ class ModelOrdenCompra {
 			}
 			// header("Location: ". base() . "/ordenCompra/new?" . $params);
 			die();
+		}
+
+		if(isset($_FILES["archivo_orden_compra"]) && $_FILES["archivo_orden_compra"] != ""){
+				
+			$cons = "select documentos_sequence.nextval as NRO_DOCUMENTO from dual";
+			$result = oci_parse($this->pdo, $cons);
+			oci_execute($result);
+			$nro_documento = queryResultToAssoc($result)[0]["NRO_DOCUMENTO"];
+			print_r($nro_documento);
+
+			$directorio = "uploads/";
+			$archivo = $directorio . basename($_FILES["archivo_orden_compra"]["name"]);
+			$tipo = $_FILES["archivo_orden_compra"]["type"];
+			$peso = $_FILES["archivo_orden_compra"]["size"];
+			
+			$pdf = file_get_contents($_FILES['archivo_orden_compra']['tmp_name']);
+
+
+			move_uploaded_file($_FILES["archivo_orden_compra"]["tmp_name"], $archivo);
+
+			//consulta de inserción
+			//$consulta = "SELECT * FROM LICITACIONES " . " ORDER BY FECHA_CREACION DESC";
+			$consulta = "INSERT into DOCUMENTO (NRO_DOCUMENTO, TIPO_DOCUMENTO, NOMBRE, ARCHIVO, PESO_ARCHIVO, TIPO_ARCHIVO, FECHA_CREACION) values (
+						'". $nro_documento ."',
+						'oc',
+						'". $archivo ."',
+						empty_blob(),
+						'". $peso ."',
+						'". $tipo ."',
+						TO_DATE('". date('yy-m-d') ."','yyyy-mm-dd'))
+						RETURNING archivo INTO :archivo";
+
+			//ejecucion consulta
+			$query = $consulta;
+			$result = oci_parse($this->pdo, $query);
+
+			$blob = oci_new_descriptor($this->pdo, OCI_D_LOB);
+			oci_bind_by_name($result, ":archivo", $blob, -1, OCI_B_BLOB);
+			//print_r($consulta);
+			oci_execute($result, OCI_DEFAULT) or die ("Unable to execute query");
+
+			if(!$blob->save($archivo)) {
+				oci_rollback($this->pdo);
+			}
+			else {
+				oci_commit($this->pdo);
+			}
+
+			oci_free_statement($result);
+			$blob->free();
+			//OJOOOOOOOOOOOOOO
+			//DESPUES DE INSERTAR EL BLOB
+			////Guardar en lka tbla documento_lictacion
+			///LA RELACION DE ESTE DOCUMENTO $nro_documento ----> id y  $this->nro_licitacion ---> nro_lictacion
+
+			$consulta2 = "INSERT into DOCUMENTO_ORDEN_COMPRA (NRO_DOCUMENTO, NRO_ORDEN_COMPRA) values (
+				'". $nro_documento ."',
+				'". $this->nro_orden_compra ."'
+			)";
+
+			$query2 = $consulta2;
+			$result2 = oci_parse($this->pdo, $query2);
+			oci_execute($result2, OCI_DEFAULT) or die ("No se pudo");
 		}
 
 

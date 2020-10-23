@@ -52,6 +52,7 @@ class ModelContratos {
 		$listado = [];
 		$numeros = [];
 		$totales = [];
+		$contratos = [];
 
 
 		if ($this->nro_licitacion){
@@ -60,57 +61,35 @@ class ModelContratos {
 			$where = "";
 		}
 
-		//consulta principal
-		/*$consulta = "
-		SELECT
-			P.RUT,
-			P.NOMBRE AS RAZON,
-			C.TIPO,
-			C.ID,
-			c.nro_licitacion,
-			MONEDA.NOMBRE AS MONEDA,
-			C.PRECIO,
-			MONEDA.EQUIVALENCIA,
-			C.FECHA_INICIO,
-			C.FECHA_TERMINO,
-			C.FECHA_APROVACION,
-			C.FECHA_ACTUALIZACION,
-			D.DETALLE,
-			C.FECHA_ALERTA_VENCIMIENTO
-		FROM
-			PROVEEDORES P,
-			CYC C,
-			MONEDA,
-			DETALLE_CONTRATO D" . 
-		$where . "
-		ORDER BY C.FECHA_CREACION ASC";*/
 
-		$consulta = "SELECT
-			P.RUT,
-			P.NOMBRE AS RAZON,
-			C.TIPO,
-			C.ID,
-			c.nro_licitacion,
-			M.NOMBRE AS MONEDA,
-			C.PRECIO,
-			M.EQUIVALENCIA,
-			C.FECHA_INICIO,
-			C.FECHA_TERMINO,
-			C.FECHA_APROVACION,
-			C.FECHA_ACTUALIZACION,
-			D.DETALLE,
-			C.FECHA_ALERTA_VENCIMIENTO
-		FROM
-			CYC C inner join PROVEEDORES P on c.rut_proveedor=p.rut
-			inner join MONEDA M on c.id_moneda=m.codigo
-            inner join DETALLE_CONTRATO D on c.nro_licitacion=d.nro_licitacion ";
+		// $consulta = "SELECT
+		// 	P.RUT,
+		// 	P.NOMBRE AS RAZON,
+		// 	C.TIPO,
+		// 	C.ID,
+		// 	c.nro_licitacion,
+		// 	M.NOMBRE AS MONEDA,
+		// 	C.PRECIO,
+		// 	M.EQUIVALENCIA,
+		// 	C.FECHA_INICIO,
+		// 	C.FECHA_TERMINO,
+		// 	C.FECHA_APROVACION,
+		// 	C.FECHA_ACTUALIZACION,
+		// 	D.DETALLE,
+		// 	C.FECHA_ALERTA_VENCIMIENTO
+		// FROM
+		// 	CYC C inner join PROVEEDORES P on c.rut_proveedor=p.rut
+		// 	inner join MONEDA M on c.id_moneda=m.codigo
+		//     inner join DETALLE_CONTRATO D on c.nro_licitacion=d.nro_licitacion ";
+		
+		
 
 		//$consulta = "SELECT * FROM CYC";
 		//consulta paginada
-		$query = queryPagination($consulta, $this->page);
-		$result = oci_parse($this->pdo, $query);
-		oci_execute($result);
-		$listado = queryResultToAssoc($result);
+		// $query = queryPagination($consulta, $this->page);
+		// $result = oci_parse($this->pdo, $query);
+		// oci_execute($result);
+		// $listado = queryResultToAssoc($result);
 
 
 		//consulta para recuperar ruts y razon social de los proveedores
@@ -133,6 +112,12 @@ class ModelContratos {
 		oci_execute($result);
 		$licitaciones = queryResultToAssoc($result);
 
+		//consulta para recuperar ID Contrato HECHO POR MÍ
+		$query = "select ID_CONTRATO from CONTRATOS";
+		$result = oci_parse($this->pdo, $query);
+		oci_execute($result);
+		$contratos = queryResultToAssoc($result);
+
 
 		//consulta para recuperar cantidad de páginas disponibles
 		$result = oci_parse($this->pdo, $consulta);
@@ -146,6 +131,7 @@ class ModelContratos {
 		array_push($assoc, $cargos);
 		array_push($assoc, $licitaciones);
 		array_push($assoc, $totales);
+		array_push($assoc, $contratos);
 
 		oci_close($this->pdo);
 		return $assoc;
