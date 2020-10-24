@@ -122,7 +122,7 @@ class ModelContratos {
 		//consulta para recuperar cantidad de páginas disponibles
 		$result = oci_parse($this->pdo, $consulta);
 		oci_execute($result);
-		$totales = queryResultToAssoc($result);
+		// $totales = queryResultToAssoc($result);
 
 		
 

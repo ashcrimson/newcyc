@@ -13,7 +13,7 @@ class ViewContratos {
 
 		$data = $model->get();
 
-		$contratos = $data[0];
+		$contratos = $data[5];
         $proveedores = $data[1];
         $cargos = $data[2];
         $licitaciones = $data[3];
@@ -115,14 +115,15 @@ class ViewContratos {
                             <select name="cargos" class="selectpicker selectField" placeholder='Seleccione Cargo' data-live-search='true'>
                                 <option value=""></option>
                                 <?php 
+                                
                                 foreach ($cargos as $cargo) { 
-                                    if (!empty($_GET["cargos"]) && $_GET["cargos"] == $cargo["ID"]){
+                                    if (!empty($_GET["cargos"]) && $_GET["cargos"] == $cargo["ID_CARGO"]){
                                         ?>
-                                        <option selected="true" value="<?= $cargo["ID"];?>"><?= $cargo["NOMBRE"];?></option>
+                                        <option selected="true" value="<?= $cargo["ID_CARGO"];?>"><?= $cargo["NOMBRE"];?></option>
                                         <?php
                                     }else{
                                         ?>
-                                        <option value="<?= $cargo["ID"];?>"><?= $cargo["NOMBRE"];?></option>
+                                        <option value="<?= $cargo["ID_CARGO"];?>"><?= $cargo["NOMBRE"];?></option>
                                         <?php
                                     }
                                 }
