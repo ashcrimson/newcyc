@@ -16,6 +16,9 @@ class ViewOrdenCompra {
 		$listaLicitaciones = $data[0];
 		$numerosLicitaciones = $data[1];
 		$totales = $data[2];
+		$id_contrato = $data[3];
+		$nro_orden_compra = $data[4];
+		$estado = $data[5];
 /*
 		//salida a mostrar
 		$output = "";
@@ -59,26 +62,6 @@ class ViewOrdenCompra {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     <script lang="javascript" src="<?=base();?>/assets/assets/frontend/js/xlsx.full.min.js"></script>
     <script lang="javascript" src="<?=base();?>/assets/assets/frontend/js/FileSaver.js"></script>
     <script lang="javascript" src="<?=base();?>/assets/assets/frontend/js/xlsx.core.min.js"></script>
@@ -104,14 +87,14 @@ class ViewOrdenCompra {
                                 <select name="numeroLicitacion" class="selectpicker selectField" placeholder='Seleccione ID Contrato' data-live-search='true'>
                                     <option value=""></option>
 	                                <?php 
-	                                foreach ($licitaciones as $licitacion) { 
-	                                    if (!empty($_GET["numeroLicitacion"]) && $_GET["numeroLicitacion"] == $contrato["NRO_LICITACION"]){
+	                                foreach ($id_contrato as $contrato) { 
+	                                    if (!empty($_GET["numeroLicitacion"]) && $_GET["numeroLicitacion"] == $contrato["ID_CONTRATO"]){
 	                                        ?>
-	                                        <option selected="true" value="<?= $contrato["NRO_LICITACION"];?>"><?= $contrato["NRO_LICITACION"];?></option>
+	                                        <option selected="true" value="<?= $contrato["ID_CONTRATO"];?>"><?= $contrato["ID_CONTRATO"];?></option>
 	                                        <?php
 	                                    }else{
 	                                        ?>
-	                                        <option value="<?= $contrato["NRO_LICITACION"];?>"><?= $contrato["NRO_LICITACION"];?></option>
+	                                        <option value="<?= $contrato["ID_CONTRATO"];?>"><?= $contrato["ID_CONTRATO"];?></option>
 	                                        <?php
 	                                    }
 	                                }
@@ -129,14 +112,14 @@ class ViewOrdenCompra {
                                 <select name="numeroOrden" class="selectpicker selectField" placeholder='Seleccione N° Orden de Compra' data-live-search='true'>
                                     <option value=""></option>
 	                                <?php 
-	                                foreach ($licitaciones as $licitacion) { 
-	                                    if (!empty($_GET["numeroOrden"]) && $_GET["numeroOrden"] == $contrato["NRO_LICITACION"]){
+	                                foreach ($nro_orden_compra as $orden) { 
+	                                    if (!empty($_GET["numeroOrden"]) && $_GET["numeroOrden"] == $orden["NRO_ORDEN_COMPRA"]){
 	                                        ?>
-	                                        <option selected="true" value="<?= $contrato["NRO_LICITACION"];?>"><?= $contrato["NRO_LICITACION"];?></option>
+	                                        <option selected="true" value="<?= $orden["NRO_ORDEN_COMPRA"];?>"><?= $orden["NRO_ORDEN_COMPRA"];?></option>
 	                                        <?php
 	                                    }else{
 	                                        ?>
-	                                        <option value="<?= $contrato["NRO_LICITACION"];?>"><?= $contrato["NRO_LICITACION"];?></option>
+	                                        <option value="<?= $orden["NRO_ORDEN_COMPRA"];?>"><?= $orden["NRO_ORDEN_COMPRA"];?></option>
 	                                        <?php
 	                                    }
 	                                }
@@ -153,14 +136,14 @@ class ViewOrdenCompra {
                                 <select name="estado" class="selectpicker selectField" placeholder='Seleccione Estado' data-live-search='true'>
                                     <option value=""></option>
 	                                <?php 
-	                                foreach ($licitaciones as $licitacion) { 
-	                                    if (!empty($_GET["estado"]) && $_GET["estado"] == $contrato["NRO_LICITACION"]){
+	                                foreach ($estado as $estado) { 
+	                                    if (!empty($_GET["estado"]) && $_GET["estado"] == $estado["ESTADO"]){
 	                                        ?>
-	                                        <option selected="true" value="<?= $contrato["NRO_LICITACION"];?>"><?= $contrato["NRO_LICITACION"];?></option>
+	                                        <option selected="true" value="<?= $estado["ESTADO"];?>"><?= $estado["ESTADO"];?></option>
 	                                        <?php
 	                                    }else{
 	                                        ?>
-	                                        <option value="<?= $contrato["NRO_LICITACION"];?>"><?= $contrato["NRO_LICITACION"];?></option>
+	                                        <option value="<?= $estado["ESTADO"];?>"><?= $estado["ESTADO"];?></option>
 	                                        <?php
 	                                    }
 	                                }
