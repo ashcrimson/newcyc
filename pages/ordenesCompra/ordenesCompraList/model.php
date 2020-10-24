@@ -104,7 +104,7 @@ class ModelOrdenCompra {
 		$totales = queryResultToAssoc($result);
 
 		//consulta para id de contrato
-		$query = "select ID_CONTRATO from ORDEN_COMPRA ";
+		$query = "select * from ORDEN_COMPRA ";
 		$result = oci_parse($this->pdo, $query);
 		oci_execute($result);
 		$id_contrato = queryResultToAssoc($result);

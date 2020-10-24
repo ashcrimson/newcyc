@@ -113,7 +113,7 @@ class ModelContratos {
 		$licitaciones = queryResultToAssoc($result);
 
 		//consulta para recuperar ID Contrato HECHO POR MÍ
-		$query = "select ID_CONTRATO from CONTRATOS";
+		$query = "select * from CONTRATOS";
 		$result = oci_parse($this->pdo, $query);
 		oci_execute($result);
 		$contratos = queryResultToAssoc($result);

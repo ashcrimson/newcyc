@@ -215,11 +215,11 @@ class ViewContratos {
                     foreach ($contratos as $contrato) {
                         ?>
                     <tr>
-                        <td><?= $contrato["RUT"]; ?></td>
+                        <td><?= $contrato["RUT_PROVEEDOR"]; ?></td>
                         <td><?= $contrato["RAZON"]; ?></td>
                         <td><?= $contrato["TIPO"] ."-". $contrato["ID"]; ?></td>
                         <td><?= $contrato["NRO_LICITACION"]; ?></td>
-                        <td><?= $contrato["MONEDA"]; ?></td>
+                        <td><?= $contrato["ID_MONEDA"]; ?></td>
                         <td><?= $contrato["PRECIO"]; ?></td>
                         <td><?= $contrato["PRECIO"] * $contrato["EQUIVALENCIA"]; ?></td>
                         <td><?= $contrato["RESTANTE"];?></td>

@@ -193,10 +193,10 @@ class ViewOrdenCompra {
                     </tr>
                 </thead>      
                <?php
-               foreach ($ordenCompraData as $ordenCompra) {
+               foreach ($id_contrato as $ordenCompra) {
                		?>
                		<tr>
-						<td><?= $ordenCompra["ID"];?></td>
+						<td><?= $ordenCompra["ID_CONTRATO"];?></td>
 						<td><?= $ordenCompra["NRO_LICITACION"];?></td>
 						<td><?= $ordenCompra["NRO_ORDEN_COMPRA"];?></td>
 						<td><?= $ordenCompra["FECHA_ENVIO"];?></td>
