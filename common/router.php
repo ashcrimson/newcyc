@@ -157,6 +157,11 @@ class Router{
 		if(!empty($_GET["tipo"])){
 			$this->model = $this->controller->filter($this->model);
 		}
+
+		if(!empty($_GET["id"])){
+            $this->controller->delete($this->model);
+		}
+		
 		if(isset($_GET["page"])){
 			$this->model = $this->controller->page($this->model);
 		}

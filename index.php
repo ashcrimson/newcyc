@@ -75,6 +75,8 @@ switch ($request) {
 	/** CARGOS **/
 	case $base . '/cargos' :
 	case $base . '/cargos/' :
+	case $base . '/cargos/delete' :
+	case $base . '/cargos/delete/' :
 		$router->cargosList(); 
 		break;
 	case $base . '/cargos/new' :
