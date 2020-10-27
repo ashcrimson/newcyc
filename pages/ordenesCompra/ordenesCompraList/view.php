@@ -220,13 +220,13 @@ class ViewOrdenCompra {
 						<?php
 						if($ordenCompra["FECHA_ELIMINACION"] != ""){
 							?>	
-	                        <a href="#" class="btn btn-danger btn-xs" data-target="#deleteModal<?= $ordenCompra["ID"];?>" data-toggle="modal"> <i class="far fa-trash-alt"></i> Anular</a>
+	                        <a href="#" class="btn btn-danger btn-xs" data-target="#deleteModal<?= $ordenCompra["NRO_ORDEN_COMPRA"];?>" data-toggle="modal"> <i class="far fa-trash-alt"></i> Anular</a>
 	                      
 	                        <!-- modal starts-->
-	                        <div class="modal fade" id="deleteModal<?= $ordenCompra["ID"];?>" >
+	                        <div class="modal fade" id="deleteModal<?= $ordenCompra["NRO_ORDEN_COMPRA"];?>" >
 	                            <div class="modal-dialog">
 	                                <div class="modal-content">
-	                                <form class="form-horizontal" method="post" action="<?= base("/ordenCompra/?del=true&NRO_ORDEN_COMPRA=") . $ordenCompra["NRO_ORDEN_COMPRA"];?>">
+	                                <form class="form-horizontal" method="post" action="<?= base("/ordenCompra/?del=true&=") . $ordenCompra["NRO_ORDEN_COMPRA"];?>">
 	<!--                                 {!! csrf_field()!!}
 	 -->                                <div class="modal-header">
 	                                    <h4 class="modal-tittle"> Borrar <?= $ordenCompra["NRO_ORDEN_COMPRA"];?></h4>
@@ -249,7 +249,7 @@ class ViewOrdenCompra {
 	                    <div class="modal fade" id="restoreModal<?= $ordenCompra["NRO_ORDEN_COMPRA"];?>">
 	                        <div class="modal-dialog">
 	                            <div class="modal-conent">
-	                            <form class="horm-horizontal" method="post" action="<?= base("/ordenCompra/?res=true&NRO_ORDEN_COMPRA=") . $ordenCompra["ID"];?>{{ route('ordenCompra.restore', $ordenCompraItem->id) }}">
+	                            <form class="horm-horizontal" method="post" action="<?= base("/ordenCompra/?res=true&NRO_ORDEN_COMPRA=") . $ordenCompra["NRO_ORDEN_COMPRA"];?>{{ route('ordenCompra.restore', $ordenCompraItem->id) }}">
 	                            <!-- {!! csrf_field() !!} -->
 	                            
 	                            <div class="modal-header">

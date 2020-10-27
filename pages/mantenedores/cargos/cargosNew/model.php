@@ -59,7 +59,7 @@ class Modelcargos {
 
 	public function get(){
 		
-		$query = "SELECT * FROM CARGOS WHERE ID='" . $this->id . "'";
+		$query = "SELECT * FROM CARGOS WHERE ID_CARGO='" . $this->id . "'";
 
 		//consulta paginada
 		$result = oci_parse($this->pdo, $query);
@@ -79,7 +79,7 @@ class Modelcargos {
 			if(isset($_POST["id"]) && $_POST["id"] != ""){
 				$consulta = "UPDATE CARGOS
 							 SET NOMBRE = '". $_POST["nombre"] ."'
-							 WHERE ID='" . $_POST["id"] . "'";
+							 WHERE ID_CARGO='" . $_POST["id"] . "'";
 				//ejecucion consulta
 				$query = $consulta;
 				$result = oci_parse($this->pdo, $query);
@@ -98,7 +98,7 @@ class Modelcargos {
 
 				/*$consulta = "INSERT into cargos (ID, NOMBRE) values (
 							".$numero.",'". $this->nombre ."')";*/
-				$consulta = "INSERT into cargos (ID, NOMBRE) values (
+				$consulta = "INSERT into cargos (ID_CARGO, NOMBRE) values (
 							".$numero.", '". $_POST["nombre"] ."')";
 				//ejecucion consulta
 				$query = $consulta;

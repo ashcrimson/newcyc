@@ -112,26 +112,34 @@ class ModelContratos {
 		oci_execute($result);
 		$licitaciones = queryResultToAssoc($result);
 
-		//consulta para recuperar ID Contrato HECHO POR MÍ
-		$query = "select * from CONTRATOS";
+		
+
+		//consulta para recuperar razón social de la otra tabla
+		$consulta = "select c.*, p.razon_social from CONTRATOS C LEFT JOIN PROVEEDORES P ON c.rut_proveedor = p.rut_proveedor";
+		//consulta paginada
+		$query = queryPagination($consulta, $this->page);
 		$result = oci_parse($this->pdo, $query);
 		oci_execute($result);
-		$contratos = queryResultToAssoc($result);
+		$listado = queryResultToAssoc($result);
 
 
 		//consulta para recuperar cantidad de páginas disponibles
 		$result = oci_parse($this->pdo, $consulta);
 		oci_execute($result);
-		// $totales = queryResultToAssoc($result);
+		$totales = queryResultToAssoc($result);
 
 		
-
+		// Arryas que forman la tabla principal con paginación
 		array_push($assoc, $listado);
+		array_push($assoc, $totales); 
+
+		// Arrays que forman los listbox para filtros
 		array_push($assoc, $proveedores);
 		array_push($assoc, $cargos);
 		array_push($assoc, $licitaciones);
-		array_push($assoc, $totales);
-		array_push($assoc, $contratos);
+		
+		
+		
 
 		oci_close($this->pdo);
 		return $assoc;

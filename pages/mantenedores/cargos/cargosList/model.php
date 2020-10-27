@@ -31,7 +31,7 @@ class ModelCargos {
 
 	//elimina registro indicado
 	public function delete($id): self{
-		$sql = $this->pdo->prepare("DELETE FROM licitaciones WHERE id = :id");
+		$sql = $this->pdo->prepare("DELETE FROM CARGOS WHERE ID_CARGO = :id");
 		$sql->execute(["id", $id]);
 	}
 
@@ -55,7 +55,7 @@ class ModelCargos {
 
 
 		if ($this->id){
-			$where = " WHERE id = '" . $this->id . "'";
+			$where = " WHERE ID_CARGO = '" . $this->id . "'";
 		}else{
 			$where = "";
 		}
@@ -84,7 +84,7 @@ class ModelCargos {
 		where rn > " . $this->inicio . "
 		";*/
 		//consulta principal
-		$consulta = "SELECT * FROM CARGOS " . $where . " ORDER BY ID DESC";
+		$consulta = "SELECT * FROM CARGOS " . $where . " ORDER BY ID_CARGO DESC";
 
 		//print_r($consulta);
 
@@ -94,8 +94,8 @@ class ModelCargos {
 		oci_execute($result);
 		$listado = queryResultToAssoc($result);
 
-		//consulta para recuperar todos los numeros de licitaciones
-		$query = "select id from CARGOS ";
+		//consulta para recuperar todos los cargos
+		$query = "select ID_CARGO from CARGOS ";
 		$result = oci_parse($this->pdo, $query);
 		oci_execute($result);
 		$numeros = queryResultToAssoc($result);

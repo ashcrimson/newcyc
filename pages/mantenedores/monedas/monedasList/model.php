@@ -31,7 +31,7 @@ class ModelMonedas {
 
 	//elimina registro indicado
 	public function delete($id): self{
-		$sql = $this->pdo->prepare("DELETE FROM licitaciones WHERE id = :id");
+		$sql = $this->pdo->prepare("DELETE FROM MONEDA WHERE CODIGO = :id");
 		$sql->execute(["id", $id]);
 	}
 

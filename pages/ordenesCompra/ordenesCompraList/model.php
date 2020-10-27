@@ -17,6 +17,7 @@ class ModelOrdenCompra {
 	private $pdo;
 	//filtro de licitacion
 	private $nro_licitacion;
+	private $nro_orden_compra;
 	//pagina 
 	private  $page;
 	//resultados por pagina
@@ -30,9 +31,9 @@ class ModelOrdenCompra {
 	}
 
 	//elimina registro indicado
-	public function delete($nro_licitacion): self{
-		$sql = $this->pdo->prepare("DELETE FROM licitaciones WHERE nro_licitacion = :nro_licitacion");
-		$sql->execute(["nro_licitacion", $nro_licitacion]);
+	public function delete($nro_orden_compra): self{
+		$sql = $this->pdo->prepare("DELETE FROM ORDEN_COMPRA WHERE NRO_ORDEN_COMPRA='" . $_GET["numeroOrden"] . "'");
+		$sql->execute([$this->pdo, $nro_orden_compra]);
 	}
 
 	//filtra consulta por nro de licitación(id, llave primaria)

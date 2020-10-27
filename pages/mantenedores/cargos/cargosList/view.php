@@ -45,13 +45,13 @@ class viewCargos {
                             <option value=""></option>
                             <?php
                             foreach ($listaCargos as $cargos){
-                            	if ($_GET["tipo"] == $cargos["ID"]) {
+                            	if ($_GET["tipo"] == $cargos["ID_CARGO"]) {
 	                            	?>
-	                            	<option value="<?=$cargos["ID"];?>" selected="true"><?=$cargos["NOMBRE"];?></option>
+	                            	<option value="<?=$cargos["ID_CARGO"];?>" selected="true"><?=$cargos["NOMBRE"];?></option>
 	                            	<?php
                             	}else{
 	                            	?>
-	                            	<option value="<?=$cargos["ID"];?>"><?=$cargos["NOMBRE"];?></option>
+	                            	<option value="<?=$cargos["ID_CARGO"];?>"><?=$cargos["NOMBRE"];?></option>
 	                            	<?php
                             	}
                             }
@@ -106,14 +106,14 @@ class viewCargos {
                         	<?php
                         	if(!$cargos["ELIMINADO"]){
                         		?>
-                            <a href="<?=base("/cargos/new?id=").$cargos["ID"];?>" class="btn btn-primary btn-xs"><i class="fa fa-pencil-alt"></i> Editar</a>
-                            <a href="#" class="btn btn-danger btn-xs" data-target="#deleteModal<?=$cargos["ID"];?>" data-toggle="modal"><i class="far fa-trash-alt"></i> Eliminar</a>
+                            <a href="<?=base("/cargos/new?id=").$cargos["ID_CARGO"];?>" class="btn btn-primary btn-xs"><i class="fa fa-pencil-alt"></i> Editar</a>
+                            <a href="#" class="btn btn-danger btn-xs" data-target="#deleteModal<?=$cargos["ID_CARGO"];?>" data-toggle="modal"><i class="far fa-trash-alt"></i> Eliminar</a>
 
                             <!-- modal starts -->
-                            <div class="modal fade" id="deleteModal<?=$cargos["ID"];?>">
+                            <div class="modal fade" id="deleteModal<?=$cargos["ID_CARGO"];?>">
                                 <div class="modal-dialog">
                                     <div class="modal-content">
-                                        <form class="form-horizontal" method="post" action="<?=base("/cargos/delete?id=").$cargos["ID"];?>" >
+                                        <form class="form-horizontal" method="post" action="<?=base("/cargos/delete?id=").$cargos["ID_CARGO"];?>" >
                                             <div class="modal-header">
                                                 <h4 class="modal-title"> Borrar <?=$cargos["NOMBRE"];?> </h4>
                                                 <button type="button" class="close" data-dismiss="modal">&times;</button>
@@ -131,14 +131,14 @@ class viewCargos {
                             	<?php
                         	}else{
                         		?>
-                            <a href="#" class="btn btn-xs btn-success" data-target="#restoreModal<?=$cargos["ID"];?>" data-toggle="modal"><i class="fas fa-arrow-circle-up"></i> Restaurar</a>
+                            <a href="#" class="btn btn-xs btn-success" data-target="#restoreModal<?=$cargos["ID_CARGO"];?>" data-toggle="modal"><i class="fas fa-arrow-circle-up"></i> Restaurar</a>
                             
 
                             <!-- modal starts -->
-                            <div class="modal fade" id="restoreModal<?=$cargos["ID"];?>">
+                            <div class="modal fade" id="restoreModal<?=$cargos["ID_CARGO"];?>">
                                 <div class="modal-dialog">
                                     <div class="modal-content">
-                                        <form class="form-horizontal" method="post" action="<?=base("/cargos/new?restore=true&id=").$cargos["ID"];?>" >
+                                        <form class="form-horizontal" method="post" action="<?=base("/cargos/new?restore=true&id=").$cargos["ID_CARGO"];?>" >
 
                                             <div class="modal-header">
                                                 <h4 class="modal-title"> Restaurar  <?=$cargos["NOMBRE"];?> </h4>
@@ -157,10 +157,10 @@ class viewCargos {
                             <!-- modal ends -->
 
                             <!-- modal starts -->
-                            <div class="modal fade" id="forceDeleteModal<?=$cargos["ID"];?>">
+                            <div class="modal fade" id="forceDeleteModal<?=$cargos["ID_CARGO"];?>">
                                 <div class="modal-dialog">
                                     <div class="modal-content">
-                                        <form class="form-horizontal" method="post" action="<?=base("/cargos/delete?force=true&id=").$cargos["ID"];?>" >
+                                        <form class="form-horizontal" method="post" action="<?=base("/cargos/delete?force=true&id=").$cargos["ID_CARGO"];?>" >
                                             <div class="modal-header">
                                                 <h4 class="modal-title"> Borrar permanentemente <?=$cargos["NOMBRE"];?> </h4>
                                                 <button type="button" class="close" data-dismiss="modal">&times;</button>
@@ -192,7 +192,7 @@ class viewCargos {
     
     <div class="card-footer">
     	<?php
-    	paginador($totales, "/cargos");
+    	paginador($totales, "/newcyc/cargos");
     	?>
     </div>
 </div>
@@ -219,14 +219,12 @@ class viewCargos {
 
 
 
+    <?php
 
+    $output = ob_get_contents();
+    ob_end_clean();
 
-		<?php
-
-		$output = ob_get_contents();
-		ob_end_clean();
-
-		return $output;
+    return $output;
 //		return "";
 
 	}

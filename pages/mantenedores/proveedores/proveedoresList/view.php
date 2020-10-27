@@ -22,20 +22,6 @@ class ViewProveedores {
 		?>
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     <!-- Breadcrumbs-->
     <ol class="breadcrumb">
         <li class="breadcrumb-item">
@@ -59,11 +45,11 @@ class ViewProveedores {
 	                            foreach ($listaProveedores as $proveedores){
 	                            	if ($_GET["rut"] == $proveedores["rut"]) {
 		                            	?>
-		                            	<option value="<?=$proveedores["RUT"];?>"><?=$proveedores["RUT"];?></option>
+		                            	<option value="<?=$proveedores["RUT_PROVEEDOR"];?>"><?=$proveedores["RUT_PROVEEDOR"];?></option>
 		                            	<?php
 	                            	}else{
 		                            	?>
-		                            	<option value="<?=$proveedores["RUT"];?>"><?=$proveedores["RUT"];?></option>
+		                            	<option value="<?=$proveedores["RUT_PROVEEDOR"];?>"><?=$proveedores["RUT_PROVEEDOR"];?></option>
 		                            	<?php
 	                            	}
 	                            }
@@ -78,13 +64,13 @@ class ViewProveedores {
                                 <option value=""></option>
                                 <?php
 	                            foreach ($listaProveedores as $proveedores){
-	                            	if ($_GET["razon_social"] == $proveedores["RUT"]) {
+	                            	if ($_GET["razon_social"] == $proveedores["RUT_PROVEEDOR"]) {
 		                            	?>
-		                            	<option value="<?=$proveedores["RUT"];?>"><?=$proveedores["NOMBRE"];?></option>
+		                            	<option value="<?=$proveedores["RUT_PROVEEDOR"];?>"><?=$proveedores["RAZON_SOCIAL"];?></option>
 		                            	<?php
 	                            	}else{
 		                            	?>
-		                            	<option value="<?=$proveedores["RUT"];?>"><?=$proveedores["NOMBRE"];?></option>
+		                            	<option value="<?=$proveedores["RUT_PROVEEDOR"];?>"><?=$proveedores["RAZON_SOCIAL"];?></option>
 		                            	<?php
 	                            	}
 	                            }
@@ -151,12 +137,12 @@ class ViewProveedores {
                     	foreach ($listaProveedores as $proveedores) {
                     	?>
                             <tr>
-                                <td> <?= $proveedores["RUT"]; ?></td>
-                                <td> <?= $proveedores["NOMBRE"] ?></td>
+                                <td> <?= $proveedores["RUT_PROVEEDOR"]; ?></td>
+                                <td> <?= $proveedores["RAZON_SOCIAL"] ?></td>
                                 <td>
                                     <?php if(!$proveedores["FECHA_ELIMINACION"]){ ?>
-                                        <a href="<?=base("/proveedores/new?id=").$proveedores["RUT"];?>" class="btn btn-primary btn-xs"><i class="fa fa-pencil-alt"></i> Editar</a>
-                                        <a href="#" class="btn btn-danger btn-xs" data-target="#deleteModal<?=$proveedores["RUT"];?>" data-toggle="modal"><i class="far fa-trash-alt"></i> Eliminar</a>
+                                        <a href="<?=base("/proveedores/new?id=").$proveedores["RUT_PROVEEDOR"];?>" class="btn btn-primary btn-xs"><i class="fa fa-pencil-alt"></i> Editar</a>
+                                        <a href="#" class="btn btn-danger btn-xs" data-target="#deleteModal<?=$proveedores["RUT_PROVEEDOR"];?>" data-toggle="modal"><i class="far fa-trash-alt"></i> Eliminar</a>
 
                                         <!-- modal starts -->
                                         <div class="modal fade" id="deleteModal<?=$proveedores["RUT"];?>">
@@ -164,7 +150,7 @@ class ViewProveedores {
                                                 <div class="modal-content">
                                                     <form class="form-horizontal" method="post" action="<?=base("/proveedores/delete?id=").$proveedores["ID"];?>" >
                                                     <div class="modal-header">
-                                                        <h4 class="modal-title"> Borrar <?=$proveedores["NOMBRE"];?> </h4>
+                                                        <h4 class="modal-title"> Borrar <?=$proveedores["RAZON_SOCIAL"];?> </h4>
                                                         <button type="button" class="close" data-dismiss="modal">&times;</button>
                                                     </div>
 
@@ -180,16 +166,16 @@ class ViewProveedores {
                                     <?php
                                 }else{
                                 	?>
-                                        <a href="#" class="btn btn-xs btn-success" data-target="#restoreModal<?=$proveedores["RUT"];?>" data-toggle="modal"><i class="fas fa-arrow-circle-up"></i> Restaurar</a>
+                                        <a href="#" class="btn btn-xs btn-success" data-target="#restoreModal<?=$proveedores["RUT_PROVEEDOR"];?>" data-toggle="modal"><i class="fas fa-arrow-circle-up"></i> Restaurar</a>
 
                                         <!-- modal starts -->
-                                        <div class="modal fade" id="restoreModal<?=$proveedores["RUT"];?>">
+                                        <div class="modal fade" id="restoreModal<?=$proveedores["RUT_PROVEEDOR"];?>">
                                             <div class="modal-dialog">
                                                 <div class="modal-content">
-                                                    <form class="form-horizontal" method="post" action="<?=base("/proveedores/new?restore=true&id=").$proveedores["ID"];?>" >
+                                                    <form class="form-horizontal" method="post" action="<?=base("/proveedores/new?restore=true&id=").$proveedores["RUT_PROVEEDOR"];?>" >
 
                                                     <div class="modal-header">
-                                                        <h4 class="modal-title"> Restaurar  <?=$proveedores["NOMBRE"];?> </h4>
+                                                        <h4 class="modal-title"> Restaurar  <?=$proveedores["RAZON_SOCIAL"];?> </h4>
                                                         <button type="button" class="close" data-dismiss="modal">&times;</button>
                                                     </div>
                         
@@ -209,7 +195,7 @@ class ViewProveedores {
                                                 <div class="modal-content">
                                                     <form class="form-horizontal" method="post" action="<?=base("/proveedores/delete?force=true&id=").$proveedores["ID"];?>" >
                                                         <div class="modal-header">
-                                                            <h4 class="modal-title"> Borrar permanentemente <?=$proveedores["NOMBRE"];?> </h4>
+                                                            <h4 class="modal-title"> Borrar permanentemente <?=$proveedores["RAZON_SOCIAL"];?> </h4>
                                                             <button type="button" class="close" data-dismiss="modal">&times;</button>
                                                         </div>
                                         
@@ -237,7 +223,7 @@ class ViewProveedores {
         </div>
         
         <div class="card-footer">
-        	<?=paginador($totales, "/proveedores");?>
+        	<?=paginador($totales, "/newcyc/proveedores");?>
         </div>
     </div>
 
@@ -257,18 +243,6 @@ class ViewProveedores {
             maxItems: 3
         });
 	</script>
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

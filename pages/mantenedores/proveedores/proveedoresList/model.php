@@ -31,7 +31,7 @@ class ModelProveedores {
 
 	//elimina registro indicado
 	public function delete($rut): self{
-		$sql = $this->pdo->prepare("DELETE FROM licitaciones WHERE rut = :rut");
+		$sql = $this->pdo->prepare("DELETE FROM licitaciones WHERE RUT_PROVEEDOR = :rut");
 		$sql->execute(["rut", $rut]);
 	}
 
@@ -55,7 +55,7 @@ class ModelProveedores {
 
 
 		if ($this->rut){
-			$where = " WHERE RUT = '" . $this->rut . "'";
+			$where = " WHERE RUT_PROVEEDOR = '" . $this->rut . "'";
 		}else{
 			$where = "";
 		}

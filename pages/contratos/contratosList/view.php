@@ -13,11 +13,15 @@ class ViewContratos {
 
 		$data = $model->get();
 
-		$contratos = $data[5];
-        $proveedores = $data[1];
-        $cargos = $data[2];
-        $licitaciones = $data[3];
-		$totales = $data[4];
+        //Forman la tabla
+		$listado = $data[0];
+        $totales = $data[1];
+
+        //Los select
+        $proveedores = $data[2];
+        $cargos = $data[3];
+        $licitaciones = $data[4];
+        $contratos = $data[5];
 //print_r($data[1]);
 
 		ob_start();
@@ -94,7 +98,7 @@ class ViewContratos {
                             <select name="contratos" class="selectpicker selectField" placeholder='Seleccione Contrato' data-live-search='true'>
                                 <option value=""></option>
                                 <?php 
-                                foreach ($contratos as $contrato) { 
+                                foreach ($totales as $contrato) { 
                                     if (!empty($_GET["contratos"]) && $_GET["contratos"] == $contrato["ID_CONTRATO"]){
                                         ?>
                                         <option selected="true" value="<?= $contrato["ID_CONTRATO"];?>"><?= $contrato["ID_CONTRATO"];?></option>
@@ -167,8 +171,7 @@ class ViewContratos {
                 <hr>
                 <div class="btn-group float-right">
                     <?php if(!empty($_GET)){ ?> 
-                        <a class="btn btn-default" href="<?base("/contratos")?>">Limpiar Filtros</a>
-                        <button type="submit" class="btn btn-primary rounded"><i class="fa fa-search"></i> Buscar</button>
+                        <a class="btn btn-default" href="./contratos">Limpiar Filtros</a>
                     <?php } ?>
                         <button type="submit" class="btn btn-primary rounded"><i class="fa fa-search"></i> Buscar</button>
                 </div>
@@ -212,11 +215,11 @@ class ViewContratos {
                 </tr>
                 </thead>
                     <?php 
-                    foreach ($contratos as $contrato) {
+                    foreach ($listado as $contrato) {
                         ?>
                     <tr>
                         <td><?= $contrato["RUT_PROVEEDOR"]; ?></td>
-                        <td><?= $contrato["RAZON"]; ?></td>
+                        <td><?= $contrato["RAZON_SOCIAL"]; ?></td>
                         <td><?= $contrato["TIPO"] ."-". $contrato["ID"]; ?></td>
                         <td><?= $contrato["NRO_LICITACION"]; ?></td>
                         <td><?= $contrato["ID_MONEDA"]; ?></td>
@@ -227,7 +230,7 @@ class ViewContratos {
                         <td><?= $contrato["FECHA_INICIO"]; ?></td>
                         <td><?= $contrato["FECHA_TERMINO"]; ?></td>
                         <td><?= $contrato["FECHA_ACTUALIZACION"]; ?></td>
-                        <td><?= $contrato["DETALLE"]; ?></td>
+                        <td><?= $contrato["OBJETO_CONTRATO"]; ?></td>
                         <td><?= $contrato["BOLETA"]; ?></td>
                         <td><?= $contrato["MONTO"]; ?></td>
                         <td><?= $contrato["FECHA_ALERTA_VENCIMIENTO"]; ?></td>

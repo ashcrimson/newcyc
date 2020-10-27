@@ -3,7 +3,7 @@
 
 
 namespace ProveedoresNew;
-
+   
 
 /**
  * modelo de lista de  licitaciones
@@ -21,15 +21,13 @@ class ModelProveedores {
 	private $rut;
 
 
-	private $nro_licitacion;
-	private $presupuesto;
-	private $archivo_licitacion;
-	private $descripcion_licitacion;
+	private $id;
+	private $nombre;
 
 	//Constructor
-	function __construct($pdo, $rut = ''){
+	function __construct($pdo){
 		$this->pdo = $pdo;
-		$this->rut = $rut;
+
 	}
 
 	//retorna el/los datos seleccionados
@@ -43,34 +41,19 @@ class ModelProveedores {
 		//validacion de datos recividos
 		$params = "";
 		if(isset($_POST["submit"])){
-			if(isset($_POST["nro_licitacion"]) && $_POST["nro_licitacion"] != ""){
-				$this->params .= "nro_licitacion=" . $_POST["nro_licitacion"] . "&";
-				$this->nro_licitacion = $_POST["nro_licitacion"];
+			if(isset($_POST["rut"]) && $_POST["rut"] != ""){
+				$this->params .= "rut=" . $_POST["rut"] . "&";
+				$this->rut = $_POST["rut"];
 			}else{
-				$this->errores["nro_licitacion"] = true;
+				$this->errores["rut"] = true;
 				$this->error = true;
 			}
 
-			if(isset($_POST["presupuesto"]) && $_POST["presupuesto"] != ""){
-				$this->params .= "presupuesto=" . $_POST["presupuesto"] . "&";
-				$this->presupuesto = $_POST["presupuesto"];
+			if(isset($_POST["nombre"]) && $_POST["nombre"] != ""){
+				$this->params .= "nombre=" . $_POST["nombre"] . "&";
+				$this->nombre = $_POST["nombre"];
 			}else{
-				$this->errores["presupuesto"] = true;
-				$this->error = true;
-			}
-
-			// if(isset($_POST["archivo_licitacion"]) && $_POST["archivo_licitacion"] != ""){
-			// 	$params .= "archivo_licitacion=" . $_POST["archivo_licitacion"] . "&";
-			// }else{
-			// 	$errores["archivo_licitacion"] = true;
-			// 	$error = true;
-			// }
-
-			if(isset($_POST["descripcion_licitacion"]) && $_POST["descripcion_licitacion"] != ""){
-				$this->params .= "descripcion_licitacion=" . $_POST["descripcion_licitacion"] . "&";
-				$this->descripcion_licitacion = $_POST["descripcion_licitacion"];
-			}else{
-				$this->errores["descripcion_licitacion"] = true;
+				$this->errores["nombre"] = true;
 				$this->error = true;
 			}
 		}
@@ -83,27 +66,21 @@ class ModelProveedores {
 		return new self($this->pdo, $rut);
 	}
 
-	public function get(){
-		
-		$query = "SELECT * FROM PROVEEDORES WHERE RUT='" . $this->rut . "'";
 
-		//consulta paginada
-		$result = oci_parse($this->pdo, $query);
-		oci_execute($result);
-		$listado = queryResultToAssoc($result);
-
-		return $listado;
-	}
 
 	public function execute(){
 		
 		//validar si faltó algo
-		if(!$this->error){
-			if(isset($_POST["id"]) && $_POST["id"] != ""){
-				$consulta = "UPDATE proveedores
-							 SET RUT = '". $_POST["rut"] ."',
-							 	NOMBRE = '". $_POST["razon_social"] ."'
-							 WHERE RUT='" . $_POST["rut"] . "'";
+		if(!$this->error)
+		{
+
+				$rut = $_POST["rut"];	
+				$nombre = $_POST["nombre"];
+				$consulta = "INSERT into PROVEEDORES (RUT_PROVEEDOR, RAZON_SOCIAL, FECHA_CREACION) values (
+							'". $rut."', 
+							'". $nombre ."',
+							TO_DATE('". date('yy-m-d') ."','yyyy-mm-dd')
+							)";
 				//ejecucion consulta
 				$query = $consulta;
 				$result = oci_parse($this->pdo, $query);
@@ -113,26 +90,10 @@ class ModelProveedores {
 				//oci_error();
 				//$listado = queryResultToAssoc($result);
 				oci_commit($this->pdo);
-			}else{
-				//consulta de inserción
-				//$consulta = "SELECT * FROM LICITACIONES " . " ORDER BY FECHA_CREACION DESC";
-				/*$consulta = "INSERT into proveedores values (
-							'". $this->nro_licitacion ."',
-							'". $this->descripcion_licitacion ."')";*/
-				$consulta = "INSERT into proveedores values (
-							'". $_POST["rut"]."',
-							'". $_POST["razon_social"] ."')";
+			
 
-				//ejecucion consulta
-				$query = $consulta;
-				$result = oci_parse($this->pdo, $query);
-				//print_r($consulta);
-				oci_execute($result);
+			print_r($consulta);
 
-				//oci_error();
-				//$listado = queryResultToAssoc($result);
-				oci_commit($this->pdo);
-			}
 		}else{
 			//print_r("redirige");
 			header("Location: ". base() . "/proveedores/new?" . $params);
