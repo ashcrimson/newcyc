@@ -32,7 +32,7 @@ class ModelMonedas {
 	//elimina registro indicado
 	public function delete($id): self{
 		$sql = $this->pdo->prepare("DELETE FROM MONEDA WHERE CODIGO = :id");
-		$sql->execute(["id", $id]);
+		$sql->execute([':id'=> $id]);
 	}
 
 	//filtra consulta por nro de licitación(id, llave primaria)
