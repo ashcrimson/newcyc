@@ -16,47 +16,11 @@ class ViewLicitaciones {
 		$listaLicitaciones = $data[0];
 		$numerosLicitaciones = $data[1];
 		$totales = $data[2];
-/*
-		//salida a mostrar
-		$output = "";
-		//picker con todos los numeros de licitacion
-		$picker = "";
-		//licitaciones filtradas
-		$licitaciones = "";
+		$documentos = $data[3];
 
-
-		//genera boton limpieza de filtros
-		if(!empty($_GET)){
-			$btnEmpty = "<a class=\"btn btn-default\" href=\"./licitaciones\">Limpiar Filtros</a>";
-		}else{
-			$btnEmpty = "";
-		}
-
-		foreach ($numerosLicitaciones as $licitacion) {
-			if (isset($_GET["nro_licitacion"]) && $_GET["nro_licitacion"]  == $licitacion["NRO_LICITACION"] ){
-				$selected = "selected='true'";
-			}else{
-				$selected = "";
-			}
-			$picker .= "<option $selected value=\"" . $licitacion["NRO_LICITACION"] . "\">" . $licitacion["NRO_LICITACION"] . "</option>\n";
-		}
-
-		foreach ($listaLicitaciones as $licitacion) {
-			$licitaciones .=  "<tr><td>" . $licitacion["NRO_LICITACION"] . "</td>";
-			$licitaciones .=  "<td>" . $licitacion["PRESUPUESTO"] . "</td>";
-			$licitaciones .=  "<td>" . $licitacion["DETALLE"] . "</td>";
-			if ($licitacion["NRO_DOCUMENTO"] ==  null && empty($licitacion["NRO_DOCUMENTO"])){
-				$licitaciones .= "<td> N/A </td></tr>";
-			}else{
-				$licitaciones .= "<td><a target=\"_blank\" href=\"./licitaciones\">Visualizar</a> </td></tr>";
-			}
-		}
-*/
 		ob_start();
 
 		?>
-
-
 
 
 		<script lang="javascript" src="./assets/assets/frontend/js/xlsx.full.min.js"></script>
@@ -144,25 +108,29 @@ class ViewLicitaciones {
 						<tbody>
 							<?php 
 							foreach ($listaLicitaciones as $licitaciones) {
+								foreach ($documentos as $documento) {	
 								?>
 							<tr>
 								<td> <?= $licitaciones["NRO_LICITACION"]; ?></td>
 								<td> <?= $licitaciones["PRESUPUESTO"]; ?></td>
 								<td> <?= $licitaciones["DETALLE"]; ?></td>
+
 								<?php
-								if ($licitaciones["NRO_DOCUMENTO"] ==  null && empty($licitaciones["NRO_DOCUMENTO"])){
+								
+								if ($documento["NRO_DOCUMENTO"] ==  null && empty($documento["NRO_DOCUMENTO"])){
 									?>
 									<td> N/A </td>
 									<?php
 								}else{
 									?>
-									<td><a target="_blank" href="./licitaciones">Visualizar</a> </td></tr>
+									<td><?= $documento["NOMBRE"] ?></td></tr>
 									<?php
 								}
 								?>
 							</tr>
 								<?php
 							}
+						}
 							?>
 						</tbody>
 					</table>

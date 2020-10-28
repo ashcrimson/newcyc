@@ -34,7 +34,19 @@ class ModelMonedas {
 
         $sql = "DELETE FROM MONEDA WHERE CODIGO = ".$id;
         $result = oci_parse($this->pdo, $sql);
-        oci_execute($result);
+		oci_execute($result);
+		
+		if (!$result) {
+			$e = oci_error($ql);  // Para errores de oci_execute, pase el gestor de sentencia
+			print htmlentities($e['message']);
+			print "\n<pre>\n";
+			print htmlentities($e['sqltext']);
+			printf("\n%".($e['offset']+1)."s", "^");
+			print  "\n</pre>\n";
+}
+		   
+
+
         oci_commit($this->pdo);
 
         return new self($this->pdo, '', $this->page);

@@ -36,7 +36,7 @@ class ModelLicitaciones {
 
 	//retorna el/los datos seleccionados
 	public function new(){
-		// error_reporting(0);
+		error_reporting(0);
 		$result = [];
 		$assoc = [];
 		$listado = [];

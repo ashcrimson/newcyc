@@ -59,31 +59,7 @@ class ModelLicitaciones {
 		}else{
 			$where = "";
 		}
-/*
-		$parameters = [];
-		$sql = $this->pdo->prepare("SELECT * FROM licitaciones" . $where);
-		$sql->execute($parameters);
 
-		$query = "select * from licitaciones " . $where;
-		$result = oci_parse($this->pdo, $query);
-		oci_execute($result);
-		//oci_fetch_all($result, $res);
-
-		//consulta principal
-		$query = "
-		select * from (
-			select consulta.*, rownum rn from (
-			    select *
-			    from LICITACIONES" . 
-			    $where .
-				"
-			    order by FECHA_CREACION desc
-			) consulta 
-			where rownum <= " . $this->fin . "
-		) cosnulta
-		where rn > " . $this->inicio . "
-		";*/
-		//consulta principal
 		$consulta = "SELECT * FROM LICITACIONES " . $where . " ORDER BY FECHA_CREACION DESC";
 
 		//consulta paginada
@@ -98,6 +74,12 @@ class ModelLicitaciones {
 		oci_execute($result);
 		$numeros = queryResultToAssoc($result);
 
+		//consulta para recuperar todos los documentos
+		$query = "select * from documento";
+		$result = oci_parse($this->pdo, $query);
+		oci_execute($result);
+		$documentos = queryResultToAssoc($result);
+
 		//consulta para recuperar cantidad de páginas disponibles
 		$result = oci_parse($this->pdo, $consulta);
 		oci_execute($result);
@@ -108,6 +90,7 @@ class ModelLicitaciones {
 		array_push($assoc, $listado);
 		array_push($assoc, $numeros);
 		array_push($assoc, $totales);
+		array_push($assoc, $documentos);
 
 		oci_close($this->pdo);
 		return $assoc;
