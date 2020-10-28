@@ -225,6 +225,9 @@ class Router{
 		if(!empty($_GET["rut"])||!empty($_GET["razon_social"])){
 			$this->model = $this->controller->filter($this->model);
 		}
+		if(!empty($_GET["id"])){
+            $this->controller->delete($this->model);
+        }
 		if(isset($_GET["page"])){
 			$this->model = $this->controller->page($this->model);
 		}

@@ -186,6 +186,13 @@ class ModelContratos {
 				// $this->error = true;
 			}
 
+			if(isset($_POST["archivo_contrato"]) && $_POST["archivo_contrato"] != ""){
+				$params .= "archivo_contrato=" . $_POST["archivo_contrato"] . "&";
+			}else{
+				$errores["archivo_contrato"] = true;
+				$error = true;
+			}
+
 		}
 
 		return new self($this->pdo);
@@ -197,25 +204,6 @@ class ModelContratos {
 		//validar si faltó algo
 		if(!$this->error){
 			
-
-			// $consulta = "INSERT INTO CONTRATOS VALUES (
-			// '". $this->id_contrato ."', 
-			// '". $this->licitacion ."', 
-			// '". $this->proveedor_id ."', 
-			// null, 
-			// '". $this->id_admin ."', 
-			// '". $this->moneda_id ."', 
-			// '". $this->selectContrato ."', 
-			// '". $this->monto ."', 
-			// null, 
-			// TO_DATE('". $this->fecha_inicio ."','yyyy-mm-dd'), 
-			// TO_DATE('". $this->fecha_termino ."','yyyy-mm-dd'), 
-			// TO_DATE('". $this->fecha_aprobacion ."','yyyy-mm-dd'), 
-			// TO_DATE('". $this->fecha_alert ."','yyyy-mm-dd'), 
-			// TO_DATE('". date('yy-m-d') ."','yyyy-mm-dd'),
-			// '15/10/20', 
-			// '15/10/20', 
-			// '". $this->objeto_contrato ."')";
 
 			$consulta = "INSERT INTO CONTRATOS (
 				NRO_LICITACION, 
@@ -268,6 +256,69 @@ class ModelContratos {
 			die();
 		}
 
+		if(isset($_FILES["archivo_contrato"]) && $_FILES["archivo_contrato"] != ""){
+				
+			$cons = "select documentos_sequence.nextval as NRO_DOCUMENTO from dual";
+			$result = oci_parse($this->pdo, $cons);
+			oci_execute($result);
+			$nro_documento = queryResultToAssoc($result)[0]["NRO_DOCUMENTO"];
+			// print_r($nro_documento);
+
+			$directorio = "uploads/";
+			$archivo = $directorio . basename($_FILES["archivo_contrato"]["name"]);
+			$tipo = $_FILES["archivo_contrato"]["type"];
+			$peso = $_FILES["archivo_contrato"]["size"];
+			
+			$pdf = file_get_contents($_FILES['archivo_contrato']['tmp_name']);
+
+
+			move_uploaded_file($_FILES["archivo_contrato"]["tmp_name"], $archivo);
+
+			//consulta de inserción
+			
+			$consulta = "INSERT into DOCUMENTO (NRO_DOCUMENTO, TIPO_DOCUMENTO, NOMBRE, ARCHIVO, PESO_ARCHIVO, TIPO_ARCHIVO, FECHA_CREACION) values (
+						'". $nro_documento ."',
+						'rl',
+						'". $archivo ."',
+						empty_blob(),
+						'". $peso ."',
+						'". $tipo ."',
+						TO_DATE('". date('yy-m-d') ."','yyyy-mm-dd'))
+						RETURNING archivo INTO :archivo";
+
+			//ejecucion consulta
+			$query = $consulta;
+			$result = oci_parse($this->pdo, $query);
+
+			$blob = oci_new_descriptor($this->pdo, OCI_D_LOB);
+			oci_bind_by_name($result, ":archivo", $blob, -1, OCI_B_BLOB);
+			//print_r($consulta);
+			oci_execute($result, OCI_DEFAULT) or die ("Unable to execute query");
+
+			if(!$blob->save($archivo)) {
+				oci_rollback($this->pdo);
+			}
+			else {
+				oci_commit($this->pdo);
+			}
+
+			oci_free_statement($result);
+			$blob->free();
+			//OJOOOOOOOOOOOOOO
+			//DESPUES DE INSERTAR EL BLOB
+			////Guardar en lka tbla documento_lictacion
+			///LA RELACION DE ESTE DOCUMENTO $nro_documento ----> id y  $this->nro_licitacion ---> nro_lictacion
+
+			$consulta2 = "INSERT into DOCUMENTO_CONTRATOS (NRO_DOCUMENTO, NRO_CONTRATO) values (
+				'". $nro_documento ."',
+				'". $this->nro_contrato ."'
+			)";
+
+			$query2 = $consulta2;
+			$result2 = oci_parse($this->pdo, $query2);
+			oci_execute($result2, OCI_DEFAULT) or die ("No se pudo");
+		}
+
 		
 
 		//agrega resultados a retorno
@@ -275,11 +326,6 @@ class ModelContratos {
 		oci_close($this->pdo);
 		//return $assoc;
 	}
-
-
-
-
-
 
 
 

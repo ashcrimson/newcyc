@@ -123,7 +123,7 @@ class ViewLicitaciones {
 									<?php
 								}else{
 									?>
-									<td><?= $documento["NOMBRE"] ?></td></tr>
+									<td><a href="<?= $documento['NOMBRE'] ?>"><?= $documento["NOMBRE"] ?></a></td></tr>
 									<?php
 								}
 								?>

@@ -30,9 +30,15 @@ class ModelProveedores {
 	}
 
 	//elimina registro indicado
-	public function delete($rut): self{
-		$sql = $this->pdo->prepare("DELETE FROM licitaciones WHERE RUT_PROVEEDOR = :rut");
-		$sql->execute(["rut", $rut]);
+	public function delete($id): self{
+
+        $sql = "DELETE FROM PROVEEDORES WHERE RUT_PROVEEDOR= ".$id;
+        $result = oci_parse($this->pdo, $sql);
+        oci_execute($result);
+        oci_commit($this->pdo);
+
+        return new self($this->pdo, '', $this->page);
+
 	}
 
 	//filtra consulta por nro de licitación(id, llave primaria)

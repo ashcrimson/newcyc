@@ -32,7 +32,7 @@ class ModelMonedas {
 	//elimina registro indicado
 	public function delete($id): self{
 
-        $sql = "DELETE FROM MONEDA WHERE CODIGO = ".$id;
+        $sql = "DELETE FROM MONEDA WHERE CODIGO = '{$id}'";
         $result = oci_parse($this->pdo, $sql);
 		oci_execute($result);
 		

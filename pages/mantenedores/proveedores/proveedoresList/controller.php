@@ -35,9 +35,10 @@ class ControllerProveedores {
 	}
 
 
+
 	public function delete(\ProveedoresList\ModelProveedores $model){
-		if(isset($_GET["nro_licitacion"])){
-			$model = $model->delete($_GET["nro_licitacion"]);
+		if(isset($_GET["id"])){
+			$model = $model->delete($_GET["id"]);
 		}
 		return $model;
 	}

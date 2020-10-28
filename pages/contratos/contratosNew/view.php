@@ -171,6 +171,18 @@ class ViewContratos {
                 		</div>
 					</div>
 
+					<div class="container">
+						<div class="row col-12">
+							<div class="form-group has-feedback col-xsñ-4 col-md-4 col-lg-4">
+								<label for="">Adjuntar contrato.</label>
+								<div class="custom-file">
+									<input type="file" name="archivo_contrato" class="custom-file-input" id="customFileLangHTML" lang="es" >
+									<label class="custom-file-label" for="customFileLangHTML" data-browse="Buscar">Seleccionar Archivo</label>
+								</div>
+							</div>
+						</div>
+					</div>
+
                     <div class="container">
 					<div class="row col-12">
                 <!-- <input type="hidden" name="id" value="{{ $contrato->id }}" > -->
@@ -209,8 +221,22 @@ class ViewContratos {
 						<div class="row col-12">
 							<div class="form-group has-feedback col-xs-4 col-md-4 col-lg-4 ">
 								<label>Cargo</label>
-								<input type="number" name="id_admin" class="form-control" value="<?=$_GET["id_admin"] ?: '' ?>">
-
+								<select class="selectpicker selectField" name='cargo_id'  class ='form-control selectpicker selectField' placeholder='Seleccione Cargo' data-live-search='true' id ='cargo_id' >
+									<option value=""></option>
+									<?php 
+									foreach ($dataCargos as $cargo) { 
+										if (!empty($_GET["cargo_id"]) && $_GET["cargo_id"]){
+											?>
+											<option selected="true" value="<?= $cargo["NOMBRE"];?>"><?= $cargo["NOMBRE"];?></option>
+											<?php
+										}else{
+											?>
+											<option value="<?= $cargo["NOMBRE"];?>"><?= $cargo["NOMBRE"];?></option>
+											<?php
+										}
+									}
+									?>
+								</select>
 								<?php if ($id_admin){ ?>
 								<span class="help-block text-danger"> 
 									<strong>Error: Cargo inválido.</strong>
