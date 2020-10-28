@@ -31,8 +31,14 @@ class ModelMonedas {
 
 	//elimina registro indicado
 	public function delete($id): self{
-		$sql = $this->pdo->prepare("DELETE FROM MONEDA WHERE CODIGO = :id");
-		$sql->execute([':id'=> $id]);
+
+        $sql = "DELETE FROM MONEDA WHERE CODIGO = ".$id;
+        $result = oci_parse($this->pdo, $sql);
+        oci_execute($result);
+        oci_commit($this->pdo);
+
+        return new self($this->pdo, '', $this->page);
+
 	}
 
 	//filtra consulta por nro de licitación(id, llave primaria)

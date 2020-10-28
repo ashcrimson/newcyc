@@ -33,8 +33,8 @@ class ControllerMonedas {
 
 
 	public function delete(\MonedasList\ModelMonedas $model){
-		if(isset($_GET["tipo"])){
-			$model = $model->delete($_GET["tipo"]);
+		if(isset($_GET["id"])){
+			$model = $model->delete($_GET["id"]);
 		}
 		return $model;
 	}

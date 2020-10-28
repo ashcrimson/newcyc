@@ -36,7 +36,7 @@ class ModelLicitaciones {
 
 	//retorna el/los datos seleccionados
 	public function new(){
-
+		// error_reporting(0);
 		$result = [];
 		$assoc = [];
 		$listado = [];
@@ -119,7 +119,7 @@ class ModelLicitaciones {
 			$result = oci_parse($this->pdo, $cons);
 			oci_execute($result);
 			$nro_documento = queryResultToAssoc($result)[0]["NRO_DOCUMENTO"];
-			print_r($nro_documento);
+			// print_r($nro_documento);
 
 			$directorio = "uploads/";
 			$archivo = $directorio . basename($_FILES["archivo_licitacion"]["name"]);

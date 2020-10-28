@@ -93,6 +93,8 @@ switch ($request) {
 	/** MONEDAS **/
 	case $base . '/monedas' :
 	case $base . '/monedas/' :
+	case $base . '/monedas/delete' :
+	case $base . '/monedas/delete/' :
 		$router->monedasList(); 
 		break;
 	case $base . '/monedas/new' :
