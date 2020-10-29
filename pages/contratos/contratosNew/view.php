@@ -221,7 +221,7 @@ class ViewContratos {
 						<div class="row col-12">
 							<div class="form-group has-feedback col-xs-4 col-md-4 col-lg-4 ">
 								<label>Cargo</label>
-								<select class="selectpicker selectField" name='cargo_id'  class ='form-control selectpicker selectField' placeholder='Seleccione Cargo' data-live-search='true' id ='cargo_id' >
+								<select class="selectpicker selectField" name='id_admin'  class ='form-control selectpicker selectField' placeholder='Seleccione Cargo' data-live-search='true' id ='id_admin' >
 									<option value=""></option>
 									<?php 
 									foreach ($dataCargos as $cargo) { 

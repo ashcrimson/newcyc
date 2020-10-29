@@ -23,7 +23,7 @@ class ModelContratos {
 	private $resultados = 10;
 
 	//Constructor
-	function __construct($pdo, string $nro_licitacion = '', int $page = 1){
+	function __construct($pdo, string $id = '', int $page = 1){
 		$this->pdo = $pdo;
 		$this->nro_licitacion = $nro_licitacion;
 		$this->page = $page;
@@ -36,13 +36,13 @@ class ModelContratos {
 	}
 
 	//filtra consulta por nro de licitación(id, llave primaria)
-	public function getId($nro_licitacion): self{
-		return new self($this->pdo, $nro_licitacion, $this->page);
+	public function getId($id): self{
+		return new self($this->pdo, $id, $this->page);
 	}
 
 	//filtra consulta por nro de página
 	public function getPage(int $page): self{
-		return new self($this->pdo, $this->nro_licitacion, $page);
+		return new self($this->pdo, $this->id, $page);
 	}
 
 	//retorna el/los datos seleccionados
@@ -60,36 +60,6 @@ class ModelContratos {
 		}else{
 			$where = "";
 		}
-
-
-		// $consulta = "SELECT
-		// 	P.RUT,
-		// 	P.NOMBRE AS RAZON,
-		// 	C.TIPO,
-		// 	C.ID,
-		// 	c.nro_licitacion,
-		// 	M.NOMBRE AS MONEDA,
-		// 	C.PRECIO,
-		// 	M.EQUIVALENCIA,
-		// 	C.FECHA_INICIO,
-		// 	C.FECHA_TERMINO,
-		// 	C.FECHA_APROVACION,
-		// 	C.FECHA_ACTUALIZACION,
-		// 	D.DETALLE,
-		// 	C.FECHA_ALERTA_VENCIMIENTO
-		// FROM
-		// 	CYC C inner join PROVEEDORES P on c.rut_proveedor=p.rut
-		// 	inner join MONEDA M on c.id_moneda=m.codigo
-		//     inner join DETALLE_CONTRATO D on c.nro_licitacion=d.nro_licitacion ";
-		
-		
-
-		//$consulta = "SELECT * FROM CYC";
-		//consulta paginada
-		// $query = queryPagination($consulta, $this->page);
-		// $result = oci_parse($this->pdo, $query);
-		// oci_execute($result);
-		// $listado = queryResultToAssoc($result);
 
 
 		//consulta para recuperar ruts y razon social de los proveedores

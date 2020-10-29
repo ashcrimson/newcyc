@@ -220,13 +220,13 @@ class ViewContratos {
                     <tr>
                         <td><?= $contrato["RUT_PROVEEDOR"]; ?></td>
                         <td><?= $contrato["RAZON_SOCIAL"]; ?></td>
-                        <td><?= $contrato["TIPO"] ."-". $contrato["ID"]; ?></td>
+                        <td><?= $contrato["TIPO"] ."-". $contrato["ID_CONTRATO"]; ?></td>
                         <td><?= $contrato["NRO_LICITACION"]; ?></td>
                         <td><?= $contrato["ID_MONEDA"]; ?></td>
                         <td><?= $contrato["PRECIO"]; ?></td>
                         <td><?= $contrato["PRECIO"] * $contrato["EQUIVALENCIA"]; ?></td>
                         <td><?= $contrato["RESTANTE"];?></td>
-                        <td><?= $contrato["CARGO"];?></td>
+                        <td><?= $contrato["ID_ADMIN"];?></td>
                         <td><?= $contrato["FECHA_INICIO"]; ?></td>
                         <td><?= $contrato["FECHA_TERMINO"]; ?></td>
                         <td><?= $contrato["FECHA_ACTUALIZACION"]; ?></td>
@@ -247,7 +247,7 @@ class ViewContratos {
 
         <div class="card-footer">
             <?php
-            paginador($totales, base() . "/contratos", 10);
+            paginador($totales, "./contratos", 10);
             ?>
         </div>
     </div>
