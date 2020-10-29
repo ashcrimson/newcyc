@@ -239,16 +239,21 @@ class ModelContratos {
 				TO_DATE('2020-10-19 00:00:00', 'YYYY-MM-DD HH24:MI:SS'), 
 				TO_DATE('2020-10-19 00:00:00', 'YYYY-MM-DD HH24:MI:SS'), 
 				TO_DATE('2020-10-19 00:00:00', 'YYYY-MM-DD HH24:MI:SS'), 
-				'". $this->objeto_contrato ."')";
+				'". $this->objeto_contrato ."')
+				RETURNING ID_CONTRATO INTO :mylastid";
 
 
 
 			//ejecucion consulta
 			$query = $consulta;
 			$result = oci_parse($this->pdo, $query);
-			//print_r($consulta);
-			
+
+			oci_bind_by_name($result, "mylastid", $last_id, 8, SQLT_INT);
+
 			oci_execute($result);
+
+			// var_dump($last_id);
+			// exit();
 
 			oci_commit($this->pdo);
 		}else{
@@ -278,7 +283,7 @@ class ModelContratos {
 			
 			$consulta = "INSERT into DOCUMENTO (NRO_DOCUMENTO, TIPO_DOCUMENTO, NOMBRE, ARCHIVO, PESO_ARCHIVO, TIPO_ARCHIVO, FECHA_CREACION) values (
 						'". $nro_documento ."',
-						'rl',
+						'co',
 						'". $archivo ."',
 						empty_blob(),
 						'". $peso ."',
@@ -309,9 +314,10 @@ class ModelContratos {
 			////Guardar en lka tbla documento_lictacion
 			///LA RELACION DE ESTE DOCUMENTO $nro_documento ----> id y  $this->nro_licitacion ---> nro_lictacion
 
+			
 			$consulta2 = "INSERT into DOCUMENTO_CONTRATOS (NRO_DOCUMENTO, NRO_CONTRATO) values (
 				'". $nro_documento ."',
-				'". $this->nro_contrato ."'
+				'". $last_id ."'
 			)";
 
 			$query2 = $consulta2;
@@ -335,7 +341,7 @@ class ModelContratos {
 
 
 		//consulta para recuperar ruts de los proveedores
-		$query = "SELECT RUT_PROVEEDOR FROM PROVEEDORES";
+		$query = "SELECT * FROM PROVEEDORES";
 		$result = oci_parse($this->pdo, $query);
 		oci_execute($result);
 		$proveedores = queryResultToAssoc($result);
