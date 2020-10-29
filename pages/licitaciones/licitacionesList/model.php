@@ -75,7 +75,7 @@ class ModelLicitaciones {
 		$numeros = queryResultToAssoc($result);
 
 		//consulta para recuperar todos los documentos
-		$query = "select * from documento";
+		$query = "select * from documento where TIPO_DOCUMENTO = 'rl' ";
 		$result = oci_parse($this->pdo, $query);
 		oci_execute($result);
 		$documentos = queryResultToAssoc($result);

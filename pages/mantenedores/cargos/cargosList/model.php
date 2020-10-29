@@ -31,7 +31,6 @@ class ModelCargos {
 
 	//elimina registro indicado
 	public function delete($id): self{
-
         $sql = "DELETE FROM CARGOS WHERE ID_CARGO = ".$id;
         $result = oci_parse($this->pdo, $sql);
         oci_execute($result);
@@ -65,30 +64,7 @@ class ModelCargos {
 		}else{
 			$where = "";
 		}
-/*
-		$parameters = [];
-		$sql = $this->pdo->prepare("SELECT * FROM licitaciones" . $where);
-		$sql->execute($parameters);
 
-		$query = "select * from licitaciones " . $where;
-		$result = oci_parse($this->pdo, $query);
-		oci_execute($result);
-		//oci_fetch_all($result, $res);
-
-		//consulta principal
-		$query = "
-		select * from (
-			select consulta.*, rownum rn from (
-			    select *
-			    from LICITACIONES" . 
-			    $where .
-				"
-			    order by FECHA_CREACION desc
-			) consulta 
-			where rownum <= " . $this->fin . "
-		) cosnulta
-		where rn > " . $this->inicio . "
-		";*/
 		//consulta principal
 		$consulta = "SELECT * FROM CARGOS " . $where . " ORDER BY ID_CARGO DESC";
 

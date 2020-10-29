@@ -16,7 +16,7 @@ class ModelContratos {
 	//Obj de conexion de db
 	private $pdo;
 	//filtro de licitacion
-	private $nro_licitacion;
+	private $id;
 	//pagina 
 	private  $page;
 	//resultados por pagina
@@ -25,17 +25,17 @@ class ModelContratos {
 	//Constructor
 	function __construct($pdo, string $id = '', int $page = 1){
 		$this->pdo = $pdo;
-		$this->nro_licitacion = $nro_licitacion;
+		$this->id = $id;
 		$this->page = $page;
 	}
 
 	//elimina registro indicado
-	public function delete($nro_licitacion): self{
+	public function delete($id): self{
 		$sql = $this->pdo->prepare("DELETE FROM licitaciones WHERE nro_licitacion = :nro_licitacion");
 		$sql->execute(["nro_licitacion", $nro_licitacion]);
 	}
 
-	//filtra consulta por nro de licitación(id, llave primaria)
+	//filtra consulta por nro de contrato (id, llave primaria)
 	public function getId($id): self{
 		return new self($this->pdo, $id, $this->page);
 	}
@@ -55,8 +55,8 @@ class ModelContratos {
 		$contratos = [];
 
 
-		if ($this->nro_licitacion){
-			$where = " WHERE nro_licitacion = '" . $this->nro_licitacion . "'";
+		if ($this->id){
+			$where = " WHERE ID_CONTRATO = '" . $this->id . "'";
 		}else{
 			$where = "";
 		}
@@ -81,6 +81,12 @@ class ModelContratos {
 		$result = oci_parse($this->pdo, $query);
 		oci_execute($result);
 		$licitaciones = queryResultToAssoc($result);
+
+		//consulta para recuperar todos los documentos
+		$query = "select * from documento";
+		$result = oci_parse($this->pdo, $query);
+		oci_execute($result);
+		$documentos = queryResultToAssoc($result);
 
 		
 
@@ -107,9 +113,8 @@ class ModelContratos {
 		array_push($assoc, $proveedores);
 		array_push($assoc, $cargos);
 		array_push($assoc, $licitaciones);
-		
-		
-		
+		array_push($assoc, $contratos);
+		array_push($assoc, $documentos);
 
 		oci_close($this->pdo);
 		return $assoc;

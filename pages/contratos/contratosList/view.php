@@ -1,7 +1,7 @@
 <?php
 
 
-
+ 
 namespace ContratosList;
 
 /**
@@ -22,6 +22,7 @@ class ViewContratos {
         $cargos = $data[3];
         $licitaciones = $data[4];
         $contratos = $data[5];
+        $documentos = $data[6];
 //print_r($data[1]);
 
 		ob_start();
@@ -47,7 +48,7 @@ class ViewContratos {
     <div class="card mb-3">
         <div class="card-header">
             <form method="get" class="form-horizontal" action="<?=base("/contratos")?>">
-                <!-- {!! csrf_field() !!} -->
+                
 
                 <div class="row">
                     <div class="col-3">
@@ -198,17 +199,18 @@ class ViewContratos {
                     <th>ID Contrato</th>
                     <th>Licitación</th>
                     <th>Moneda</th>
-                    <th>Precio</th>
-                    <th>Valor CLP</th>
-                    <th>Restante</th>
+                    <!-- <th>Precio</th> -->
+                    <!-- <th>Valor CLP</th> -->
+                    <!-- <th>Restante</th> -->
                     <th>Cargo</th>                    
                     <th>Fecha inicio contrato</th>
                     <th>Fecha termino contrato</th>
                     <th>Fecha último acto administrativo</th>
                     <th>Objeto del contrato</th>
-                    <th>N° Boleta Garantía</th>
+                    <!-- <th>N° Boleta Garantía</th> -->
                     <th>Monto</th>
                     <th>Fecha de Vencimiento</th>
+                    <th>Adjunto</th>
                     <!-- @role('Admin')
                         <th>Acción</th>
                     @endrole -->
@@ -216,6 +218,7 @@ class ViewContratos {
                 </thead>
                     <?php 
                     foreach ($listado as $contrato) {
+                        foreach ($documentos as $documento) {
                         ?>
                     <tr>
                         <td><?= $contrato["RUT_PROVEEDOR"]; ?></td>
@@ -223,20 +226,33 @@ class ViewContratos {
                         <td><?= $contrato["TIPO"] ."-". $contrato["ID_CONTRATO"]; ?></td>
                         <td><?= $contrato["NRO_LICITACION"]; ?></td>
                         <td><?= $contrato["ID_MONEDA"]; ?></td>
-                        <td><?= $contrato["PRECIO"]; ?></td>
-                        <td><?= $contrato["PRECIO"] * $contrato["EQUIVALENCIA"]; ?></td>
-                        <td><?= $contrato["RESTANTE"];?></td>
+                        <!-- <td><?= $contrato["PRECIO"]; ?></td> -->
+                        <!-- <td><?= $contrato["PRECIO"] * $contrato["EQUIVALENCIA"]; ?></td> -->
+                        <!-- <td><?= $contrato["RESTANTE"];?></td> -->
                         <td><?= $contrato["ID_ADMIN"];?></td>
                         <td><?= $contrato["FECHA_INICIO"]; ?></td>
                         <td><?= $contrato["FECHA_TERMINO"]; ?></td>
                         <td><?= $contrato["FECHA_ACTUALIZACION"]; ?></td>
                         <td><?= $contrato["OBJETO_CONTRATO"]; ?></td>
-                        <td><?= $contrato["BOLETA"]; ?></td>
+                        <!-- <td><?= $contrato["BOLETA"]; ?></td> -->
                         <td><?= $contrato["MONTO"]; ?></td>
                         <td><?= $contrato["FECHA_ALERTA_VENCIMIENTO"]; ?></td>
+                        <?php
+								
+                        if ($documento["NRO_DOCUMENTO"] ==  null && empty($documento["NRO_DOCUMENTO"])){
+                            ?>
+                            <td> N/A </td>
+                            <?php
+                        }else{
+                            ?>
+                            <td><a href="<?= $documento['NOMBRE'] ?>"><?= $documento["NOMBRE"] ?></a></td></tr>
+                            <?php
+                        }
+                        ?>
                         
                     </tr>
                         <?php
+                        }
                     }
                     ?>
                     

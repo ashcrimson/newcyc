@@ -108,7 +108,7 @@ class ViewLicitaciones {
 						<tbody>
 							<?php 
 							foreach ($listaLicitaciones as $licitaciones) {
-								foreach ($documentos as $documento) {	
+								// foreach ($documentos as $documento) {	
 								?>
 							<tr>
 								<td> <?= $licitaciones["NRO_LICITACION"]; ?></td>
@@ -129,7 +129,7 @@ class ViewLicitaciones {
 								?>
 							</tr>
 								<?php
-							}
+							// }
 						}
 							?>
 						</tbody>
@@ -147,23 +147,7 @@ class ViewLicitaciones {
 				paginador($totales, "./licitaciones", 10);
 
 				?>
-				<!-- <ul class="pagination" role="navigation">
-
-				    <li class="page-item disabled" aria-disabled="true" aria-label="« Anterior">
-				        <span class="page-link" aria-hidden="true">‹</span>
-				    </li>
-				    <li class="page-item active" aria-current="page"><span class="page-link">1</span></li>
-				    <li class="page-item"><a class="page-link" href="http://migracyc.hospitalnaval.cl/backend/licitaciones?page=2">2</a></li>
-				    <li class="page-item"><a class="page-link" href="http://migracyc.hospitalnaval.cl/backend/licitaciones?page=3">3</a></li>
-				    <li class="page-item"><a class="page-link" href="http://migracyc.hospitalnaval.cl/backend/licitaciones?page=4">4</a></li>
-				    <li class="page-item"><a class="page-link" href="http://migracyc.hospitalnaval.cl/backend/licitaciones?page=5">5</a></li>
-				    <li class="page-item"><a class="page-link" href="http://migracyc.hospitalnaval.cl/backend/licitaciones?page=6">6</a></li>
-				    <li class="page-item"><a class="page-link" href="http://migracyc.hospitalnaval.cl/backend/licitaciones?page=7">7</a></li>
-				    <li class="page-item"><a class="page-link" href="http://migracyc.hospitalnaval.cl/backend/licitaciones?page=8">8</a></li>
-				    <li class="page-item">
-				        <a class="page-link" href="http://migracyc.hospitalnaval.cl/backend/licitaciones?page=2" rel="next" aria-label="Siguiente »">›</a>
-				    </li>
-				</ul> -->
+				
 			</div>
 		</div>
 
