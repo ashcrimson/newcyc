@@ -214,6 +214,7 @@ class ViewContratos {
                     <!-- @role('Admin')
                         <th>Acción</th>
                     @endrole -->
+                    <th>Bitácora</th>
                 </tr>
                 </thead>
                     <?php 
@@ -238,7 +239,27 @@ class ViewContratos {
                         <td><?= $contrato["MONTO"]; ?></td>
                         <td><?= $contrato["FECHA_ALERTA_VENCIMIENTO"]; ?></td>
                         <td><a href="<?= $contrato['NOMBRE_DOCUMENTO'] ?>"><?= $contrato["NOMBRE_DOCUMENTO"] ?></a></td>
-                        
+                        <td><a href="#" class="btn btn-primary btn-xs" data-target="#bitacoraModal<?=$contrato["ID_CONTRATO"];?>" data-toggle="modal"><i class="far fa-eye"></i> Ver</a></td>
+
+                         <!-- modal starts -->
+                         <div class="modal fade" id="bitacoraModal<?=$cargos["ID_CONTRATO"];?>">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <form class="form-horizontal" method="post" action="<?=base("/cargos/delete?id=").$contrato["ID_CONTRATO"];?>" >
+                                            <div class="modal-header">
+                                                <h4 class="modal-title"> Borrar <?=$contrato["ID_CONTRATO"];?> </h4>
+                                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                            </div>
+
+                                            <div class="modal-footer">
+                                                <button type="submit" class="btn btn-default">Continuar</button>
+                                                <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div> 
+                            <!-- modal ends -->
                     </tr>
                         <?php
                         // }

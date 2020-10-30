@@ -37,7 +37,8 @@ class ViewContratos {
         $fecha_alert = false;
         $fecha_creacion = false;
         $fecha_actualizacion = false;
-        $fecha_eliminacion = false;
+		$fecha_eliminacion = false;
+		
 
 
 		if(sizeof($_GET)){
@@ -91,6 +92,14 @@ class ViewContratos {
 			}
 		}
 
+		if(isset($_POST["submit"])){
+			$feedback = "
+			<div class='alert alert-primary' role='alert'>
+				Contrato creado correctamente
+			</div>
+			";
+		}
+
 		ob_start();
 
 		?>
@@ -120,9 +129,9 @@ class ViewContratos {
 			<div class="card-header">
 				<form method="post" class="form-horizontal" action="<?=base();?>/contratos/new" enctype="multipart/form-data">
 					
-					
 
 					<div class="container">
+					<?php echo $feedback?>
 						<div class="row col-12">
 							<div class="form-group has-feedback col-xsñ-4 col-md-4 col-lg-4 <?=$selectContrato ? 'has-error' : '' ;?>">
 								<label>Tipo Contrato</label>

@@ -18,6 +18,7 @@ class ModelContratos {
 	private $error = false;
 	private $errores = [];
 	private $params = "";
+	private $feedback = "";
 
 	private $id_contrato;
 	private $proveedor_id;
@@ -193,6 +194,8 @@ class ModelContratos {
 				$error = true;
 			}
 
+			$feedback = "Contrato subido correctamente";
+
 		}
 
 		return new self($this->pdo);
@@ -256,6 +259,7 @@ class ModelContratos {
 			// exit();
 
 			oci_commit($this->pdo);
+			
 		}else{
 			print_r($this->errores);
 			die();
