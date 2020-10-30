@@ -82,6 +82,9 @@ class Router{
 		$this->view = new \ContratosList\ViewContratos;
 		$this->controller = new \ContratosList\ControllerContratos;
 		$this->model = $this->controller->all($this->model);
+		if(isset($_GET["page"])){
+            $this->model = $this->controller->page($this->model);
+        }
 	}
 
 	//pagina agregado de contratos

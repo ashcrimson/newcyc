@@ -82,16 +82,22 @@ class ModelContratos {
 		oci_execute($result);
 		$licitaciones = queryResultToAssoc($result);
 
-		//consulta para recuperar todos los documentos
-		$query = "select * from documento";
-		$result = oci_parse($this->pdo, $query);
-		oci_execute($result);
-		$documentos = queryResultToAssoc($result);
+		
 
 		
 
 		//consulta para recuperar razón social de la otra tabla
-		$consulta = "select c.*, p.razon_social from CONTRATOS C LEFT JOIN PROVEEDORES P ON c.rut_proveedor = p.rut_proveedor";
+		$consulta = "
+			select 
+				c.*, 
+				p.razon_social,
+				d.nombre as nombre_documento
+			from 
+				CONTRATOS C LEFT JOIN PROVEEDORES P ON c.rut_proveedor = p.rut_proveedor
+				LEFT JOIN documento_contratos dc on dc.nro_contrato = c.id_contrato
+				LEFT JOIN documento d on d.nro_documento = dc.nro_documento
+		
+			";
 		//consulta paginada
 		$query = queryPagination($consulta, $this->page);
 		$result = oci_parse($this->pdo, $query);
@@ -103,6 +109,12 @@ class ModelContratos {
 		$result = oci_parse($this->pdo, $consulta);
 		oci_execute($result);
 		$totales = queryResultToAssoc($result);
+
+		//consulta para recuperar todos los documentos
+		$query = "select * from documento";
+		$result = oci_parse($this->pdo, $query);
+		oci_execute($result);
+		$documentos = queryResultToAssoc($result);
 
 		
 		// Arryas que forman la tabla principal con paginación

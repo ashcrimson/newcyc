@@ -218,7 +218,7 @@ class ViewContratos {
                 </thead>
                     <?php 
                     foreach ($listado as $contrato) {
-                        foreach ($documentos as $documento) {
+                        // foreach ($documentos as $documento) {
                         ?>
                     <tr>
                         <td><?= $contrato["RUT_PROVEEDOR"]; ?></td>
@@ -237,22 +237,11 @@ class ViewContratos {
                         <!-- <td><?= $contrato["BOLETA"]; ?></td> -->
                         <td><?= $contrato["MONTO"]; ?></td>
                         <td><?= $contrato["FECHA_ALERTA_VENCIMIENTO"]; ?></td>
-                        <?php
-								
-                        if ($documento["NRO_DOCUMENTO"] ==  null && empty($documento["NRO_DOCUMENTO"])){
-                            ?>
-                            <td> N/A </td>
-                            <?php
-                        }else{
-                            ?>
-                            <td><a href="<?= $documento['NOMBRE'] ?>"><?= $documento["NOMBRE"] ?></a></td></tr>
-                            <?php
-                        }
-                        ?>
+                        <td><a href="<?= $contrato['NOMBRE_DOCUMENTO'] ?>"><?= $contrato["NOMBRE_DOCUMENTO"] ?></a></td>
                         
                     </tr>
                         <?php
-                        }
+                        // }
                     }
                     ?>
                     

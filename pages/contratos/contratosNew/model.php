@@ -330,6 +330,7 @@ class ModelContratos {
 		//agrega resultados a retorno
 
 		oci_close($this->pdo);
+		
 		//return $assoc;
 	}
 
