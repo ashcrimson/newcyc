@@ -19,42 +19,7 @@ class ViewOrdenCompra {
 		$id_contrato = $data[3];
 		$nro_orden_compra = $data[4];
 		$estado = $data[5];
-/*
-		//salida a mostrar
-		$output = "";
-		//picker con todos los numeros de licitacion
-		$picker = "";
-		//licitaciones filtradas
-		$licitaciones = "";
 
-
-		//genera boton limpieza de filtros
-		if(!empty($_GET)){
-			$btnEmpty = "<a class=\"btn btn-default\" href=\"./licitaciones\">Limpiar Filtros</a>";
-		}else{
-			$btnEmpty = "";
-		}
-
-		foreach ($numerosLicitaciones as $licitacion) {
-			if (isset($_GET["nro_licitacion"]) && $_GET["nro_licitacion"]  == $licitacion["NRO_LICITACION"] ){
-				$selected = "selected='true'";
-			}else{
-				$selected = "";
-			}
-			$picker .= "<option $selected value=\"" . $licitacion["NRO_LICITACION"] . "\">" . $licitacion["NRO_LICITACION"] . "</option>\n";
-		}
-
-		foreach ($listaLicitaciones as $licitacion) {
-			$licitaciones .=  "<tr><td>" . $licitacion["NRO_LICITACION"] . "</td>";
-			$licitaciones .=  "<td>" . $licitacion["PRESUPUESTO"] . "</td>";
-			$licitaciones .=  "<td>" . $licitacion["DETALLE"] . "</td>";
-			if ($licitacion["NRO_DOCUMENTO"] ==  null && empty($licitacion["NRO_DOCUMENTO"])){
-				$licitaciones .= "<td> N/A </td></tr>";
-			}else{
-				$licitaciones .= "<td><a target=\"_blank\" href=\"./licitaciones\">Visualizar</a> </td></tr>";
-			}
-		}
-*/
 		ob_start();
 
 		?>
@@ -153,11 +118,7 @@ class ViewOrdenCompra {
                         </div>
                     </div>
 
-                    <!--EXPORTAR -->
-                   <!-- {{--  <div class="btn-group float-right ml-3" >
-                        <a class="btn btn-success rounded" href="{{route('ordenCompra.export')}}"><i class="far fa-file-excel"></i> Exportar</a>
-                    </div>           
-                    --}} -->
+                   
                     <div class="btn-group float-right">
                     <?php if(!empty($_GET)){ ?> 
                         <a class="btn btn-default" href="<?=base("/ordenCompra");?>">Limpiar Filtros</a>
@@ -168,11 +129,7 @@ class ViewOrdenCompra {
             </div>
 
               <div class="card-body">
-        <!-- @if (session('status'))
-        <div class="alert alert-success" role="alert">
-            {{ session('status')}}
-        </div>
-        @endif -->               
+                   
     
     <div class="table-responsive">
             <table class="table table-bordered table-sm w-100" id="dataOrdenCompra" cellspacing="0">
@@ -226,9 +183,9 @@ class ViewOrdenCompra {
 	                        <div class="modal fade" id="deleteModal<?= $ordenCompra["NRO_ORDEN_COMPRA"];?>" >
 	                            <div class="modal-dialog">
 	                                <div class="modal-content">
-	                                <form class="form-horizontal" method="post" action="<?= base("/ordenCompra/?del=true&=") . $ordenCompra["NRO_ORDEN_COMPRA"];?>">
-	<!--                                 {!! csrf_field()!!}
-	 -->                                <div class="modal-header">
+									<form class="form-horizontal" method="post" action="<?=base("/ordenCompra/delete?id=").$ordenCompra["NRO_ORDEN_COMPRA"];?>" >
+	
+	                                <div class="modal-header">
 	                                    <h4 class="modal-tittle"> Borrar <?= $ordenCompra["NRO_ORDEN_COMPRA"];?></h4>
 	                                    <button type="submit" class="btn btn-default">Continuar</button>
 	                                    <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
@@ -244,13 +201,12 @@ class ViewOrdenCompra {
 	                        <?php
 	                    }else{
 	                    	?>
-	<!--                        {{-- <a href="#" class="btn btn-xs btn-succes" data-target="#restoreModal{{ $ordenCompraItem->id }}" data-toggle="modal"><i class="fas fa-arrow-circle-up"></i> Restaurar</a> --}} -->
-	                        <!-- modal starts -->
+
 	                    <div class="modal fade" id="restoreModal<?= $ordenCompra["NRO_ORDEN_COMPRA"];?>">
 	                        <div class="modal-dialog">
 	                            <div class="modal-conent">
 	                            <form class="horm-horizontal" method="post" action="<?= base("/ordenCompra/?res=true&NRO_ORDEN_COMPRA=") . $ordenCompra["NRO_ORDEN_COMPRA"];?>{{ route('ordenCompra.restore', $ordenCompraItem->id) }}">
-	                            <!-- {!! csrf_field() !!} -->
+	                           
 	                            
 	                            <div class="modal-header">
 	                                <h4 class="modal-tittle"> Restaurar <?= $ordenCompra["NRO_ORDEN_COMPRA"];?></h4>

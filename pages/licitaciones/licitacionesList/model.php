@@ -60,7 +60,16 @@ class ModelLicitaciones {
 			$where = "";
 		}
 
-		$consulta = "SELECT * FROM LICITACIONES " . $where . " ORDER BY FECHA_CREACION DESC";
+		$consulta = "
+			select 
+				l.*, 
+				d.nombre as nombre_documento
+			from 
+				LICITACIONES L
+				LEFT JOIN documento_licitaciones dl on dl.nro_licitacion = l.nro_licitacion
+				LEFT JOIN documento d on d.nro_documento = dl.nro_documento
+		
+			";
 
 		//consulta paginada
 		$query = queryPagination($consulta, $this->page);
@@ -74,11 +83,6 @@ class ModelLicitaciones {
 		oci_execute($result);
 		$numeros = queryResultToAssoc($result);
 
-		//consulta para recuperar todos los documentos
-		$query = "select * from documento where TIPO_DOCUMENTO = 'rl' ";
-		$result = oci_parse($this->pdo, $query);
-		oci_execute($result);
-		$documentos = queryResultToAssoc($result);
 
 		//consulta para recuperar cantidad de páginas disponibles
 		$result = oci_parse($this->pdo, $consulta);

@@ -16,34 +16,38 @@ class ModelOrdenCompra {
 	//Obj de conexion de db
 	private $pdo;
 	//filtro de licitacion
-	private $nro_licitacion;
-	private $nro_orden_compra;
+	private $id;
 	//pagina 
 	private  $page;
 	//resultados por pagina
 	private $resultados = 10;
 
 	//Constructor
-	function __construct($pdo, string $nro_licitacion = '', int $page = 1){
+	function __construct($pdo, string $id = '', int $page = 1){
 		$this->pdo = $pdo;
-		$this->nro_licitacion = $nro_licitacion;
+		$this->id = $id;
 		$this->page = $page;
 	}
 
 	//elimina registro indicado
-	public function delete($nro_orden_compra): self{
-		$sql = $this->pdo->prepare("DELETE FROM ORDEN_COMPRA WHERE NRO_ORDEN_COMPRA='" . $_GET["numeroOrden"] . "'");
-		$sql->execute([$this->pdo, $nro_orden_compra]);
+	public function delete($id): self{
+        $sql = "DELETE FROM ORDEN_COMPRA WHERE NRO_ORDEN_COMPRA = ".$id;
+        $result = oci_parse($this->pdo, $sql);
+        oci_execute($result);
+        oci_commit($this->pdo);
+
+        return new self($this->pdo, '', $this->page);
+
 	}
 
 	//filtra consulta por nro de licitación(id, llave primaria)
-	public function getId($nro_licitacion): self{
-		return new self($this->pdo, $nro_licitacion, $this->page);
+	public function getId($id): self{
+		return new self($this->pdo, $id, $this->page);
 	}
 
 	//filtra consulta por nro de página
 	public function getPage(int $page): self{
-		return new self($this->pdo, $this->nro_licitacion, $page);
+		return new self($this->pdo, $this->id, $page);
 	}
 
 	//retorna el/los datos seleccionados
@@ -55,35 +59,12 @@ class ModelOrdenCompra {
 		$totales = [];
 
 
-		if ($this->nro_licitacion){
-			$where = " WHERE nro_licitacion = '" . $this->nro_licitacion . "'";
+		if ($this->id){
+			$where = " WHERE NRO_ORDEN_COMPRA = '" . $this->id . "'";
 		}else{
 			$where = "";
 		}
-/*
-		$parameters = [];
-		$sql = $this->pdo->prepare("SELECT * FROM licitaciones" . $where);
-		$sql->execute($parameters);
 
-		$query = "select * from licitaciones " . $where;
-		$result = oci_parse($this->pdo, $query);
-		oci_execute($result);
-		//oci_fetch_all($result, $res);
-
-		//consulta principal
-		$query = "
-		select * from (
-			select consulta.*, rownum rn from (
-			    select *
-			    from LICITACIONES" . 
-			    $where .
-				"
-			    order by FECHA_CREACION desc
-			) consulta 
-			where rownum <= " . $this->fin . "
-		) cosnulta
-		where rn > " . $this->inicio . "
-		";*/
 		//consulta principal
 		$consulta = "SELECT * FROM ORDEN_COMPRA ";// . $where . " ORDER BY FECHA_CREACION DESC";
 

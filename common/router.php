@@ -110,6 +110,9 @@ class Router{
 		$this->view = new \OrdenCompraList\ViewOrdenCompra;
 		$this->controller = new \OrdenCompraList\ControllerOrdenCompra;
 		$this->model = $this->controller->all($this->model);
+		if(isset($_GET["page"])){
+            $this->model = $this->controller->page($this->model);
+        }
 	}
 
 	//pagina agregado de ordenes compra

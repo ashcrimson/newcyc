@@ -65,6 +65,8 @@ switch ($request) {
 		break;
 	case $base . '/ordenCompra/new' :
 	case $base . '/ordenCompra/new/' :
+	case $base . '/ordenCompra/delete' :
+	case $base . '/ordenCompra/delete/' :
 		$router->ordenCompraNew(); 
 		break;
 	case $base . '/alertaContrato' :

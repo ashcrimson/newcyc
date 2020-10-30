@@ -114,19 +114,9 @@ class ViewLicitaciones {
 								<td> <?= $licitaciones["NRO_LICITACION"]; ?></td>
 								<td> <?= $licitaciones["PRESUPUESTO"]; ?></td>
 								<td> <?= $licitaciones["DETALLE"]; ?></td>
+								<td><a href="<?= $licitaciones['NOMBRE_DOCUMENTO'] ?>"><?= $licitaciones["NOMBRE_DOCUMENTO"] ?></a></td>
 
-								<?php
 								
-								if ($documento["NRO_DOCUMENTO"] ==  null && empty($documento["NRO_DOCUMENTO"])){
-									?>
-									<td> N/A </td>
-									<?php
-								}else{
-									?>
-									<td><a href="<?= $documento['NOMBRE'] ?>"><?= $documento["NOMBRE"] ?></a></td></tr>
-									<?php
-								}
-								?>
 							</tr>
 								<?php
 							// }
