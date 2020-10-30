@@ -122,14 +122,13 @@ class ViewContratos {
 			<li class="breadcrumb-item">
                 <a href="<?=base("/contratos/new");?>">Contratos</a>
 			</li>
-			
+			 
 		</ol>
 
 		<div class="card mb-3">
 			<div class="card-header">
 				<form method="post" class="form-horizontal" action="<?=base();?>/contratos/new" enctype="multipart/form-data">
 					
-
 					<div class="container">
 					<?php echo $feedback?>
 						<div class="row col-12">
