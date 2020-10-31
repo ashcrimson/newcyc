@@ -191,15 +191,13 @@ class ModelContratos {
 
         //Consulta guarda bitacora
         $consulta = "
-            INSERT INTO BITACORA ( 
-                    ID, 
+            INSERT INTO BITACORA (  
                     ID_CONTRATO, 
                     GLOSA, 
                     NRO_DOCUMENTO, 
                     FECHA_CREACION 
                 ) 
 			VALUES (
-			    1,
 				'{$id_contrato}', 
 				'{$glosa}',  
 				$nro_documento, 
@@ -218,7 +216,7 @@ class ModelContratos {
 
         oci_commit($this->pdo);
 
-        return new self($this->pdo, $this->id, $this->page);
+        header("Location: ". base() . "/contratos");
 
     }
 
