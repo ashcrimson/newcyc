@@ -38,4 +38,11 @@ class ControllerContratos {
 		}
 		return $model;
 	}
+
+    public function saveBitacora(\ContratosList\ModelContratos $model){
+
+	    $model = $model->saveBitacora();
+        return $model;
+    }
+
 }

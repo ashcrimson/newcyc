@@ -20,8 +20,12 @@ $request = isset($_SERVER['REDIRECT_URL']) ? $_SERVER['REDIRECT_URL'] : "";
 
 $router = new Router();
 
-
 $base =  "/newcyc";
+
+if ($_SERVER['HTTP_HOST']=='newcyc.local'){
+    $base =  "";
+}
+
 //ruta base, cambiar cuando se tire a prod
 // print_r($_SERVER);
 //print_r($request);
@@ -52,7 +56,8 @@ switch ($request) {
 		break;
 	case $base . '/contratos' :
 	case $base . '/contratos/' :
-		
+	case $base . '/contratos/bitacora/store' :
+	case $base . '/contratos/bitacora/store/' :
 		$router->contratosList(); 
 		break;
 	case $base . '/contratos/new' :

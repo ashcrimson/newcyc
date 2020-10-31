@@ -30,7 +30,11 @@ class Router{
 						(SID = lawen)
 					)
 				)";
-		$db = "(DESCRIPTION=(ADDRESS_LIST = (ADDRESS = (PROTOCOL = TCP)(HOST = 172.25.16.24)(PORT = 1521)))(CONNECT_DATA=(SID=lawen)))" ;
+        $db = "(DESCRIPTION=(ADDRESS_LIST = (ADDRESS = (PROTOCOL = TCP)(HOST = 172.25.16.24)(PORT = 1521)))(CONNECT_DATA=(SID=lawen)))" ;
+
+        if ($_SERVER['HTTP_HOST']=='newcyc.local') {
+            $db = "(DESCRIPTION=(ADDRESS_LIST = (ADDRESS = (PROTOCOL = TCP)(HOST = 127.0.0.1)(PORT = 1521)))(CONNECT_DATA=(SID=xe)))";
+        }
 		try{
 			$connect = oci_connect("admincontratos", "admincontratos", $db);
 			$this->pdo = $connect;
@@ -84,6 +88,10 @@ class Router{
 		$this->model = $this->controller->all($this->model);
 		if(isset($_GET["page"])){
             $this->model = $this->controller->page($this->model);
+        }
+
+        if(isset($_POST["save_bitacora"])){
+            $this->model = $this->controller->saveBitacora($this->model);
         }
 	}
 

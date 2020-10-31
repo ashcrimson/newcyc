@@ -240,29 +240,56 @@ class ViewContratos {
                         <td><?= $contrato["FECHA_ALERTA_VENCIMIENTO"]; ?></td>
                         <td><a href="<?= $contrato['NOMBRE_DOCUMENTO'] ?>"><?= $contrato["NOMBRE_DOCUMENTO"] ?></a></td>
                         
-                        <td><a href="#" class="btn btn-primary btn-xs" data-target="#bitacoraModal<?=$contrato["ID_CONTRATO"];?>" data-toggle="modal"><i class="far fa-eye"></i> Ver</a></td>
+                        <td>
+                            <a href="#" class="btn btn-info btn-xs" data-target="#deleteModal<?=$contrato['ID_CONTRATO'];?>" data-toggle="modal">
+                                <i class="far fa-eye"></i> Bitacora
+                            </a>
 
+                            <!-- modal starts -->
+                            <div class="modal fade" id="deleteModal<?=$contrato['ID_CONTRATO'];?>">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
 
+                                        <form method="post" action="<?=base("/contratos/bitacora/store");?>"  enctype="multipart/form-data">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title">
+                                                    Bitacoras
+                                                </h5>
+                                            </div>
 
-
-                         <!-- modal starts -->
-                         <div class="modal fade" id="bitacoraModal<?=$contrato["ID_CONTRATO"];?>">
-                            <div class="modal-dialog">
-                                <div class="modal-content">
-                                <form class="form-horizontal" method="post" action="<?=base("/contratos/save/bitacora");?>" >
-                                    <input type="hidden" name="id_contrato" value="$contrato['ID_CONTRATO']">
-                                        <div class="form-group has-feedback col-xsñ-4 col-md-4 col-lg-4">
-                                            <label for="">Adjuntar archivos</label>
-                                                <div class="custom-file">
-                                                    <input type="file" name="archivo_contrato" class="custom-file-input" id="customFileLangHTML" lang="es" >
-                                                    <label class="custom-file-label" for="customFileLangHTML" data-browse="Buscar">Seleccionar Archivo</label>
+                                            <div class="modal-body">
+                                                <div class="form-row">
+                                                    <div class="form-group col-12">
+                                                        <label for="">Adjuntar contrato.</label>
+                                                        <div class="custom-file">
+                                                            <input type="file" name="archivo_bitacora" class="custom-file-input" id="customFileLangHTML" lang="es" required>
+                                                            <label class="custom-file-label" for="customFileLangHTML" data-browse="Buscar">Seleccionar Archivo</label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group col-12">
+                                                        <label>Comentarios *</label>
+                                                        <textarea type="text" name="glosa" class="form-control" value="" ></textarea>
+                                                        <input type="hidden" name="id_contrato" value="<?=$contrato['ID_CONTRATO']?>">
+                                                        <input type="hidden" name="save_bitacora" value="1">
+                                                    </div>
                                                 </div>
-                                        </div>
-                                    </form>
+                                            </div>
+
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-default" data-dismiss="modal">
+                                                    Cancelar
+                                                </button>
+                                                <button type="submit" class="btn btn-success">
+                                                    <i class="fa fa-floppy-o"></i>
+                                                    Guardar
+                                                </button>
+                                            </div>
+                                        </form>
+                                    </div>
                                 </div>
                             </div>
-                        </div> 
-                            <!-- modal ends -->
+                        </td>
+
                     </tr>
                         <?php
                         // }

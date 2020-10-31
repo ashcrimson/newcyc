@@ -131,4 +131,95 @@ class ModelContratos {
 		oci_close($this->pdo);
 		return $assoc;
 	}
+
+    //elimina registro indicado
+    public function saveBitacora(): self{
+
+
+        if(isset($_FILES["archivo_bitacora"]) && $_FILES["archivo_bitacora"] != "") {
+
+            $cons = "select documentos_sequence.nextval as NRO_DOCUMENTO from dual";
+            $result = oci_parse($this->pdo, $cons);
+            oci_execute($result);
+            $nro_documento = queryResultToAssoc($result)[0]["NRO_DOCUMENTO"];
+            // print_r($nro_documento);
+
+            $directorio = "uploads/";
+            $archivo = $directorio . basename($_FILES["archivo_bitacora"]["name"]);
+            $tipo = $_FILES["archivo_bitacora"]["type"];
+            $peso = $_FILES["archivo_bitacora"]["size"];
+
+            $pdf = file_get_contents($_FILES['archivo_bitacora']['tmp_name']);
+
+
+            move_uploaded_file($_FILES["archivo_bitacora"]["tmp_name"], $archivo);
+
+            //consulta de inserción
+
+            $consulta = "INSERT into DOCUMENTO (NRO_DOCUMENTO, TIPO_DOCUMENTO, NOMBRE, ARCHIVO, PESO_ARCHIVO, TIPO_ARCHIVO, FECHA_CREACION) values (
+						'" . $nro_documento . "',
+						'co',
+						'" . $archivo . "',
+						empty_blob(),
+						'" . $peso . "',
+						'" . $tipo . "',
+						TO_DATE('" . date('yy-m-d') . "','yyyy-mm-dd'))
+						RETURNING archivo INTO :archivo";
+
+            //ejecucion consulta
+            $query = $consulta;
+            $result = oci_parse($this->pdo, $query);
+
+            $blob = oci_new_descriptor($this->pdo, OCI_D_LOB);
+            oci_bind_by_name($result, ":archivo", $blob, -1, OCI_B_BLOB);
+            //print_r($consulta);
+            oci_execute($result, OCI_DEFAULT) or die ("Unable to execute query");
+
+            if (!$blob->save($archivo)) {
+                oci_rollback($this->pdo);
+            } else {
+                oci_commit($this->pdo);
+            }
+
+            oci_free_statement($result);
+            $blob->free();
+        }
+
+        $id_contrato= $_POST['id_contrato'];
+        $glosa= $_POST['glosa'];
+
+
+        //Consulta guarda bitacora
+        $consulta = "
+            INSERT INTO BITACORA ( 
+                    ID, 
+                    ID_CONTRATO, 
+                    GLOSA, 
+                    NRO_DOCUMENTO, 
+                    FECHA_CREACION 
+                ) 
+			VALUES (
+			    1,
+				'{$id_contrato}', 
+				'{$glosa}',  
+				$nro_documento, 
+				TO_DATE('2020-10-19 00:00:00', 'YYYY-MM-DD HH24:MI:SS')  
+			)
+	    ";
+
+
+        $result = oci_parse($this->pdo, $consulta);
+
+        if($result){
+            $_SESSION["feedback"] = "Contrato ingresado correctamente";
+        }
+
+        oci_execute($result);
+
+        oci_commit($this->pdo);
+
+        return new self($this->pdo, $this->id, $this->page);
+
+    }
+
 }
