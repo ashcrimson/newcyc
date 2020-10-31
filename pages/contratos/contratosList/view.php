@@ -239,19 +239,26 @@ class ViewContratos {
                         <td><?= $contrato["MONTO"]; ?></td>
                         <td><?= $contrato["FECHA_ALERTA_VENCIMIENTO"]; ?></td>
                         <td><a href="<?= $contrato['NOMBRE_DOCUMENTO'] ?>"><?= $contrato["NOMBRE_DOCUMENTO"] ?></a></td>
+                        
                         <td><a href="#" class="btn btn-primary btn-xs" data-target="#bitacoraModal<?=$contrato["ID_CONTRATO"];?>" data-toggle="modal"><i class="far fa-eye"></i> Ver</a></td>
+
+
+
 
                          <!-- modal starts -->
                          <div class="modal fade" id="bitacoraModal<?=$contrato["ID_CONTRATO"];?>">
                             <div class="modal-dialog">
                                 <div class="modal-content">
-                                    <div class="form-group has-feedback col-xsñ-4 col-md-4 col-lg-4">
-                                        <label for="">Adjuntar archivos</label>
-                                            <div class="custom-file">
-                                                <input type="file" name="archivo_contrato" class="custom-file-input" id="customFileLangHTML" lang="es" >
-                                                <label class="custom-file-label" for="customFileLangHTML" data-browse="Buscar">Seleccionar Archivo</label>
-                                            </div>
-                                    </div>
+                                <form class="form-horizontal" method="post" action="<?=base("/contratos/save/bitacora");?>" >
+                                    <input type="hidden" name="id_contrato" value="$contrato['ID_CONTRATO']">
+                                        <div class="form-group has-feedback col-xsñ-4 col-md-4 col-lg-4">
+                                            <label for="">Adjuntar archivos</label>
+                                                <div class="custom-file">
+                                                    <input type="file" name="archivo_contrato" class="custom-file-input" id="customFileLangHTML" lang="es" >
+                                                    <label class="custom-file-label" for="customFileLangHTML" data-browse="Buscar">Seleccionar Archivo</label>
+                                                </div>
+                                        </div>
+                                    </form>
                                 </div>
                             </div>
                         </div> 

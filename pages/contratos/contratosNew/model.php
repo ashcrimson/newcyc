@@ -251,6 +251,10 @@ class ModelContratos {
 			$query = $consulta;
 			$result = oci_parse($this->pdo, $query);
 
+			if($result){
+				$_SESSION["feedback"] = "Contrato ingresado correctamente";
+			}
+
 			oci_bind_by_name($result, "mylastid", $last_id, 8, SQLT_INT);
 
 			oci_execute($result);

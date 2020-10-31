@@ -92,13 +92,7 @@ class ViewContratos {
 			}
 		}
 
-		if(isset($_POST["submit"])){
-			$feedback = "
-			<div class='alert alert-primary' role='alert'>
-				Contrato creado correctamente
-			</div>
-			";
-		}
+		
 
 		ob_start();
 
@@ -130,7 +124,7 @@ class ViewContratos {
 				<form method="post" class="form-horizontal" action="<?=base();?>/contratos/new" enctype="multipart/form-data">
 					
 					<div class="container">
-					<?php echo $feedback?>
+					<?php feedback();?>
 						<div class="row col-12">
 							<div class="form-group has-feedback col-xsñ-4 col-md-4 col-lg-4 <?=$selectContrato ? 'has-error' : '' ;?>">
 								<label>Tipo Contrato</label>
@@ -184,7 +178,7 @@ class ViewContratos {
 							<div class="form-group has-feedback col-xsñ-4 col-md-4 col-lg-4">
 								<label for="">Adjuntar contrato.</label>
 								<div class="custom-file">
-									<input type="file" name="archivo_contrato" class="custom-file-input" id="customFileLangHTML" lang="es" >
+									<input type="file" name="archivo_contrato" class="custom-file-input" id="customFileLangHTML" lang="es" required>
 									<label class="custom-file-label" for="customFileLangHTML" data-browse="Buscar">Seleccionar Archivo</label>
 								</div>
 							</div>

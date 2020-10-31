@@ -99,3 +99,14 @@ function paginador($result, string $ruta, int $resultados = 10){
 function base(string $ruta = ""){
 	return substr($_SERVER["SCRIPT_NAME"], 0, -10) . $ruta;
 }
+
+function feedback(){
+    if(isset($_SESSION["feedback"])){
+        echo "
+		<div class='alert alert-primary' role='alert'>
+		{$_SESSION["feedback"]} 
+		</div>
+		";
+		unset($_SESSION["feedback"]);
+	}
+}
