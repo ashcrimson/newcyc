@@ -23,6 +23,7 @@ class ViewContratos {
         $licitaciones = $data[4];
         $contratos = $data[5];
         $documentos = $data[6];
+        $listado2 = $data[7];
         
 //print_r($data[1]);
 
@@ -348,7 +349,13 @@ class ViewContratos {
         });
 	</script>
 
-
+<!-- {{-- Script para mostrar nombre archivo en el select --}} -->
+        <script>
+			$(".custom-file-input").on("change", function() {
+				var fileName = $(this).val().split("\\").pop();
+				$(this).siblings(".custom-file-label").addClass("selected").html(fileName);
+			});
+		</script>
 
 
 

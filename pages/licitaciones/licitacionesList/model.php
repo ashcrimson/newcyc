@@ -86,6 +86,11 @@ class ModelLicitaciones {
 
 		//consulta para recuperar cantidad de páginas disponibles
 		$result = oci_parse($this->pdo, $consulta);
+
+		if($result){
+            $_SESSION["feedback"] = "Contrato ingresado correctamente";
+		}
+		
 		oci_execute($result);
 		$totales = queryResultToAssoc($result);
 

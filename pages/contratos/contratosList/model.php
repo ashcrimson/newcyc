@@ -91,14 +91,15 @@ class ModelContratos {
 			select 
 				c.*, 
 				p.razon_social,
-				d.nombre as nombre_documento,
-				b.glosa,
-				b.nro_documento
+				d.nombre as nombre_documento
+				
 			from 
 				CONTRATOS C LEFT JOIN PROVEEDORES P ON c.rut_proveedor = p.rut_proveedor
 				LEFT JOIN documento_contratos dc on dc.nro_contrato = c.id_contrato
 				LEFT JOIN documento d on d.nro_documento = dc.nro_documento
-				LEFT JOIN bitacora b on b.id_contrato = c.id_contrato
+				
+			ORDER BY
+				id_contrato DESC
 				
 		
 			";
@@ -107,6 +108,8 @@ class ModelContratos {
 		$result = oci_parse($this->pdo, $query);
 		oci_execute($result);
 		$listado = queryResultToAssoc($result);
+
+		
 
 
 		//consulta para recuperar cantidad de páginas disponibles

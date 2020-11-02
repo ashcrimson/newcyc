@@ -1,6 +1,6 @@
 <?php
 
-
+ 
 
 namespace OrdenCompraList;
 
@@ -33,8 +33,8 @@ class ControllerOrdenCompra {
 
 
 	public function delete(\OrdenCompraList\ModelOrdenCompra $model){
-		if(isset($_GET["nro_licitacion"])){
-			$model = $model->delete($_GET["nro_licitacion"]);
+		if(isset($_GET["id"])){
+			$model = $model->delete($_GET["id"]);
 		}
 		return $model;
 	}

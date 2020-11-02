@@ -65,6 +65,7 @@ class ViewLicitaciones {
 				<form method="post" class="form-horizontal" action="<?=base();?>/licitaciones/new" enctype="multipart/form-data">
 					<!-- {!! csrf_field() !!} -->
 					<div class="container">
+					<?php feedback();?>
 						<div class="row col-12">
 							<div class="form-group has-feedback col-xs-4 col-md-4 col-lg-4 {{ $errors->has('nro_licitacion') ? 'has-error' : '' }}">
 								<label>ID Licitación</label>

@@ -13,12 +13,8 @@ class ViewOrdenCompra {
 
 		$data = $model->get();
 
-		$listaLicitaciones = $data[0];
-		$numerosLicitaciones = $data[1];
-		$totales = $data[2];
-		$id_contrato = $data[3];
-		$nro_orden_compra = $data[4];
-		$estado = $data[5];
+		$listado = $data[0];
+		
 
 		ob_start();
 
@@ -52,7 +48,7 @@ class ViewOrdenCompra {
                                 <select name="numeroLicitacion" class="selectpicker selectField" placeholder='Seleccione ID Contrato' data-live-search='true'>
                                     <option value=""></option>
 	                                <?php 
-	                                foreach ($id_contrato as $contrato) { 
+	                                foreach ($listado as $contrato) { 
 	                                    if (!empty($_GET["numeroLicitacion"]) && $_GET["numeroLicitacion"] == $contrato["ID_CONTRATO"]){
 	                                        ?>
 	                                        <option selected="true" value="<?= $contrato["ID_CONTRATO"];?>"><?= $contrato["ID_CONTRATO"];?></option>
@@ -77,7 +73,7 @@ class ViewOrdenCompra {
                                 <select name="numeroOrden" class="selectpicker selectField" placeholder='Seleccione N° Orden de Compra' data-live-search='true'>
                                     <option value=""></option>
 	                                <?php 
-	                                foreach ($nro_orden_compra as $orden) { 
+	                                foreach ($listado as $orden) { 
 	                                    if (!empty($_GET["numeroOrden"]) && $_GET["numeroOrden"] == $orden["NRO_ORDEN_COMPRA"]){
 	                                        ?>
 	                                        <option selected="true" value="<?= $orden["NRO_ORDEN_COMPRA"];?>"><?= $orden["NRO_ORDEN_COMPRA"];?></option>
@@ -101,7 +97,7 @@ class ViewOrdenCompra {
                                 <select name="estado" class="selectpicker selectField" placeholder='Seleccione Estado' data-live-search='true'>
                                     <option value=""></option>
 	                                <?php 
-	                                foreach ($estado as $estado) { 
+	                                foreach ($listado as $estado) { 
 	                                    if (!empty($_GET["estado"]) && $_GET["estado"] == $estado["ESTADO"]){
 	                                        ?>
 	                                        <option selected="true" value="<?= $estado["ESTADO"];?>"><?= $estado["ESTADO"];?></option>
@@ -150,7 +146,7 @@ class ViewOrdenCompra {
                     </tr>
                 </thead>      
                <?php
-               foreach ($id_contrato as $ordenCompra) {
+               foreach ($listado as $ordenCompra) {
                		?>
                		<tr>
 						<td><?= $ordenCompra["ID_CONTRATO"];?></td>
@@ -159,20 +155,8 @@ class ViewOrdenCompra {
 						<td><?= $ordenCompra["FECHA_ENVIO"];?></td>
 						<td><?= $ordenCompra["TOTAL"];?></td>
 						<td><?= $ordenCompra["ESTADO"];?></td>
-						<td><?= $ordenCompra["DOC_ORDNCOMPRA"];?></td>
-						<?php
-						if($ordenCompra["DOC_ORDNCOMPRA"] == null || $ordenCompra["DOC_ORDNCOMPRA"] == ""){
-							?>
-							<td>N/A</td>
-							<?php
-						}else{
-							?>
-		                    <td>
-		                    <a target="_blank" href="<?=$ordenCompra["DOC_ORDNCOMPRA"];?>"> Visualizar</a>
-		                   	</td>
-							<?php
-						}
-						?>
+						<td>N/A</td>
+						
 						<td>
 						<?php
 						if($ordenCompra["FECHA_ELIMINACION"] != ""){
@@ -265,7 +249,7 @@ class ViewOrdenCompra {
 </div> 
     <div class="card-footer">
         <?php
-        paginador($totales, base("/ordenCompra"), 10);
+        paginador($totales, base("/ordenCompra"), 12);
         ?>
     </div>
 </div>

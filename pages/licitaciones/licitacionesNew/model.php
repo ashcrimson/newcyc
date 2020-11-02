@@ -147,6 +147,10 @@ class ModelLicitaciones {
 			$query = $consulta;
 			$result = oci_parse($this->pdo, $query);
 
+			if($result){
+				$_SESSION["feedback"] = "Licitación ingresada correctamente";
+			}
+
 			$blob = oci_new_descriptor($this->pdo, OCI_D_LOB);
 			oci_bind_by_name($result, ":archivo", $blob, -1, OCI_B_BLOB);
 			//print_r($consulta);
@@ -154,7 +158,7 @@ class ModelLicitaciones {
 
 			if(!$blob->save($archivo)) {
 				oci_rollback($this->pdo);
-			}
+			} 
 			else {
 				oci_commit($this->pdo);
 			}

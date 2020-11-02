@@ -20,7 +20,7 @@ class ModelOrdenCompra {
 	//pagina 
 	private  $page;
 	//resultados por pagina
-	private $resultados = 10;
+	private $resultados = 12;
 
 	//Constructor
 	function __construct($pdo, string $id = '', int $page = 1){
@@ -74,43 +74,14 @@ class ModelOrdenCompra {
 		oci_execute($result);
 		$listado = queryResultToAssoc($result);
 
-		//consulta para recuperar todos los numeros de licitaciones
-		$query = "select * from ORDEN_COMPRA ";
-		$result = oci_parse($this->pdo, $query);
-		oci_execute($result);
-		$numeros = queryResultToAssoc($result);
-
+		
 		//consulta para recuperar cantidad de páginas disponibles
 		$result = oci_parse($this->pdo, $consulta);
 		oci_execute($result);
 		$totales = queryResultToAssoc($result);
 
-		//consulta para id de contrato
-		$query = "select * from ORDEN_COMPRA ";
-		$result = oci_parse($this->pdo, $query);
-		oci_execute($result);
-		$id_contrato = queryResultToAssoc($result);
-
-		//consulta para número orden de compra
-		$query = "select NRO_ORDEN_COMPRA from ORDEN_COMPRA ";
-		$result = oci_parse($this->pdo, $query);
-		oci_execute($result);
-		$nro_orden_compra = queryResultToAssoc($result);
-
-		//consulta para estado orden de compra
-		$query = "select ESTADO from ORDEN_COMPRA ";
-		$result = oci_parse($this->pdo, $query);
-		oci_execute($result);
-		$estado = queryResultToAssoc($result);
-
-
-
 		array_push($assoc, $listado);
-		array_push($assoc, $numeros);
-		array_push($assoc, $totales);
-		array_push($assoc, $id_contrato);
-		array_push($assoc, $nro_orden_compra);
-		array_push($assoc, $estado);
+		
 		
 
 		oci_close($this->pdo);

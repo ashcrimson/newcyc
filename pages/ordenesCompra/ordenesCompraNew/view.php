@@ -209,6 +209,14 @@ class ViewOrdenCompra {
                     });
                 </script>
 
+                <!-- {{-- Script para mostrar nombre archivo en el select --}} -->
+                <script>
+                    $(".custom-file-input").on("change", function() {
+                        var fileName = $(this).val().split("\\").pop();
+                        $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
+                    });
+                </script>
+
                 
 
                 <?php
