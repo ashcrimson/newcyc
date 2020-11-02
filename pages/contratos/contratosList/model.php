@@ -109,7 +109,23 @@ class ModelContratos {
 		oci_execute($result);
 		$listado = queryResultToAssoc($result);
 
-		
+		//aca se iteran los 10 registro de contratos
+		$listado = array_map(function ($item){
+
+            //consulta para recuperar todos las bitacoras
+            $query = "select * from BITACORA where ID_CONTRATO=".$item['ID_CONTRATO'];
+            $result = oci_parse($this->pdo, $query);
+            oci_execute($result);
+            $bitacoras = queryResultToAssoc($result);
+
+            $item['BITACORAS'] = $bitacoras;
+
+            return $item;
+
+        },$listado);
+
+
+        //dd($listado);
 
 
 		//consulta para recuperar cantidad de páginas disponibles

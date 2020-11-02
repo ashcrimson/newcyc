@@ -14,6 +14,8 @@ require_directory_recursive("./pages");
 //carga plantillas, y cosas comunes 
 require_directory_recursive("./common");
 
+require './vendor/autoload.php';
+
 $request = isset($_SERVER['REDIRECT_URL']) ? $_SERVER['REDIRECT_URL'] : "";
 //$request = $_SERVER['REDIRECT_URL'];
 
