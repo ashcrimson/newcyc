@@ -23,6 +23,7 @@ class ViewContratos {
         $licitaciones = $data[4];
         $contratos = $data[5];
         $documentos = $data[6];
+        
 //print_r($data[1]);
 
 		ob_start();
@@ -250,6 +251,8 @@ class ViewContratos {
                                 <div class="modal-dialog">
                                     <div class="modal-content">
 
+                                        
+
                                         <form method="post" action="<?=base("/contratos/bitacora/store");?>"  enctype="multipart/form-data">
                                             <div class="modal-header">
                                                 <h5 class="modal-title">
@@ -257,10 +260,34 @@ class ViewContratos {
                                                 </h5>
                                             </div>
 
+                                            <div class="table-responsive table-sm -md -lg -x">
+                                                <table class="table table-bordered"  class="table-sm w-25" id="dataBitacoras" width=100% cellspacing="0">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>ID Contrato</th>
+                                                            <th>Glosa</th>
+                                                            <th>N° Documento</th>
+            
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        
+                                                        <tr>
+                                                            <td> <?= $contrato["ID_CONTRATO"]; ?></td>
+                                                            <td> <?= $contrato["GLOSA"]; ?></td>
+                                                            <td> <?= $contrato["NRO_DOCUMENTO"]; ?></td>
+                                                            
+                                                            
+                                                        </tr>
+                                                          
+                                                    </tbody>
+                                                </table>
+                                            </div>
+
                                             <div class="modal-body">
                                                 <div class="form-row">
                                                     <div class="form-group col-12">
-                                                        <label for="">Adjuntar contrato.</label>
+                                                        <label for="">Adjuntar archivo bitácora.</label>
                                                         <div class="custom-file">
                                                             <input type="file" name="archivo_bitacora" class="custom-file-input" id="customFileLangHTML" lang="es" required>
                                                             <label class="custom-file-label" for="customFileLangHTML" data-browse="Buscar">Seleccionar Archivo</label>

@@ -91,11 +91,15 @@ class ModelContratos {
 			select 
 				c.*, 
 				p.razon_social,
-				d.nombre as nombre_documento
+				d.nombre as nombre_documento,
+				b.glosa,
+				b.nro_documento
 			from 
 				CONTRATOS C LEFT JOIN PROVEEDORES P ON c.rut_proveedor = p.rut_proveedor
 				LEFT JOIN documento_contratos dc on dc.nro_contrato = c.id_contrato
 				LEFT JOIN documento d on d.nro_documento = dc.nro_documento
+				LEFT JOIN bitacora b on b.id_contrato = c.id_contrato
+				
 		
 			";
 		//consulta paginada
@@ -109,6 +113,7 @@ class ModelContratos {
 		$result = oci_parse($this->pdo, $consulta);
 		oci_execute($result);
 		$totales = queryResultToAssoc($result);
+		
 
 		//consulta para recuperar todos los documentos
 		$query = "select * from documento";
