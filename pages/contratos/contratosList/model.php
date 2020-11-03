@@ -29,11 +29,7 @@ class ModelContratos {
 		$this->page = $page;
 	}
 
-	//elimina registro indicado
-	public function delete($id): self{
-		$sql = $this->pdo->prepare("DELETE FROM licitaciones WHERE nro_licitacion = :nro_licitacion");
-		$sql->execute(["nro_licitacion", $nro_licitacion]);
-	}
+	
 
 	//filtra consulta por nro de contrato (id, llave primaria)
 	public function getId($id): self{
@@ -52,7 +48,7 @@ class ModelContratos {
 		$listado = [];
 		$numeros = [];
 		$totales = [];
-		$contratos = [];
+		
 
 
 		if ($this->id){
@@ -60,6 +56,9 @@ class ModelContratos {
 		}else{
 			$where = "";
 		}
+
+		//consulta principal
+		$consulta = "SELECT * FROM CONTRATOS " . $where . " ORDER BY ID_CONTRATO DESC";
 
 
 		//consulta para recuperar ruts y razon social de los proveedores
@@ -110,17 +109,24 @@ class ModelContratos {
 		$listado = queryResultToAssoc($result);
 
 		//aca se iteran los 10 registro de contratos
-		$listado = array_map(function ($item){
+		$listado = array_map(function ($contrato){
 
             //consulta para recuperar todos las bitacoras
-            $query = "select * from BITACORA where ID_CONTRATO=".$item['ID_CONTRATO'];
+			$query = "
+			select 
+				documento.nombre AS DOCUMENTO,
+				bitacora.* 
+			from 
+				BITACORA LEFT JOIN documento on bitacora.nro_documento = documento.nro_documento
+			where 
+				ID_CONTRATO=".$contrato['ID_CONTRATO'];
             $result = oci_parse($this->pdo, $query);
             oci_execute($result);
             $bitacoras = queryResultToAssoc($result);
 
-            $item['BITACORAS'] = $bitacoras;
+            $contrato['BITACORAS'] = $bitacoras;
 
-            return $item;
+            return $contrato;
 
         },$listado);
 
@@ -134,11 +140,7 @@ class ModelContratos {
 		$totales = queryResultToAssoc($result);
 		
 
-		//consulta para recuperar todos los documentos
-		$query = "select * from documento";
-		$result = oci_parse($this->pdo, $query);
-		oci_execute($result);
-		$documentos = queryResultToAssoc($result);
+		
 
 		
 		// Arryas que forman la tabla principal con paginación
@@ -149,8 +151,8 @@ class ModelContratos {
 		array_push($assoc, $proveedores);
 		array_push($assoc, $cargos);
 		array_push($assoc, $licitaciones);
-		array_push($assoc, $contratos);
-		array_push($assoc, $documentos);
+		
+		
 
 		oci_close($this->pdo);
 		return $assoc;
@@ -220,7 +222,7 @@ class ModelContratos {
                     GLOSA, 
                     NRO_DOCUMENTO, 
                     FECHA_CREACION 
-                ) 
+                )  
 			VALUES (
 				'{$id_contrato}', 
 				'{$glosa}',  

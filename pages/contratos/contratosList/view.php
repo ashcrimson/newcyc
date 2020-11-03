@@ -21,9 +21,8 @@ class ViewContratos {
         $proveedores = $data[2];
         $cargos = $data[3];
         $licitaciones = $data[4];
-        $contratos = $data[5];
-        $documentos = $data[6];
-        $listado2 = $data[7];
+        
+        
         
 //print_r($data[1]);
 
@@ -49,7 +48,7 @@ class ViewContratos {
     <!-- DataTables Example -->
     <div class="card mb-3">
         <div class="card-header">
-            <form method="get" class="form-horizontal" action="<?=base("/contratos")?>">
+            <form method="get" class="form-horizontal" action="<?=base("/contratos/")?>">
                 
 
                 <div class="row">
@@ -101,7 +100,7 @@ class ViewContratos {
                             <select name="contratos" class="selectpicker selectField" placeholder='Seleccione Contrato' data-live-search='true'>
                                 <option value=""></option>
                                 <?php 
-                                foreach ($totales as $contrato) { 
+                                foreach ($listado as $contrato) { 
                                     if (!empty($_GET["contratos"]) && $_GET["contratos"] == $contrato["ID_CONTRATO"]){
                                         ?>
                                         <option selected="true" value="<?= $contrato["ID_CONTRATO"];?>"><?= $contrato["ID_CONTRATO"];?></option>
@@ -252,7 +251,6 @@ class ViewContratos {
                                 <div class="modal-dialog">
                                     <div class="modal-content">
 
-                                        
 
                                         <form method="post" action="<?=base("/contratos/bitacora/store");?>"  enctype="multipart/form-data">
                                             <div class="modal-header">
@@ -267,19 +265,22 @@ class ViewContratos {
                                                         <tr>
                                                             <th>ID Contrato</th>
                                                             <th>Glosa</th>
-                                                            <th>N° Documento</th>
+                                                            <th>Documento</th>
             
                                                         </tr>
                                                     </thead>
                                                     <tbody>
-                                                        
-                                                        <tr>
-                                                            <td> <?= $contrato["ID_CONTRATO"]; ?></td>
-                                                            <td> <?= $contrato["GLOSA"]; ?></td>
-                                                            <td> <?= $contrato["NRO_DOCUMENTO"]; ?></td>
-                                                            
-                                                            
-                                                        </tr>
+                                                        <?php foreach($contrato['BITACORAS'] as $bitacora){?>
+                                                             <tr>
+                                                             <td> <?= $bitacora["ID_CONTRATO"]; ?></td>
+                                                             <td> <?= $bitacora["GLOSA"]; ?></td>
+                                                             <td><a href="<?= $bitacora['DOCUMENTO'] ?>" target="_blank"><?= $bitacora["DOCUMENTO"] ?></a></td>
+                                                             
+                                                             
+                                                             
+                                                         </tr>
+                                                       <?php }?>
+                                                       
                                                           
                                                     </tbody>
                                                 </table>
