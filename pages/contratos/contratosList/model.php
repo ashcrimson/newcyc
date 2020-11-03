@@ -33,7 +33,7 @@ class ModelContratos {
 
 	//filtra consulta por nro de contrato (id, llave primaria)
 	public function getId($id): self{
-		return new self($this->pdo, $id, $this->page);
+        return new self($this->pdo, $id, $this->page);
 	}
 
 	//filtra consulta por nro de página
@@ -48,44 +48,19 @@ class ModelContratos {
 		$listado = [];
 		$numeros = [];
 		$totales = [];
-		
 
+        $where = "";
 
 		if ($this->id){
 			$where = " WHERE ID_CONTRATO = '" . $this->id . "'";
-		}else{
-			$where = "";
 		}
 
-		//consulta principal
-		$consulta = "SELECT * FROM CONTRATOS " . $where . " ORDER BY ID_CONTRATO DESC";
+        if ($_GET['rut_proveedor']){
+            $where = " WHERE P.RUT_PROVEEDOR = '" . $_GET['rut_proveedor'] . "'";
+        }
 
 
-		//consulta para recuperar ruts y razon social de los proveedores
-		$query = "select * from PROVEEDORES";
-		$result = oci_parse($this->pdo, $query);
-		oci_execute($result);
-		$proveedores = queryResultToAssoc($result);
-
-
-		//consulta para recuperar cargos administradores tecnicos
-		$query = "select * from CARGOS";
-		$result = oci_parse($this->pdo, $query);
-		oci_execute($result);
-		$cargos = queryResultToAssoc($result);
-
-
-		//consulta para recuperar numeros de licitaciones
-		$query = "select NRO_LICITACION from LICITACIONES";
-		$result = oci_parse($this->pdo, $query);
-		oci_execute($result);
-		$licitaciones = queryResultToAssoc($result);
-
-		
-
-		
-
-		//consulta para recuperar razón social de la otra tabla
+        //consulta principal
 		$consulta = "
 			select 
 				c.*, 
@@ -96,7 +71,7 @@ class ModelContratos {
 				CONTRATOS C LEFT JOIN PROVEEDORES P ON c.rut_proveedor = p.rut_proveedor
 				LEFT JOIN documento_contratos dc on dc.nro_contrato = c.id_contrato
 				LEFT JOIN documento d on d.nro_documento = dc.nro_documento
-				
+			$where
 			ORDER BY
 				id_contrato DESC
 				
@@ -138,9 +113,28 @@ class ModelContratos {
 		$result = oci_parse($this->pdo, $consulta);
 		oci_execute($result);
 		$totales = queryResultToAssoc($result);
-		
 
-		
+
+
+        //consulta para recuperar ruts y razon social de los proveedores
+        $query = "select * from PROVEEDORES";
+        $result = oci_parse($this->pdo, $query);
+        oci_execute($result);
+        $proveedores = queryResultToAssoc($result);
+
+
+        //consulta para recuperar cargos administradores tecnicos
+        $query = "select * from CARGOS";
+        $result = oci_parse($this->pdo, $query);
+        oci_execute($result);
+        $cargos = queryResultToAssoc($result);
+
+
+        //consulta para recuperar numeros de licitaciones
+        $query = "select NRO_LICITACION from LICITACIONES";
+        $result = oci_parse($this->pdo, $query);
+        oci_execute($result);
+        $licitaciones = queryResultToAssoc($result);
 
 		
 		// Arryas que forman la tabla principal con paginación

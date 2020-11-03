@@ -93,6 +93,10 @@ class Router{
         if(isset($_POST["save_bitacora"])){
             $this->model = $this->controller->saveBitacora($this->model);
         }
+
+        if(isset($_GET['id_contrato'])){
+            $this->model = $this->controller->filter($this->model);
+        }
 	}
 
 	//pagina agregado de contratos

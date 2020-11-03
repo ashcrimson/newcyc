@@ -52,56 +52,53 @@ class ViewContratos {
                 
 
                 <div class="row">
-                    <div class="col-3">
-                        <label>RUT Proveedor</label>
+                    <div class="col-6">
+                        <label>Proveedor</label>
                         <div>
-                            <select name="proveedores" class="selectpicker selectField"  placeholder='Seleccione RUT Proveedor' data-live-search='true'>
+                            <select name="rut_proveedor" class="selectpicker selectField"  placeholder='Seleccione RUT Proveedor' data-live-search='true'>
                                 <option value=""></option>
-                                <?php 
-                                foreach ($proveedores as $proveedor) { 
-                                    if (!empty($_GET["proveedores"]) && $_GET["proveedores"]){
-                                        ?>
-                                        <option selected="true" value="<?= $proveedor["RUT_PROVEEDOR"];?>"><?= $proveedor["RUT_PROVEEDOR"];?></option>
-                                        <?php
-                                    }else{
-                                        ?>
-                                        <option value="<?= $proveedor["RUT_PROVEEDOR"];?>"><?= $proveedor["RUT_PROVEEDOR"];?></option>
-                                        <?php
-                                    }
+                                <?php
+                                foreach ($proveedores as $proveedor) {
+                                    $selected = $_GET["rut_proveedor"]==$proveedor["RUT_PROVEEDOR"] ? 'selected' : '';
+                                    ?>
+                                    <option value="<?= $proveedor["RUT_PROVEEDOR"];?>" <?=$selected?>>
+                                        <?= $proveedor["RUT_PROVEEDOR"]." / ".$proveedor["RAZON_SOCIAL"];?>
+                                    </option>
+                                    <?php
                                 }
                                 ?>
                             </select>
                         </div>
                     </div>
-                    <div class="col-3">
-                        <label>Razón Social</label>
-                        <div>
-                            <select name="proveedoresNombre" class="selectpicker selectField" placeholder='Seleccione Razón Social' data-live-search='true'>
-                                <option value=""></option>
-                                <?php 
-                                foreach ($proveedores as $proveedor) { 
-                                    if (!empty($_GET["proveedoresNombre"]) && $_GET["proveedoresNombre"] == $proveedor["RUT_PROVEEDOR"]){
-                                        ?>
-                                        <option selected="true" value="<?= $proveedor["RUT_PROVEEDOR"];?>"><?= $proveedor["RAZON_SOCIAL"];?></option>
-                                        <?php
-                                    }else{
-                                        ?>
-                                        <option value="<?= $proveedor["RUT_PROVEEDOR"];?>"><?= $proveedor["RAZON_SOCIAL"];?></option>
-                                        <?php
-                                    }
-                                }
-                                ?>
-                            </select>
-                        </div>
-                    </div>
+<!--                    <div class="col-3">-->
+<!--                        <label>Razón Social</label>-->
+<!--                        <div>-->
+<!--                            <select name="proveedoresNombre" class="selectpicker selectField" placeholder='Seleccione Razón Social' data-live-search='true'>-->
+<!--                                <option value=""></option>-->
+<!--                                --><?php //
+//                                foreach ($proveedores as $proveedor) {
+//                                    if (!empty($_GET["proveedoresNombre"]) && $_GET["proveedoresNombre"] == $proveedor["RUT_PROVEEDOR"]){
+//                                        ?>
+<!--                                        <option selected="true" value="--><?//= $proveedor["RUT_PROVEEDOR"];?><!--">--><?//= $proveedor["RAZON_SOCIAL"];?><!--</option>-->
+<!--                                        --><?php
+//                                    }else{
+//                                        ?>
+<!--                                        <option value="--><?//= $proveedor["RUT_PROVEEDOR"];?><!--">--><?//= $proveedor["RAZON_SOCIAL"];?><!--</option>-->
+<!--                                        --><?php
+//                                    }
+//                                }
+//                                ?>
+<!--                            </select>-->
+<!--                        </div>-->
+<!--                    </div>-->
                     <div class="col-3">
                         <label>ID Contrato</label>
                         <div>
-                            <select name="contratos" class="selectpicker selectField" placeholder='Seleccione Contrato' data-live-search='true'>
+                            <select name="id_contrato" class="selectpicker selectField" placeholder='Seleccione Contrato' data-live-search='true'>
                                 <option value=""></option>
                                 <?php 
                                 foreach ($listado as $contrato) { 
-                                    if (!empty($_GET["contratos"]) && $_GET["contratos"] == $contrato["ID_CONTRATO"]){
+                                    if (!empty($_GET["id_contrato"]) && $_GET["id_contrato"] == $contrato["ID_CONTRATO"]){
                                         ?>
                                         <option selected="true" value="<?= $contrato["ID_CONTRATO"];?>"><?= $contrato["ID_CONTRATO"];?></option>
                                         <?php
@@ -173,7 +170,7 @@ class ViewContratos {
                 <hr>
                 <div class="btn-group float-right">
                     <?php if(!empty($_GET)){ ?> 
-                        <a class="btn btn-default" href="./contratos">Limpiar Filtros</a>
+                        <a class="btn btn-default" href="<?=base()."/contratos";?>">Limpiar Filtros</a>
                     <?php } ?>
                         <button type="submit" class="btn btn-primary rounded"><i class="fa fa-search"></i> Buscar</button>
                 </div>
