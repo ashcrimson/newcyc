@@ -16,8 +16,8 @@ class ControllerContratos {
 
 	//retorna solo la licitacion solicitada
 	public function filter(\ContratosList\ModelContratos $model){
-		if(isset($_GET["nro_licitacion"])){
-			$model = $model->getId($_GET["nro_licitacion"]);
+		if(isset($_GET["id_contrato"])){
+			$model = $model->getId($_GET["id_contrato"]);
 		}
 		return $model;
 	}

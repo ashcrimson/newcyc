@@ -284,9 +284,12 @@ class ViewContratos {
 						<div class="row col-12">
 						<div class="form-group has-feedback col-xs-4 col-md-4 col-lg-4 <?=$monto ? 'has-error' : '' ;?>">
                             <label>Monto *</label> <!--Sección que guarda el monto del contrato   -->
-                            <input type="number" class="form-control" placeholder="0.00" required name="monto" min="0" value="0" step="0.01" title="Currency" pattern="^\d+(?:\.\d{1,2})?$" onblur="
-this.parentNode.parentNode.style.backgroundColor=/^\d+(?:\.\d{1,2})?$/.test(this.value)?'inherit':'red'
-">
+                            <input type="number" name="monto" class="form-control" value="<?=!empty($_GET["monto"]) ? $_GET["monto"]: '' ;?>">
+							<?php if ($monto){ ?>
+							<span class="help-block text-danger"> 
+								<strong>Error: Numero de licitacion vacio</strong>
+							</span>
+							<?php } ?>
                         </div>
 						</div>
 					</div>
