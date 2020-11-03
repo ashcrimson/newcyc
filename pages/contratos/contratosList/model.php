@@ -49,15 +49,16 @@ class ModelContratos {
 		$numeros = [];
 		$totales = [];
 
-        $where = "";
+        $where = "WHERE 1=1 ";
 
 		if ($this->id){
-			$where = " WHERE ID_CONTRATO = '" . $this->id . "'";
+			$where .= " and ID_CONTRATO = '" . $this->id . "'";
 		}
 
         if ($_GET['rut_proveedor']){
-            $where = " WHERE P.RUT_PROVEEDOR = '" . $_GET['rut_proveedor'] . "'";
+            $where .= " and P.RUT_PROVEEDOR = '" . $_GET['rut_proveedor'] . "'";
         }
+
 
 
         //consulta principal
