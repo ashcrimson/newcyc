@@ -3,7 +3,7 @@
 
  
 namespace ContratosList;
-
+ 
 /**
  * clase vista, retorna html con lo recuperado desde el modelo
  */
@@ -236,7 +236,7 @@ class ViewContratos {
                         <!-- <td><?= $contrato["BOLETA"]; ?></td> -->
                         <td><?= $contrato["MONTO"]; ?></td>
                         <td><?= $contrato["FECHA_ALERTA_VENCIMIENTO"]; ?></td>
-                        <td><a href="<?= $contrato['NOMBRE_DOCUMENTO'] ?>"><?= utf8_encode($contrato["NOMBRE_DOCUMENTO"]) ?></a></td>
+                        <td><a href="archivo.php:?id=."<?= $contrato['ID_CONTRATO'] ?>"><?= utf8_encode($contrato["NOMBRE_DOCUMENTO"]) ?></a></td>
                         
                         <td>
                             <a href="#" class="btn btn-info btn-xs" data-target="#deleteModal<?=$contrato['ID_CONTRATO'];?>" data-toggle="modal">
