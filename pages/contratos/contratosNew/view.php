@@ -284,8 +284,9 @@ class ViewContratos {
 						<div class="row col-12">
 						<div class="form-group has-feedback col-xs-4 col-md-4 col-lg-4 <?=$monto ? 'has-error' : '' ;?>">
                             <label>Monto *</label> <!--Sección que guarda el monto del contrato   -->
-                            <input type="number" name="monto" class="form-control" value="<?=!empty($_GET["monto"]) ? $_GET["monto"]: '' ;?>">
-							<?php if ($monto){ ?>
+                            <!-- <input type="number" name="monto" class="form-control" value="<?=!empty($_GET["monto"]) ? $_GET["monto"]: '' ;?>"> -->
+							<input type="number" class="form-control" name="monto" onchange="setTwoNumberDecimal" min="0" max="100000000000000" step="0.25" value="0.00" />
+							<?php if ($monto){ ?>0
 							<span class="help-block text-danger"> 
 								<strong>Error: Numero de licitacion vacio</strong>
 							</span>
@@ -473,6 +474,12 @@ $(document).ready(function(){
 });
 </script>
 <hr>
+
+<script>
+function setTwoNumberDecimal(event) {
+    this.value = parseFloat(this.value).toFixed(2);
+}
+</script>
 
 
 

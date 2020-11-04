@@ -233,7 +233,7 @@ class ModelContratos {
 				'". $this->id_admin ."', 
 				'". $this->moneda_id ."',  
 				'". $this->selectContrato ."',  
-				'". $this->monto ."', 
+				". $this->monto .", 
 				null, 
 				TO_DATE('". $this->fecha_inicio ."','yyyy-mm-dd'),  
 				TO_DATE('". $this->fecha_termino ."','yyyy-mm-dd'), 
@@ -256,7 +256,7 @@ class ModelContratos {
 			}
 
 			oci_bind_by_name($result, "mylastid", $last_id, 8, SQLT_INT);
-
+			
 			oci_execute($result);
 
 			// var_dump($last_id);
@@ -265,7 +265,9 @@ class ModelContratos {
 			oci_commit($this->pdo);
 			
 		}else{
+			
 			print_r($this->errores);
+			
 			die();
 		}
 

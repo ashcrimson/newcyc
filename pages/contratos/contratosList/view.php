@@ -236,7 +236,7 @@ class ViewContratos {
                         <!-- <td><?= $contrato["BOLETA"]; ?></td> -->
                         <td><?= $contrato["MONTO"]; ?></td>
                         <td><?= $contrato["FECHA_ALERTA_VENCIMIENTO"]; ?></td>
-                        <td><a href="<?= $contrato['NOMBRE_DOCUMENTO'] ?>"><?= $contrato["NOMBRE_DOCUMENTO"] ?></a></td>
+                        <td><a href="<?= $contrato['NOMBRE_DOCUMENTO'] ?>"><?= utf8_encode($contrato["NOMBRE_DOCUMENTO"]) ?></a></td>
                         
                         <td>
                             <a href="#" class="btn btn-info btn-xs" data-target="#deleteModal<?=$contrato['ID_CONTRATO'];?>" data-toggle="modal">
@@ -288,7 +288,7 @@ class ViewContratos {
                                                     <div class="form-group col-12">
                                                         <label for="">Adjuntar archivo bitácora.</label>
                                                         <div class="custom-file">
-                                                            <input type="file" name="archivo_bitacora" class="custom-file-input" id="customFileLangHTML" lang="es" required>
+                                                            <input type="file" name="archivo_bitacora" class="custom-file-input" id="customFileLangHTML" lang="es">
                                                             <label class="custom-file-label" for="customFileLangHTML" data-browse="Buscar">Seleccionar Archivo</label>
                                                         </div>
                                                     </div>

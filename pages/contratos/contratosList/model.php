@@ -1,6 +1,6 @@
 <?php
 
-
+  
 
 namespace ContratosList;
 
@@ -48,7 +48,9 @@ class ModelContratos {
 		$listado = [];
 		$numeros = [];
 		$totales = [];
-
+		$cargos = [];
+		$licitaciones = [];
+ 
         $where = "WHERE 1=1 ";
 
 		if ($this->id){
@@ -57,6 +59,14 @@ class ModelContratos {
 
         if ($_GET['rut_proveedor']){
             $where .= " and P.RUT_PROVEEDOR = '" . $_GET['rut_proveedor'] . "'";
+		}
+		
+		if ($_GET['cargos']){
+            $where .= " and NOMBRE = '" . $_GET['cargos'] . "'";
+		}
+		
+		if ($_GET['licitacion']){
+            $where .= " and NRO_LICITACION = '" . $_GET['licitacion'] . "'";
         }
 
 
@@ -66,7 +76,9 @@ class ModelContratos {
 			select 
 				c.*, 
 				p.razon_social,
-				d.nombre as nombre_documento
+				d.nombre as nombre_documento,
+				d.tipo_archivo,
+				d.archivo
 				
 			from 
 				CONTRATOS C LEFT JOIN PROVEEDORES P ON c.rut_proveedor = p.rut_proveedor

@@ -127,6 +127,10 @@ class Router{
 		}
 		if(isset($_GET["page"])){
             $this->model = $this->controller->page($this->model);
+		}
+		
+		if(isset($_GET['id'])){
+            $this->model = $this->controller->filter($this->model);
         }
 	}
 

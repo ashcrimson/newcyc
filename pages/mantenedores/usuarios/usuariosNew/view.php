@@ -11,6 +11,10 @@ class ViewUsuarios {
 	
 	public function output(\UsuariosNew\ModelUsuarios $model){
 
+        $data = $model->get();
+
+        
+
 		if(!empty($_POST)){
 			$model->execute();
 		}
@@ -21,6 +25,8 @@ class ViewUsuarios {
         $ryc = $model->ryc();
         $roles = $ryc[0];
         $cargos = $ryc[1];
+        $permisos = $data[2];
+
 
 		$nombre = false;
 
@@ -142,14 +148,14 @@ class ViewUsuarios {
  -->
 
                     <?php 
-                    foreach ($roles as $rol) { 
-                        if (!empty($_GET["rol"]) && $_GET["rol"] == $rol["ID"]){
+                    foreach ($permisos as $rol) { 
+                        if (!empty($_GET["rol"]) && $_GET["rol"] == $rol["ID_PERMISO"]){
                             ?>
-                            <option selected="true" value="<?= $rol["ID"];?>"><?= $rol["AREA"];?></option>
+                            <option selected="true" value="<?= $rol["ID_PERMISO"];?>"><?= $rol["NOMBRE_PERMISO"];?></option>
                             <?php
                         }else{
                             ?>
-                            <option value="<?= $rol["ID"];?>"><?= $rol["AREA"];?></option>
+                            <option value="<?= $rol["ID_PERMISO"];?>"><?= $rol["NOMBRE_PERMISO"];?></option>
                             <?php
                         }
                     }

@@ -13,11 +13,11 @@ class ControllerOrdenCompra {
 	public function all(\OrdenCompraList\ModelOrdenCompra $model){
 		return $model;
 	}
-
+ 
 	//retorna solo la licitacion solicitada
 	public function filter(\OrdenCompraList\ModelOrdenCompra $model){
-		if(isset($_GET["nro_licitacion"])){
-			$model = $model->getId($_GET["nro_licitacion"]);
+		if(isset($_GET["id"])){
+			$model = $model->getId($_GET["id"]);
 		}
 		return $model;
 	}

@@ -58,11 +58,10 @@ class ModelOrdenCompra {
 		$numeros = [];
 		$totales = [];
 
+		$where = "WHERE 1=1 ";
 
 		if ($this->id){
-			$where = " WHERE NRO_ORDEN_COMPRA = '" . $this->id . "'";
-		}else{
-			$where = "";
+			$where = " and WHERE NRO_ORDEN_COMPRA = '" . $this->id . "'";
 		}
 
 		//consulta principal

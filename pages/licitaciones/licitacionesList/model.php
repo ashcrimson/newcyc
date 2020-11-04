@@ -1,6 +1,6 @@
 <?php
 
-
+ 
 
 namespace LicitacionesList;
 
@@ -53,11 +53,10 @@ class ModelLicitaciones {
 		$numeros = [];
 		$totales = [];
 
+		$where = "WHERE 1=1 ";
 
-		if ($this->nro_licitacion){
-			$where = " WHERE nro_licitacion = '" . $this->nro_licitacion . "'";
-		}else{
-			$where = "";
+		if ($_GET['nro_licitacion']){
+            $where .= " and nro_licitacion = '" . $_GET['nro_licitacion'] . "'";
 		}
 
 		$consulta = "
