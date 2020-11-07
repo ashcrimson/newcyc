@@ -193,7 +193,7 @@ class ModelContratos {
 						'" . $nro_documento . "',
 						'co',
 						'" . $archivo . "',
-						'$pdf',
+						empty_blob(),
 						'" . $peso . "',
 						'" . $tipo . "',
 						TO_DATE('" . date('yy-m-d') . "','yyyy-mm-dd'))
