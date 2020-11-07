@@ -1,12 +1,12 @@
 <?php
 
 
-
+ 
 namespace UsuariosList;
 
 
 /**
- * modelo de lista de  licitaciones
+ * modelo de lista de usuarios
  */
 class ModelUsuarios {
 
@@ -31,7 +31,7 @@ class ModelUsuarios {
 
 	//elimina registro indicado
 	public function delete($id): self{
-		$sql = $this->pdo->prepare("DELETE FROM licitaciones WHERE id = :id");
+		$sql = $this->pdo->prepare("DELETE FROM USUARIOS WHERE id = :id");
 		$sql->execute(["id", $id]);
 	}
 
@@ -43,6 +43,10 @@ class ModelUsuarios {
 	//filtra consulta por nro de página
 	public function getPage(int $page): self{
 		return new self($this->pdo, $this->id, $page);
+	}
+
+	public function edit($id){
+		return new self($this->pdo, $id);
 	}
 
 	//retorna el/los datos seleccionados
@@ -61,7 +65,7 @@ class ModelUsuarios {
 		}
 
 		//consulta principal
-		$consulta = "SELECT * FROM usuarios " . $where;// . " ORDER BY ID DESC";
+		$consulta = "SELECT * FROM USUARIOS " . $where;// . " ORDER BY ID DESC";
 
 		//consulta paginada
 		$query = queryPagination($consulta, $this->page);

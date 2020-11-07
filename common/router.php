@@ -272,23 +272,26 @@ class Router{
 
 
 	/***********************************
-	 * mantenedor proveedores
+	 * mantenedor usuarios
 	 ***********************************/
-	//pagina listado de proveedores
+	//pagina listado de usuarios
 	public function usuariosList(){
 		$this->model = new \usuariosList\ModelUsuarios($this->pdo);
 		$this->view = new \usuariosList\ViewUsuarios;
 		$this->controller = new \usuariosList\ControllerUsuarios;
 		$this->model = $this->controller->all($this->model);
-		if(!empty($_GET["rut"])||!empty($_GET["razon_social"])){
+		if(!empty($_GET["id"])||!empty($_GET["nombre"])){
 			$this->model = $this->controller->filter($this->model);
 		}
+		if(!empty($_GET["id"])){
+            $this->controller->delete($this->model);
+        }
 		if(isset($_GET["page"])){
 			$this->model = $this->controller->page($this->model);
 		}
 	}
 
-	//pagina agregado de proveedores
+	//pagina agregado de usuarios
 	public function usuariosNew(){
 		$this->model = new \UsuariosNew\ModelUsuarios($this->pdo);
 		$this->view = new \UsuariosNew\ViewUsuarios;

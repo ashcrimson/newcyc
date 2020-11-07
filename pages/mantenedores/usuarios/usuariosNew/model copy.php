@@ -108,8 +108,8 @@ class ModelUsuarios {
 				$consulta = "UPDATE USUARIOS
 							 SET NOMBRE = '". $_POST["nombre"] ."',
 							 	 MAIL = '". $_POST["email"] ."',
-							 	 CARGO = '". $_POST["cargo_id"] ."',
-							 	 AREA = '". $_POST["rol"] ."',
+							 	 ID_CARGO = '". $_POST["cargo_id"] ."',
+							 	 ID_PERMISO = '". $_POST["rol"] ."',
 							 	 FECHA_ACTUALIZACION = TO_DATE('". date('yy-m-d') ."','yyyy-mm-dd')
 							 WHERE MAIL='" . $_POST["email"] . "'";
 				//ejecucion consulta

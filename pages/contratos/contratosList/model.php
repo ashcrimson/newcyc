@@ -86,7 +86,7 @@ class ModelContratos {
 				LEFT JOIN documento d on d.nro_documento = dc.nro_documento
 			$where
 			ORDER BY
-				id_contrato DESC
+				id_contrato
 				
 		
 			";
@@ -193,7 +193,7 @@ class ModelContratos {
 						'" . $nro_documento . "',
 						'co',
 						'" . $archivo . "',
-						empty_blob(),
+						'$pdf',
 						'" . $peso . "',
 						'" . $tipo . "',
 						TO_DATE('" . date('yy-m-d') . "','yyyy-mm-dd'))

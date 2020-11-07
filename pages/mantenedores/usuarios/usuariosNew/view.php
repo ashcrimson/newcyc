@@ -14,7 +14,6 @@ class ViewUsuarios {
         $data = $model->get();
 
         
-
 		if(!empty($_POST)){
 			$model->execute();
 		}
@@ -22,10 +21,9 @@ class ViewUsuarios {
             $data = $model->get()[0];
         }
         
-        $ryc = $model->ryc();
-        $roles = $ryc[0];
-        $cargos = $ryc[1];
-        $permisos = $data[2];
+        
+        $cargos = $data[0];
+        $permisos = $data[1];
 
 
 		$nombre = false;
@@ -37,7 +35,7 @@ class ViewUsuarios {
         $rol =false;
         $cargo_id =false;
         $password =false;
-        $password2 =false;
+        
 
 
 		if(sizeof($_GET) && !isset($_GET["id"])){
@@ -53,12 +51,7 @@ class ViewUsuarios {
             if(!isset($_GET["cargo_id"])){
                 $cargo_id = !$cargo_id;
             }
-            // if(!isset($_GET["password"])){
-            //     $password = !$password;
-            // }
-            // if(!isset($_GET["password2"])){
-            //     $password2 = !$password2;
-            // }
+            
 		}
 
 //print_r(sizeof($_GET));
@@ -80,12 +73,7 @@ class ViewUsuarios {
             <input type="hidden" name="id" value="{{ $users->id }}" >
             <div class="form-group has-feedback col-xs-4 col-md-4 col-lg-4 {{ $errors->has('nombre') ? 'has-error' : '' }}">
                 <label>Nombre *</label>
-                <input type="text" name="nombre" class="form-control" value="<?=isset($_GET["nombre"]) ? $_GET["nombre"]: (isset($data["NOMBRE"]) ? $data["NOMBRE"] : "") ?>">
-<!--                 @if ($errors->has('nombre'))
-                    <span class="help-block text-danger">
-                        <strong>{{ $errors->first('nombre') }}</strong>
-                    </span>
-                @endif -->
+                <input type="text" name="nombre" class="form-control" value="<?=isset($_GET['nombre']) ? $_GET['nombre']: (isset($data['NOMBRE']) ? $data['NOMBRE'] : '') ?>" required>
 
 
                 <?php if ($nombre){ ?>
@@ -95,15 +83,6 @@ class ViewUsuarios {
                 <?php } ?>
 
             </div>
-<!--             <div class="form-group has-feedback col-xs-4 col-md-4 col-lg-4 {{ $errors->has('apellidos') ? 'has-error' : '' }}">
-                <label>Apellidos *</label>
-                <input type="text" name="apellidos" class="form-control" value="{{ $users->apellidos ?: old('apellidos') }}"> -->
-<!--                 @if ($errors->has('apellidos'))
-                    <span class="help-block text-danger">
-                        <strong>{{ $errors->first('apellidos') }}</strong>
-                    </span>
-                @endif
- -->
 
 
 <!-- 
@@ -118,34 +97,21 @@ class ViewUsuarios {
             <!-- </div> -->
             <div class="form-group has-feedback col-xs-4 col-md-4 col-lg-4 {{ $errors->has('email') ? 'has-error' : '' }}">
                 <label>E-mail *</label>
-                <input type="text" name="email" class="form-control" value="<?=isset($_GET["email"]) ? $_GET["email"]: (isset($data["MAIL"]) ? $data["MAIL"] : "") ?>">
+                <input type="text" name="email" class="form-control" value="<?=isset($_GET['email']) ? $_GET['email']: (isset($data['MAIL']) ? $data['MAIL'] : '') ?>" required>
 <!--                 @if ($errors->has('email'))
                     <span class="help-block text-danger">
                         <strong>{{ $errors->first('email') }}</strong>
                     </span>
                 @endif
  -->
-                <?php if ($email){ ?>
-                <span class="help-block text-danger"> 
-                    <strong>Error: Email vacio</strong>
-                </span>
-                <?php } ?>
+            
 
 
             </div>
             <div class="form-group has-feedback col-xs-4 col-md-4 col-lg-4 {{ $errors->has('rol') ? 'has-error' : '' }}">
                 <label>Rol *</label>
-                <select name="rol" class="selectpicker selectField" placeholder='Seleccione rol' data-live-search='true'>
+                <select name="rol" class="selectpicker selectField" placeholder='Seleccione rol' data-live-search='true' required>
                     <option value=""></option>
-<!--                     @foreach($rolesData as $entityId => $entityValue)
-                        @if ($entityValue == substr($users->getRoleNames(),2,strlen($users->getRoleNames())-4))
-                            <option selected="true" value="{{ $entityId }}" >{{ $entityValue }}</option>
-                        @else
-                            <option value="{{ $entityId }}" >{{ $entityValue }}</option>
-                        @endif
-                    @endforeach
-
- -->
 
                     <?php 
                     foreach ($permisos as $rol) { 
@@ -167,11 +133,11 @@ class ViewUsuarios {
                     </span>
                 @endif
  -->
-                <?php if ($rol){ ?>
+                <!-- <?php if ($rol){ ?>
                 <span class="help-block text-danger"> 
                     <strong>Error: rol</strong>
                 </span>
-                <?php } ?>
+                <?php } ?> -->
 
 
             </div>
@@ -180,22 +146,19 @@ class ViewUsuarios {
             <div class="form-group has-feedback col-xs-4 col-md-4 col-lg-4 {{ $errors->has('cargo_id') ? 'has-error' : '' }}">
                 <label>Cargo *</label>
 
-                <select name='cargo_id' class ='selectpicker selectField' placeholder='Seleccione Cargo' data-live-search='true' id ='cargo_id'>
+                <select name='cargo_id' class ='selectpicker selectField' placeholder='Seleccione Cargo' data-live-search='true' id ='cargo_id' required>
                     <option value="" ></option>
-
-
-
 
 
                     <?php 
                     foreach ($cargos as $cargo) { 
-                        if (!empty($_GET["cargo_id"]) && $_GET["cargo_id"] == $cargo["ID"]){
+                        if (!empty($_GET["cargo_id"]) && $_GET["cargo_id"] == $cargo["ID_CARGO"]){
                             ?>
-                            <option selected="true" value="<?= $cargo["ID"];?>"><?= $cargo["NOMBRE"];?></option>
+                            <option selected="true" value="<?= $cargo["ID_CARGO"];?>"><?= $cargo["NOMBRE"];?></option>
                             <?php
                         }else{
                             ?>
-                            <option value="<?= $cargo["ID"];?>"><?= $cargo["NOMBRE"];?></option>
+                            <option value="<?= $cargo["ID_CARGO"];?>"><?= $cargo["NOMBRE"];?></option>
                             <?php
                         }
                     }

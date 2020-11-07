@@ -211,8 +211,7 @@ class ModelContratos {
 			$consulta = "INSERT INTO CONTRATOS (
 				NRO_LICITACION, 
 				RUT_PROVEEDOR, 
-				ID_AREA, 
-				ID_ADMIN, 
+				ID_CARGO, 
 				ID_MONEDA, 
 				TIPO, 
 				MONTO, 
@@ -229,7 +228,6 @@ class ModelContratos {
 			VALUES (
 				'". $this->licitacion ."',  
 				'". $this->proveedor_id ."',
-				null, 
 				'". $this->id_admin ."', 
 				'". $this->moneda_id ."',  
 				'". $this->selectContrato ."',  

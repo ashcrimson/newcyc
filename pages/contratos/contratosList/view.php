@@ -228,16 +228,16 @@ class ViewContratos {
                         <!-- <td><?= $contrato["PRECIO"]; ?></td> -->
                         <!-- <td><?= $contrato["PRECIO"] * $contrato["EQUIVALENCIA"]; ?></td> -->
                         <!-- <td><?= $contrato["RESTANTE"];?></td> -->
-                        <td><?= $contrato["ID_ADMIN"];?></td>
+                        <td><?= $contrato["ID_CARGO"];?></td>
                         <td><?= $contrato["FECHA_INICIO"]; ?></td>
                         <td><?= $contrato["FECHA_TERMINO"]; ?></td>
-                        <td><?= $contrato["FECHA_ACTUALIZACION"]; ?></td>
+                        <td><?= $contrato["FECHA_APROBACION"]; ?></td>
                         <td><?= $contrato["OBJETO_CONTRATO"]; ?></td>
                         <!-- <td><?= $contrato["BOLETA"]; ?></td> -->
                         <td><?= $contrato["MONTO"]; ?></td>
                         <td><?= $contrato["FECHA_ALERTA_VENCIMIENTO"]; ?></td>
-                        <td><a href="archivo.php:?id=."<?= $contrato['ID_CONTRATO'] ?>"><?= utf8_encode($contrato["NOMBRE_DOCUMENTO"]) ?></a></td>
-                        
+                        <td><a href="<?= $contrato['NOMBRE_DOCUMENTO'] ?>" target="_blank"><?= $contrato["NOMBRE_DOCUMENTO"] ?></a></td>
+                  
                         <td>
                             <a href="#" class="btn btn-info btn-xs" data-target="#deleteModal<?=$contrato['ID_CONTRATO'];?>" data-toggle="modal">
                                 <i class="far fa-eye"></i> Bitacora

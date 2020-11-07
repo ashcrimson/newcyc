@@ -43,7 +43,7 @@ class Archivos {
 
 	//retorna el/los datos seleccionados
 	public function get(){
-        $query = "SELECT * FROM contratos WHERE id_contrato = " . (int) $_GET['id'];
+        $query = "SELECT * FROM documento WHERE id_contrato = " . (int) $_GET['id'];
         $result = oci_parse($this->pdo, $query);
 		oci_execute($result);
         $row = oci_fetch_array($result, OCI_ASSOC+OCI_RETURN_NULLS);

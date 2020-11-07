@@ -115,6 +115,7 @@ class ViewMonedas {
                                 <td> <?= $monedas["EQUIVALENCIA"]; ?></td>
                                 <td>
                                 <?php if(!$monedas["ELIMINADO"]) { ?>
+                                
                                         <a href="<?=base("/monedas/new?id=").$monedas["CODIGO"];?>" class="btn btn-primary btn-xs"><i class="fa fa-pencil-alt"></i> Editar</a>
                                         <a href="#" class="btn btn-danger btn-xs" data-target="#deleteModal<?= $monedas["CODIGO"]; ?>" data-toggle="modal"><i class="far fa-trash-alt"></i> Eliminar</a>
 

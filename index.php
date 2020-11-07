@@ -136,6 +136,8 @@ switch ($request) {
 	/** USERS **/
 	case $base . '/usuarios' :
 	case $base . '/usuarios/' :
+	case $base . '/monedas/delete' :
+	case $base . '/monedas/delete/' :
 		$router->usuariosList(); 
 		break;
 	case $base . '/usuarios/new' :

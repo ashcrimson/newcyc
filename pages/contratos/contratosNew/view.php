@@ -54,7 +54,7 @@ class ViewContratos {
 			if(!isset($_GET["id_area"])){
 				$id_area = !$id_area;
             }
-            if(!isset($_GET["id_admin"])){
+            if(!isset($_GET["id_cargo"])){
 				$id_admin = !$id_admin;
             }
             if(!isset($_GET["moneda_id"])){
