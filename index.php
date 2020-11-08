@@ -14,7 +14,6 @@ require_directory_recursive("./pages");
 //carga plantillas, y cosas comunes 
 require_directory_recursive("./common");
 
-// require './vendor/autoload.php';
 
 $request = isset($_SERVER['REDIRECT_URL']) ? $_SERVER['REDIRECT_URL'] : "";
 //$request = $_SERVER['REDIRECT_URL'];
@@ -26,6 +25,7 @@ $base =  "/newcyc";
 
 if ($_SERVER['HTTP_HOST']=='newcyc.local'){
     $base =  "";
+    require './vendor/autoload.php';
 }
 
 //ruta base, cambiar cuando se tire a prod
@@ -146,6 +146,14 @@ switch ($request) {
 	case $base . '/usuarios/save/' :
 		$router->usuariosNew(); 
 		break;
+
+    case $base . '/archivo/download/':
+    case $base . '/archivo/download' :
+
+        $router->archivoDownload();
+
+        break;
+
 	//edicion de monedas
 	//case (preg_match("/\/usuarios\/\d*\/edit\/{0,1}/", $base . $request) ? true : false) :
 		//$router->usuariosNew(); 

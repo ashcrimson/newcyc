@@ -77,6 +77,7 @@ class ModelContratos {
 				c.*, 
 				p.razon_social,
 				d.nombre as nombre_documento,
+			    d.NRO_DOCUMENTO,   
 				d.tipo_archivo,
 				d.archivo
 				

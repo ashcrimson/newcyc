@@ -236,7 +236,11 @@ class ViewContratos {
                         <!-- <td><?= $contrato["BOLETA"]; ?></td> -->
                         <td><?= $contrato["MONTO"]; ?></td>
                         <td><?= $contrato["FECHA_ALERTA_VENCIMIENTO"]; ?></td>
-                        <td><a href="<?= $contrato['NOMBRE_DOCUMENTO'] ?>" target="_blank"><?= $contrato["NOMBRE_DOCUMENTO"] ?></a></td>
+                        <td>
+                            <a href="<?= base()."/archivo/download?id=".$contrato['NRO_DOCUMENTO'] ?>" target="_blank">
+                                <?= $contrato["NOMBRE_DOCUMENTO"] ?>
+                            </a>
+                        </td>
                   
                         <td>
                             <a href="#" class="btn btn-info btn-xs" data-target="#deleteModal<?=$contrato['ID_CONTRATO'];?>" data-toggle="modal">

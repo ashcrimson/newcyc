@@ -361,4 +361,39 @@ class Router{
 		$this->controller = new \LogoutCYC\ControllerLogoutCYC;
 		$this->controller->all($this->model);
 	}
+
+    public function archivoDownload()
+    {
+
+        if (!isset($_GET['id'])){
+            throw new Exception("Debe mandar la variable id por la url");
+            exit();
+        }
+
+        $query = "SELECT * FROM documento WHERE NRO_DOCUMENTO = " . (int) $_GET['id'];
+        $result = oci_parse($this->pdo, $query);
+        oci_execute($result);
+
+        $row = queryResultToAssoc($result)[0];
+
+
+        //cuando no encuentra nigun registro en la base de datos que corresponda al id enviado por la url
+        if (is_null($row)) {
+            header('Status: 404 Not Found');
+            exit();
+        }
+        //Cuando si encuentra el registro en la base de datos
+        else {
+
+            $archivo = $row['ARCHIVO']->load();
+
+            header("Content-type:" .$row['TIPO_ARCHIVO']);
+            header('Content-Disposition: attachment; filename='.$row["NOMBRE"]);
+
+            print $archivo;
+        }
+
+
+
+	}
 }
