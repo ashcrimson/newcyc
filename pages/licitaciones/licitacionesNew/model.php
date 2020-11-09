@@ -121,18 +121,16 @@ class ModelLicitaciones {
 			$nro_documento = queryResultToAssoc($result)[0]["NRO_DOCUMENTO"];
 			// print_r($nro_documento);
 
-			$directorio = "uploads/";
-			$archivo = $directorio . basename($_FILES["archivo_licitacion"]["name"]);
+			
+			$archivo = basename($_FILES["archivo_licitacion"]["name"]);
 			$tipo = $_FILES["archivo_licitacion"]["type"];
 			$peso = $_FILES["archivo_licitacion"]["size"];
 			
 			$pdf = file_get_contents($_FILES['archivo_licitacion']['tmp_name']);
 
 
-			move_uploaded_file($_FILES["archivo_licitacion"]["tmp_name"], $archivo);
-
 			//consulta de inserción
-			//$consulta = "SELECT * FROM LICITACIONES " . " ORDER BY FECHA_CREACION DESC";
+		
 			$consulta = "INSERT into DOCUMENTO (NRO_DOCUMENTO, TIPO_DOCUMENTO, NOMBRE, ARCHIVO, PESO_ARCHIVO, TIPO_ARCHIVO, FECHA_CREACION) values (
 						'". $nro_documento ."',
 						'rl',
@@ -156,7 +154,7 @@ class ModelLicitaciones {
 			//print_r($consulta);
 			oci_execute($result, OCI_DEFAULT) or die ("Unable to execute query");
 
-			if(!$blob->save($archivo)) {
+			if(!$blob->save($pdf)) {
 				oci_rollback($this->pdo);
 			} 
 			else {
@@ -181,10 +179,6 @@ class ModelLicitaciones {
 		}
 
 		
-
-		//agrega resultados a retorno
-		//array_push($assoc, $listado);
-		//array_push($assoc, $errores);
 
 		//$results["result"] = $result;
 

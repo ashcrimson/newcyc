@@ -234,7 +234,7 @@ class ViewContratos {
                         <td><?= $contrato["FECHA_APROBACION"]; ?></td>
                         <td><?= $contrato["OBJETO_CONTRATO"]; ?></td>
                         <!-- <td><?= $contrato["BOLETA"]; ?></td> -->
-                        <td><?= $contrato["MONTO"]; ?></td>
+                        <td>$<?= number_format($contrato["MONTO"], 2, ',', '.') ?></td>
                         <td><?= $contrato["FECHA_ALERTA_VENCIMIENTO"]; ?></td>
                         <td>
                             <a href="<?= base()."/archivo/download?id=".$contrato['NRO_DOCUMENTO'] ?>" target="_blank">
@@ -275,7 +275,12 @@ class ViewContratos {
                                                              <tr>
                                                              <td> <?= $bitacora["ID_CONTRATO"]; ?></td>
                                                              <td> <?= $bitacora["GLOSA"]; ?></td>
-                                                             <td><a href="<?= $bitacora['DOCUMENTO'] ?>" target="_blank"><?= $bitacora["DOCUMENTO"] ?></a></td>
+                                                             
+                                                             <td>
+                                                                <a href="<?= base()."/archivo/download?id=".$bitacora['NRO_DOCUMENTO'] ?>" target="_blank">
+                                                                    <?= $bitacora["DOCUMENTO"] ?>
+                                                                </a>
+                                                            </td>
                                                              
                                                              
                                                              

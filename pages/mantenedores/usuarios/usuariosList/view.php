@@ -76,10 +76,10 @@ class viewUsuarios {
                                 if(!$users["FECHA_ELIMINACION"]) { ?>
                                 
                                         <a href="<?=base('/usuarios/new?id=').$users['MAIL'];?>" class="btn btn-primary btn-xs"><i class="fa fa-pencil-alt"></i> Editar</a>
-                                        <a href="#" class="btn btn-danger btn-xs" data-target="#deleteModal" data-toggle="modal"><i class="far fa-trash-alt"></i> Eliminar</a>
+                                        <a href="#" class="btn btn-danger btn-xs" data-target="#deleteModal<?= $users["MAIL"]; ?>" data-toggle="modal"><i class="far fa-trash-alt"></i> Eliminar</a>
 
                                         <!-- modal starts -->
-                                        <div class="modal fade" id="deleteModal">
+                                        <div class="modal fade" id="deleteModal<?= $users["MAIL"]; ?>">
                                             <div class="modal-dialog">
                                                 <div class="modal-content">
                                                     <form class="form-horizontal" method="post" action="<?=base('/usuarios/delete?id=').$users['MAIL'];?>" >

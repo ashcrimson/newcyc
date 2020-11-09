@@ -70,7 +70,7 @@ class ViewLicitaciones {
 							<div class="form-group has-feedback col-xs-4 col-md-4 col-lg-4 {{ $errors->has('nro_licitacion') ? 'has-error' : '' }}">
 								<label>ID Licitación</label>
 								<input type="hidden" name="submit" value="true">
-								<input type="text" name="nro_licitacion" class="form-control" value="<?=isset($_GET["nro_licitacion"]) ? $_GET["nro_licitacion"]: '' ?>">
+								<input type="text" name="nro_licitacion" class="form-control" value="<?=isset($_GET["nro_licitacion"]) ? $_GET["nro_licitacion"]: '' ?>" required>
 
 								<?php if ($nro_licitacion){ ?>
 								<span class="help-block text-danger"> 

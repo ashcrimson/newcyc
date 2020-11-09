@@ -62,7 +62,11 @@ class ModelLicitaciones {
 		$consulta = "
 			select 
 				l.*, 
-				d.nombre as nombre_documento
+				d.nombre as nombre_documento,
+				d.NRO_DOCUMENTO,   
+				d.tipo_archivo,
+				d.archivo
+				
 			from 
 				LICITACIONES L
 				LEFT JOIN documento_licitaciones dl on dl.nro_licitacion = l.nro_licitacion

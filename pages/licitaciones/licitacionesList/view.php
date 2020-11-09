@@ -114,7 +114,11 @@ class ViewLicitaciones {
 								<td> <?= $licitaciones["NRO_LICITACION"]; ?></td>
 								<td> <?= $licitaciones["PRESUPUESTO"]; ?></td>
 								<td> <?= $licitaciones["DETALLE"]; ?></td>
-								<td><a href="<?= $licitaciones['NOMBRE_DOCUMENTO'] ?>"><?= $licitaciones["NOMBRE_DOCUMENTO"] ?></a></td>
+								<td>
+									<a href="<?= base()."/archivo/download?id=".$licitaciones['NRO_DOCUMENTO'] ?>" target="_blank">
+										<?= $licitaciones["NOMBRE_DOCUMENTO"] ?>
+									</a>
+								</td>
 
 								
 							</tr>

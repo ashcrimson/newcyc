@@ -308,8 +308,7 @@ class ModelContratos {
 
 			if(!$blob->save($binario)) {
 				oci_rollback($this->pdo);
-			}
-			else {
+			} else { 
 				oci_commit($this->pdo);
 			}
 
@@ -341,7 +340,7 @@ class ModelContratos {
 	}
 
 
-
+ 
 	public function get(){
 		
 		$assoc = [];
