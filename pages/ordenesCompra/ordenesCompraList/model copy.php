@@ -2,13 +2,13 @@
 
 
 
-namespace UsuariosList;
+namespace OrdenCompraList;
 
 
 /**
  * modelo de lista de  licitaciones
  */
-class ModelUsuarios {
+class ModelOrdenCompra {
 
 	/**
 	 * varaibles globales
@@ -20,33 +20,25 @@ class ModelUsuarios {
 	//pagina 
 	private  $page;
 	//resultados por pagina
-	private $resultados = 10;
+	private $resultados = 12;
 
 	//Constructor
 	function __construct($pdo, string $id = '', int $page = 1){
 		$this->pdo = $pdo;
 		$this->id = $id;
 		$this->page = $page;
-	} 
+	}
 
 	//elimina registro indicado
 	public function delete($id): self{
-
-		$sql = "DELETE FROM USUARIOS_PERMISOS WHERE MAIL_USUARIO = '{$id}'";
-		$result = oci_parse($this->pdo, $sql);
-		oci_execute($result);
-
-		oci_commit($this->pdo);
-
-        $sql = "DELETE FROM USUARIOS WHERE ID = '{$id}'";
+        $sql = "DELETE FROM ORDEN_COMPRA WHERE NRO_ORDEN_COMPRA = ".$id;
         $result = oci_parse($this->pdo, $sql);
-		oci_execute($result);
-		
+        oci_execute($result);
         oci_commit($this->pdo);
 
         return new self($this->pdo, '', $this->page);
 
-	} 
+	}
 
 	//filtra consulta por nro de licitación(id, llave primaria)
 	public function getId($id): self{
@@ -63,41 +55,33 @@ class ModelUsuarios {
 		
 		$assoc = [];
 		$listado = [];
-		$mail = [];
+		$numeros = [];
 		$totales = [];
 
-
+		$where = "WHERE 1=1 ";
 
 		if ($this->id){
-			$where = " WHERE ID = '" . $this->id . "'";
-		}else{
-			$where = "";
+			$where = " and WHERE NRO_ORDEN_COMPRA = '" . $this->id . "'";
 		}
+
 		//consulta principal
-		$consulta = "SELECT * FROM USUARIOS " . $where;// . " ORDER BY CODIGO DESC";
+		$consulta = "SELECT * FROM ORDEN_COMPRA ";// . $where . " ORDER BY FECHA_CREACION DESC";
+
 		//consulta paginada
 		$query = queryPagination($consulta, $this->page);
 		$result = oci_parse($this->pdo, $query);
 		oci_execute($result);
 		$listado = queryResultToAssoc($result);
 
-		//consulta para recuperar todos los codigos de monedas
-		$query = "select * from licitaciones ";
-		//$query = "select CODIGO from licitaciones ";
-		$result = oci_parse($this->pdo, $query);
-		oci_execute($result);
-		$codigos = queryResultToAssoc($result);
-
+		
 		//consulta para recuperar cantidad de páginas disponibles
 		$result = oci_parse($this->pdo, $consulta);
 		oci_execute($result);
 		$totales = queryResultToAssoc($result);
 
-		
-
 		array_push($assoc, $listado);
-		array_push($assoc, $codigos);
-		array_push($assoc, $totales);
+		
+		
 
 		oci_close($this->pdo);
 		return $assoc;

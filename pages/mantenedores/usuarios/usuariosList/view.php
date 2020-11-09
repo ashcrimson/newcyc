@@ -14,7 +14,7 @@ class viewUsuarios {
 
 		$data = $model->get();
 
-		$usersData = $data[0];
+		$listado = $data[0];
 		$numerosUsuarios = $data[1];
 		$totales = $data[2];
 		ob_start();
@@ -64,7 +64,7 @@ class viewUsuarios {
 
                     <tbody> 
                     	<?php
-                    	foreach ($usersData as $users) {
+                    	foreach ($listado as $users) {
                 			?>
                         
                             <tr>
@@ -75,16 +75,16 @@ class viewUsuarios {
 
                                 if(!$users["FECHA_ELIMINACION"]) { ?>
                                 
-                                        <a href="<?=base('/usuarios/new?id=').$users['MAIL'];?>" class="btn btn-primary btn-xs"><i class="fa fa-pencil-alt"></i> Editar</a>
-                                        <a href="#" class="btn btn-danger btn-xs" data-target="#deleteModal<?= $users["MAIL"]; ?>" data-toggle="modal"><i class="far fa-trash-alt"></i> Eliminar</a>
+                                        <a href="<?=base('/usuarios/new?id=').$users['ID'];?>" class="btn btn-primary btn-xs"><i class="fa fa-pencil-alt"></i> Editar</a>
+                                        <a href="#" class="btn btn-danger btn-xs" data-target="#deleteModal<?= $users["ID"]; ?>" data-toggle="modal"><i class="far fa-trash-alt"></i> Eliminar</a>
 
                                         <!-- modal starts -->
-                                        <div class="modal fade" id="deleteModal<?= $users["MAIL"]; ?>">
+                                        <div class="modal fade" id="deleteModal<?= $users["ID"]; ?>">
                                             <div class="modal-dialog">
                                                 <div class="modal-content">
-                                                    <form class="form-horizontal" method="post" action="<?=base('/usuarios/delete?id=').$users['MAIL'];?>" >
+                                                    <form class="form-horizontal" method="post" action="<?=base('/usuarios/delete?id=').$users['ID'];?>" >
                                                     <div class="modal-header">
-                                                        <h4 class="modal-title"> Borrar <?=$users["MAIL"];?> </h4>
+                                                        <h4 class="modal-title"> Borrar <?=$users["NOMBRE"];?> </h4>
                                                         <button type="button" class="close" data-dismiss="modal">&times;</button>
                                                     </div>
 
@@ -100,14 +100,14 @@ class viewUsuarios {
                                         <?php
                                     }else{
                                     	?>
-                                        <a href="#" class="btn btn-xs btn-success" data-target="#restoreModal<?=$users['MAIL'];?>" data-toggle="modal"><i class="fas fa-arrow-circle-up"></i> Restaurar</a>
+                                        <a href="#" class="btn btn-xs btn-success" data-target="#restoreModal<?=$users['ID'];?>" data-toggle="modal"><i class="fas fa-arrow-circle-up"></i> Restaurar</a>
         
 
                                         <!-- modal starts -->
-                                        <div class="modal fade" id="restoreModal<?=$users["MAIL"];?>">
+                                        <div class="modal fade" id="restoreModal<?=$users["ID"];?>">
                                             <div class="modal-dialog">
                                                 <div class="modal-content">
-                                                    <form class="form-horizontal" method="post" action="<?=base("/usuarios/new?restore=true&id=").$users["MAIL"];?>" >
+                                                    <form class="form-horizontal" method="post" action="<?=base("/usuarios/new?restore=true&id=").$users["ID"];?>" >
 
                                                     <div class="modal-header">
                                                         <h4 class="modal-title"> Restaurar  <?=$users["NOMBRE"];?> </h4>
@@ -125,10 +125,10 @@ class viewUsuarios {
                                         <!-- modal ends -->
 
                                         <!-- modal starts -->
-                                        <div class="modal fade" id="forceDeleteModal<?=$users["MAIL"];?>">
+                                        <div class="modal fade" id="forceDeleteModal<?=$users["ID"];?>">
                                             <div class="modal-dialog">
                                                 <div class="modal-content">
-                                                <form class="form-horizontal" method="post" action="<?=base("/usuarios/delete?force=true&id=").$users["MAIL"];?>" >
+                                                <form class="form-horizontal" method="post" action="<?=base("/usuarios/delete?force=true&id=").$users["ID"];?>" >
                                                     <div class="modal-header">
                                                         <h4 class="modal-title"> Borrar permanentemente <?=$users["NOMBRE"];?> </h4>
                                                         <button type="button" class="close" data-dismiss="modal">&times;</button>

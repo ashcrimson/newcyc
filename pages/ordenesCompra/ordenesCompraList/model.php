@@ -1,6 +1,6 @@
 <?php
 
-
+ 
 
 namespace OrdenCompraList;
 
@@ -20,7 +20,7 @@ class ModelOrdenCompra {
 	//pagina 
 	private  $page;
 	//resultados por pagina
-	private $resultados = 12;
+	private $resultados = 10;
 
 	//Constructor
 	function __construct($pdo, string $id = '', int $page = 1){
@@ -31,9 +31,11 @@ class ModelOrdenCompra {
 
 	//elimina registro indicado
 	public function delete($id): self{
-        $sql = "DELETE FROM ORDEN_COMPRA WHERE NRO_ORDEN_COMPRA = ".$id;
+
+		$sql = "DELETE FROM ORDEN_COMPRA WHERE NRO_ORDEN_COMPRA = ".$id;
         $result = oci_parse($this->pdo, $sql);
-        oci_execute($result);
+		oci_execute($result);
+		
         oci_commit($this->pdo);
 
         return new self($this->pdo, '', $this->page);
@@ -55,33 +57,41 @@ class ModelOrdenCompra {
 		
 		$assoc = [];
 		$listado = [];
-		$numeros = [];
+		$codigos = [];
 		$totales = [];
 
-		$where = "WHERE 1=1 ";
+
 
 		if ($this->id){
-			$where = " and WHERE NRO_ORDEN_COMPRA = '" . $this->id . "'";
+			$where = " WHERE CODIGO = '" . $this->id . "'";
+		}else{
+			$where = "";
 		}
-
 		//consulta principal
-		$consulta = "SELECT * FROM ORDEN_COMPRA ";// . $where . " ORDER BY FECHA_CREACION DESC";
-
+		$consulta = "SELECT * FROM MONEDA " . $where;// . " ORDER BY CODIGO DESC";
 		//consulta paginada
 		$query = queryPagination($consulta, $this->page);
 		$result = oci_parse($this->pdo, $query);
 		oci_execute($result);
 		$listado = queryResultToAssoc($result);
 
-		
+		//consulta para recuperar todos los codigos de monedas
+		$query = "select * from licitaciones ";
+		//$query = "select CODIGO from licitaciones ";
+		$result = oci_parse($this->pdo, $query);
+		oci_execute($result);
+		$codigos = queryResultToAssoc($result);
+
 		//consulta para recuperar cantidad de páginas disponibles
 		$result = oci_parse($this->pdo, $consulta);
 		oci_execute($result);
 		$totales = queryResultToAssoc($result);
 
+		
+
 		array_push($assoc, $listado);
-		
-		
+		array_push($assoc, $codigos);
+		array_push($assoc, $totales);
 
 		oci_close($this->pdo);
 		return $assoc;
