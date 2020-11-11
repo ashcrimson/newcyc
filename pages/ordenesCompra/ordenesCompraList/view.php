@@ -14,6 +14,7 @@ class ViewOrdenCompra {
 		$data = $model->get();
 
 		$listado = $data[0];
+		$totales = $data[1];
 		
 
 		ob_start();
@@ -155,7 +156,12 @@ class ViewOrdenCompra {
 						<td><?= $ordenCompra["FECHA_ENVIO"];?></td>
 						<td><?= $ordenCompra["TOTAL"];?></td>
 						<td><?= $ordenCompra["ESTADO"];?></td>
-						<td>N/A</td>
+						<td>
+							<a href="<?= base()."/archivo/download?id=".$ordenCompra['NRO_DOCUMENTO'] ?>" target="_blank">
+                                <?= $ordenCompra["NOMBRE_DOCUMENTO"] ?>
+                            </a>
+						
+						</td>
 						
 						<td>
 						<?php
@@ -242,7 +248,7 @@ class ViewOrdenCompra {
                 </tbody>   
             </table>
     </div>
-
+ 
   
         </div>
     </div>

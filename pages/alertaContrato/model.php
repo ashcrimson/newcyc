@@ -15,27 +15,27 @@ class ModelAlertaContrato {
 	//Obj de conexion de db
 	private $pdo;
 	//filtro de licitacion
-	private $nro_licitacion;
+	private $id_contrato;
 	//pagina 
 	private  $page;
 	//resultados por pagina
 	private $resultados = 10;
 
 	//Constructor
-	function __construct($pdo, string $nro_licitacion = '', int $page = 1){
+	function __construct($pdo, string $id_contrato = '', int $page = 1){
 		$this->pdo = $pdo;
-		$this->nro_licitacion = $nro_licitacion;
+		$this->id_contrato = $id_contrato;
 		$this->page = $page;
 	}
 
 	//filtra consulta por nro de licitación(id, llave primaria)
-	public function getId($nro_licitacion): self{
-		return new self($this->pdo, $nro_licitacion, $this->page);
+	public function getId($id_contrato): self{
+		return new self($this->pdo, $id_contrato, $this->page);
 	}
 
 	//filtra consulta por nro de página
 	public function getPage(int $page): self{
-		return new self($this->pdo, $this->nro_licitacion, $page);
+		return new self($this->pdo, $this->id_contrato, $page);
 	}
 
 	//retorna el/los datos seleccionados
@@ -47,20 +47,31 @@ class ModelAlertaContrato {
 		$totales = [];
 
 
-		if ($this->nro_licitacion){
-			$where = " WHERE nro_licitacion = '" . $this->nro_licitacion . "'";
+		if ($this->id_contrato){
+			$where = " WHERE id_contrato = '" . $this->id_contrato . "'";
 		}else{
 			$where = "";
 		}
 		//consulta principal
-		$consulta = "SELECT * FROM LICITACIONES " . $where . " ORDER BY FECHA_CREACION DESC";
+		$consulta = "
+		select 
+			c.*, 
+			p.razon_social
+			
+		from 
+			CONTRATOS C LEFT JOIN PROVEEDORES P ON c.rut_proveedor = p.rut_proveedor
+			
+		$where
+		ORDER BY
+			id_contrato
+		";
 
 		//consulta paginada
 		$query = queryPagination($consulta, $this->page);
 		$result = oci_parse($this->pdo, $query);
 		oci_execute($result);
 		$listado = queryResultToAssoc($result);
-
+ 
 		//consulta para recuperar todos los numeros de licitaciones
 		$query = "select NRO_LICITACION from licitaciones ";
 		$result = oci_parse($this->pdo, $query);

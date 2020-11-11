@@ -70,27 +70,7 @@ class ViewContratos {
                             </select>
                         </div>
                     </div>
-<!--                    <div class="col-3">-->
-<!--                        <label>Razón Social</label>-->
-<!--                        <div>-->
-<!--                            <select name="proveedoresNombre" class="selectpicker selectField" placeholder='Seleccione Razón Social' data-live-search='true'>-->
-<!--                                <option value=""></option>-->
-<!--                                --><?php //
-//                                foreach ($proveedores as $proveedor) {
-//                                    if (!empty($_GET["proveedoresNombre"]) && $_GET["proveedoresNombre"] == $proveedor["RUT_PROVEEDOR"]){
-//                                        ?>
-<!--                                        <option selected="true" value="--><?//= $proveedor["RUT_PROVEEDOR"];?><!--">--><?//= $proveedor["RAZON_SOCIAL"];?><!--</option>-->
-<!--                                        --><?php
-//                                    }else{
-//                                        ?>
-<!--                                        <option value="--><?//= $proveedor["RUT_PROVEEDOR"];?><!--">--><?//= $proveedor["RAZON_SOCIAL"];?><!--</option>-->
-<!--                                        --><?php
-//                                    }
-//                                }
-//                                ?>
-<!--                            </select>-->
-<!--                        </div>-->
-<!--                    </div>-->
+
                     <div class="col-3">
                         <label>ID Contrato</label>
                         <div>
@@ -142,7 +122,7 @@ class ViewContratos {
                                 <option value="si">Vigente</option>
                                 <option value="no">No vigente</option>
                             </select>
-                        </div>
+                        </div> 
                     </div>
 		    <div class="col-3 mt-3">
                         <label>Licitación</label>
@@ -182,12 +162,7 @@ class ViewContratos {
         </div>
 
         <div class="card-body">
-<!--             @if (session('status'))
-                <div class="alert alert-success" role="alert">
-                    {{ session('status') }}
-                </div>
-            @endif -->
-            <!--FILTRAR GRILLA SEGÚN CARGO DE USUARIO. -->
+
             <div class="table-responsive">
             <table class="table table-bordered table-sm" id="dataTable" width="100%" cellspacing="0">
                 <thead>
@@ -213,6 +188,7 @@ class ViewContratos {
                         <th>Acción</th>
                     @endrole -->
                     <th>Bitácora</th>
+                    <th>Editar</th>
                 </tr>
                 </thead>
                     <?php 
@@ -323,6 +299,9 @@ class ViewContratos {
                                     </div>
                                 </div>
                             </div>
+                        </td>
+                        <td>
+                            <a href="<?=base("/contratos/new?id=").$contrato["ID_CONTRATO"];?>" class="btn btn-primary btn-xs"><i class="fa fa-pencil-alt"></i> Editar</a>
                         </td>
 
                     </tr>

@@ -95,19 +95,26 @@ class ModelContratos {
 				$this->error = true;
 			}
 			if(isset($_POST["selectContrato"]) && $_POST["selectContrato"] != ""){
+
 				$this->params .= "selectContrato" . $_POST["selectContrato"] . "&";
 				$this->selectContrato = $_POST["selectContrato"];
+				if($_POST["selectContrato"]!= "td"){
+					if(isset($_POST["licitacion"]) && $_POST["licitacion"] != ""){
+						$this->params .= "licitacion" . $_POST["licitacion"] . "&";
+						$this->licitacion = $_POST["licitacion"];
+					}else{
+						$this->errores["licitacion"] = true;
+						$this->error = true;
+					}
+				} else {
+					$this->params .= "licitacion" . "td". "&";
+					$this->licitacion = "td";
+				}
 			}else{
 				$this->errores["selectContrato"] = true;
 				$this->error = true;
 			}
-			if(isset($_POST["licitacion"]) && $_POST["licitacion"] != ""){
-				$this->params .= "licitacion" . $_POST["licitacion"] . "&";
-				$this->licitacion = $_POST["licitacion"];
-			}else{
-				$this->errores["licitacion"] = true;
-				$this->error = true;
-			}
+			
 			if(isset($_POST["moneda_id"]) && $_POST["moneda_id"] != ""){
 				$this->params .= "moneda_id" . $_POST["moneda_id"] . "&";
 				$this->moneda_id = $_POST["moneda_id"];

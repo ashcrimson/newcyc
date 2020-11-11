@@ -1,6 +1,6 @@
 <?php
 
-
+ 
 
 namespace MonedasList;
 
@@ -43,10 +43,8 @@ class ViewMonedas {
                         <div>
                             <select name="tipo" class="selectpicker selectField" placeholder='Seleccione moneda' data-live-search='true'>
                                 <option value=""></option>
-<!--                                 @foreach($tiposData as $entityId => $entityValue)
-                                    <option value="{{ $entityId }}" >{{ $entityValue }}</option>
-                                @endforeach
- -->							<?php
+
+ 							<?php
 	                            foreach ($listaMonedas as $moneda){
 	                            	if ($_GET["tipo"] == $moneda["CODIGO"]) {
 		                            	?>
@@ -87,11 +85,7 @@ class ViewMonedas {
         </div>
 
         <div class="card-body">
-            <!-- @if (session('status'))
-                <div class="alert alert-success" role="alert">
-                    {{ session('status') }}
-                </div>
-            @endif -->
+            
             <div class="table-responsive">
 
                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">

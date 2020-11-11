@@ -122,14 +122,14 @@ class Router{
 		$this->view = new \OrdenCompraList\ViewOrdenCompra;
 		$this->controller = new \OrdenCompraList\ControllerOrdenCompra;
 		$this->model = $this->controller->all($this->model);
-		if(!empty($_GET["id"])){
+		if(!empty($_GET["nro_orden_compra"])){
             $this->controller->delete($this->model);
 		}
 		if(isset($_GET["page"])){
             $this->model = $this->controller->page($this->model);
 		}
 		
-		if(isset($_GET['id'])){
+		if(isset($_GET['nro_orden_compra'])){
             $this->model = $this->controller->filter($this->model);
         }
 	}

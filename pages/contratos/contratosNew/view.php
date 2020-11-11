@@ -13,6 +13,9 @@ class ViewContratos {
 
 		if(!empty($_POST)){
 			$model->execute();
+		}
+		if(isset($_GET["id"])){
+            $data = $model->get()[0];
         }
         
         $data = $model->get();
@@ -129,13 +132,13 @@ class ViewContratos {
 							<div class="form-group has-feedback col-xsñ-4 col-md-4 col-lg-4 <?=$selectContrato ? 'has-error' : '' ;?>">
 								<label>Tipo Contrato</label>
 								<input type="hidden" name="submit" value="true">
-								<select class="selectpicker selectField" placeholder='Seleccione Tipo de Contrato' name="selectContrato" id="selectContrato">
+								<select class="selectpicker " placeholder='Seleccione Tipo de Contrato' name="selectContrato" id="selectContrato" value="<?=isset($_GET["selectContrato"]) ? $_GET["selectContrato"]: (isset($data["TIPO"]) ? $data["TIPO"] : "") ?>">
 									<option value="lc">Licitación</option>
 									<option value="td">Trato Directo</option>              
 								</select>
 								<?php if ($selectContrato){ ?>
 								<span class="help-block text-danger"> 
-									<strong>Error: Numero de licitacion vacio</strong>
+									<strong>Tipo de contrato vacío</strong>
 								</span>
 								<?php } ?>
 							</div>
@@ -148,7 +151,7 @@ class ViewContratos {
 						<div class="row col-12">
 							<div class="form-group has-feedback col-xs-4 col-md-4 col-lg-4 <?=$licitacion ? 'has-error' : '' ;?>" id="licitacion"  >
 								<label>Licitacion *</label>
-								<select name='licitacion' class ='selectpicker selectField' placeholder='Seleccione Licitacion' data-live-search='true' id ='licitacion_id'>
+								<select name='licitacion' class ='selectpicker selectField' placeholder='Seleccione Licitacion' data-live-search='true' id ='licitacion_id' value="<?=isset($_GET["licitacion"]) ? $_GET["licitacion"]: (isset($data["NRO_LICITACION"]) ? $data["NRO_LICITACION"] : "") ?>">
 									<option value=""></option>
 									<?php 
 									foreach ($dataLicitaciones as $licitacionn) { 
@@ -178,7 +181,7 @@ class ViewContratos {
 							<div class="form-group has-feedback col-xsñ-4 col-md-4 col-lg-4">
 								<label for="">Adjuntar contrato.</label>
 								<div class="custom-file">
-									<input type="file" name="archivo_contrato" class="custom-file-input" id="customFileLangHTML" lang="es" required>
+									<input type="file" name="archivo_contrato" class="custom-file-input" id="customFileLangHTML" lang="es" required value="<?=isset($_GET["archivo_contrato"]) ? $_GET["archivo_contrato"]: (isset($data["CODIGO"]) ? $data["NRO_DOCUMENTO"] : "") ?>">
 									<label class="custom-file-label" for="customFileLangHTML" data-browse="Buscar">Seleccionar Archivo</label>
 								</div>
 							</div>
@@ -192,7 +195,7 @@ class ViewContratos {
                 <div class="form-group has-feedback col-xs-4 col-md-4 col-lg-4 <?=$proveedor_id ? 'has-error' : '' ;?>">
                     <label>Proveedor *</label>
 
-                    <select class="selectpicker selectField" name='proveedor_id'  class ='form-control selectpicker selectField' placeholder='Seleccione Proveedor' data-live-search='true' id ='proveedor_id' >
+                    <select class="selectpicker selectField" name='proveedor_id'  class ='form-control selectpicker selectField' placeholder='Seleccione Proveedor' data-live-search='true' id ='proveedor_id' value="<?=isset($_GET["proveedor_id"]) ? $_GET["proveedor_id"]: (isset($data["RUT_PROVEEDOR"]) ? $data["RUT_PROVEEDOR"] : "") ?>">
                     	<option value=""></option>
                         <?php 
                         foreach ($dataProveedores as $proveedor) { 
@@ -223,7 +226,7 @@ class ViewContratos {
 						<div class="row col-12">
 							<div class="form-group has-feedback col-xs-4 col-md-4 col-lg-4 ">
 								<label>Cargo</label>
-								<select class="selectpicker selectField" name='id_admin'  class ='form-control selectpicker selectField' placeholder='Seleccione Cargo' data-live-search='true' id ='id_admin' >
+								<select class="selectpicker selectField" name='id_admin'  class ='form-control selectpicker selectField' placeholder='Seleccione Cargo' data-live-search='true' id ='id_admin' value="<?=isset($_GET["id_admin"]) ? $_GET["id_admin"]: (isset($data["ID_CARGO"]) ? $data["ID_CARGO"] : "") ?>">
 									<option value=""></option>
 									<?php 
 									foreach ($dataCargos as $cargo) { 
@@ -253,7 +256,7 @@ class ViewContratos {
 						<div class="form-group has-feedback col-xs-4 col-md-4 col-lg-4 <?=$moneda_id ? 'has-error' : '' ;?>" >
                     <label>Moneda *</label>
 
-                    <select name='moneda_id' class ='selectpicker selectField' placeholder='Seleccione Moneda' data-live-search='true' id ='moneda_id' >
+                    <select name='moneda_id' class ='selectpicker selectField' placeholder='Seleccione Moneda' data-live-search='true' id ='moneda_id' value="<?=isset($_GET["moneda_id"]) ? $_GET["moneda_id"]: (isset($data["ID_MONEDA"]) ? $data["ID_MONEDA"] : "") ?>">
                     	<option value=""></option>
                         <?php 
                         foreach ($dataMoneda as $moneda) { 
@@ -357,47 +360,7 @@ class ViewContratos {
 						</div>
 					</div>
 
-                    <!-- <div class="container">
-						<div class="row col-12">
-							<div class="form-group has-feedback col-xs-4 col-md-4 col-lg-4">
-								<label>Fecha Creación</label>
-								<input type="date" name="fecha_creacion" class="form-control" value="<?=$_GET["fecha_creacion"] ?: '' ?>">
-
-								<?php if ($fecha_creacion){ ?>
-								<span class="help-block text-danger"> 
-									<strong>Error: Fecha Creación inválida.</strong>
-								</span>
-								<?php } ?>
-							</div>
-						</div>
-					</div> -->
-
-                    <!-- <div class="container">
-						<div class="row col-12">
-							<div class="form-group has-feedback col-xs-4 col-md-4 col-lg-4">
-								<label>Fecha Actualización</label>
-								<input type="date" name="fecha_actualizacion" class="form-control" value="<?=$_GET["fecha_actualizacion"] ?: '' ?>">
-
-								<?php if ($fecha_actualizacion){ ?>
-								<span class="help-block text-danger"> 
-									<strong>Error: Fecha Actualización inválida.</strong>
-								</span>
-								<?php } ?>
-							</div>
-						</div>
-					</div> -->
-
-                    <!-- <div class="container">
-						<div class="row col-12">
-							<div class="form-group has-feedback col-xs-4 col-md-4 col-lg-4">
-								<label>Fecha Eliminación</label>
-								<input type="date" name="fecha_eliminacion" class="form-control" value="<?=$_GET["fecha_eliminacion"] ?: '' ?>">
-
-								
-							</div>
-						</div>
-					</div> -->
-
+                
                     <div class="container">
 						<div class="row col-12">
 						<div class="form-group has-feedback col-xs-4 col-md-4 col-lg-4 <?=$objeto_contrato ? 'has-error' : '' ;?>">
@@ -445,34 +408,36 @@ class ViewContratos {
 			$('.selectField').selectize({
 				create: false,
 				sortField: {
-					field: 'text',
+					field: 'text', 
 					direction: 'asc'
 				},
 				dropdownParent: 'body'
+				
 			});
-		</script>  
+		
+			$('#selectContrato').selectize({
 
-<script>
-    
-    $(document).ready(function() {
-    $('#licitacion').show(); 
-    $('#selectContrato').change(function(){
-        if($('#selectContrato').val() == 'lc') {
-            $('#licitacion').show(); 
-        } else {
-            $('#licitacion').hide(); 
-        } 
-    });
-});
-</script> 
+				create: false,
+				sortField: {
+					field: 'text',
+					direction: 'asc'
+				},
+				dropdownParent: 'body',
+				onChange: function(value) {
+					if(value == "td"){
+						$('#licitacion').hide(); 
+					} else {
+						$('#licitacion').show(); 
+					}
+					// console.log("Cambio", value);
+				}
+			});
+		</script> 
 
-<script>
-$(document).ready(function(){
-  $$('#selectContrato option:contains("td")').click(function(){
-    $("#licitacion").hide();
-  });
-});
-</script>
+
+
+
+
 <hr>
 
 <script>

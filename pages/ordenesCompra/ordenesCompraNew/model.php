@@ -1,7 +1,7 @@
 <?php
 
 
-
+ 
 namespace OrdenCompraNew;
 
 
@@ -134,17 +134,12 @@ class ModelOrdenCompra {
 			$result = oci_parse($this->pdo, $cons);
 			oci_execute($result);
 			$nro_documento = queryResultToAssoc($result)[0]["NRO_DOCUMENTO"];
-			print_r($nro_documento);
-
-			$directorio = "uploads/";
-			$archivo = $directorio . basename($_FILES["archivo_orden_compra"]["name"]);
+			
+			$archivo = basename($_FILES["archivo_orden_compra"]["name"]);
 			$tipo = $_FILES["archivo_orden_compra"]["type"];
 			$peso = $_FILES["archivo_orden_compra"]["size"];
 			
 			$pdf = file_get_contents($_FILES['archivo_orden_compra']['tmp_name']);
-
-
-			move_uploaded_file($_FILES["archivo_orden_compra"]["tmp_name"], $archivo);
 
 			//consulta de inserción
 			//$consulta = "SELECT * FROM LICITACIONES " . " ORDER BY FECHA_CREACION DESC";
@@ -167,7 +162,7 @@ class ModelOrdenCompra {
 			//print_r($consulta);
 			oci_execute($result, OCI_DEFAULT) or die ("Unable to execute query");
 
-			if(!$blob->save($archivo)) {
+			if(!$blob->save($pdf)) {
 				oci_rollback($this->pdo);
 			}
 			else {

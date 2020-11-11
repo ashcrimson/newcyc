@@ -36,7 +36,7 @@ class ModelUsuarios {
 		$result = oci_parse($this->pdo, $sql);
 		oci_execute($result);
 
-		oci_commit($this->pdo);
+		
 
         $sql = "DELETE FROM USUARIOS WHERE ID = '{$id}'";
         $result = oci_parse($this->pdo, $sql);
