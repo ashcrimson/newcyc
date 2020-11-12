@@ -302,10 +302,10 @@ class ViewContratos {
 
                     <div class="container">
 						<div class="row col-12">
-						<div class="form-group has-feedback col-xs-4 col-md-4 col-lg-4 <?=$fecha_inicio ? 'has-error' : '' ;?>">
+						<div class="form-group has-feedback col-xs-4 col-md-4 col-lg-4 <?=$fecha_inicio ? 'has-error' : '' ;?>" >
                     <label>Fecha Inicio Contrato*</label>
                     
-                    <input type="date" name="fecha_inicio" class="form-control" value="<?=!empty($_GET["fecha_inicio"]) ? $_GET["fecha_inicio"]: '' ;?>">
+                    <input type="date" name="fecha_inicio" id="fecha_inicio" class="form-control" value="<?=!empty($_GET["fecha_inicio"]) ? $_GET["fecha_inicio"]: '' ;?>" min="<?php echo date("Y-m-d"); ?>">
 					<?php if ($fecha_inicio){ ?>
 					<span class="help-block text-danger"> 
 						<strong>Fecha incorrecta</strong>
@@ -319,8 +319,11 @@ class ViewContratos {
 						<div class="row col-12">
 							<div class="form-group has-feedback col-xs-4 col-md-4 col-lg-4">
 								<label>Fecha Término Contrato</label>
-								<input type="date" name="fecha_termino" class="form-control" value="<?=$_GET["fecha_termino"] ?: '' ?>">
-
+								<input type="date" name="fecha_termino" id="fecha_termino" class="form-control" value="<?=$_GET["fecha_termino"] ?: '' ?>" oninput="fecha();">
+								<div class="alert alert-danger" role="alert" id="error_fecha" style="display:none;">
+								"La fecha de término no puede ser menor a la fecha de inicio."
+								</div>
+								
 								<?php if ($fecha_termino){ ?>
 								<span class="help-block text-danger"> 
 									<strong>Error: Fecha Término inválida.</strong>
@@ -445,6 +448,21 @@ function setTwoNumberDecimal(event) {
     this.value = parseFloat(this.value).toFixed(2);
 }
 </script>
+
+<script>
+function fecha(){
+	var fecha_inicio = document.getElementById("fecha_inicio").value;
+	var fecha_termino = document.getElementById("fecha_termino").value;
+
+	if (fecha_inicio >= fecha_termino) {
+    	document.getElementById("error_fecha").style.display = "block";
+  	} else {
+    	document.getElementById("error_fecha").style.display = "none";
+	  }
+
+}
+</script>
+
 
 
 

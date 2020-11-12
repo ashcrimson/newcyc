@@ -152,15 +152,25 @@ class Router{
 	/***********************************
 	 * alerta contrato
 	 ***********************************/
-	//pagina listado ordenes compra
+	//pagina listado alerta contrato
 	public function alertaContrato(){
 		$this->model = new \AlertaContrato\ModelAlertaContrato($this->pdo);
 		$this->view = new \AlertaContrato\ViewAlertaContrato;
 		$this->controller = new \AlertaContrato\ControllerAlertaContrato;
 		$this->model = $this->controller->all($this->model);
+		if(!empty($_GET["id_contrato"])){
+			$this->model = $this->controller->filter($this->model);
+		}
+		if(isset($_GET["page"])){
+            $this->model = $this->controller->page($this->model);
+		}
+		
+		if(isset($_GET['id_contrato'])){
+            $this->model = $this->controller->filter($this->model);
+        }
 	}
 
-	//pagina agregado de ordenes compra
+	//pagina agregado de alerta contrato
 	public function alertaContratoMostrar(){
 		$this->model = new \AlertaContrato\ModelAlertaContrato($this->pdo);
 		$this->view = new \AlertaContrato\ViewAlertaContrato;
