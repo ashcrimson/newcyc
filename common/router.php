@@ -110,6 +110,9 @@ class Router{
 		}else {
 			$this->model = $this->controller->all($this->model);
 		}
+		// if(!empty($_GET["id_contrato"])){
+		// 	$this->model = $this->controller->edit($this->model);
+		// }
 	}
 
 
