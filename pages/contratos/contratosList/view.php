@@ -1,6 +1,6 @@
 <?php
 
-
+ 
  
 namespace ContratosList;
  
@@ -196,6 +196,7 @@ class ViewContratos {
                         // foreach ($documentos as $documento) {
                         ?>
                     <tr>
+           
                         <td><?= $contrato["RUT_PROVEEDOR"]; ?></td>
                         <td><?= $contrato["RAZON_SOCIAL"]; ?></td>
                         <td><?= $contrato["TIPO"] ."-". $contrato["ID_CONTRATO"]; ?></td>
@@ -336,12 +337,13 @@ class ViewContratos {
 	</script>
 
 <!-- {{-- Script para mostrar nombre archivo en el select --}} -->
-        <script>
-			$(".custom-file-input").on("change", function() {
-				var fileName = $(this).val().split("\\").pop();
-				$(this).siblings(".custom-file-label").addClass("selected").html(fileName);
-			});
-		</script>
+    <script>
+        $(".custom-file-input").on("change", function() {
+            var fileName = $(this).val().split("\\").pop();
+            $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
+        });
+    </script>
+    
 
 
 
