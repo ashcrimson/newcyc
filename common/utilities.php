@@ -110,3 +110,13 @@ function feedback(){
 		unset($_SESSION["feedback"]);
 	}
 }
+
+function fechaEn($fecha=null){
+
+    if (!$fecha)
+        return null;
+
+    $date =date_create_from_format("d/m/y", $fecha);
+
+    return $date->format('Y-m-d');
+}

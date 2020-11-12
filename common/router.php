@@ -105,11 +105,10 @@ class Router{
 		$this->view = new \ContratosNew\ViewContratos;
 		$this->controller = new \ContratosNew\ControllerContratos;
 		$this->model = $this->controller->all($this->model);
-		if(!empty($_POST["submit"])){
-			$this->model = $this->controller->new($this->model);
-		}else {
-			$this->model = $this->controller->all($this->model);
-		}
+
+        if(!empty($_GET["id"])){
+            $this->model = $this->controller->edit($this->model);
+        }
 	}
 
 

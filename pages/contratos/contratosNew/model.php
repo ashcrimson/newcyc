@@ -20,6 +20,7 @@ class ModelContratos {
 	private $params = "";
 	private $feedback = "";
 
+    private $id;
 	private $id_contrato;
 	private $proveedor_id;
 	private $id_area;
@@ -43,10 +44,11 @@ class ModelContratos {
 
 
 
-	//Constructor
-	function __construct($pdo){
-		$this->pdo = $pdo;
-	}
+    //Constructor
+    function __construct($pdo, $id = ''){
+        $this->pdo = $pdo;
+        $this->id = $id;
+    }
 
 	//retorna el/los datos seleccionados
 	public function new(){
@@ -209,6 +211,67 @@ class ModelContratos {
 
 	}
 
+    public function edit($id)
+    {
+        return new self($this->pdo, $id);
+    }
+
+    public function get(){
+
+        $query = "SELECT * FROM CONTRATOS WHERE ID_CONTRATO='" . $this->id . "'";
+
+        //consulta paginada
+        $result = oci_parse($this->pdo, $query);
+        oci_execute($result);
+        $listado = queryResultToAssoc($result);
+
+        return $listado[0];
+    }
+
+
+    public function getDataListBox()
+    {
+        $assoc = [];
+
+
+        //consulta para recuperar ruts de los proveedores
+        $query = "SELECT * FROM PROVEEDORES";
+        $result = oci_parse($this->pdo, $query);
+        oci_execute($result);
+        $proveedores = queryResultToAssoc($result);
+        array_push($assoc, $proveedores);
+
+
+        //consulta para recuperar numeros de licitaciones
+        $query = "SELECT NRO_LICITACION FROM LICITACIONES";
+        $result = oci_parse($this->pdo, $query);
+        oci_execute($result);
+        $licitaciones = queryResultToAssoc($result);
+        array_push($assoc, $licitaciones);
+
+
+        //consulta para recuperar monedas
+        $query = "SELECT NOMBRE FROM MONEDA";
+        $result = oci_parse($this->pdo, $query);
+        oci_execute($result);
+        $moneda = queryResultToAssoc($result);
+        array_push($assoc, $moneda);
+
+
+        //consulta para recuperar cargos
+        $query = "SELECT * FROM CARGOS";
+        $result = oci_parse($this->pdo, $query);
+        oci_execute($result);
+        $cargos = queryResultToAssoc($result);
+        array_push($assoc, $cargos);
+
+
+
+        oci_close($this->pdo);
+
+        return $assoc;
+    }
+
 	public function execute(){
 		
 		//validar si faltó algo
@@ -348,48 +411,6 @@ class ModelContratos {
 
 
  
-	public function get(){
-		
-		$assoc = [];
 
-
-		//consulta para recuperar ruts de los proveedores
-		$query = "SELECT * FROM PROVEEDORES";
-		$result = oci_parse($this->pdo, $query);
-		oci_execute($result);
-		$proveedores = queryResultToAssoc($result);
-		array_push($assoc, $proveedores);
-
-
-		//consulta para recuperar numeros de licitaciones
-		$query = "SELECT NRO_LICITACION FROM LICITACIONES";
-		$result = oci_parse($this->pdo, $query);
-		oci_execute($result);
-		$licitaciones = queryResultToAssoc($result);
-		array_push($assoc, $licitaciones);
-
-
-		//consulta para recuperar monedas
-		$query = "SELECT NOMBRE FROM MONEDA";
-		$result = oci_parse($this->pdo, $query);
-		oci_execute($result);
-		$moneda = queryResultToAssoc($result);
-		array_push($assoc, $moneda);
-
-
-		//consulta para recuperar cargos
-		$query = "SELECT * FROM CARGOS";
-		$result = oci_parse($this->pdo, $query);
-		oci_execute($result);
-		$cargos = queryResultToAssoc($result);
-		array_push($assoc, $cargos);
-
-
-
-		oci_close($this->pdo);
-		return $assoc;
-
-
-	}
 
 }
