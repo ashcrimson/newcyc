@@ -63,7 +63,9 @@ class ViewLicitaciones {
 						</div>
 					</div>
 					<hr>
-
+					<div class="btn-group float-right ml-3">
+						<a href="<?=base("/licitaciones/new/");?>" class="btn btn-primary rounded"><i class="fa fa-plus-circle"></i>&nbsp;&nbsp;Nuevo</a>         
+					</div>
 
 					<div class="btn-group float-right">
 						<?php if(!empty($_GET)){ ?> 
