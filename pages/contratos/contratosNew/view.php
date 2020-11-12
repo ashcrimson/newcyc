@@ -1,7 +1,7 @@
 <?php
 
 
-
+ 
 namespace ContratosNew;
 
 /**
@@ -117,7 +117,7 @@ class ViewContratos {
 		
 		<ol class="breadcrumb">
 			<li class="breadcrumb-item">
-                <a href="<?=base("/contratos/new");?>">Contratos</a>
+                <a href="<?=base("/contratos/");?>">Contratos</a>
 			</li>
 			 
 		</ol>
@@ -129,7 +129,7 @@ class ViewContratos {
 					<div class="container">
 					<?php feedback();?>
 						<div class="row col-12">
-							<div class="form-group has-feedback col-xsñ-4 col-md-4 col-lg-4 <?=$selectContrato ? 'has-error' : '' ;?>">
+							<div class="form-group has-feedback col-xs-4 col-md-4 col-lg-4 <?=$selectContrato ? 'has-error' : '' ;?>">
 								<label>Tipo Contrato</label>
 								<input type="hidden" name="submit" value="true">
 								<select class="selectpicker " placeholder='Seleccione Tipo de Contrato' name="selectContrato" id="selectContrato" value="<?=isset($_GET["selectContrato"]) ? $_GET["selectContrato"]: (isset($data["TIPO"]) ? $data["TIPO"] : "") ?>">
