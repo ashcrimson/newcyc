@@ -1,6 +1,6 @@
 <?php
 
-
+ 
  
 namespace ContratosList;
  
@@ -148,6 +148,9 @@ class ViewContratos {
                 </div>
 
                 <hr>
+                <div class="btn-group float-right ml-3">
+                <a href="<?=base("/contratos/new/");?>" class="btn btn-primary rounded"><i class="fa fa-plus-circle"></i>&nbsp;&nbsp;Nuevo</a>         
+            </div>
                 <div class="btn-group float-right">
                     <?php if(!empty($_GET)){ ?> 
                         <a class="btn btn-default" href="<?=base()."/contratos";?>">Limpiar Filtros</a>
@@ -196,6 +199,7 @@ class ViewContratos {
                         // foreach ($documentos as $documento) {
                         ?>
                     <tr>
+           
                         <td><?= $contrato["RUT_PROVEEDOR"]; ?></td>
                         <td><?= $contrato["RAZON_SOCIAL"]; ?></td>
                         <td><?= $contrato["TIPO"] ."-". $contrato["ID_CONTRATO"]; ?></td>
@@ -336,12 +340,13 @@ class ViewContratos {
 	</script>
 
 <!-- {{-- Script para mostrar nombre archivo en el select --}} -->
-        <script>
-			$(".custom-file-input").on("change", function() {
-				var fileName = $(this).val().split("\\").pop();
-				$(this).siblings(".custom-file-label").addClass("selected").html(fileName);
-			});
-		</script>
+    <script>
+        $(".custom-file-input").on("change", function() {
+            var fileName = $(this).val().split("\\").pop();
+            $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
+        });
+    </script>
+    
 
 
 

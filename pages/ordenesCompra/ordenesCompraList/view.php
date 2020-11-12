@@ -115,7 +115,9 @@ class ViewOrdenCompra {
                         </div>
                     </div>
 
-                   
+					<div class="btn-group float-right ml-3">
+						<a href="<?=base("/ordenCompra/new/");?>" class="btn btn-primary rounded"><i class="fa fa-plus-circle"></i>&nbsp;&nbsp;Nuevo</a>         
+					</div>
                     <div class="btn-group float-right">
                     <?php if(!empty($_GET)){ ?> 
                         <a class="btn btn-default" href="<?=base("/ordenCompra");?>">Limpiar Filtros</a>
