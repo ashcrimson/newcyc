@@ -43,7 +43,7 @@ class ViewCargos {
     <div class="card">
 
         <div class="card-body row">
-            <input type="hidden" name="id" value="<?=isset($_GET["id"]) ? $_GET["id"]: "" ?>" >
+            <input type="hidden" name="id" value="<?= $_GET["id"] ?? "" ?>" >
             <div class="form-group has-feedback col-xs-4 col-md-4 col-lg-4 {{ $errors->has('nombre') ? 'has-error' : '' }}">
                 <label>Nombre del cargo *</label>
                 <input type="text" name="nombre" class="form-control" value="<?=isset($_GET["nombre"]) ? $_GET["nombre"]: (isset($data["NOMBRE"]) ? $data["NOMBRE"] : "") ?>">
