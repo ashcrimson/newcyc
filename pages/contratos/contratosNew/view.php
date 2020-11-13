@@ -305,7 +305,7 @@ class ViewContratos {
 						<div class="form-group has-feedback col-xs-4 col-md-4 col-lg-4 <?=$fecha_inicio ? 'has-error' : '' ;?>" >
                     <label>Fecha Inicio Contrato*</label>
                     
-                    <input type="date" name="fecha_inicio" id="fecha_inicio" class="form-control" value="<?=!empty($_GET["fecha_inicio"]) ? $_GET["fecha_inicio"]: '' ;?>" min="<?php echo date("Y-m-d"); ?>">
+                    <input type="date" name="fecha_inicio" id="fecha_inicio" class="form-control" value="<?=!empty($_GET["fecha_inicio"]) ? $_GET["fecha_inicio"]: '' ;?>">
 					<?php if ($fecha_inicio){ ?>
 					<span class="help-block text-danger"> 
 						<strong>Fecha incorrecta</strong>

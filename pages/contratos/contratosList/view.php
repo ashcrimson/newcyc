@@ -346,6 +346,8 @@ class ViewContratos {
             $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
         });
     </script>
+
+    
     
 
 

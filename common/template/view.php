@@ -112,30 +112,21 @@ class ViewTemplateCYC {
 				?>
 
 		<li class="nav-item dropdown">
-			<a class="nav-link dropdown-toggle" href="#" id="pagesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+			<a class="nav-link" href="<?=base();?>/licitaciones" id="pagesDropdown" role="button" >
 				<i class="fas fa-file-signature"></i>
 				<span>Licitaciones</span>
 			</a>
-			<div class="dropdown-menu" aria-labelledby="pagesDropdown">
-				<a class="dropdown-item" href="<?=base();?>/licitaciones">Buscar</a>
-				<div class="dropdown-divider"></div> 
-				<a class="dropdown-item" href="<?=base();?>/licitaciones/new">Agregar</a>
-			</div>
 		</li>
 			<?php
 		}
 		?>
 		<!-- @endrole -->
 		<li class="nav-item dropdown">
-			<a class="nav-link dropdown-toggle" href="#" id="pagesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+			<a class="nav-link" href="<?=base();?>/contratos" id="pagesDropdown" role="button">
 				<i class="fas fa-file-signature"></i>
 				<span>Contratos</span>
 			</a>
-			<div class="dropdown-menu" aria-labelledby="pagesDropdown">
-				<a class="dropdown-item" href="<?=base();?>/contratos">Buscar</a>
-				<div class="dropdown-divider"></div> 
-				<a class="dropdown-item" href="<?=base();?>/contratos/new">Agregar</a>
-			</div>
+
 		</li>
 
 		<!-- @hasanyrole('SuperAdmin|Admin|Comprador') -->
@@ -146,7 +137,7 @@ class ViewTemplateCYC {
 				?>
 
 		<li class="nav-item dropdown">
-			<a class="nav-link dropdown-toggle" href="#" id="pagesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+			<a class="nav-link" href="<?=base();?>/ordenCompra" id="pagesDropdown" role="button">
 				<i class="fas fa-file-signature"></i>
 				<span>Órdenes de Compra</span>
 			</a>
