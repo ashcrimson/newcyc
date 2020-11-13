@@ -20,6 +20,7 @@ class ModelContratos {
 	private $params = "";
 	private $feedback = "";
 
+    private $id;
 	private $id_contrato;
 	private $proveedor_id;
 	private $id_area;
@@ -43,10 +44,12 @@ class ModelContratos {
 
 
 
-	//Constructor
-	function __construct($pdo){
-		$this->pdo = $pdo;
-	}
+    //Constructor
+    function __construct($pdo, $id = ''){
+        $this->pdo = $pdo;
+        $this->id = $id;
+
+    }
 
 	//retorna el/los datos seleccionados
 	public function new(){
@@ -209,13 +212,114 @@ class ModelContratos {
 
 	}
 
+    public function edit($id)
+    {
+        return new self($this->pdo, $id);
+    }
+
+    public function get(){
+
+        $query = "SELECT * FROM CONTRATOS WHERE ID_CONTRATO='" . $this->id . "'";
+
+        //consulta paginada
+        $result = oci_parse($this->pdo, $query);
+        oci_execute($result);
+        $listado = queryResultToAssoc($result);
+
+        return $listado[0];
+    }
+
+    public function getDataListBox()
+    {
+        $assoc = [];
+
+
+        //consulta para recuperar ruts de los proveedores
+        $query = "SELECT * FROM PROVEEDORES";
+        $result = oci_parse($this->pdo, $query);
+        oci_execute($result);
+        $proveedores = queryResultToAssoc($result);
+        array_push($assoc, $proveedores);
+
+
+        //consulta para recuperar numeros de licitaciones
+        $query = "SELECT NRO_LICITACION FROM LICITACIONES";
+        $result = oci_parse($this->pdo, $query);
+        oci_execute($result);
+        $licitaciones = queryResultToAssoc($result);
+        array_push($assoc, $licitaciones);
+
+
+        //consulta para recuperar monedas
+        $query = "SELECT NOMBRE FROM MONEDA";
+        $result = oci_parse($this->pdo, $query);
+        oci_execute($result);
+        $moneda = queryResultToAssoc($result);
+        array_push($assoc, $moneda);
+
+
+        //consulta para recuperar cargos
+        $query = "SELECT * FROM CARGOS";
+        $result = oci_parse($this->pdo, $query);
+        oci_execute($result);
+        $cargos = queryResultToAssoc($result);
+        array_push($assoc, $cargos);
+
+
+
+        oci_close($this->pdo);
+
+        return $assoc;
+    }
+
 	public function execute(){
+
 		
 		//validar si faltó algo
 		if(!$this->error){
 			
 
-			$consulta = "INSERT INTO CONTRATOS (
+		    //actualiza
+            if(isset($_POST["id"]) && $_POST["id"] != "") {
+                $query = "
+                    UPDATE CONTRATOS SET 
+                         NRO_LICITACION='" . $_POST['licitacion'] . "', 
+                         RUT_PROVEEDOR='" . $_POST['proveedor_id'] . "', 
+                         ID_CARGO='" . $_POST['id_admin'] . "', 
+                         ID_MONEDA='" . $_POST['moneda_id'] . "', 
+                         TIPO='" . $_POST['selectContrato'] . "', 
+                         MONTO='" . $_POST['monto'] . "', 
+                         FECHA_INICIO=TO_DATE('" . $_POST['fecha_inicio'] . "','yyyy-mm-dd'), 
+                         FECHA_TERMINO=TO_DATE('" . $_POST['fecha_termino'] . "','yyyy-mm-dd'), 
+                         FECHA_APROBACION=TO_DATE('" . $_POST['fecha_aprobacion'] . "','yyyy-mm-dd'), 
+                         FECHA_ALERTA_VENCIMIENTO=TO_DATE('" . $_POST['fecha_alert'] . "','yyyy-mm-dd'),                      
+                         OBJETO_CONTRATO='" . $_POST['objeto_contrato'] . "'
+					WHERE 
+					    ID_CONTRATO='" . $_POST['id'] . "'
+                ";
+
+
+//                echo "<pre>";
+//                var_dump($query);
+//                exit();
+//                echo "</pre>";
+
+
+                $result = oci_parse($this->pdo, $query);
+
+                if($result){
+                    $_SESSION["feedback"] = "Contrato actualizado correctamente";
+                }
+
+                oci_execute($result);
+
+                oci_commit($this->pdo);
+
+            }
+	        //inserta
+	        else{
+
+                $consulta = "INSERT INTO CONTRATOS (
 				NRO_LICITACION, 
 				RUT_PROVEEDOR, 
 				ID_CARGO, 
@@ -250,24 +354,21 @@ class ModelContratos {
 				'". $this->objeto_contrato ."')
 				RETURNING ID_CONTRATO INTO :mylastid";
 
+                //ejecucion consulta
+                $query = $consulta;
+                $result = oci_parse($this->pdo, $query);
+
+                if($result){
+                    $_SESSION["feedback"] = "Contrato ingresado correctamente";
+                }
+
+                oci_bind_by_name($result, "mylastid", $last_id, 8, SQLT_INT);
+
+                oci_execute($result);
 
 
-			//ejecucion consulta
-			$query = $consulta;
-			$result = oci_parse($this->pdo, $query);
-
-			if($result){
-				$_SESSION["feedback"] = "Contrato ingresado correctamente";
-			}
-
-			oci_bind_by_name($result, "mylastid", $last_id, 8, SQLT_INT);
-			
-			oci_execute($result);
-
-			// var_dump($last_id);
-			// exit();
-
-			oci_commit($this->pdo);
+                oci_commit($this->pdo);
+            }
 			
 		}else{
 			
@@ -276,68 +377,67 @@ class ModelContratos {
 			die();
 		}
 
-		if(isset($_FILES["archivo_contrato"]) && $_FILES["archivo_contrato"] != ""){
-				
-			$cons = "select documentos_sequence.nextval as NRO_DOCUMENTO from dual";
-			$result = oci_parse($this->pdo, $cons);
-			oci_execute($result);
-			$nro_documento = queryResultToAssoc($result)[0]["NRO_DOCUMENTO"];
-			// print_r($nro_documento);
+//		if($_FILES["archivo_contrato"]["error"] == 0){
+//
+//			$cons = "select documentos_sequence.nextval as NRO_DOCUMENTO from dual";
+//			$result = oci_parse($this->pdo, $cons);
+//			oci_execute($result);
+//			$nro_documento = queryResultToAssoc($result)[0]["NRO_DOCUMENTO"];
+//			// print_r($nro_documento);
+//
+//
+//			$nombre_archivo = basename($_FILES["archivo_contrato"]["name"]);
+//			$tipo = $_FILES["archivo_contrato"]["type"];
+//			$peso = $_FILES["archivo_contrato"]["size"];
+//
+//			$binario = file_get_contents($_FILES['archivo_contrato']['tmp_name']);
+//
+//
+//			//consulta de inserción
+//
+//			$consulta = "INSERT into DOCUMENTO (NRO_DOCUMENTO, TIPO_DOCUMENTO, NOMBRE, ARCHIVO, PESO_ARCHIVO, TIPO_ARCHIVO, FECHA_CREACION) values (
+//						'". $nro_documento ."',
+//						'co',
+//						'". $nombre_archivo ."',
+//						empty_blob(),
+//						'". $peso ."',
+//						'". $tipo ."',
+//						TO_DATE('". date('yy-m-d') ."','yyyy-mm-dd'))
+//						RETURNING archivo INTO :archivo";
+//
+//			//ejecucion consulta
+//			$query = $consulta;
+//			$result = oci_parse($this->pdo, $query);
+//
+//			$blob = oci_new_descriptor($this->pdo, OCI_D_LOB);
+//			oci_bind_by_name($result, ":archivo", $blob, -1, OCI_B_BLOB);
+//			//print_r($consulta);
+//			oci_execute($result, OCI_DEFAULT) or die ("Unable to execute query");
+//
+//			if(!$blob->save($binario)) {
+//				oci_rollback($this->pdo);
+//			} else {
+//				oci_commit($this->pdo);
+//			}
+//
+//			oci_free_statement($result);
+//			$blob->free();
+//			//OJOOOOOOOOOOOOOO
+//			//DESPUES DE INSERTAR EL BLOB
+//			////Guardar en lka tbla documento_lictacion
+//			///LA RELACION DE ESTE DOCUMENTO $nro_documento ----> id y  $this->nro_licitacion ---> nro_lictacion
+//
+//
+//			$consulta2 = "INSERT into DOCUMENTO_CONTRATOS (NRO_DOCUMENTO, NRO_CONTRATO) values (
+//				'". $nro_documento ."',
+//				'". $last_id ."'
+//			)";
+//
+//			$query2 = $consulta2;
+//			$result2 = oci_parse($this->pdo, $query2);
+//			oci_execute($result2, OCI_DEFAULT) or die ("No se pudo");
+//		}
 
-			
-			$nombre_archivo = basename($_FILES["archivo_contrato"]["name"]);
-			$tipo = $_FILES["archivo_contrato"]["type"];
-			$peso = $_FILES["archivo_contrato"]["size"];
-			
-			$binario = file_get_contents($_FILES['archivo_contrato']['tmp_name']);
-
-
-			//consulta de inserción
-			
-			$consulta = "INSERT into DOCUMENTO (NRO_DOCUMENTO, TIPO_DOCUMENTO, NOMBRE, ARCHIVO, PESO_ARCHIVO, TIPO_ARCHIVO, FECHA_CREACION) values (
-						'". $nro_documento ."',
-						'co',
-						'". $nombre_archivo ."',
-						empty_blob(),
-						'". $peso ."',
-						'". $tipo ."',
-						TO_DATE('". date('yy-m-d') ."','yyyy-mm-dd'))
-						RETURNING archivo INTO :archivo";
-
-			//ejecucion consulta
-			$query = $consulta;
-			$result = oci_parse($this->pdo, $query);
-
-			$blob = oci_new_descriptor($this->pdo, OCI_D_LOB);
-			oci_bind_by_name($result, ":archivo", $blob, -1, OCI_B_BLOB);
-			//print_r($consulta);
-			oci_execute($result, OCI_DEFAULT) or die ("Unable to execute query");
-
-			if(!$blob->save($binario)) {
-				oci_rollback($this->pdo);
-			} else { 
-				oci_commit($this->pdo);
-			}
-
-			oci_free_statement($result);
-			$blob->free();
-			//OJOOOOOOOOOOOOOO
-			//DESPUES DE INSERTAR EL BLOB
-			////Guardar en lka tbla documento_lictacion
-			///LA RELACION DE ESTE DOCUMENTO $nro_documento ----> id y  $this->nro_licitacion ---> nro_lictacion
-
-			
-			$consulta2 = "INSERT into DOCUMENTO_CONTRATOS (NRO_DOCUMENTO, NRO_CONTRATO) values (
-				'". $nro_documento ."',
-				'". $last_id ."'
-			)";
-
-			$query2 = $consulta2;
-			$result2 = oci_parse($this->pdo, $query2);
-			oci_execute($result2, OCI_DEFAULT) or die ("No se pudo");
-		}
-
-		
 
 		//agrega resultados a retorno
 
@@ -348,48 +448,6 @@ class ModelContratos {
 
 
  
-	public function get(){
-		
-		$assoc = [];
 
-
-		//consulta para recuperar ruts de los proveedores
-		$query = "SELECT * FROM PROVEEDORES";
-		$result = oci_parse($this->pdo, $query);
-		oci_execute($result);
-		$proveedores = queryResultToAssoc($result);
-		array_push($assoc, $proveedores);
-
-
-		//consulta para recuperar numeros de licitaciones
-		$query = "SELECT NRO_LICITACION FROM LICITACIONES";
-		$result = oci_parse($this->pdo, $query);
-		oci_execute($result);
-		$licitaciones = queryResultToAssoc($result);
-		array_push($assoc, $licitaciones);
-
-
-		//consulta para recuperar monedas
-		$query = "SELECT NOMBRE FROM MONEDA";
-		$result = oci_parse($this->pdo, $query);
-		oci_execute($result);
-		$moneda = queryResultToAssoc($result);
-		array_push($assoc, $moneda);
-
-
-		//consulta para recuperar cargos
-		$query = "SELECT * FROM CARGOS";
-		$result = oci_parse($this->pdo, $query);
-		oci_execute($result);
-		$cargos = queryResultToAssoc($result);
-		array_push($assoc, $cargos);
-
-
-
-		oci_close($this->pdo);
-		return $assoc;
-
-
-	}
 
 }

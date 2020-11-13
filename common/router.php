@@ -101,18 +101,17 @@ class Router{
 
 	//pagina agregado de contratos
 	public function contratosNew(){
+
+
 		$this->model = new \ContratosNew\ModelContratos($this->pdo);
 		$this->view = new \ContratosNew\ViewContratos;
 		$this->controller = new \ContratosNew\ControllerContratos;
 		$this->model = $this->controller->all($this->model);
-		if(!empty($_POST["submit"])){
-			$this->model = $this->controller->new($this->model);
-		}else {
-			$this->model = $this->controller->all($this->model);
-		}
-		// if(!empty($_GET["id_contrato"])){
-		// 	$this->model = $this->controller->edit($this->model);
-		// }
+
+		//si no esta vacío el dato id de la url
+        if(!empty($_GET["id"] && $_GET["id"] >= 1)){
+            $this->model = $this->controller->edit($this->model);
+        }
 	}
 
 

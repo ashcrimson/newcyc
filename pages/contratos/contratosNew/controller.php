@@ -21,10 +21,8 @@ class ControllerContratos {
 	}
 
 	//solicita edicion de registro
-	public function edit(\CargosNew\ModelContratos $model){
-		if(isset($_GET["id"]) && $_GET["id"] >=1 ){
-			$model = $model->edit($_GET["id"]);
-		}
+	public function edit(\ContratosNew\ModelContratos $model){
+		$model = $model->edit($_GET["id"]);
 		return $model;
 	}
 

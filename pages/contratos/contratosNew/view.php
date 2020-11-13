@@ -4,6 +4,7 @@
  
 namespace ContratosNew;
 
+
 /**
  * clase vista, retorna html con lo recuperado desde el modelo
  */
@@ -14,16 +15,19 @@ class ViewContratos {
 		if(!empty($_POST)){
 			$model->execute();
 		}
-		if(isset($_GET["id"])){
-            $data = $model->get()[0];
-        }
-        
-        $data = $model->get();
 
-		$dataProveedores = $data[0];
-		$dataLicitaciones = $data[1];
-		$dataMoneda = $data[2];
-		$dataCargos = $data[3];
+		if(isset($_GET["id"])){
+            $registroEdit = $model->get();
+        }
+
+
+
+        $dataListBox = $model->getDataListBox();
+
+		$dataProveedores = $dataListBox[0];
+		$dataLicitaciones = $dataListBox[1];
+		$dataMoneda = $dataListBox[2];
+		$dataCargos = $dataListBox[3];
 
 		$id_contrato = false;
 		$licitacion = false;
@@ -41,10 +45,10 @@ class ViewContratos {
         $fecha_creacion = false;
         $fecha_actualizacion = false;
 		$fecha_eliminacion = false;
-		
 
 
-		if(sizeof($_GET)){
+
+        if(sizeof($_GET) && !isset($_GET["id"])){
 			if(!isset($_GET["id_contrato"])){
 				$id_contrato = !$id_contrato;
 			}
@@ -132,9 +136,9 @@ class ViewContratos {
 							<div class="form-group has-feedback col-xs-4 col-md-4 col-lg-4 <?=$selectContrato ? 'has-error' : '' ;?>">
 								<label>Tipo Contrato</label>
 								<input type="hidden" name="submit" value="true">
-								<select class="selectpicker " placeholder='Seleccione Tipo de Contrato' name="selectContrato" id="selectContrato" value="<?=isset($_GET["selectContrato"]) ? $_GET["selectContrato"]: (isset($data["TIPO"]) ? $data["TIPO"] : "") ?>">
-									<option value="lc">Licitación</option>
-									<option value="td">Trato Directo</option>              
+								<select class="selectpicker " placeholder='Seleccione Tipo de Contrato' name="selectContrato" id="selectContrato" value="<?=isset($_GET["selectContrato"]) ? $_GET["selectContrato"]: (isset($registroEdit["TIPO"]) ? $registroEdit["TIPO"] : "") ?>">
+									<option value="lc" <?=$registroEdit['TIPO']=='lc' ? 'selected' : ''?> >Licitación</option>
+									<option value="td" <?=$registroEdit['TIPO']=='td' ? 'selected' : ''?>>Trato Directo</option>
 								</select>
 								<?php if ($selectContrato){ ?>
 								<span class="help-block text-danger"> 
@@ -151,19 +155,14 @@ class ViewContratos {
 						<div class="row col-12">
 							<div class="form-group has-feedback col-xs-4 col-md-4 col-lg-4 <?=$licitacion ? 'has-error' : '' ;?>" id="licitacion"  >
 								<label>Licitacion *</label>
-								<select name='licitacion' class ='selectpicker selectField' placeholder='Seleccione Licitacion' data-live-search='true' id ='licitacion_id' value="<?=isset($_GET["licitacion"]) ? $_GET["licitacion"]: (isset($data["NRO_LICITACION"]) ? $data["NRO_LICITACION"] : "") ?>">
+								<select name='licitacion' class ='selectpicker selectField' placeholder='Seleccione Licitacion' data-live-search='true' id ='licitacion_id' value="<?=isset($_GET["licitacion"]) ? $_GET["licitacion"]: (isset($registroEdit["NRO_LICITACION"]) ? $registroEdit["NRO_LICITACION"] : "") ?>">
 									<option value=""></option>
 									<?php 
-									foreach ($dataLicitaciones as $licitacionn) { 
-										if (!empty($_GET["licitacion"]) && $_GET["licitacion"]){
-											?>
-											<option selected="true" value="<?= $licitacionn["NRO_LICITACION"];?>"><?= $licitacionn["NRO_LICITACION"];?></option>
-											<?php
-										}else{
-											?>
-											<option value="<?= $licitacionn["NRO_LICITACION"];?>"><?= $licitacionn["NRO_LICITACION"];?></option>
-											<?php
-										}
+									foreach ($dataLicitaciones as $licitacionn) {
+									    $selected = $registroEdit['NRO_LICITACION']==$licitacionn["NRO_LICITACION"] ? "selected" : "";
+                                        ?>
+                                        <option value="<?= $licitacionn["NRO_LICITACION"];?>" <?=$selected?> ><?= $licitacionn["NRO_LICITACION"];?></option>
+                                        <?php
 									}
 									?>
 								</select>
@@ -181,7 +180,10 @@ class ViewContratos {
 							<div class="form-group has-feedback col-xsñ-4 col-md-4 col-lg-4">
 								<label for="">Adjuntar contrato.</label>
 								<div class="custom-file">
-									<input type="file" name="archivo_contrato" class="custom-file-input" id="customFileLangHTML" lang="es" required value="<?=isset($_GET["archivo_contrato"]) ? $_GET["archivo_contrato"]: (isset($data["CODIGO"]) ? $data["NRO_DOCUMENTO"] : "") ?>">
+									<input type="file" name="archivo_contrato"
+                                           class="custom-file-input" id="customFileLangHTML"
+                                           lang="es"
+                                           value="<?=$_GET["archivo_contrato"] ?? '' ?>">
 									<label class="custom-file-label" for="customFileLangHTML" data-browse="Buscar">Seleccionar Archivo</label>
 								</div>
 							</div>
@@ -195,19 +197,14 @@ class ViewContratos {
                 <div class="form-group has-feedback col-xs-4 col-md-4 col-lg-4 <?=$proveedor_id ? 'has-error' : '' ;?>">
                     <label>Proveedor *</label>
 
-                    <select class="selectpicker selectField" name='proveedor_id'  class ='form-control selectpicker selectField' placeholder='Seleccione Proveedor' data-live-search='true' id ='proveedor_id' value="<?=isset($_GET["proveedor_id"]) ? $_GET["proveedor_id"]: (isset($data["RUT_PROVEEDOR"]) ? $data["RUT_PROVEEDOR"] : "") ?>">
+                    <select class="selectpicker selectField" name='proveedor_id'  class ='form-control selectpicker selectField' placeholder='Seleccione Proveedor' data-live-search='true' id ='proveedor_id' value="<?=isset($_GET["proveedor_id"]) ? $_GET["proveedor_id"]: (isset($registroEdit["RUT_PROVEEDOR"]) ? $registroEdit["RUT_PROVEEDOR"] : "") ?>">
                     	<option value=""></option>
                         <?php 
-                        foreach ($dataProveedores as $proveedor) { 
-                            if (!empty($_GET["proveedor_id"]) && $_GET["proveedor_id"]){
-                                ?>
-                                <option selected="true" value="<?= $proveedor["RUT_PROVEEDOR"];?>"><?= $proveedor["RUT_PROVEEDOR"];?></option>
-                                <?php
-                            }else{
-                                ?>
-                                <option value="<?= $proveedor["RUT_PROVEEDOR"];?>"><?= $proveedor["RUT_PROVEEDOR"];?></option>
-                                <?php
-                            }
+                        foreach ($dataProveedores as $proveedor) {
+                            $selected = $registroEdit['RUT_PROVEEDOR']==$proveedor["RUT_PROVEEDOR"] ? "selected" : "";
+                            ?>
+                            <option value="<?= $proveedor["RUT_PROVEEDOR"];?>" <?=$selected?> ><?= $proveedor["RUT_PROVEEDOR"];?></option>
+                            <?php
                         }
                         ?>
                     </select>
@@ -226,19 +223,14 @@ class ViewContratos {
 						<div class="row col-12">
 							<div class="form-group has-feedback col-xs-4 col-md-4 col-lg-4 ">
 								<label>Cargo</label>
-								<select class="selectpicker selectField" name='id_admin'  class ='form-control selectpicker selectField' placeholder='Seleccione Cargo' data-live-search='true' id ='id_admin' value="<?=isset($_GET["id_admin"]) ? $_GET["id_admin"]: (isset($data["ID_CARGO"]) ? $data["ID_CARGO"] : "") ?>">
+								<select class="selectpicker selectField" name='id_admin'  class ='form-control selectpicker selectField' placeholder='Seleccione Cargo' data-live-search='true' id ='id_admin' value="<?=isset($_GET["id_admin"]) ? $_GET["id_admin"]: (isset($registroEdit["ID_CARGO"]) ? $registroEdit["ID_CARGO"] : "") ?>">
 									<option value=""></option>
 									<?php 
-									foreach ($dataCargos as $cargo) { 
-										if (!empty($_GET["cargo_id"]) && $_GET["cargo_id"]){
-											?>
-											<option selected="true" value="<?= $cargo["NOMBRE"];?>"><?= $cargo["NOMBRE"];?></option>
-											<?php
-										}else{
-											?>
-											<option value="<?= $cargo["NOMBRE"];?>"><?= $cargo["NOMBRE"];?></option>
-											<?php
-										}
+									foreach ($dataCargos as $cargo) {
+                                        $selected = $registroEdit['ID_CARGO']==$cargo["ID_CARGO"] ? "selected" : "";
+                                        ?>
+                                        <option value="<?= $cargo["ID_CARGO"];?>" <?= $selected ?>><?= $cargo["NOMBRE"];?></option>
+                                        <?php
 									}
 									?>
 								</select>
@@ -256,7 +248,7 @@ class ViewContratos {
 						<div class="form-group has-feedback col-xs-4 col-md-4 col-lg-4 <?=$moneda_id ? 'has-error' : '' ;?>" >
                     <label>Moneda *</label>
 
-                    <select name='moneda_id' class ='selectpicker selectField' placeholder='Seleccione Moneda' data-live-search='true' id ='moneda_id' value="<?=isset($_GET["moneda_id"]) ? $_GET["moneda_id"]: (isset($data["ID_MONEDA"]) ? $data["ID_MONEDA"] : "") ?>">
+                    <select name='moneda_id' class ='selectpicker selectField' placeholder='Seleccione Moneda' data-live-search='true' id ='moneda_id' value="<?=isset($_GET["moneda_id"]) ? $_GET["moneda_id"]: (isset($registroEdit["ID_MONEDA"]) ? $registroEdit["ID_MONEDA"] : "") ?>">
                     	<option value=""></option>
                         <?php 
                         foreach ($dataMoneda as $moneda) { 
@@ -288,7 +280,8 @@ class ViewContratos {
 						<div class="form-group has-feedback col-xs-4 col-md-4 col-lg-4 <?=$monto ? 'has-error' : '' ;?>">
                             <label>Monto *</label> <!--Sección que guarda el monto del contrato   -->
                             <!-- <input type="number" name="monto" class="form-control" value="<?=!empty($_GET["monto"]) ? $_GET["monto"]: '' ;?>"> -->
-							<input type="number" class="form-control" name="monto" onchange="setTwoNumberDecimal" min="0" max="100000000000000" step="0.25" value="0.00" />
+							<input type="number" class="form-control" name="monto" onchange="setTwoNumberDecimal" min="0" max="100000000000000" step="0.25"
+                                   value="<?= $_GET["monto"] ?? $registroEdit['MONTO'] ?? '0.00'?>" />
 							<?php if ($monto){ ?>0
 							<span class="help-block text-danger"> 
 								<strong>Error: Numero de licitacion vacio</strong>
@@ -305,7 +298,9 @@ class ViewContratos {
 						<div class="form-group has-feedback col-xs-4 col-md-4 col-lg-4 <?=$fecha_inicio ? 'has-error' : '' ;?>" >
                     <label>Fecha Inicio Contrato*</label>
                     
-                    <input type="date" name="fecha_inicio" id="fecha_inicio" class="form-control" value="<?=!empty($_GET["fecha_inicio"]) ? $_GET["fecha_inicio"]: '' ;?>">
+                    <input type="date" name="fecha_inicio" id="fecha_inicio" class="form-control"
+                           value="<?=$_GET["fecha_inicio"] ??  fechaEn($registroEdit['FECHA_INICIO']) ?? ''?>" min="<?php echo date("Y-m-d"); ?>"
+                    >
 					<?php if ($fecha_inicio){ ?>
 					<span class="help-block text-danger"> 
 						<strong>Fecha incorrecta</strong>
@@ -319,7 +314,10 @@ class ViewContratos {
 						<div class="row col-12">
 							<div class="form-group has-feedback col-xs-4 col-md-4 col-lg-4">
 								<label>Fecha Término Contrato</label>
-								<input type="date" name="fecha_termino" id="fecha_termino" class="form-control" value="<?=$_GET["fecha_termino"] ?: '' ?>" oninput="fecha();">
+								<input type="date" name="fecha_termino" id="fecha_termino" class="form-control"
+                                       value="<?=$_GET["fecha_termino"] ??  fechaEn($registroEdit['FECHA_TERMINO']) ?? ''?>"
+                                       oninput="fecha();"
+                                >
 								<div class="alert alert-danger" role="alert" id="error_fecha" style="display:none;">
 								"La fecha de término no puede ser menor a la fecha de inicio."
 								</div>
@@ -337,7 +335,9 @@ class ViewContratos {
 						<div class="row col-12">
 							<div class="form-group has-feedback col-xs-4 col-md-4 col-lg-4">
 								<label>Resolución Aprueba</label>
-								<input type="date" name="fecha_aprobacion" class="form-control" value="<?=$_GET["fecha_aprobacion"] ?: '' ?>">
+								<input type="date" name="fecha_aprobacion" class="form-control"
+                                       value="<?=$_GET["fecha_aprobacion"] ??  fechaEn($registroEdit['FECHA_APROBACION']) ?? ''?>"
+                                >
 
 								<?php if ($fecha_aprobacion){ ?>
 								<span class="help-block text-danger"> 
@@ -352,7 +352,9 @@ class ViewContratos {
 						<div class="row col-12">
 						<div class="form-group has-feedback col-xs-4 col-md-4 col-lg-4">
 								<label>Fecha Alerta Término Contrato</label>
-								<input type="date" name="fecha_alert" class="form-control" value="<?=$_GET["fecha_alert"] ?: '' ?>">
+								<input type="date" name="fecha_alert" class="form-control"
+                                       value="<?=$_GET["fecha_alert"] ??  fechaEn($registroEdit['FECHA_ALERTA_VENCIMIENTO']) ?? ''?>"
+                                >
 
 								<?php if ($fecha_alert){ ?>
 								<span class="help-block text-danger"> 
@@ -369,7 +371,9 @@ class ViewContratos {
 						<div class="form-group has-feedback col-xs-4 col-md-4 col-lg-4 <?=$objeto_contrato ? 'has-error' : '' ;?>">
                     <label>Objeto del contrato *</label>
                     
-                    <input type="text" name="objeto_contrato" class="form-control" value="<?=!empty($_GET["objeto_contrato"]) ? $_GET["objeto_contrato"]: '' ;?>" >
+                    <input type="text" name="objeto_contrato" class="form-control"
+                           value="<?=$_GET["objeto_contrato"] ?? $registroEdit['OBJETO_CONTRATO'] ?? ''?>"
+                    >
 					<?php if ($objeto_contrato){ ?>
 					<span class="help-block text-danger"> 
 						<strong>Error: Numero de licitacion vacio</strong>
@@ -387,7 +391,10 @@ class ViewContratos {
 					<div class="card-footer">
 						<div class="row">
 							<div class="col-sm-8">
-								<button type="submit" class="btn-primary btn rounded" ><i class="icon-floppy-disk"></i> Guardar</button>
+                                <input type="hidden" name="id" value="<?= $_GET["id"] ?? "" ?>" >
+								<button type="submit" class="btn-primary btn rounded" >
+                                    <i class="icon-floppy-disk"></i> Guardar
+                                </button>
 							</div>
 						</div>
 						
