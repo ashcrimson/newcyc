@@ -252,13 +252,18 @@ class ViewContratos {
                     	<option value=""></option>
                         <?php 
                         foreach ($dataMoneda as $moneda) { 
+							$selected = $registroEdit['moneda_id']==$moneda["moneda_id"] ? "selected" : "";
                             if (!empty($_GET["moneda_id"]) && $_GET["moneda_id"]){
                                 ?>
-                                <option selected="true" value="<?= $moneda["NOMBRE"];?>"><?= $moneda["NOMBRE"];?></option>
+                                <option selected="true" value="<?= $moneda["NOMBRE"];?>"><?= $selected ?>><?= $moneda["NOMBRE"];?></option>
+								                                        <option value="<?= $cargo["ID_CARGO"];?>" <?= $selected ?>><?= $cargo["NOMBRE"];?></option>
+
                                 <?php
                             }else{
                                 ?>
-                                <option value="<?= $moneda["NOMBRE"];?>"><?= $moneda["NOMBRE"];?></option>
+                                
+								<option value="<?= $moneda["NOMBRE"];?>" <?= $selected ?>><?= $moneda["NOMBRE"];?></option>
+
                                 <?php
                             }
                         }
@@ -299,7 +304,7 @@ class ViewContratos {
                     <label>Fecha Inicio Contrato*</label>
                     
                     <input type="date" name="fecha_inicio" id="fecha_inicio" class="form-control"
-                           value="<?=$_GET["fecha_inicio"] ??  fechaEn($registroEdit['FECHA_INICIO']) ?? ''?>" min="<?php echo date("Y-m-d"); ?>"
+                           value="<?=$_GET["fecha_inicio"] ??  fechaEn($registroEdit['FECHA_INICIO']) ?? ''?>" 
                     >
 					<?php if ($fecha_inicio){ ?>
 					<span class="help-block text-danger"> 

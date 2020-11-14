@@ -59,15 +59,29 @@ class ModelProveedores {
 		$numeros = [];
 		$totales = [];
 
+		// $where = "WHERE 1=1 ";
 
-		if ($this->rut){
-			$where = " WHERE RUT_PROVEEDOR = '" . $this->rut . "'";
-		}else{
-			$where = "";
-		}
+		// if ($this->rut){
+		// 	$where .= " and p.RUT_PROVEEDOR = '" . $this->rut . "'";
+		// }else{
+		// 	$where = "";
+		// }
+ 
+		// consulta principal
+		$consulta = "
+			SELECT 
+				 
+				p.RUT_PROVEEDOR,
+				p.RAZON_SOCIAL,
+				pc.NOMBRE,
+				pc.TELEFONO,
+				pc.EMAIL 
+			FROM
+				 PROVEEDORES P LEFT JOIN PROVEEDORES_CONTACTO PC ON P.RUT_PROVEEDOR=PC.RUT_PROVEEDOR
+			";
+			
+		// $consulta = "SELECT * FROM PROVEEDORES";
 
-		//consulta principal
-		$consulta = "SELECT * FROM PROVEEDORES " . $where;
 		//consulta paginada
 		$query = queryPagination($consulta, $this->page);
 		$result = oci_parse($this->pdo, $query);

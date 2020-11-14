@@ -78,27 +78,7 @@ class ViewProveedores {
                             </select>
                         </div>
                     </div>
-<!--                     <div class="col-3">
-                        <label>Filtrar por ubicación</label>
-                        <div>
-                            <select name="ubicacion" class="selectpicker selectField" placeholder='Seleccione ubicación' data-live-search='true'>
-                                <option value=""></option> 
-                                <?php /*
-	                            foreach ($numerosMonedas as $moneda){
-	                            	if ($_GET["ubicacion"] == $moneda["ubicacion"]) {
-		                            	?>
-		                            	<option value="<?=$moneda["ubicacion"];?>"><?=$moneda["ubicacion"];?></option>
-		                            	<?php
-	                            	}else{
-		                            	?>
-		                            	<option value="<?=$moneda["ubicacion"];?>"><?=$moneda["ubicacion"];?></option>
-		                            	<?php
-	                            	}
-	                            }*/
-	                            ?>
-                            </select>
-                        </div>
-                    </div> -->
+
                 </div>
                 <hr>
                 <div class="btn-group float-right ml-3">
@@ -145,7 +125,7 @@ class ViewProveedores {
                                         <a href="#" class="btn btn-danger btn-xs" data-target="#deleteModal<?=$proveedores["RUT_PROVEEDOR"];?>" data-toggle="modal"><i class="far fa-trash-alt"></i> Eliminar</a>
 
                                         <!-- modal starts -->
-                                        <div class="modal fade" id="deleteModal<?=$proveedores["RUT"];?>">
+                                        <div class="modal fade" id="deleteModal<?=$proveedores["RUT_PROVEEDOR"];?>">
                                             <div class="modal-dialog">
                                                 <div class="modal-content">
                                                     <form class="form-horizontal" method="post" action="<?=base("/proveedores/delete?id=").$proveedores["ID"];?>" >
@@ -208,11 +188,23 @@ class ViewProveedores {
                                             </div>
                                         </div> 
                                         <!-- modal ends -->
+
+                                        <!-- modal starts -->
+                                        <div class="modal fade" id="miModal<?=$proveedores["RUT_PROVEEDOR"];?>">
+                                            <p>hola mundo</p>
+                                        </div>
+
+                                        <!-- modal ends -->
+
+
+
                                     @endif
                                     <?php
                                 }
                                 ?>
+                                <a href="#" data-id="<?=$proveedores['RUT_PROVEEDOR'];?>" class="btn btn-danger btn-xs" data-target="#miModal" data-toggle="modal"><i class="fa fa-phone" ></i> Contacto</a>
                                 </td>
+        
                             </tr>
                         <?php 
                     }
@@ -244,7 +236,14 @@ class ViewProveedores {
         });
 	</script>
 
-
+    <script>
+   
+        $('#miModal').on('show.bs.modal', function(e) {
+        console.log($(e.relatedTarget).data('id'));
+        });
+   
+        
+    </script>
 
 
 
