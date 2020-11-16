@@ -10,12 +10,24 @@ namespace ProveedoresNew;
 class ViewProveedores {
 	
 	public function output(\ProveedoresNew\ModelProveedores $model){
+
 		if(!empty($_POST)){
 			$model->execute();
         }
+
+        if(isset($_GET["id"])){
+            $registroEdit = $model->get();
+        }
+
+        $dataListBox = $model->getDataListBox();
         
         $rut = false;
         $nombre = false;
+        $nombre_fantasia = false;
+        $telefono = false;
+        $email = false;
+        $direccion = false;
+        $comuna = false;
 
 
 
@@ -56,7 +68,7 @@ class ViewProveedores {
 
     <ol class="breadcrumb">
         <li class="breadcrumb-item">
-            <a href="<?=base("/proveedores/");?>">proveedores</a>
+            <a href="<?=base("/proveedores/");?>">Proveedores</a>
         </li>
         <li class="breadcrumb-item active">Mantenedor</li>
     </ol>
@@ -65,11 +77,12 @@ class ViewProveedores {
     <div class="card">
 
         <div class="card-body row">
-            <input type="hidden" name="id" value="{{ $proveedor->id }}" >   
+        <?php feedback();?>
+            <input type="hidden" name="id" value="<?=isset($_GET["id"]) ? $_GET["id"]: '' ?? $registroEdit['id'] ?>" >   
             <div class="form-group has-feedback col-xs-4 col-md-4 col-lg-4 {{ $errors->has('rut') ? 'has-error' : '' }}">
                 <label>RUT del proveedor *</label>
                 <input type="hidden" name="submit" value="true">
-                <input type="text" name="rut" class="form-control" value="<?=isset($_GET["rut"]) ? $_GET["rut"]: '' ?>" oninput="checkRut(this)" >
+                <input type="text" name="rut" class="form-control" value="<?=isset($_GET["rut"]) ? $_GET["rut"]: '' ?? $registroEdit['rut_proveedor'] ?>" oninput="checkRut(this)" >
 
 				<?php if ($rut){ ?>
 				<span class="help-block text-danger"> 
@@ -79,7 +92,7 @@ class ViewProveedores {
             </div>
             <div class="form-group has-feedback col-xs-4 col-md-4 col-lg-4 {{ $errors->has('nombre') ? 'has-error' : '' }}">
                 <label>Razón Social *</label>
-                <input type="text" name="nombre" class="form-control" value="<?=isset($_GET["nombre"]) ? $_GET["nombre"]: '' ?>">
+                <input type="text" name="nombre" class="form-control" value="<?=isset($_GET["nombre"]) ? $_GET["nombre"]: '' ?? $registroEdit['razon_social'] ?>">
 				<?php if ($nombre){ ?>
 				<span class="help-block text-danger"> 
 					<strong>Error: Nombre vacio</strong>
@@ -88,7 +101,7 @@ class ViewProveedores {
             </div>
             <div class="form-group has-feedback col-xs-4 col-md-4 col-lg-4 {{ $errors->has('nombre_fantasia') ? 'has-error' : '' }}">
                 <label>Nombre Fantasía*</label>
-                <input type="text" name="nombre_fantasia" class="form-control" value="<?=isset($_GET["nombre_fantasia"]) ? $_GET["nombre_fantasia"]: '' ?>">
+                <input type="text" name="nombre_fantasia" class="form-control" value="<?=isset($_GET["nombre_fantasia"]) ? $_GET["nombre_fantasia"]: '' ?? $registroEdit['nombre_fantasia'] ?>">
 				<?php if ($nombre_fantasia){ ?>
 				<span class="help-block text-danger"> 
 					<strong>Error: Nombre Fantasía vacío</strong>
@@ -97,7 +110,7 @@ class ViewProveedores {
             </div>
             <div class="form-group has-feedback col-xs-4 col-md-4 col-lg-4 {{ $errors->has('telefono') ? 'has-error' : '' }}">
                 <label>Teléfono*</label>
-                <input type="text" name="telefono" class="form-control" value="<?=isset($_GET["telefono"]) ? $_GET["telefono"]: '' ?>">
+                <input type="text" name="telefono" class="form-control" value="<?=isset($_GET["telefono"]) ? $_GET["telefono"]: '' ?? $registroEdit['telefono'] ?>">
 				<?php if ($telefono){ ?>
 				<span class="help-block text-danger"> 
 					<strong>Error: Teléfono vacío</strong>
@@ -106,7 +119,7 @@ class ViewProveedores {
             </div>
             <div class="form-group has-feedback col-xs-4 col-md-4 col-lg-4 {{ $errors->has('email') ? 'has-error' : '' }}">
                 <label>E-mail*</label>
-                <input type="text" name="email" class="form-control" value="<?=isset($_GET["email"]) ? $_GET["email"]: '' ?>">
+                <input type="text" name="email" class="form-control" value="<?=isset($_GET["email"]) ? $_GET["email"]: '' ?? $registroEdit['email']?>">
 				<?php if ($email){ ?>
 				<span class="help-block text-danger"> 
 					<strong>Error: E-mail vacío</strong>
@@ -115,7 +128,7 @@ class ViewProveedores {
             </div>
             <div class="form-group has-feedback col-xs-4 col-md-4 col-lg-4 {{ $errors->has('direccion') ? 'has-error' : '' }}">
                 <label>Dirección*</label>
-                <input type="text" name="direccion" class="form-control" value="<?=isset($_GET["direccion"]) ? $_GET["direccion"]: '' ?>">
+                <input type="text" name="direccion" class="form-control" value="<?=isset($_GET["direccion"]) ? $_GET["direccion"]: '' ?? $registroEdit['direccion']?>">
 				<?php if ($email){ ?>
 				<span class="help-block text-danger"> 
 					<strong>Error: Dirección vacía</strong>
@@ -124,7 +137,7 @@ class ViewProveedores {
             </div>
             <div class="form-group has-feedback col-xs-4 col-md-4 col-lg-4 {{ $errors->has('comuna') ? 'has-error' : '' }}">
                 <label>Comuna*</label>
-                <input type="text" name="comuna" class="form-control" value="<?=isset($_GET["comuna"]) ? $_GET["comuna"]: '' ?>">
+                <input type="text" name="comuna" class="form-control" value="<?=isset($_GET["comuna"]) ? $_GET["comuna"]: '' ?? $registroEdit['comuna']?>">
 				<?php if ($email){ ?>
 				<span class="help-block text-danger"> 
 					<strong>Error: Comuna vacía</strong>
@@ -134,11 +147,11 @@ class ViewProveedores {
         </div>
 
         <div class="card-footer">
-        <div class="row">
-            <div class="col-sm-8">
-            <button type="submit" name="submit" class="btn-primary btn rounded" ><i class="icon-floppy-disk"></i> Guardar</button>
+            <div class="row">
+                <div class="col-sm-8">
+                    <button type="submit" name="submit" class="btn-primary btn rounded" ><i class="icon-floppy-disk"></i> Guardar</button>
+                </div>
             </div>
-        </div>
         </div>
 
     </div>
@@ -163,7 +176,7 @@ function checkRut(rut) {
     
     // Calcular Dígito Verificador
     suma = 0;
-    multiplo = 2;
+    multiplo = 2; 
     
     // Para cada dígito del Cuerpo
     for(i=1;i<=cuerpo.length;i++) {

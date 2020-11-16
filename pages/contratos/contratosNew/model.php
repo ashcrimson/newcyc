@@ -59,8 +59,6 @@ class ModelContratos {
 		$listado = [];
 
 
-
-
 		//validacion de datos recividos
 		$params = "";
 		if(isset($_POST["submit"])){
@@ -437,7 +435,7 @@ class ModelContratos {
 //			$result2 = oci_parse($this->pdo, $query2);
 //			oci_execute($result2, OCI_DEFAULT) or die ("No se pudo");
 //		}
-
+ 
 
 		//agrega resultados a retorno
 

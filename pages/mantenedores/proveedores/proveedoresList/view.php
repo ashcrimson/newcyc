@@ -114,7 +114,7 @@ class ViewProveedores {
                     
                     <tbody>
                     	<?php
-                    	foreach ($listaProveedores as $proveedores) {
+                    	foreach ($listaProveedores as $index => $proveedores) {
                     	?>
                             <tr>
                                 <td> <?= $proveedores["RUT_PROVEEDOR"]; ?></td>
@@ -122,7 +122,7 @@ class ViewProveedores {
                                 <td>
                                     <?php if(!$proveedores["FECHA_ELIMINACION"]){ ?>
                                         <a href="<?=base("/proveedores/new?id=").$proveedores["RUT_PROVEEDOR"];?>" class="btn btn-primary btn-xs"><i class="fa fa-pencil-alt"></i> Editar</a>
-                                        <a href="#" data-target="#miModal" data-toggle="modal" class="btn btn-danger btn-xs"  ><i class="far fa-trash-alt"></i> Eliminar</a>
+                                        <a href="#" data-target="#miModal<?=$index;?>" data-toggle="modal" class="btn btn-danger btn-xs"  ><i class="far fa-trash-alt"></i> Eliminar</a>
 
                                         <!-- modal starts -->
                                         <div class="modal fade" id="deleteModal<?=$proveedores["RUT_PROVEEDOR"];?>">
@@ -215,7 +215,7 @@ class ViewProveedores {
                                         <!-- modal ends -->
 
                                         <!-- modal starts -->
-                                        <div class="modal fade" id="miModal">
+                                        <div class="modal fade" id="miModal<?=$index;?>">
                                             <p>hola mundo</p>
                                         </div>
 

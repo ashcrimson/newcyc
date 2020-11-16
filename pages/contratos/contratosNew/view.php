@@ -247,7 +247,7 @@ class ViewContratos {
 						<div class="row col-12">
 						<div class="form-group has-feedback col-xs-4 col-md-4 col-lg-4 <?=$moneda_id ? 'has-error' : '' ;?>" >
                     <label>Moneda *</label>
-
+ 
                     <select name='moneda_id' class ='selectpicker selectField' placeholder='Seleccione Moneda' data-live-search='true' id ='moneda_id' value="<?=isset($_GET["moneda_id"]) ? $_GET["moneda_id"]: (isset($registroEdit["ID_MONEDA"]) ? $registroEdit["ID_MONEDA"] : "") ?>">
                     	<option value=""></option>
                         <?php 
@@ -474,10 +474,6 @@ function fecha(){
 
 }
 </script>
-
-
-
-
 
 
 

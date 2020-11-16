@@ -1,6 +1,6 @@
 <?php
 
-
+ 
 
 namespace ProveedoresNew;
    
@@ -25,7 +25,7 @@ class ModelProveedores {
 	private $nombre;
 
 	//Constructor
-	function __construct($pdo){
+	function __construct($pdo, $id = ''){
 		$this->pdo = $pdo;
 
 	}
@@ -106,20 +106,80 @@ class ModelProveedores {
 		return new self($this->pdo, $rut);
 	}
 
+	public function get(){
+
+        $query = "SELECT * FROM PROVEEDORES WHERE RUT_PROVEEDOR='" . $this->id . "'";
+
+        //consulta paginada
+        $result = oci_parse($this->pdo, $query);
+        oci_execute($result);
+        $listado = queryResultToAssoc($result);
+
+        return $listado[0];
+	}
+	
+	public function getDataListBox()
+    {
+		$assoc = [];
+
+		$query = "SELECT * FROM PROVEEDORES";
+        $result = oci_parse($this->pdo, $query);
+        oci_execute($result);
+        $proveedores = queryResultToAssoc($result);
+        array_push($assoc, $proveedores);
+
+		return $assoc;
+	}	
+
 
 
 	public function execute(){
 		
 		//validar si faltó algo
 		if(!$this->error)
-		{
-
-				$rut = $_POST["rut"];	
+		//actualiza
+		if(isset($_POST["id"]) && $_POST["id"] != "") {
+			$rut = $_POST["rut"];	
 				$nombre = $_POST["nombre"];
 				$nombre_fantasia = $_POST["nombre_fantasia"];
 				$telefono = $_POST["telefono"];
 				$email = $_POST["email"];
 				$direccion = $_POST["direccion"];
+
+			$query = "
+				UPDATE PROVEEDORES SET 
+					 RUT_PROVEEDOR='". $rut."', 
+					 RAZON_SOCIAL='". $nombre ."', 
+					 NOMBRE_FANTASIA='". $nombre_fantasia ."',
+					 TELEFONO='". $telefono ."', 
+					 EMAIL='". $email ."',
+					 DIRECCION='". $direccion ."',
+					 FECHA_CREACION=TO_DATE('". date('yy-m-d') ."','yyyy-mm-dd')
+				WHERE 
+					ID_CONTRATO='" . $_POST['id'] . "'
+			";
+
+
+//                echo "<pre>";
+//                var_dump($query);
+//                exit();
+//                echo "</pre>";
+
+
+			$result = oci_parse($this->pdo, $query);
+
+			if($result){
+				$_SESSION["feedback"] = "Contrato actualizado correctamente";
+			}
+
+			oci_execute($result);
+
+			oci_commit($this->pdo);
+
+		}
+			else {
+
+				
 				$consulta = "INSERT into PROVEEDORES (RUT_PROVEEDOR, RAZON_SOCIAL, NOMBRE_FANTASIA, TELEFONO, EMAIL, DIRECCION, FECHA_CREACION) values (
 							'". $rut."', 
 							'". $nombre ."',
