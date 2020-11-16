@@ -215,8 +215,14 @@ class ViewProveedores {
                                         <!-- modal ends -->
 
                                         <!-- modal starts -->
-                                        <div class="modal fade" id="miModal<?=$index;?>">
-                                            <p>hola mundo</p>
+                                        <div id="miModal<?=$index;?>" class="modal fade" role="dialog">
+                                            <div class="modal-dialog">
+                                                <div class="modal-content">
+                                                    <div class="modal-body">
+                                                        <p>Hola mundo.</p>
+                                                    </div>
+                                                </div>
+                                            </div>
                                         </div>
 
                                         <!-- modal ends -->
