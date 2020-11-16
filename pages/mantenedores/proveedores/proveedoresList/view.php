@@ -122,22 +122,47 @@ class ViewProveedores {
                                 <td>
                                     <?php if(!$proveedores["FECHA_ELIMINACION"]){ ?>
                                         <a href="<?=base("/proveedores/new?id=").$proveedores["RUT_PROVEEDOR"];?>" class="btn btn-primary btn-xs"><i class="fa fa-pencil-alt"></i> Editar</a>
-                                        <a href="#" class="btn btn-danger btn-xs" data-target="#deleteModal<?=$proveedores["RUT_PROVEEDOR"];?>" data-toggle="modal"><i class="far fa-trash-alt"></i> Eliminar</a>
+                                        <a href="<?=base("/proveedores/delete?id=").$proveedores["RUT_PROVEEDOR"];?>" class="btn btn-danger btn-xs"  ><i class="far fa-trash-alt"></i> Eliminar</a>
 
                                         <!-- modal starts -->
                                         <div class="modal fade" id="deleteModal<?=$proveedores["RUT_PROVEEDOR"];?>">
                                             <div class="modal-dialog">
                                                 <div class="modal-content">
-                                                    <form class="form-horizontal" method="post" action="<?=base("/proveedores/delete?id=").$proveedores["ID"];?>" >
                                                     <div class="modal-header">
-                                                        <h4 class="modal-title"> Borrar <?=$proveedores["RAZON_SOCIAL"];?> </h4>
+                                                        <h1>Información Contacto</h1>
                                                         <button type="button" class="close" data-dismiss="modal">&times;</button>
                                                     </div>
+                                                    <form class="form-horizontal" method="post" action="<?=base("/proveedores/delete?id=").$proveedores["ID"];?>" >
+                                                    
+                                                            <div class="modal-body">
+                                                                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                                                                    <thead>
+                                                                        <tr>
+                                                                            <th>NOMBRE</th>
+                                                                            <th>TELÉFONO</th>
+                                                                            <th>EMAIL</th>
+                                                                        </tr>
+                                                                        
+                                                                    </thead>
+                                                                    <tbody>
+                                                                        <tr>
+                                                                            <td><?=$proveedores["NOMBRE"];?></td>
+                                                                            <td><?=$proveedores["TELEFONO"];?></td>
+                                                                            <td><?=$proveedores["EMAIL"];?></td>
+                                                                        </tr>
+                                                                    
+                                                                    </tbody>
+                                                                </table>
 
-                                                    <div class="modal-footer">
-                                                        <button type="submit" class="btn btn-default">Continuar</button>
-                                                        <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
+                                                            </div>
+                                                            <div class="modal-footer">
+                                                                <button type="submit" class="btn btn-default">Continuar</button>
+                                                                <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
+                                                            </div>
+                                                        
                                                     </div>
+
+                                                    
                                                     </form>
                                                 </div>
                                             </div>
@@ -202,7 +227,7 @@ class ViewProveedores {
                                     <?php
                                 }
                                 ?>
-                                <a href="#" data-id="<?=$proveedores['RUT_PROVEEDOR'];?>" class="btn btn-danger btn-xs" data-target="#miModal" data-toggle="modal"><i class="fa fa-phone" ></i> Contacto</a>
+                                <a href="#" class="btn btn-danger btn-xs" data-target="#deleteModal<?=$proveedores["RUT_PROVEEDOR"];?>" data-toggle="modal"><i class="fa fa-phone"></i> Contacto</a>
                                 </td>
         
                             </tr>
@@ -236,14 +261,7 @@ class ViewProveedores {
         });
 	</script>
 
-    <script>
-   
-        $('#miModal').on('show.bs.modal', function(e) {
-        console.log($(e.relatedTarget).data('id'));
-        });
-   
-        
-    </script>
+
 
 
 

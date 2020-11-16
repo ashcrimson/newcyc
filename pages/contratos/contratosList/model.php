@@ -96,7 +96,7 @@ class ModelContratos {
 		$result = oci_parse($this->pdo, $query);
 		oci_execute($result);
 		$listado = queryResultToAssoc($result);
-
+ 
 		//aca se iteran los 10 registro de contratos
 		$listado = array_map(function ($contrato){
 

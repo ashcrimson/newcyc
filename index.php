@@ -148,11 +148,17 @@ switch ($request) {
 		break;
 
     case $base . '/archivo/download/':
-    case $base . '/archivo/download' :
-
+	case $base . '/archivo/download' :
+		
         $router->archivoDownload();
 
-        break;
+		break;
+		
+	case $base . '/contacto/' :
+
+		$router->contacto();
+
+		break;
 
 	//edicion de monedas
 	//case (preg_match("/\/usuarios\/\d*\/edit\/{0,1}/", $base . $request) ? true : false) :
