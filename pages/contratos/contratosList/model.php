@@ -54,7 +54,7 @@ class ModelContratos {
         $where = "WHERE 1=1 ";
 
 		if ($this->id){
-			$where .= " and ID_CONTRATO = '" . $this->id . "'";
+			$where .= " and c.ID_CONTRATO = '" . $this->id . "'";
 		}
 
         if ($_GET['rut_proveedor']){
@@ -97,26 +97,26 @@ class ModelContratos {
 		oci_execute($result);
 		$listado = queryResultToAssoc($result);
 
-		        //consulta principal
-				$consulta2 = "
-				select 
-					c.id_contrato, 
-					de.codigo,
-					de.desc_prod_soli
-					
-				from 
-					CONTRATOS C LEFT JOIN DETALLE_CONTRATO DE ON c.id_contrato = de.id_contrato
-				$where
-				ORDER BY
-					id_contrato
-					
+		//consulta principal
+		$consulta2 = "
+		select 
+			c.id_contrato, 
+			de.codigo,
+			de.desc_prod_soli
 			
-				";
-			//consulta paginada
-			$query2 = queryPagination($consulta2, $this->page);
-			$result2 = oci_parse($this->pdo, $query2);
-			oci_execute($result2);
-			$listado2 = queryResultToAssoc($result2);
+		from 
+			CONTRATOS C LEFT JOIN DETALLE_CONTRATO DE ON c.id_contrato = de.id_contrato
+		$where
+		ORDER BY
+			id_contrato
+			
+	
+		";
+		//consulta paginada
+		$query2 = queryPagination($consulta2, $this->page);
+		$result2 = oci_parse($this->pdo, $query2);
+		oci_execute($result2);
+		$listado2 = queryResultToAssoc($result2);
  
 		//aca se iteran los 10 registro de contratos
 		$listado = array_map(function ($contrato){

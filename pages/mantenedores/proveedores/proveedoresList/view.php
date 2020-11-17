@@ -55,8 +55,8 @@ class ViewProveedores {
 	                            }
 	                            ?>
                             </select>
-                        </div>
                     </div>
+                </div>
                     <div class="col-3">
                         <label>Filtrar por razón social</label>
                         <div>
@@ -118,7 +118,7 @@ class ViewProveedores {
                     	?>
                             <tr>
                                 <td> <?= $proveedores["RUT_PROVEEDOR"]; ?></td>
-                                <td> <?= $proveedores["RAZON_SOCIAL"] ?></td>
+                                <td> <?= $proveedores["RAZON_SOCIAL"] ?></td> 
                                 <td>
                                     <?php if(!$proveedores["FECHA_ELIMINACION"]){ ?>
                                         <a href="<?=base("/proveedores/new?id=").$proveedores["RUT_PROVEEDOR"];?>" class="btn btn-primary btn-xs"><i class="fa fa-pencil-alt"></i> Editar</a>

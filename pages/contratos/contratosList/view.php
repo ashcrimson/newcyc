@@ -47,6 +47,8 @@ class ViewContratos {
     .table-responsiva{
         width: 230%;
     }
+
+   
     </style>
  
     <!-- Breadcrumbs-->
@@ -62,7 +64,6 @@ class ViewContratos {
         <div class="card-header">
             <form method="get" class="form-horizontal" action="<?=base("/contratos/")?>">
                 
-
                 <div class="row">
                     <div class="col-6">
                         <label>Proveedor</label>
@@ -257,7 +258,7 @@ class ViewContratos {
                                                 </h5>
                                             </div>
 
-                                            <div class="table-responsive table-sm -md -lg -x">
+                                            <div class="table-responsive table-sm -md -lg -x tabla-bitacora">
                                                 <table class="table table-bordered"  class="table-sm w-25" id="dataBitacoras" width=100% cellspacing="0">
                                                     <thead>
                                                         <tr>
@@ -343,7 +344,7 @@ class ViewContratos {
                                                     </tr>
                                                 </thead>
                                                 <tbody>
-                                                    <?php foreach($listado2 as $detalle){?>
+                                                    <?php foreach($listado2 as  $detalle){?>
                                                             <tr>
                                                             <td> <?= $detalle["ID_CONTRATO"]; ?></td>
                                                             <td> <?= $detalle["CODIGO"]; ?></td>
