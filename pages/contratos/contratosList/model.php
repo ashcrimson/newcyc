@@ -1,6 +1,6 @@
 <?php
 
-  
+   
 
 namespace ContratosList;
 
@@ -96,6 +96,27 @@ class ModelContratos {
 		$result = oci_parse($this->pdo, $query);
 		oci_execute($result);
 		$listado = queryResultToAssoc($result);
+
+		        //consulta principal
+				$consulta2 = "
+				select 
+					c.id_contrato, 
+					de.codigo,
+					de.desc_prod_soli
+					
+				from 
+					CONTRATOS C LEFT JOIN DETALLE_CONTRATO DE ON c.id_contrato = de.id_contrato
+				$where
+				ORDER BY
+					id_contrato
+					
+			
+				";
+			//consulta paginada
+			$query2 = queryPagination($consulta2, $this->page);
+			$result2 = oci_parse($this->pdo, $query2);
+			oci_execute($result2);
+			$listado2 = queryResultToAssoc($result2);
  
 		//aca se iteran los 10 registro de contratos
 		$listado = array_map(function ($contrato){
@@ -148,17 +169,22 @@ class ModelContratos {
         $query = "select NRO_LICITACION from LICITACIONES";
         $result = oci_parse($this->pdo, $query);
         oci_execute($result);
-        $licitaciones = queryResultToAssoc($result);
+		$licitaciones = queryResultToAssoc($result);
+		
+		
 
 		
 		// Arryas que forman la tabla principal con paginación
 		array_push($assoc, $listado);
+		
 		array_push($assoc, $totales); 
 
 		// Arrays que forman los listbox para filtros
 		array_push($assoc, $proveedores);
 		array_push($assoc, $cargos);
 		array_push($assoc, $licitaciones);
+
+		array_push($assoc, $listado2);
 		
 		
 

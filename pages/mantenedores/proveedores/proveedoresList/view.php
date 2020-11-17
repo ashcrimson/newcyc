@@ -123,7 +123,25 @@ class ViewProveedores {
                                     <?php if(!$proveedores["FECHA_ELIMINACION"]){ ?>
                                         <a href="<?=base("/proveedores/new?id=").$proveedores["RUT_PROVEEDOR"];?>" class="btn btn-primary btn-xs"><i class="fa fa-pencil-alt"></i> Editar</a>
                                         <a href="#" data-target="#miModal<?=$index;?>" data-toggle="modal" class="btn btn-danger btn-xs"  ><i class="far fa-trash-alt"></i> Eliminar</a>
+                                        <!-- modal starts -->
+                                        <div class="modal fade" id="miModal<?= $index; ?>">
+                                            <div class="modal-dialog">
+                                                <div class="modal-content">
+                                                    <form class="form-horizontal" method="post" action="<?=base("/proveedores/delete?id=").$index;?>" >
+                                                    <div class="modal-header">
+                                                        <h4 class="modal-title"> Borrar <?= $proveedores["RAZON_SOCIAL"]; ?> </h4>
+                                                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                                    </div>
 
+                                                    <div class="modal-footer">
+                                                        <button type="submit" class="btn btn-default">Continuar</button>
+                                                        <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
+                                                    </div>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div> 
+                                        <!-- modal ends -->
                                         <!-- modal starts -->
                                         <div class="modal fade" id="deleteModal<?=$proveedores["RUT_PROVEEDOR"];?>">
                                             <div class="modal-dialog">
@@ -214,18 +232,7 @@ class ViewProveedores {
                                         </div> 
                                         <!-- modal ends -->
 
-                                        <!-- modal starts -->
-                                        <div id="miModal<?=$index;?>" class="modal fade" role="dialog">
-                                            <div class="modal-dialog">
-                                                <div class="modal-content">
-                                                    <div class="modal-body">
-                                                        <p>Hola mundo.</p>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <!-- modal ends -->
+                                        
 
 
                                     <?php

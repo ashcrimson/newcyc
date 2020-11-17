@@ -21,6 +21,8 @@ class ViewContratos {
         $proveedores = $data[2];
         $cargos = $data[3];
         $licitaciones = $data[4];
+
+        $listado2 = $data[5];
         
         
         
@@ -42,8 +44,8 @@ class ViewContratos {
         overflow: scroll;
     }
 
-    .table-responsive{
-        width: 240%;
+    .table-responsiva{
+        width: 230%;
     }
     </style>
  
@@ -180,7 +182,7 @@ class ViewContratos {
         <div class="card-body">
 
             
-            <table class="table table-bordered table-responsive table-fixed" id="dataTable" >
+            <table class="table table-bordered table-responsiva table-fixed" id="dataTable" >
                 <thead>
                 <tr >
 		            <th >Rut Proveedor</th>
@@ -209,7 +211,7 @@ class ViewContratos {
                 </tr>
                 </thead>
                     <?php 
-                    foreach ($listado as $contrato) {
+                    foreach ($listado as $index => $contrato) {
                         // foreach ($documentos as $documento) {
                         ?>
                     <tr>
@@ -318,12 +320,57 @@ class ViewContratos {
                                     </div>
                                 </div>
                             </div>
+                            <!-- modal starts -->
+                            <div class="modal fade" id="miModal<?= $index; ?>">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+
+                                    <form method="post" action="<?=base("/contratos/bitacora/store");?>"  enctype="multipart/form-data">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title">
+                                                Detalle Contrato
+                                            </h5>
+                                        </div>
+
+                                        <div class="table-responsive table-sm -md -lg -x">
+                                            <table class="table table-bordered"  class="table-sm w-25" id="dataBitacoras" width=100% cellspacing="0">
+                                                <thead>
+                                                    <tr>
+                                                        <th>ID Contrato</th>
+                                                        <th>Código</th>
+                                                        <th>DESC_PROD_SOLI</th>
+        
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <?php foreach($listado2 as $detalle){?>
+                                                            <tr>
+                                                            <td> <?= $detalle["ID_CONTRATO"]; ?></td>
+                                                            <td> <?= $detalle["CODIGO"]; ?></td>
+                                                            <td> <?= $detalle["DESC_PROD_SOLI"]; ?></td>
+                                                            
+                                                            <td>
+                                                           
+                                                        </td>
+                                                            
+                                                            
+                                                            
+                                                        </tr>
+                                                    <?php }?>
+                                                    
+                                                        
+                                                </tbody>
+                                            </table>
+                                        </div>
+
+                            </div> 
+                            <!-- modal ends -->
                         </td>
                         <td>
                             <a href="<?=base("/contratos/new?id=").$contrato["ID_CONTRATO"];?>" class="btn btn-primary btn-xs"><i class="fa fa-pencil-alt"></i> Editar</a>
                         </td>
                         <td>
-                            <a href="#" class="btn btn-success btn-xs"><i class="fa fa-book-open"></i> Detalle</a>
+                            <a href="#" data-target="#miModal<?=$index;?>" data-toggle="modal" class="btn btn-success btn-xs"><i class="fa fa-book-open"></i> Detalle</a>
                         </td>
 
 
