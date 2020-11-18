@@ -66,6 +66,10 @@ switch ($request) {
 	case $base . '/contratos/new/' :
 		$router->contratosNew(); 
 		break;
+    case $base . '/contratos/show' :
+    case $base . '/contratos/show/' :
+        $router->contratosShow();
+        break;
 	case $base . '/ordenCompra' :
 	case $base . '/ordenCompra/' :
 		$router->ordenCompraList(); 
@@ -166,6 +170,7 @@ switch ($request) {
 		$router->detalle();
 
 		break;
+
 
 	//edicion de monedas
 	//case (preg_match("/\/usuarios\/\d*\/edit\/{0,1}/", $base . $request) ? true : false) :

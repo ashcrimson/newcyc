@@ -115,6 +115,20 @@ class Router{
 	}
 
 
+    public function contratosShow(){
+
+
+        $this->model = new \contratosShow\ModelContratos($this->pdo);
+        $this->view = new \contratosShow\ViewContratos;
+        $this->controller = new \contratosShow\ControllerContratos;
+
+        //si no esta vacío el dato id de la url
+        if(!empty($_GET["id"] && $_GET["id"] >= 1)){
+            $this->model = $this->controller->show($this->model);
+        }
+    }
+
+
 	/***********************************
 	 * ordenes compra
 	 ***********************************/
