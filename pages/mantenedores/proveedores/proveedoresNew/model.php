@@ -1,14 +1,14 @@
 <?php
 
- 
+
 
 namespace ProveedoresNew;
-   
+
 
 /**
  * modelo de lista de  licitaciones
  */
-class ModelProveedores {
+class ModelProveedores  {
 
 	/**
 	 * varaibles globales
@@ -24,11 +24,13 @@ class ModelProveedores {
 	private $id;
 	private $nombre;
 
-	//Constructor
-	function __construct($pdo, $id = ''){
-		$this->pdo = $pdo;
 
-	}
+    //Constructor
+    function __construct($pdo, $id = ''){
+        $this->pdo = $pdo;
+        $this->id = $id;
+
+    }
 
 	//retorna el/los datos seleccionados
 	public function new(){
@@ -41,36 +43,38 @@ class ModelProveedores {
 		//validacion de datos recividos
 		$params = "";
 		if(isset($_POST["submit"])){
+
 			if(isset($_POST["rut"]) && $_POST["rut"] != ""){
-				$this->params .= "rut=" . $_POST["rut"] . "&";
+				$this->params .= "rut" . $_POST["rut"] . "&";
 				$this->rut = $_POST["rut"];
 			}else{
-				$this->errores["rut"] = true;
-				$this->error = true;
+				// $this->errores["id_contrato"] = true;
+				// $this->error = true;
 			}
 
 			if(isset($_POST["nombre"]) && $_POST["nombre"] != ""){
-				$this->params .= "nombre=" . $_POST["nombre"] . "&";
+				$this->params .= "nombre" . $_POST["nombre"] . "&";
 				$this->nombre = $_POST["nombre"];
 			}else{
-				$this->errores["nombre"] = true;
-				$this->error = true;
+				// $this->errores["id_area"] = true;
+				// $this->error = true;
 			}
 
 			if(isset($_POST["nombre_fantasia"]) && $_POST["nombre_fantasia"] != ""){
-				$this->params .= "nombre_fantasia=" . $_POST["nombre_fantasia"] . "&";
+				$this->params .= "nombre_fantasia" . $_POST["nombre_fantasia"] . "&";
 				$this->nombre_fantasia = $_POST["nombre_fantasia"];
 			}else{
-				$this->errores["nombre_fantasia"] = true;
-				$this->error = true;
+				// $this->errores["id_admin"] = true;
+				// // $this->error = true;
 			}
 
+
 			if(isset($_POST["telefono"]) && $_POST["telefono"] != ""){
-				$this->params .= "telefono=" . $_POST["telefono"] . "&";
+				$this->params .= "telefono" . $_POST["telefono"] . "&";
 				$this->telefono = $_POST["telefono"];
 			}else{
-				$this->errores["telefono"] = true;
-				$this->error = true;
+				// $this->errores["proveedor_id"] = true;
+				// $this->error = true;
 			}
 
 			if(isset($_POST["email"]) && $_POST["email"] != ""){
@@ -96,17 +100,23 @@ class ModelProveedores {
 				$this->errores["comuna"] = true;
 				$this->error = true;
 			}
+
+			
+
+			$feedback = "Contrato subido correctamente";
+
 		}
 
 		return new self($this->pdo);
 
 	}
 
-	public function edit($rut){
-		return new self($this->pdo, $rut);
-	}
+    public function edit($id)
+    {
+        return new self($this->pdo, $id);
+    }
 
-	public function get(){
+    public function get(){
 
         $query = "SELECT * FROM PROVEEDORES WHERE RUT_PROVEEDOR='" . $this->id . "'";
 
@@ -116,48 +126,48 @@ class ModelProveedores {
         $listado = queryResultToAssoc($result);
 
         return $listado[0];
-	}
-	
-	public function getDataListBox()
-    {
-		$assoc = [];
+    }
 
-		$query = "SELECT * FROM PROVEEDORES";
+    public function getDataListBox()
+    {
+        $assoc = [];
+
+
+        //consulta para recuperar ruts de los proveedores
+        $query = "SELECT * FROM PROVEEDORES";
         $result = oci_parse($this->pdo, $query);
         oci_execute($result);
         $proveedores = queryResultToAssoc($result);
         array_push($assoc, $proveedores);
 
-		return $assoc;
-	}	
 
+        oci_close($this->pdo);
 
+        return $assoc;
+    }
 
 	public function execute(){
+
 		
 		//validar si faltó algo
-		if(!$this->error)
-		//actualiza
-		if(isset($_POST["id"]) && $_POST["id"] != "") {
-			$rut = $_POST["rut"];	
-				$nombre = $_POST["nombre"];
-				$nombre_fantasia = $_POST["nombre_fantasia"];
-				$telefono = $_POST["telefono"];
-				$email = $_POST["email"];
-				$direccion = $_POST["direccion"];
+		if(!$this->error){
+			
 
-			$query = "
-				UPDATE PROVEEDORES SET 
-					 RUT_PROVEEDOR='". $rut."', 
-					 RAZON_SOCIAL='". $nombre ."', 
-					 NOMBRE_FANTASIA='". $nombre_fantasia ."',
-					 TELEFONO='". $telefono ."', 
-					 EMAIL='". $email ."',
-					 DIRECCION='". $direccion ."',
-					 FECHA_CREACION=TO_DATE('". date('yy-m-d') ."','yyyy-mm-dd')
-				WHERE 
-					ID_CONTRATO='" . $_POST['id'] . "'
-			";
+		    //actualiza
+            if(isset($_POST["id"]) && $_POST["id"] != "") {
+                $query = "
+                    UPDATE PROVEEDORES SET 
+						 RUT_PROVEEDOR='". $rut."',
+                         RAZON_SOCIAL='". $nombre ."', 
+                         NOMBRE_FANTASIA='". $nombre_fantasia ."',
+                         TELEFONO='". $telefono ."',  
+                         EMAIL='". $email ."',
+                         DIRECCION='". $direccion ."',
+                         FECHA_CREACION=TO_DATE('". date('yy-m-d') ."','yyyy-mm-dd')
+                         
+					WHERE 
+					    ID_CONTRATO='" . $_POST['id'] . "'
+                ";
 
 
 //                echo "<pre>";
@@ -166,57 +176,71 @@ class ModelProveedores {
 //                echo "</pre>";
 
 
-			$result = oci_parse($this->pdo, $query);
+                $result = oci_parse($this->pdo, $query);
 
-			if($result){
-				$_SESSION["feedback"] = "Contrato actualizado correctamente";
-			}
+                if($result){
+                    $_SESSION["feedback"] = "Proveedor actualizado correctamente";
+                }
 
-			oci_execute($result);
+                oci_execute($result);
 
-			oci_commit($this->pdo);
+                oci_commit($this->pdo);
 
-		}
-			else {
+            }
+	        //inserta
+	        else{
 
-				
-				$consulta = "INSERT into PROVEEDORES (RUT_PROVEEDOR, RAZON_SOCIAL, NOMBRE_FANTASIA, TELEFONO, EMAIL, DIRECCION, FECHA_CREACION) values (
-							'". $rut."', 
-							'". $nombre ."',
-							'". $nombre_fantasia ."',
-							'". $telefono ."',
-							'". $email ."',
-							'". $direccion ."',
-							TO_DATE('". date('yy-m-d') ."','yyyy-mm-dd')
-							)";
-				//ejecucion consulta
-				$query = $consulta;
-				$result = oci_parse($this->pdo, $query);
-				//print_r($consulta);
-				oci_execute($result);
+                $consulta = "INSERT INTO PROVEEDORES (
+				RUT_PROVEEDOR, 
+				RAZON_SOCIAL, 
+				NOMBRE_FANTASIA, 
+				TELEFONO, 
+				EMAIL, 
+				DIRECCION, 
+				FECHA_CREACION
+				) 
+			VALUES (
+				'1', 
+				'". $this->nombre ."',
+				'". $this->nombre_fantasia ."',
+				'". $this->telefono ."', 
+				'". $this->email ."',
+				'". $this->direccion ."',
+				TO_DATE('". date('yy-m-d') ."','yyyy-mm-dd')
+				)";
 
-				//oci_error();
-				//$listado = queryResultToAssoc($result);
-				oci_commit($this->pdo);
+                //ejecucion consulta
+                $query = $consulta;
+                $result = oci_parse($this->pdo, $query);
+
+                if($result){
+                    $_SESSION["feedback"] = "Proveedor ingresado correctamente";
+                }
+
+                oci_execute($result);
+
+
+                oci_commit($this->pdo);
+            }
 			
-
-			print_r($consulta);
-
 		}else{
-			//print_r("redirige");
-			header("Location: ". base() . "/proveedores/new?" . $params);
+			
+			print_r($this->errores);
+			
 			die();
 		}
 
-		
+ 
 
 		//agrega resultados a retorno
-		//array_push($assoc, $listado);
-		//array_push($assoc, $errores);
-
-		//$results["result"] = $result;
 
 		oci_close($this->pdo);
+		
 		//return $assoc;
 	}
+
+
+ 
+
+
 }

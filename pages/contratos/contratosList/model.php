@@ -138,6 +138,28 @@ class ModelContratos {
 
             return $contrato;
 
+		},$listado);
+		
+		$listado = array_map(function ($contrato){
+
+            //consulta para recuperar todos las bitacoras
+			$query = "
+		select 
+			c.id_contrato, 
+			de.*
+			
+		from 
+			CONTRATOS C LEFT JOIN DETALLE_CONTRATO DE ON c.id_contrato = de.id_contrato
+			where 
+				C.ID_CONTRATO=".$contrato['ID_CONTRATO'];
+            $result = oci_parse($this->pdo, $query);
+            oci_execute($result);
+            $detalles= queryResultToAssoc($result);
+
+            $contrato['DETALLES'] = $detalles;
+
+            return $contrato;
+
         },$listado);
 
 

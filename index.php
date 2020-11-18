@@ -160,6 +160,13 @@ switch ($request) {
 
 		break;
 
+	case $base . '/detalle' :	
+	case $base . '/detalle/' :
+
+		$router->detalle();
+
+		break;
+
 	//edicion de monedas
 	//case (preg_match("/\/usuarios\/\d*\/edit\/{0,1}/", $base . $request) ? true : false) :
 		//$router->usuariosNew(); 

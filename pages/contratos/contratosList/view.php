@@ -48,6 +48,8 @@ class ViewContratos {
         width: 230%;
     }
 
+    
+
    
     </style>
  
@@ -218,29 +220,29 @@ class ViewContratos {
                     <tr>
 
                         
-                        <td ><?= $contrato["RUT_PROVEEDOR"]; ?></td>
-                        <td><?= $contrato["RAZON_SOCIAL"]; ?></td>
-                        <td><?= $contrato["TIPO"] ."-". $contrato["ID_CONTRATO"]; ?></td>
-                        <td><?= $contrato["NRO_LICITACION"]; ?></td>
-                        <td><?= $contrato["ID_MONEDA"]; ?></td>
+                        <td style="width:2%;"><?= $contrato["RUT_PROVEEDOR"]; ?></td>
+                        <td style="width:7%;"><?= $contrato["RAZON_SOCIAL"]; ?></td>
+                        <td style="width:1%;"><?= $contrato["TIPO"] ."-". $contrato["ID_CONTRATO"]; ?></td>
+                        <td style="width:6%;"><?= $contrato["NRO_LICITACION"]; ?></td>
+                        <td style="width:1%;"><?= $contrato["ID_MONEDA"]; ?></td>
                         <!-- <td><?= $contrato["PRECIO"]; ?></td> -->
                         <!-- <td><?= $contrato["PRECIO"] * $contrato["EQUIVALENCIA"]; ?></td> -->
                         <!-- <td><?= $contrato["RESTANTE"];?></td> -->
-                        <td><?= $contrato["ID_CARGO"];?></td>
-                        <td><?= $contrato["FECHA_INICIO"]; ?></td>
-                        <td><?= $contrato["FECHA_TERMINO"]; ?></td>
-                        <td><?= $contrato["FECHA_APROBACION"]; ?></td>
+                        <td style="width:2%;"><?= $contrato["ID_CARGO"];?></td>
+                        <td style="width:3%;"><?= $contrato["FECHA_INICIO"]; ?></td>
+                        <td style="width:3%;"><?= $contrato["FECHA_TERMINO"]; ?></td>
+                        <td style="width:2%;"><?= $contrato["FECHA_APROBACION"]; ?></td>
                         <td><?= $contrato["OBJETO_CONTRATO"]; ?></td>
                         <!-- <td><?= $contrato["BOLETA"]; ?></td> -->
                         <td>$<?= number_format($contrato["MONTO"], 2, ',', '.') ?></td>
-                        <td><?= $contrato["FECHA_ALERTA_VENCIMIENTO"]; ?></td>
+                        <td style="width:2%;"><?= $contrato["FECHA_ALERTA_VENCIMIENTO"]; ?></td>
                         <td>
                             <a href="<?= base()."/archivo/download?id=".$contrato['NRO_DOCUMENTO'] ?>" target="_blank">
                                 <?= $contrato["NOMBRE_DOCUMENTO"] ?>
                             </a>
                         </td>
                   
-                        <td>
+                        <td style="width:2%;">
                             <a href="#" class="btn btn-info btn-xs" data-target="#deleteModal<?=$contrato['ID_CONTRATO'];?>" data-toggle="modal">
                                 <i class="far fa-eye"></i> Bitacora
                             </a>
@@ -324,7 +326,7 @@ class ViewContratos {
                             <!-- modal starts -->
                             <div class="modal fade" id="miModal<?= $index; ?>">
                             <div class="modal-dialog">
-                                <div class="modal-content">
+                                <div class="modal-content contento">
 
                                     <form method="post" action="<?=base("/contratos/bitacora/store");?>"  enctype="multipart/form-data">
                                         <div class="modal-header">
@@ -337,26 +339,31 @@ class ViewContratos {
                                             <table class="table table-bordered"  class="table-sm w-25" id="dataBitacoras" width=100% cellspacing="0">
                                                 <thead>
                                                     <tr>
-                                                        <th>ID Contrato</th>
                                                         <th>Código</th>
                                                         <th>DESC_PROD_SOLI</th>
-        
+                                                        <th>CANTIDAD TOTAL</th>
+                                                        <th>PRECIO_U_BRUTO</th>
+                                                        <th>GRUPO</th>
+                                                        <th>PRESENTACION_PROD_SOLI</th>
+                                                        <th>F_F</th>
+                                                        <th>DESC_TEC_PROD_OFERTADO</th>
+                                                        <th>U_ENTREGA_OFERENTE</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
-                                                    <?php foreach($listado2 as  $detalle){?>
+                                                    <?php foreach($contrato["DETALLES"] as  $detalle){?>
                                                             <tr>
-                                                            <td> <?= $detalle["ID_CONTRATO"]; ?></td>
-                                                            <td> <?= $detalle["CODIGO"]; ?></td>
-                                                            <td> <?= $detalle["DESC_PROD_SOLI"]; ?></td>
                                                             
-                                                            <td>
-                                                           
-                                                        </td>
-                                                            
-                                                            
-                                                            
-                                                        </tr>
+                                                                <td> <?= $detalle["CODIGO"]; ?></td>
+                                                                <td> <?= $detalle["DESC_PROD_SOLI"]; ?></td>
+                                                                <td> <?= $detalle["CANTIDAD_TOTAL"]; ?></td>
+                                                                <td> <?= $detalle["PRECIO_U_BRUTO"]; ?></td>
+                                                                <td> <?= $detalle["GRUPO"]; ?></td>
+                                                                <td> <?= $detalle["PRESENTACION_PROD_SOLI"]; ?></td>
+                                                                <td> <?= $detalle["F_F"]; ?></td>
+                                                                <td> <?= $detalle["DESC_TEC_PROD_OFERTADO"]; ?></td>
+                                                                <td> <?= $detalle["U_ENTREGA_OFERENTE"]; ?></td>
+                                                            </tr>
                                                     <?php }?>
                                                     
                                                         
@@ -367,10 +374,10 @@ class ViewContratos {
                             </div> 
                             <!-- modal ends -->
                         </td>
-                        <td>
+                        <td style="width:2%;">
                             <a href="<?=base("/contratos/new?id=").$contrato["ID_CONTRATO"];?>" class="btn btn-primary btn-xs"><i class="fa fa-pencil-alt"></i> Editar</a>
                         </td>
-                        <td>
+                        <td style="width:2%;">
                             <a href="#" data-target="#miModal<?=$index;?>" data-toggle="modal" class="btn btn-success btn-xs"><i class="fa fa-book-open"></i> Detalle</a>
                         </td>
 

@@ -408,4 +408,8 @@ class Router{
 
 
 	}
+
+	public function detalle(){
+		$this->view = new \ContratosList\Detalles;
+	}
 }
