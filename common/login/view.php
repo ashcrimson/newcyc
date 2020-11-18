@@ -57,9 +57,6 @@ class ViewLoginCYC {
     <body class="bg-dark">
 
 
-
-
-
     <div class="container">
         <div class="card card-login mx-auto mt-5">
             <div class="card-header">Acceder</div>
@@ -120,18 +117,6 @@ class ViewLoginCYC {
         <script src="<?=base();?>/assets/assets/vendor/jquery-easing/jquery.easing.min.js"></script>
     </body>
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 		<?php
