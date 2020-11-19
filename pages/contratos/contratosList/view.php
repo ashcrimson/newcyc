@@ -378,7 +378,9 @@ class ViewContratos {
                             <a href="<?=base("/contratos/new?id=").$contrato["ID_CONTRATO"];?>" class="btn btn-primary btn-xs"><i class="fa fa-pencil-alt"></i> Editar</a>
                         </td>
                         <td style="width:2%;">
-                            <a href="#" data-target="#miModal<?=$index;?>" data-toggle="modal" class="btn btn-success btn-xs"><i class="fa fa-book-open"></i> Detalle</a>
+                            <!-- <a href="#" data-target="#miModal<?=$index;?>" data-toggle="modal" class="btn btn-success btn-xs"><i class="fa fa-book-open"></i> Detalle</a> -->
+                            <a href="<?=base("/contratos/show?id=").$contrato["ID_CONTRATO"];?>" class="btn btn-success btn-xs"><i class="fa fa-pencil-alt"></i> Detalles</a>
+
                         </td>
 
 

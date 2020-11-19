@@ -40,9 +40,18 @@ class ModelContratos {
         //consulta paginada
         $result = oci_parse($this->pdo, $query);
         oci_execute($result);
-        $listado = queryResultToAssoc($result);
+        $contrato = queryResultToAssoc($result)[0];
 
-        return $listado[0];
+        $query = "SELECT * FROM DETALLE_CONTRATO WHERE ID_CONTRATO='" . $this->id . "'";
+
+        //consulta paginada
+        $result = oci_parse($this->pdo, $query);
+        oci_execute($result);
+        $contrato['DETALLES'] = queryResultToAssoc($result);
+
+        // var_dump($contrato);
+        // exit();
+        return $contrato;
     }
 
 

@@ -4,7 +4,7 @@
  
 namespace ContratosShow;
 
-
+ 
 /**
  * clase vista, retorna html con lo recuperado desde el modelo
  */
@@ -15,12 +15,7 @@ class ViewContratos {
 
 		if(isset($_GET["id"])){
             $contrato = $model->get();
-		}
-		
-		$data = $model->get();
-
-        //Forman la tabla
-		$listado = $data[0];
+        }
 
 
 
@@ -29,7 +24,7 @@ class ViewContratos {
 		?>
 
 
-
+ 
 
 		<!-- Habilitar nombre de archivo adjunto-->
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
@@ -51,7 +46,21 @@ class ViewContratos {
 
 		<div class="card mb-3">
 			<div class="card-header">
+
+			<table>
+			<tr>
+				<td>ID CONTRATO</td>
+				<td><?=$contrato["ID_CONTRATO"]?></td>
+			</tr>
+			<tr>
+				<td>PROVEEDOR</td>
+				<td><?=$contrato["RUT_PROVEEDOR"]?></td>
+			</tr>
+			</table>
+
 			<div class="table-responsive table-sm -md -lg -x">
+
+			
 				<table class="table table-bordered"  class="table-sm w-25" id="dataBitacoras" width=100% cellspacing="0">
 					<thead>
 						<tr>
@@ -67,10 +76,8 @@ class ViewContratos {
 						</tr>
 					</thead>
 					<tbody>
-						<?php 
-						foreach ($listado as $index => $contrato) {
-							// foreach ($documentos as $documento) {
-							?>
+
+					
 						<?php foreach($contrato["DETALLES"] as  $detalle){?>
 								<tr>
 								
@@ -86,10 +93,7 @@ class ViewContratos {
 								</tr>
 						<?php }?>
 						
-						<?php
-                        // }
-                    }
-                    ?>
+							
 					</tbody>
 				</table>
                 </div>

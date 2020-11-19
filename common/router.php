@@ -290,10 +290,23 @@ class Router{
 		$this->view = new \proveedoresNew\ViewProveedores;
 		$this->controller = new \proveedoresNew\ControllerProveedores;
 		$this->model = $this->controller->all($this->model);
-		if(!empty($_GET["id"])){
+		if(!empty($_GET["rut"])){
 			$this->model = $this->controller->edit($this->model);
 		}
 	}
+
+	public function proveedoresShow(){
+
+
+        $this->model = new \proveedoresShow\ModelProveedores($this->pdo);
+        $this->view = new \proveedoresShow\ViewProveedores;
+        $this->controller = new \proveedoresShow\ControllerProveedores;
+
+        //si no esta vacío el dato id de la url
+        if(!empty($_GET["id"] && $_GET["id"] >= 1)){
+            $this->model = $this->controller->show($this->model);
+        }
+    }
 
 
 

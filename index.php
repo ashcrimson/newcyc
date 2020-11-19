@@ -132,6 +132,10 @@ switch ($request) {
 	case $base . '/proveedores/save/' :
 		$router->proveedoresNew(); 
 		break;
+	case $base . '/proveedores/show' :
+	case $base . '/proveedores/show/' :
+		$router->proveedoresShow();
+		break;
 	//edicion de monedas
 	//case (preg_match("/\/proveedores\/\d*\/edit\/{0,1}/", $base . $request) ? true : false) :
 		//$router->proveedoresNew(); 
