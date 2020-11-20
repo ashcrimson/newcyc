@@ -290,7 +290,7 @@ class Router{
 		$this->view = new \proveedoresNew\ViewProveedores;
 		$this->controller = new \proveedoresNew\ControllerProveedores;
 		$this->model = $this->controller->all($this->model);
-		if(!empty($_GET["rut"])){
+		if(!empty($_GET["id"])){
 			$this->model = $this->controller->edit($this->model);
 		}
 	}

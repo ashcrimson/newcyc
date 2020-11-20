@@ -94,16 +94,16 @@ class ViewProveedores {
 				<form method="post" class="form-horizontal" action="<?=base();?>/proveedores/new" enctype="multipart/form-data">
 					
                     <div class="container">
-                    <?php feedback();?>
+                    <?php
+                    feedback();
+                        var_dump($registroEdit);
+                    ?>
 						<div class="row col-12">
                         <input type="hidden" name="id" value="<?= $_GET["id"] ?? "" ?>" >
 						    <div class="form-group has-feedback col-xs-4 col-md-4 col-lg-4 <?=$rut ? 'has-error' : '' ;?>">
                                 <label>RUT del proveedor *</label>
-                                <?php
-                                var_dump($_GET["rut"]);
-                                ?>
                                 <input type="text" name="rut" class="form-control"
-                                value="<?=isset($_GET["rut"]) ? $_GET["rut"]: (isset($data["rut"]) ? $data["rut"] : "") ?>"
+                                value="<?=$_GET["rut_proveedor"] ?? $registroEdit["RUT_PROVEEDOR"] ?? "";?>"
                                 oninput="checkRut(this)"
                                 >
                                     
@@ -118,7 +118,7 @@ class ViewProveedores {
                                 <label>Razón Social *</label>
                                 
                                 <input type="text" name="nombre" class="form-control"
-                                    value="<?=$_GET["nombre"] ?? $registroEdit["nombre"] ?? ''?>"
+                                    value="<?=$_GET["nombre"] ?? $registroEdit["RAZON_SOCIAL"] ?? ''?>"
                                 >
                                 <?php if ($nombre){ ?>
                                 <span class="help-block text-danger"> 
@@ -130,7 +130,7 @@ class ViewProveedores {
                                 <label>Nombre Fantasía *</label>
                                 
                                 <input type="text" name="nombre_fantasia" class="form-control"
-                                    value="<?=$_GET["nombre_fantasia"] ?? $registroEdit["nombre_fantasia"] ?? ''?>"
+                                    value="<?=$_GET["nombre_fantasia"] ?? $registroEdit["NOMBRE_FANTASIA"] ?? ''?>"
                                 >
                                 <?php if ($nombre_fantasia){ ?>
                                 <span class="help-block text-danger"> 
@@ -142,7 +142,7 @@ class ViewProveedores {
                                 <label>Teléfono*</label>
                                 
                                 <input type="text" name="telefono" class="form-control"
-                                    value="<?=$_GET["telefono"] ?? $registroEdit["telefono"] ?? ''?>"
+                                    value="<?=$_GET["telefono"] ?? $registroEdit["TELEFONO"] ?? ''?>"
                                 >
                                 <?php if ($telefono){ ?>
                                 <span class="help-block text-danger"> 
@@ -154,7 +154,7 @@ class ViewProveedores {
                                 <label>E-mail*</label>
                                 
                                 <input type="text" name="email" class="form-control"
-                                    value="<?=$_GET["email"] ?? $registroEdit["email"] ?? ''?>"
+                                    value="<?=$_GET["email"] ?? $registroEdit["EMAIL"] ?? ''?>"
                                 >
                                 <?php if ($email){ ?>
                                 <span class="help-block text-danger"> 
@@ -166,7 +166,7 @@ class ViewProveedores {
                                 <label>Dirección*</label>
                                 
                                 <input type="text" name="direccion" class="form-control"
-                                    value="<?=$_GET["direccion"] ?? $registroEdit["direccion"] ?? ''?>"
+                                    value="<?=$_GET["direccion"] ?? $registroEdit["DIRECCION"] ?? ''?>"
                                 >
                                 <?php if ($direccion){ ?>
                                 <span class="help-block text-danger"> 
@@ -178,7 +178,7 @@ class ViewProveedores {
                                 <label>Comuna*</label>
                                 
                                 <input type="text" name="comuna" class="form-control"
-                                    value="<?=$_GET["comuna"] ?? $registroEdit["comuna"] ?? ''?>"
+                                    value="<?=$_GET["comuna"] ?? $registroEdit["COMUNA"] ?? ''?>"
                                 >
                                 <?php if ($comuna){ ?>
                                 <span class="help-block text-danger"> 
