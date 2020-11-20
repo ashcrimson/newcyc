@@ -16,34 +16,34 @@ class ModelProveedores {
 	//Obj de conexion de db
 	private $pdo;
 	
-	private $rut;
+	private $id;
 
 
     //Constructor
-    function __construct($pdo, $rut = ''){
+    function __construct($pdo, $id = ''){
         $this->pdo = $pdo;
-        $this->rut = $rut;
+        $this->id = $id;
 
     }
 
 	//retorna el/los datos seleccionados
-	public function show($rut)
+	public function show($id)
     {
-        return new self($this->pdo, $rut);
+        return new self($this->pdo, $id);
     }
 
     
 
     public function get(){
  
-        $query = "SELECT * FROM PROVEEDORES WHERE RUT_PROVEEDOR='" . $this->rut. "'";
+        $query = "SELECT * FROM PROVEEDORES WHERE RUT_PROVEEDOR='" . $this->id. "'";
 
         //consulta paginada
         $result = oci_parse($this->pdo, $query);
         oci_execute($result);
 		$proveedor = queryResultToAssoc($result)[0];
 		
-		$query = "SELECT * FROM PROVEEDORES_CONTACTO WHERE RUT_PROVEEDOR='" . $this->rut . "'";
+		$query = "SELECT * FROM PROVEEDORES_CONTACTO WHERE RUT_PROVEEDOR='" . $this->id . "'";
 
 		//consulta paginada
         $result = oci_parse($this->pdo, $query);

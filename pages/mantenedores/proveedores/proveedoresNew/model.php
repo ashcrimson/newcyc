@@ -1,5 +1,5 @@
 <?php
-
+ 
 
 
 namespace ProveedoresNew;
@@ -157,16 +157,17 @@ class ModelProveedores  {
             if(isset($_POST["id"]) && $_POST["id"] != "") {
                 $query = "
                     UPDATE PROVEEDORES SET 
-						 RUT_PROVEEDOR='". $rut."',
-                         RAZON_SOCIAL='". $nombre ."', 
-                         NOMBRE_FANTASIA='". $nombre_fantasia ."',
-                         TELEFONO='". $telefono ."',  
-                         EMAIL='". $email ."',
-                         DIRECCION='". $direccion ."',
+						 RUT_PROVEEDOR='". $_POST["rut"] ."', 
+                         RAZON_SOCIAL='". $_POST["nombre"] ."', 
+                         NOMBRE_FANTASIA='". $_POST["nombre_fantasia"] ."',
+                         TELEFONO='". $_POST["telefono"] ."',  
+                         EMAIL='". $_POST["email"] ."',
+						 DIRECCION='". $_POST["direccion"] ."',
+						 COMUNA='". $_POST["comuna"] ."',
                          FECHA_CREACION=TO_DATE('". date('yy-m-d') ."','yyyy-mm-dd')
                          
 					WHERE 
-					    ID_CONTRATO='" . $_POST['id'] . "'
+					    RUT_PROVEEDOR='" . $_POST['id'] . "'
                 ";
 
 
@@ -197,15 +198,17 @@ class ModelProveedores  {
 				TELEFONO, 
 				EMAIL, 
 				DIRECCION, 
+				COMUNA,
 				FECHA_CREACION
 				) 
 			VALUES (
-				'1', 
-				'". $this->nombre ."',
-				'". $this->nombre_fantasia ."',
-				'". $this->telefono ."', 
-				'". $this->email ."',
-				'". $this->direccion ."',
+				'". $_POST["rut"] ."', 
+				'". $_POST["nombre"] ."',
+				'". $_POST["nombre_fantasia"] ."',
+				'". $_POST["telefono"] ."',
+				'". $_POST["email"] ."',
+				'". $_POST["direccion"] ."',
+				'". $_POST["comuna"] ."',
 				TO_DATE('". date('yy-m-d') ."','yyyy-mm-dd')
 				)";
 

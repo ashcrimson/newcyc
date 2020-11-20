@@ -4,7 +4,7 @@
 
 namespace ProveedoresNew;
 
-/**
+/** 
  * controlador de vista
  */
 class ControllerProveedores {
@@ -19,7 +19,7 @@ class ControllerProveedores {
 		$model->new();
 		return $model;
 	}
-	//solicita la creacion de nuevo registro
+	//solicita la edicionde nuevo registro
 	public function edit(\ProveedoresNew\ModelProveedores $model){
 		if(isset($_GET["id"]) && $_GET["id"] != "" ){
 			$model = $model->edit($_GET["id"]);

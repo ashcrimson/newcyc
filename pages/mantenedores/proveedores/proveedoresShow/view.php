@@ -1,6 +1,6 @@
 <?php
 
-  
+   
  
 namespace ProveedoresShow;
 
@@ -13,7 +13,7 @@ class ViewProveedores {
 	public function output(ModelProveedores $model){
 
 		
-		if(isset($_GET["rut"])){
+		if(isset($_GET["id"])){
             $proveedor = $model->get();
         }
 
@@ -45,6 +45,7 @@ class ViewProveedores {
 		</ol>
 
 		<div class="card mb-3">
+       
 			<div class="card-header">
                 <table>
                 <tr>
@@ -63,6 +64,28 @@ class ViewProveedores {
 					<div class="card-footer">
 						<div class="row">
 							<div class="col-sm-8">
+                                <table class="table table-bordered"  class="table-sm w-25" id="dataBitacoras" width=100% cellspacing="0">
+                                    <thead>
+                                        <tr>
+                                            <th>NOMBRE</th>
+                                            <th>TELEFONO</th>
+                                            <th>EMAIL</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+
+					
+						        <?php foreach($proveedor["CONTACTO"] as  $contacto){?>
+                                        <tr>
+                                            <td> <?= $contacto["NOMBRE"]; ?></td>
+                                            <td> <?= $contacto["TELEFONO"]; ?></td>
+                                            <td> <?= $contacto["EMAIL"]; ?></td>
+                                        </tr>
+						        <?php }?>
+						
+							
+					</tbody>
+				</table>
                                 
 							</div>
 						</div>

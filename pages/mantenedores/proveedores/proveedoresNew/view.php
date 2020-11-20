@@ -96,13 +96,18 @@ class ViewProveedores {
                     <div class="container">
                     <?php feedback();?>
 						<div class="row col-12">
+                        <input type="hidden" name="id" value="<?= $_GET["id"] ?? "" ?>" >
 						    <div class="form-group has-feedback col-xs-4 col-md-4 col-lg-4 <?=$rut ? 'has-error' : '' ;?>">
                                 <label>RUT del proveedor *</label>
-                                
+                                <?php
+                                var_dump($_GET["rut"]);
+                                ?>
                                 <input type="text" name="rut" class="form-control"
-                                    value="<?=$_GET["rut"] ?? $registroEdit["rut"] ?? ''?>"
-                                    oninput="checkRut(this)"
+                                value="<?=isset($_GET["rut"]) ? $_GET["rut"]: (isset($data["rut"]) ? $data["rut"] : "") ?>"
+                                oninput="checkRut(this)"
                                 >
+                                    
+                                
                                 <?php if ($rut){ ?>
                                 <span class="help-block text-danger"> 
                                     <strong>Error: RUT vacío</strong>

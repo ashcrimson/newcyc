@@ -1,6 +1,6 @@
 <?php
 
-
+   
 
 namespace ProveedoresList;
 
@@ -238,7 +238,7 @@ class ViewProveedores {
                                     <?php
                                 }
                                 ?>
-                                <a href="#" class="btn btn-success btn-xs" data-target="#deleteModal<?=$proveedores["RUT_PROVEEDOR"];?>" data-toggle="modal"><i class="fa fa-phone"></i> Contacto</a>
+                                <a href="<?=base("/proveedores/show?id=").$proveedores["RUT_PROVEEDOR"];?>" class="btn btn-success btn-xs"><i class="fa fa-phone"></i> Contacto</a>
                                 </td>
         
                             </tr>

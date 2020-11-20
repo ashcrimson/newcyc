@@ -1,6 +1,6 @@
 <?php
 
-  
+   
  
 namespace ProveedoresShow;
 
@@ -10,7 +10,7 @@ namespace ProveedoresShow;
 class ControllerProveedores {
 	
 	public function show(ModelProveedores $model){
-		$model = $model->show($_GET["rut"]);
+		$model = $model->show($_GET["id"]);
 		return $model;
 	}
 
