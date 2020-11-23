@@ -1,5 +1,5 @@
 <?php
-
+ 
  
  
 namespace ContratosList;
@@ -22,7 +22,7 @@ class ViewContratos {
         $cargos = $data[3];
         $licitaciones = $data[4];
 
-        $listado2 = $data[5];
+        // $listado2 = $data[5];
         
         
         

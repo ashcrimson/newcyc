@@ -124,6 +124,8 @@ switch ($request) {
 	/** PROVEEDORES **/
 	case $base . '/proveedores' :
 	case $base . '/proveedores/' :
+	case $base . '/proveedores/delete' :
+	case $base . '/proveedores/delete/' :
 		$router->proveedoresList(); 
 		break;
 	case $base . '/proveedores/new' :

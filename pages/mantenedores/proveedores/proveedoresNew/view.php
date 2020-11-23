@@ -94,10 +94,9 @@ class ViewProveedores {
 				<form method="post" class="form-horizontal" action="<?=base();?>/proveedores/new" enctype="multipart/form-data">
 					
                     <div class="container">
-                    <?php
-                    feedback();
-                        var_dump($registroEdit);
-                    ?>
+                        <?php
+                        feedback();
+                        ?>
 						<div class="row col-12">
                         <input type="hidden" name="id" value="<?= $_GET["id"] ?? "" ?>" >
 						    <div class="form-group has-feedback col-xs-4 col-md-4 col-lg-4 <?=$rut ? 'has-error' : '' ;?>">

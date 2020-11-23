@@ -1,4 +1,4 @@
-<?php
+<?php 
 
 
 
@@ -17,22 +17,24 @@ class ModelProveedores {
 	private $pdo;
 	//filtro de por rut
 	private $rut;
+
+	private $id;
 	//pagina 
 	private $page;
 	//resultados por pagina
 	private $resultados = 10;
 
 	//Constructor
-	function __construct($pdo, $rut = '', int $page = 1){
+	function __construct($pdo, $id = '', int $page = 1){
 		$this->pdo = $pdo;
-		$this->rut = $rut;
+		$this->id = $id;
 		$this->page = $page;
 	}
 
 	//elimina registro indicado
 	public function delete($id): self{
 
-        $sql = "DELETE FROM PROVEEDORES WHERE RUT_PROVEEDOR= ".$id;
+	$sql = "DELETE FROM PROVEEDORES WHERE RUT_PROVEEDOR= '{$id}'";
         $result = oci_parse($this->pdo, $sql);
         oci_execute($result);
         oci_commit($this->pdo);
@@ -42,7 +44,7 @@ class ModelProveedores {
 	}
 
 	//filtra consulta por nro de licitación(id, llave primaria)
-	public function getId($rut): self{
+	public function getId($id): self{
 		return new self($this->pdo, $rut, $this->page);
 	}
 

@@ -1,6 +1,6 @@
 <?php
 
-   
+    
 
 namespace ProveedoresList;
 
@@ -127,7 +127,7 @@ class ViewProveedores {
                                         <div class="modal fade" id="miModal<?= $index; ?>">
                                             <div class="modal-dialog">
                                                 <div class="modal-content">
-                                                    <form class="form-horizontal" method="post" action="<?=base("/proveedores/delete?id=").$index;?>" >
+                                                    <form class="form-horizontal" method="post" action="<?=base("/proveedores/delete?id=").$proveedores["RUT_PROVEEDOR"];?>" >
                                                     <div class="modal-header">
                                                         <h4 class="modal-title"> Borrar <?= $proveedores["RAZON_SOCIAL"]; ?> </h4>
                                                         <button type="button" class="close" data-dismiss="modal">&times;</button>

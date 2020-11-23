@@ -74,17 +74,32 @@ class ModelContratos {
         //consulta principal
 		$consulta = "
 			select 
-				c.*, 
+				c.id_contrato, 
+				c.tipo,
+				c.nro_licitacion,
+				c.id_moneda,
+				c.id_cargo,
+				c.fecha_inicio,
+				c.fecha_termino,
+				c.fecha_aprobacion,
+				c.fecha_alerta_vencimiento,
+				c.monto,
+				c.objeto_contrato,
+				p.rut_proveedor,
 				p.razon_social,
 				d.nombre as nombre_documento,
 			    d.NRO_DOCUMENTO,   
 				d.tipo_archivo,
-				d.archivo
+				d.archivo,
+				de.codigo,
+		 		de.desc_prod_soli
+				
 				
 			from 
 				CONTRATOS C LEFT JOIN PROVEEDORES P ON c.rut_proveedor = p.rut_proveedor
 				LEFT JOIN documento_contratos dc on dc.nro_contrato = c.id_contrato
 				LEFT JOIN documento d on d.nro_documento = dc.nro_documento
+				LEFT JOIN DETALLE_CONTRATO DE ON c.id_contrato = de.id_contrato
 			$where
 			ORDER BY
 				id_contrato
@@ -97,26 +112,26 @@ class ModelContratos {
 		oci_execute($result);
 		$listado = queryResultToAssoc($result);
 
-		//consulta principal
-		$consulta2 = "
-		select 
-			c.id_contrato, 
-			de.codigo,
-			de.desc_prod_soli
+		// //consulta principal
+		// $consulta2 = "
+		// select 
+		// 	c.id_contrato, 
+		// 	de.codigo,
+		// 	de.desc_prod_soli
 			
-		from 
-			CONTRATOS C LEFT JOIN DETALLE_CONTRATO DE ON c.id_contrato = de.id_contrato
-		$where
-		ORDER BY
-			id_contrato
+		// from 
+		// 	CONTRATOS C LEFT JOIN DETALLE_CONTRATO DE ON c.id_contrato = de.id_contrato
+		// $where
+		// ORDER BY
+		// 	id_contrato
 			
 	
-		";
-		//consulta paginada
-		$query2 = queryPagination($consulta2, $this->page);
-		$result2 = oci_parse($this->pdo, $query2);
-		oci_execute($result2);
-		$listado2 = queryResultToAssoc($result2);
+		// ";
+		// //consulta paginada
+		// $query2 = queryPagination($consulta2, $this->page);
+		// $result2 = oci_parse($this->pdo, $query2);
+		// oci_execute($result2);
+		// $listado2 = queryResultToAssoc($result2);
  
 		//aca se iteran los 10 registro de contratos
 		$listado = array_map(function ($contrato){
@@ -206,7 +221,7 @@ class ModelContratos {
 		array_push($assoc, $cargos);
 		array_push($assoc, $licitaciones);
 
-		array_push($assoc, $listado2);
+		// array_push($assoc, $listado2);
 		
 		
 
