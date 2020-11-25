@@ -1,5 +1,5 @@
 <?php
- 
+
  
  
 namespace ContratosList;
@@ -22,7 +22,7 @@ class ViewContratos {
         $cargos = $data[3];
         $licitaciones = $data[4];
 
-        // $listado2 = $data[5];
+        $listado2 = $data[5];
         
         
         
@@ -73,7 +73,7 @@ class ViewContratos {
                                 <select name="rut_proveedor" class="selectpicker selectField"  placeholder='Seleccione RUT Proveedor' data-live-search='true'>
                                     <option value=""></option>
                                     <?php
-                                    foreach ($proveedores as $proveedor) {
+                                    foreach ($listado as $proveedor) {
                                         $selected = $_GET["rut_proveedor"]==$proveedor["RUT_PROVEEDOR"] ? 'selected' : '';
                                         ?>
                                         <option value="<?= $proveedor["RUT_PROVEEDOR"];?>" <?=$selected?>>
