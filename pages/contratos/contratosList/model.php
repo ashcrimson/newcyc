@@ -50,8 +50,17 @@ class ModelContratos {
 		$totales = [];
 		$cargos = [];
 		$licitaciones = [];
- 
-        $where = "WHERE 1=1 ";
+
+        session_start();
+        //consulta para recuperar numeros de licitaciones
+        $query = "SELECT * FROM USUARIOS WHERE mail='".$_SESSION['mail']."'";
+
+        $result = oci_parse($this->pdo, $query);
+        oci_execute($result);
+        $userAuth = queryResultToAssoc($result)[0];
+
+
+        $where = "WHERE c.ID_CARGO='".$userAuth['ID_CARGO']."' ";
 
 		if ($this->id){
 			$where .= " and c.ID_CONTRATO = '" . $this->id . "'";
