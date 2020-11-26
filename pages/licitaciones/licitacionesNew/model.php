@@ -152,7 +152,7 @@ class ModelLicitaciones {
 			$blob = oci_new_descriptor($this->pdo, OCI_D_LOB);
 			oci_bind_by_name($result, ":archivo", $blob, -1, OCI_B_BLOB);
 			//print_r($consulta);
-			oci_execute($result, OCI_DEFAULT) or die ("Unable to execute query");
+			oci_execute($result, OCI_DEFAULT);
 
 			if(!$blob->save($pdf)) {
 				oci_rollback($this->pdo);
@@ -175,7 +175,7 @@ class ModelLicitaciones {
 
 			$query2 = $consulta2;
 			$result2 = oci_parse($this->pdo, $query2);
-			oci_execute($result2, OCI_DEFAULT) or die ("No se pudo");
+			oci_execute($result2, OCI_DEFAULT);
 		}
 
 		

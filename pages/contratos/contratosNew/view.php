@@ -256,7 +256,7 @@ class ViewContratos {
                             if (!empty($_GET["moneda_id"]) && $_GET["moneda_id"]){
                                 ?>
                                 <option selected="true" value="<?= $moneda["NOMBRE"];?>"><?= $selected ?>><?= $moneda["NOMBRE"];?></option>
-								                                        <option value="<?= $cargo["ID_CARGO"];?>" <?= $selected ?>><?= $cargo["NOMBRE"];?></option>
+								<option value="<?= $cargo["ID_CARGO"];?>" <?= $selected ?>><?= $cargo["NOMBRE"];?></option>
 
                                 <?php
                             }else{

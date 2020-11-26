@@ -360,7 +360,9 @@ class ModelContratos {
                     $_SESSION["feedback"] = "Contrato ingresado correctamente";
                 }
 
-                oci_bind_by_name($result, "mylastid", $last_id, 8, SQLT_INT);
+				oci_bind_by_name($result, "mylastid", $last_id, 8, SQLT_INT);
+				
+				
 
                 oci_execute($result);
 
@@ -375,67 +377,68 @@ class ModelContratos {
 			die();
 		}
 
-//		if($_FILES["archivo_contrato"]["error"] == 0){
-//
-//			$cons = "select documentos_sequence.nextval as NRO_DOCUMENTO from dual";
-//			$result = oci_parse($this->pdo, $cons);
-//			oci_execute($result);
-//			$nro_documento = queryResultToAssoc($result)[0]["NRO_DOCUMENTO"];
-//			// print_r($nro_documento);
-//
-//
-//			$nombre_archivo = basename($_FILES["archivo_contrato"]["name"]);
-//			$tipo = $_FILES["archivo_contrato"]["type"];
-//			$peso = $_FILES["archivo_contrato"]["size"];
-//
-//			$binario = file_get_contents($_FILES['archivo_contrato']['tmp_name']);
-//
-//
-//			//consulta de inserción
-//
-//			$consulta = "INSERT into DOCUMENTO (NRO_DOCUMENTO, TIPO_DOCUMENTO, NOMBRE, ARCHIVO, PESO_ARCHIVO, TIPO_ARCHIVO, FECHA_CREACION) values (
-//						'". $nro_documento ."',
-//						'co',
-//						'". $nombre_archivo ."',
-//						empty_blob(),
-//						'". $peso ."',
-//						'". $tipo ."',
-//						TO_DATE('". date('yy-m-d') ."','yyyy-mm-dd'))
-//						RETURNING archivo INTO :archivo";
-//
-//			//ejecucion consulta
-//			$query = $consulta;
-//			$result = oci_parse($this->pdo, $query);
-//
-//			$blob = oci_new_descriptor($this->pdo, OCI_D_LOB);
-//			oci_bind_by_name($result, ":archivo", $blob, -1, OCI_B_BLOB);
-//			//print_r($consulta);
-//			oci_execute($result, OCI_DEFAULT) or die ("Unable to execute query");
-//
-//			if(!$blob->save($binario)) {
-//				oci_rollback($this->pdo);
-//			} else {
-//				oci_commit($this->pdo);
-//			}
-//
-//			oci_free_statement($result);
-//			$blob->free();
-//			//OJOOOOOOOOOOOOOO
-//			//DESPUES DE INSERTAR EL BLOB
-//			////Guardar en lka tbla documento_lictacion
-//			///LA RELACION DE ESTE DOCUMENTO $nro_documento ----> id y  $this->nro_licitacion ---> nro_lictacion
-//
-//
-//			$consulta2 = "INSERT into DOCUMENTO_CONTRATOS (NRO_DOCUMENTO, NRO_CONTRATO) values (
-//				'". $nro_documento ."',
-//				'". $last_id ."'
-//			)";
-//
-//			$query2 = $consulta2;
-//			$result2 = oci_parse($this->pdo, $query2);
-//			oci_execute($result2, OCI_DEFAULT) or die ("No se pudo");
-//		}
+		if($_FILES["archivo_contrato"]["error"] == 0){
+
+			$cons = "select documentos_sequence.nextval as NRO_DOCUMENTO from dual";
+			$result = oci_parse($this->pdo, $cons);
+			oci_execute($result);
+			$nro_documento = queryResultToAssoc($result)[0]["NRO_DOCUMENTO"];
+			// print_r($nro_documento);
+
+
+			$nombre_archivo = basename($_FILES["archivo_contrato"]["name"]);
+			$tipo = $_FILES["archivo_contrato"]["type"];
+			$peso = $_FILES["archivo_contrato"]["size"];
+
+			$binario = file_get_contents($_FILES['archivo_contrato']['tmp_name']);
+
+
+			//consulta de inserción
+
+			$consulta = "INSERT into DOCUMENTO (NRO_DOCUMENTO, TIPO_DOCUMENTO, NOMBRE, ARCHIVO, PESO_ARCHIVO, TIPO_ARCHIVO, FECHA_CREACION) values (
+						'". $nro_documento ."',
+						'co',
+						'". $nombre_archivo ."',
+						empty_blob(),
+						'". $peso ."',
+						'". $tipo ."',
+						TO_DATE('". date('yy-m-d') ."','yyyy-mm-dd'))
+						RETURNING archivo INTO :archivo";
+
+			//ejecucion consulta
+			$query = $consulta;
+			$result = oci_parse($this->pdo, $query);
+
+			$blob = oci_new_descriptor($this->pdo, OCI_D_LOB);
+			oci_bind_by_name($result, ":archivo", $blob, -1, OCI_B_BLOB);
+			//print_r($consulta);
+			oci_execute($result, OCI_DEFAULT) or die ("Unable to execute query");
+
+			if(!$blob->save($binario)) {
+				oci_rollback($this->pdo);
+			} else {
+				oci_commit($this->pdo);
+			}
+
+			oci_free_statement($result);
+			$blob->free();
+			//OJOOOOOOOOOOOOOO
+			//DESPUES DE INSERTAR EL BLOB
+			////Guardar en lka tbla documento_lictacion
+			///LA RELACION DE ESTE DOCUMENTO $nro_documento ----> id y  $this->nro_licitacion ---> nro_lictacion
+
+
+			$consulta2 = "INSERT into DOCUMENTO_CONTRATOS (NRO_DOCUMENTO, NRO_CONTRATO) values (
+				'". $nro_documento ."',
+				'". $last_id ."'
+			)";
+
+			$query2 = $consulta2;
+			$result2 = oci_parse($this->pdo, $query2);
+			oci_execute($result2, OCI_DEFAULT) or die ("No se pudo");
+		}
  
+
 
 		//agrega resultados a retorno
 

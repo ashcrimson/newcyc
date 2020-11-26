@@ -106,6 +106,7 @@ class ModelContratos {
 		oci_execute($result);
 		$listado = queryResultToAssoc($result);
 
+		$where = "WHERE 1=1 ";
 		//consulta principal
 		$consulta2 = "
 		select 

@@ -211,6 +211,7 @@ class ViewContratos {
                     <th>Bitácora</th>
                     <th>Editar</th>
                     <th>Detalle Contrato</th>
+                    <th>Asignar Contrato</th>
                 </tr>
                 </thead>
                     <?php 
@@ -380,6 +381,10 @@ class ViewContratos {
                         <td style="width:2%;">
                             <!-- <a href="#" data-target="#miModal<?=$index;?>" data-toggle="modal" class="btn btn-success btn-xs"><i class="fa fa-book-open"></i> Detalle</a> -->
                             <a href="<?=base("/contratos/show?id=").$contrato["ID_CONTRATO"];?>" class="btn btn-success btn-xs"><i class="fa fa-pencil-alt"></i> Detalles</a>
+
+                        </td>
+                        <td style="width:2%;">
+                        <a href="#" class="btn btn-warning btn-xs" data-target="#miModal<?=$contrato['ID_CONTRATO'];?>" data-toggle="modal"><i class="fa fa-plus-square"></i> Asignar</a>
 
                         </td>
 
