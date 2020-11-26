@@ -22,11 +22,21 @@ class ModelContratos {
 	//resultados por pagina
 	private $resultados = 10;
 
+	private $authUser;
+
 	//Constructor
 	function __construct($pdo, string $id = '', int $page = 1){
 		$this->pdo = $pdo;
 		$this->id = $id;
 		$this->page = $page;
+
+        session_start();
+        //consulta para recuperar numeros de licitaciones
+        $query = "SELECT * FROM USUARIOS WHERE mail='".$_SESSION['mail']."'";
+
+
+        $this->authUser = queryToArray($query,$pdo)[0];
+
 	}
 
 	
@@ -43,31 +53,17 @@ class ModelContratos {
 
 	//retorna el/los datos seleccionados
 	public function get(){
-		
-		$assoc = [];
-		$listado = [];
-		$numeros = [];
-		$totales = [];
-		$cargos = [];
-		$licitaciones = [];
-
-        session_start();
-        //consulta para recuperar numeros de licitaciones
-        $query = "SELECT * FROM USUARIOS WHERE mail='".$_SESSION['mail']."'";
-
-        $result = oci_parse($this->pdo, $query);
-        oci_execute($result);
-        $userAuth = queryResultToAssoc($result)[0];
 
 
-        $where = "WHERE c.ID_CARGO='".$userAuth['ID_CARGO']."' ";
+
+        $where = "WHERE c.ID_CARGO='".$this->authUser['ID_CARGO']."' ";
 
 		if ($this->id){
 			$where .= " and c.ID_CONTRATO = '" . $this->id . "'";
 		}
 
         if ($_GET['rut_proveedor']){
-            $where .= " and P.RUT_PROVEEDOR = '" . $_GET['rut_proveedor'] . "'";
+            $where .= " and p.RUT_PROVEEDOR = '" . $_GET['rut_proveedor'] . "'";
 		}
 		
 		if ($_GET['cargos']){
@@ -97,43 +93,20 @@ class ModelContratos {
 			$where
 			ORDER BY
 				id_contrato
-				
-		
 			";
+
 		//consulta paginada
 		$query = queryPagination($consulta, $this->page);
 		$result = oci_parse($this->pdo, $query);
 		oci_execute($result);
 		$listado = queryResultToAssoc($result);
 
-		$where = "WHERE 1=1 ";
-		//consulta principal
-		$consulta2 = "
-		select 
-			c.id_contrato, 
-			de.codigo,
-			de.desc_prod_soli
-			
-		from 
-			CONTRATOS C LEFT JOIN DETALLE_CONTRATO DE ON c.id_contrato = de.id_contrato
-		$where
-		ORDER BY
-			id_contrato
-			
-	
-		";
-		//consulta paginada
-		$query2 = queryPagination($consulta2, $this->page);
-		$result2 = oci_parse($this->pdo, $query2);
-		oci_execute($result2);
-		$listado2 = queryResultToAssoc($result2);
- 
-		//aca se iteran los 10 registro de contratos
+
+		//se iteran todos los contrtos para añadirles las bitacoras
 		$listado = array_map(function ($contrato){
 
             //consulta para recuperar todos las bitacoras
-			$query = "
-			select 
+			$query = "select 
 				documento.nombre AS DOCUMENTO,
 				bitacora.* 
 			from 
@@ -146,22 +119,16 @@ class ModelContratos {
 
             $contrato['BITACORAS'] = $bitacoras;
 
-            return $contrato;
 
-		},$listado);
-		
-		$listado = array_map(function ($contrato){
-
-            //consulta para recuperar todos las bitacoras
-			$query = "
-		select 
-			c.id_contrato, 
-			de.*
-			
-		from 
-			CONTRATOS C LEFT JOIN DETALLE_CONTRATO DE ON c.id_contrato = de.id_contrato
-			where 
-				C.ID_CONTRATO=".$contrato['ID_CONTRATO'];
+            //consulta para recuperar los detalles del contrato
+            $query = "select 
+                    c.id_contrato, 
+                    de.*
+                    
+                from 
+                    CONTRATOS C LEFT JOIN DETALLE_CONTRATO DE ON c.id_contrato = de.id_contrato
+                    where 
+                        C.ID_CONTRATO=".$contrato['ID_CONTRATO'];
             $result = oci_parse($this->pdo, $query);
             oci_execute($result);
             $detalles= queryResultToAssoc($result);
@@ -170,10 +137,7 @@ class ModelContratos {
 
             return $contrato;
 
-        },$listado);
-
-
-        //dd($listado);
+		},$listado);
 
 
 		//consulta para recuperar cantidad de páginas disponibles
@@ -182,48 +146,37 @@ class ModelContratos {
 		$totales = queryResultToAssoc($result);
 
 
-
-        //consulta para recuperar ruts y razon social de los proveedores
-        // $query = "select * from PROVEEDORES";
-        // $result = oci_parse($this->pdo, $query);
-        // oci_execute($result);
-        // $proveedores = queryResultToAssoc($result);
-
-
-        //consulta para recuperar cargos administradores tecnicos
-        $query = "select * from CARGOS";
-        $result = oci_parse($this->pdo, $query);
-        oci_execute($result);
-        $cargos = queryResultToAssoc($result);
-
-
-        //consulta para recuperar numeros de licitaciones
-        $query = "select NRO_LICITACION from LICITACIONES";
-        $result = oci_parse($this->pdo, $query);
-        oci_execute($result);
-		$licitaciones = queryResultToAssoc($result);
-		
-		
-
-		
-		// Arryas que forman la tabla principal con paginación
-		array_push($assoc, $listado);
-		
-		array_push($assoc, $totales); 
-
-		// Arrays que forman los listbox para filtros
-		array_push($assoc, $proveedores);
-		array_push($assoc, $cargos);
-		array_push($assoc, $licitaciones);
-
-		array_push($assoc, $listado2);
-		
-		
-
 		oci_close($this->pdo);
-		return $assoc;
+
+		return [
+		    'listado' => $listado,
+		    'totales' => $totales
+        ];
 	}
 
+    public function getDataListBox()
+    {
+
+
+        $query = "SELECT * FROM PROVEEDORES";
+        $proveedores = queryToArray($query,$this->pdo);
+
+        $query = "SELECT * FROM CONTRATOS where ID_CARGO='".$this->authUser['ID_CARGO']."'";
+        $contratos = queryToArray($query,$this->pdo);
+
+        $query = "SELECT * FROM LICITACIONES";
+        $licitaciones = queryToArray($query,$this->pdo);
+
+        $query = "SELECT * FROM CARGOS";
+        $cargos = queryToArray($query,$this->pdo);
+
+        return [
+            'proveedores' => $proveedores,
+            'contratos' => $contratos,
+            'licitaciones' => $licitaciones,
+            'cargos' => $cargos,
+        ];
+    }
     //elimina registro indicado
     public function saveBitacora(): self{
 

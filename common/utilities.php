@@ -120,3 +120,18 @@ function fechaEn($fecha=null){
 
     return $date->format('Y-m-d');
 }
+
+function queryToArray($query=null,$pdo){
+
+    if (!$query)
+        return [];
+
+    $result = oci_parse($pdo, $query);
+    oci_execute($result);
+
+    $res = queryResultToAssoc($result);
+
+    oci_close($pdo);
+
+    return $res;
+}

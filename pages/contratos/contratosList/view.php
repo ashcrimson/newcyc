@@ -13,20 +13,19 @@ class ViewContratos {
 
 		$data = $model->get();
 
-        //Forman la tabla
-		$listado = $data[0];
-        $totales = $data[1];
+        //arrays para la tabla principal
+		$listado = $data['listado'];
+        $totales = $data['totales'];
 
-        //Los select
-        $proveedores = $data[2];
-        $cargos = $data[3];
-        $licitaciones = $data[4];
 
-        $listado2 = $data[5];
-        
-        
-        
-//print_r($data[1]);
+        $dataListBox = $model->getDataListBox();
+
+        //arrays para los selects
+        $proveedores = $dataListBox['proveedores'];
+        $contratos = $dataListBox['contratos'];
+        $licitaciones = $dataListBox['licitaciones'];
+        $cargos = $dataListBox['cargos'];
+
 
 		ob_start();
 
@@ -73,7 +72,7 @@ class ViewContratos {
                                 <select name="rut_proveedor" class="selectpicker selectField"  placeholder='Seleccione RUT Proveedor' data-live-search='true'>
                                     <option value=""></option>
                                     <?php
-                                    foreach ($listado as $proveedor) {
+                                    foreach ($proveedores as $proveedor) {
                                         $selected = $_GET["rut_proveedor"]==$proveedor["RUT_PROVEEDOR"] ? 'selected' : '';
                                         ?>
                                         <option value="<?= $proveedor["RUT_PROVEEDOR"];?>" <?=$selected?>>
@@ -92,16 +91,13 @@ class ViewContratos {
                                 <select name="id_contrato" class="selectpicker selectField" placeholder='Seleccione Contrato' data-live-search='true'>
                                     <option value=""></option>
                                     <?php 
-                                    foreach ($listado as $contrato) { 
-                                        if (!empty($_GET["id_contrato"]) && $_GET["id_contrato"] == $contrato["ID_CONTRATO"]){
-                                            ?>
-                                            <option selected="true" value="<?= $contrato["ID_CONTRATO"];?>"><?= $contrato["ID_CONTRATO"];?></option>
-                                            <?php
-                                        }else{
-                                            ?>
-                                            <option value="<?= $contrato["ID_CONTRATO"];?>"><?= $contrato["ID_CONTRATO"];?></option>
-                                            <?php
-                                        }
+                                    foreach ($contratos as $contrato) {
+                                        $selected = $_GET["id_contrato"]==$contrato["ID_CONTRATO"] ? 'selected' : '';
+                                        ?>
+                                            <option value="<?= $contrato["ID_CONTRATO"];?>" <?=$selected?>>
+                                                <?= $contrato["ID_CONTRATO"];?>
+                                            </option>
+                                        <?php
                                     }
                                     ?>
                                 </select>
