@@ -107,6 +107,11 @@ class Router{
 		$this->view = new \ContratosNew\ViewContratos;
 		$this->controller = new \ContratosNew\ControllerContratos;
 		$this->model = $this->controller->all($this->model);
+        if(!empty($_POST["submit"])){
+            $this->model = $this->controller->new($this->model);
+        }else {
+            $this->model = $this->controller->all($this->model);
+        }
 
 		//si no esta vacío el dato id de la url
         if(!empty($_GET["id"] && $_GET["id"] >= 1)){
