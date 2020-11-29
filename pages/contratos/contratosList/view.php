@@ -328,44 +328,19 @@ class ViewContratos {
                                     <form method="post" action="<?=base("/contratos/bitacora/store");?>"  enctype="multipart/form-data">
                                         <div class="modal-header">
                                             <h5 class="modal-title">
-                                                Detalle Contrato
+                                                Asignar Contrato
                                             </h5>
                                         </div>
 
                                         <div class="table-responsive table-sm -md -lg -x">
-                                            <table class="table table-bordered"  class="table-sm w-25" id="dataBitacoras" width=100% cellspacing="0">
-                                                <thead>
-                                                    <tr>
-                                                        <th>Código</th>
-                                                        <th>DESC_PROD_SOLI</th>
-                                                        <th>CANTIDAD TOTAL</th>
-                                                        <th>PRECIO_U_BRUTO</th>
-                                                        <th>GRUPO</th>
-                                                        <th>PRESENTACION_PROD_SOLI</th>
-                                                        <th>F_F</th>
-                                                        <th>DESC_TEC_PROD_OFERTADO</th>
-                                                        <th>U_ENTREGA_OFERENTE</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    <?php foreach($contrato["DETALLES"] as  $detalle){?>
-                                                            <tr>
-                                                            
-                                                                <td> <?= $detalle["CODIGO"]; ?></td>
-                                                                <td> <?= $detalle["DESC_PROD_SOLI"]; ?></td>
-                                                                <td> <?= $detalle["CANTIDAD_TOTAL"]; ?></td>
-                                                                <td> <?= $detalle["PRECIO_U_BRUTO"]; ?></td>
-                                                                <td> <?= $detalle["GRUPO"]; ?></td>
-                                                                <td> <?= $detalle["PRESENTACION_PROD_SOLI"]; ?></td>
-                                                                <td> <?= $detalle["F_F"]; ?></td>
-                                                                <td> <?= $detalle["DESC_TEC_PROD_OFERTADO"]; ?></td>
-                                                                <td> <?= $detalle["U_ENTREGA_OFERENTE"]; ?></td>
-                                                            </tr>
-                                                    <?php }?>
-                                                    
-                                                        
-                                                </tbody>
-                                            </table>
+                                            <form>
+                                                <input type="radio" id="infraestructura" name="area" value="infraestructura">
+                                                <label for="infraestructura">Infraestructura</label><br>
+                                                <input type="radio" id="sistemas" name="area" value="sistemas">
+                                                <label for="sistemas">Sistemas</label><br>
+                                                <input type="radio" id="mesa_ayuda" name="area" value="mesa_ayuda">
+                                                <label for="mesa_ayuda">Mesa Ayuda</label>
+                                            </form> 
                                         </div>
 
                             </div> 

@@ -54,27 +54,31 @@ class ModelContratos {
 	//retorna el/los datos seleccionados
 	public function get(){
 
+        if($this->authUser['ID_PERMISO'] == 1 )
+        {
+            $where = 'where 1=1';
+        } else {
 
+            $where = "WHERE c.ID_CARGO='".$this->authUser['ID_CARGO']."' ";
 
-        $where = "WHERE c.ID_CARGO='".$this->authUser['ID_CARGO']."' ";
+           
+        }
 
-		if ($this->id){
-			$where .= " and c.ID_CONTRATO = '" . $this->id . "'";
-		}
+        if ($this->id){
+            $where .= " and c.ID_CONTRATO = '" . $this->id . "'";
+        }
 
         if ($_GET['rut_proveedor']){
             $where .= " and p.RUT_PROVEEDOR = '" . $_GET['rut_proveedor'] . "'";
-		}
-		
-		if ($_GET['cargos']){
+        }
+        
+        if ($_GET['cargos']){
             $where .= " and NOMBRE = '" . $_GET['cargos'] . "'";
-		}
-		
-		if ($_GET['licitacion']){
+        }
+        
+        if ($_GET['licitacion']){
             $where .= " and NRO_LICITACION = '" . $_GET['licitacion'] . "'";
         }
-
-
 
         //consulta principal
 		$consulta = "
@@ -161,7 +165,17 @@ class ModelContratos {
         $query = "SELECT * FROM PROVEEDORES";
         $proveedores = queryToArray($query,$this->pdo);
 
-        $query = "SELECT * FROM CONTRATOS where ID_CARGO='".$this->authUser['ID_CARGO']."'";
+        if($this->authUser['ID_PERMISO'] == 1 )
+        {
+            $where = 'where 1=1';
+        } else {
+
+            $where = "WHERE ID_CARGO='".$this->authUser['ID_CARGO']."' ";
+
+           
+        }
+
+        $query = "SELECT * FROM CONTRATOS " .$where;
         $contratos = queryToArray($query,$this->pdo);
 
         $query = "SELECT * FROM LICITACIONES";
