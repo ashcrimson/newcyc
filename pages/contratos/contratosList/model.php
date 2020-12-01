@@ -139,6 +139,11 @@ class ModelContratos {
 
             $contrato['DETALLES'] = $detalles;
 
+            $query = "select * from AREAS where ID_CARGO=".$contrato['ID_CARGO'];
+            $areas = queryToArray($query,$this->pdo);
+
+            $contrato['AREAS'] = $areas ?? [];
+
             return $contrato;
 
 		},$listado);
@@ -273,6 +278,40 @@ class ModelContratos {
         oci_execute($result);
 
         oci_commit($this->pdo);
+
+        header("Location: ". base() . "/contratos");
+
+    }
+
+
+    public function asignar(): self{
+
+
+        $id_contrato= $_POST['id_contrato'];
+        $idArea= $_POST['area'];
+
+        $consulta = "
+            INSERT INTO CONTRATOS_ASIGNACION (  
+                    ID_CONTRATO, 
+                    ID_AREA 
+                )  
+			VALUES (
+				'{$id_contrato}', 
+				'{$idArea}'  
+			)
+	    ";
+
+
+
+        $result = oci_parse($this->pdo, $consulta);
+        oci_execute($result);
+        oci_commit($this->pdo);
+
+        if ($result){
+            $_SESSION["feedback"] = "Contrato asignado correctamente";
+        }
+
+
 
         header("Location: ". base() . "/contratos");
 

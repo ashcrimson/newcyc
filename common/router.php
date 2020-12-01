@@ -94,10 +94,19 @@ class Router{
             $this->model = $this->controller->saveBitacora($this->model);
         }
 
+        if(isset($_POST["asignar"])){
+            $this->model = $this->controller->asignar($this->model);
+        }
+
         if(isset($_GET['id_contrato'])){
             $this->model = $this->controller->filter($this->model);
         }
 	}
+
+    //pagina listado contratos
+    public function asignaContrato(){
+        $this->model = new \ContratosList\ModelContratos($this->pdo);
+    }
 
 	//pagina agregado de contratos
 	public function contratosNew(){

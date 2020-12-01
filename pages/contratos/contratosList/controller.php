@@ -23,6 +23,14 @@ class ControllerContratos {
 	}
 
 
+	public function asignar(\ContratosList\ModelContratos $model){
+
+		$model = $model->asignar();
+
+		return $model;
+	}
+
+
 	//retorna con la paginación 
 	public function page(\ContratosList\ModelContratos $model){
 		if(isset($_GET["page"]) && $_GET["page"] >=1 ){

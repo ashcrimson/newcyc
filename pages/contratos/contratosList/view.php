@@ -180,194 +180,225 @@ class ViewContratos {
 
         <div class="card-body">
 
-            
-            <table class="table table-bordered table-responsiva table-fixed" id="dataTable" >
-                <thead>
-                <tr >
-		            <th >Rut Proveedor</th>
-                    <th >Razón Social Proveedor</th>
-                    <th >ID Contrato</th>
-                    <th >Licitación</th>
-                    <th >Moneda</th>
-                    <!-- <th>Precio</th> -->
-                    <!-- <th>Valor CLP</th> -->
-                    <!-- <th>Restante</th> -->
-                    <th>Cargo</th>                    
-                    <th>Fecha inicio contrato</th>
-                    <th>Fecha termino contrato</th>
-                    <th>Fecha último acto administrativo</th>
-                    <th>Objeto del contrato</th>
-                    <!-- <th>N° Boleta Garantía</th> -->
-                    <th>Monto</th>
-                    <th>Fecha de Vencimiento</th>
-                    <th>Adjunto</th>
-                    <!-- @role('Admin')
-                        <th>Acción</th>
-                    @endrole -->
-                    <th>Bitácora</th>
-                    <th>Editar</th>
-                    <th>Detalle Contrato</th>
-                    <th>Asignar Contrato</th>
-                </tr>
-                </thead>
-                    <?php 
+
+            <div class="table-responsive">
+                <table class="table table-bordered table-condensed table-fixed" id="dataTable" >
+                    <thead>
+                    <tr >
+                        <th >Rut Proveedor</th>
+                        <th >Razón Social Proveedor</th>
+                        <th >ID Contrato</th>
+                        <th >Licitación</th>
+                        <th >Moneda</th>
+                        <!-- <th>Precio</th> -->
+                        <!-- <th>Valor CLP</th> -->
+                        <!-- <th>Restante</th> -->
+                        <th>Cargo</th>
+                        <th>Fecha inicio contrato</th>
+                        <th>Fecha termino contrato</th>
+                        <th>Fecha último acto administrativo</th>
+                        <th>Objeto del contrato</th>
+                        <!-- <th>N° Boleta Garantía</th> -->
+                        <th>Monto</th>
+                        <th>Fecha de Vencimiento</th>
+                        <th>Adjunto</th>
+                        <!-- @role('Admin')
+                            <th>Acción</th>
+                        @endrole -->
+                        <th>Bitácora</th>
+                        <th>Editar</th>
+                        <th>Detalle Contrato</th>
+                        <th>Asignar Contrato</th>
+                    </tr>
+                    </thead>
+                    <?php
                     foreach ($listado as $index => $contrato) {
                         // foreach ($documentos as $documento) {
                         ?>
-                    <tr>
-
-                        
-                        <td style="width:2%;"><?= $contrato["RUT_PROVEEDOR"]; ?></td>
-                        <td style="width:7%;"><?= $contrato["RAZON_SOCIAL"]; ?></td>
-                        <td style="width:1%;"><?= $contrato["TIPO"] ."-". $contrato["ID_CONTRATO"]; ?></td>
-                        <td style="width:6%;"><?= $contrato["NRO_LICITACION"]; ?></td>
-                        <td style="width:1%;"><?= $contrato["ID_MONEDA"]; ?></td>
-                        <!-- <td><?= $contrato["PRECIO"]; ?></td> -->
-                        <!-- <td><?= $contrato["PRECIO"] * $contrato["EQUIVALENCIA"]; ?></td> -->
-                        <!-- <td><?= $contrato["RESTANTE"];?></td> -->
-                        <td style="width:2%;"><?= $contrato["ID_CARGO"];?></td>
-                        <td style="width:3%;"><?= $contrato["FECHA_INICIO"]; ?></td>
-                        <td style="width:3%;"><?= $contrato["FECHA_TERMINO"]; ?></td>
-                        <td style="width:2%;"><?= $contrato["FECHA_APROBACION"]; ?></td>
-                        <td><?= $contrato["OBJETO_CONTRATO"]; ?></td>
-                        <!-- <td><?= $contrato["BOLETA"]; ?></td> -->
-                        <td>$<?= number_format($contrato["MONTO"], 2, ',', '.') ?></td>
-                        <td style="width:2%;"><?= $contrato["FECHA_ALERTA_VENCIMIENTO"]; ?></td>
-                        <td>
-                            <a href="<?= base()."/archivo/download?id=".$contrato['NRO_DOCUMENTO'] ?>" target="_blank">
-                                <?= $contrato["NOMBRE_DOCUMENTO"] ?>
-                            </a>
-                        </td>
-                  
-                        <td style="width:2%;">
-                            <a href="#" class="btn btn-info btn-xs" data-target="#deleteModal<?=$contrato['ID_CONTRATO'];?>" data-toggle="modal">
-                                <i class="far fa-eye"></i> Bitacora
-                            </a>
-
-                            <!-- modal starts -->
-                            <div class="modal fade" id="deleteModal<?=$contrato['ID_CONTRATO'];?>">
-                                <div class="modal-dialog">
-                                    <div class="modal-content">
+                        <tr>
 
 
-                                        <form method="post" action="<?=base("/contratos/bitacora/store");?>"  enctype="multipart/form-data">
-                                            <div class="modal-header">
-                                                <h5 class="modal-title">
-                                                    Bitacoras
-                                                </h5>
-                                            </div>
+                            <td style="width:2%;"><?= $contrato["RUT_PROVEEDOR"]; ?></td>
+                            <td style="width:7%;"><?= $contrato["RAZON_SOCIAL"]; ?></td>
+                            <td style="width:1%;"><?= $contrato["TIPO"] ."-". $contrato["ID_CONTRATO"]; ?></td>
+                            <td style="width:6%;"><?= $contrato["NRO_LICITACION"]; ?></td>
+                            <td style="width:1%;"><?= $contrato["ID_MONEDA"]; ?></td>
+                            <!-- <td><?= $contrato["PRECIO"]; ?></td> -->
+                            <!-- <td><?= $contrato["PRECIO"] * $contrato["EQUIVALENCIA"]; ?></td> -->
+                            <!-- <td><?= $contrato["RESTANTE"];?></td> -->
+                            <td style="width:2%;"><?= $contrato["ID_CARGO"];?></td>
+                            <td style="width:3%;"><?= $contrato["FECHA_INICIO"]; ?></td>
+                            <td style="width:3%;"><?= $contrato["FECHA_TERMINO"]; ?></td>
+                            <td style="width:2%;"><?= $contrato["FECHA_APROBACION"]; ?></td>
+                            <td><?= $contrato["OBJETO_CONTRATO"]; ?></td>
+                            <!-- <td><?= $contrato["BOLETA"]; ?></td> -->
+                            <td>$<?= number_format($contrato["MONTO"], 2, ',', '.') ?></td>
+                            <td style="width:2%;"><?= $contrato["FECHA_ALERTA_VENCIMIENTO"]; ?></td>
+                            <td>
+                                <a href="<?= base()."/archivo/download?id=".$contrato['NRO_DOCUMENTO'] ?>" target="_blank">
+                                    <?= $contrato["NOMBRE_DOCUMENTO"] ?>
+                                </a>
+                            </td>
 
-                                            <div class="table-responsive table-sm -md -lg -x tabla-bitacora">
-                                                <table class="table table-bordered"  class="table-sm w-25" id="dataBitacoras" width=100% cellspacing="0">
-                                                    <thead>
+                            <td style="width:2%;">
+                                <a href="#" class="btn btn-sm btn-info btn-xs" data-target="#modalBitacoras<?=$contrato['ID_CONTRATO'];?>" data-toggle="modal">
+                                    <i class="far fa-eye"></i> Bitacora
+                                </a>
+
+                                <!-- modal starts -->
+                                <div class="modal fade" id="modalBitacoras<?=$contrato['ID_CONTRATO'];?>">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <form method="post" action="<?=base("/contratos/bitacora/store");?>"  enctype="multipart/form-data">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title">
+                                                        Bitacoras
+                                                    </h5>
+                                                </div>
+
+                                                <div class="table-responsive table-sm -md -lg -x tabla-bitacora">
+                                                    <table class="table table-bordered"  class="table-sm w-25" id="dataBitacoras" width=100% cellspacing="0">
+                                                        <thead>
                                                         <tr>
                                                             <th>ID Contrato</th>
                                                             <th>Glosa</th>
                                                             <th>Documento</th>
-            
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                        <?php foreach($contrato['BITACORAS'] as $bitacora){?>
-                                                             <tr>
-                                                             <td> <?= $bitacora["ID_CONTRATO"]; ?></td>
-                                                             <td> <?= $bitacora["GLOSA"]; ?></td>
-                                                             
-                                                             <td>
-                                                                <a href="<?= base()."/archivo/download?id=".$bitacora['NRO_DOCUMENTO'] ?>" target="_blank">
-                                                                    <?= $bitacora["DOCUMENTO"] ?>
-                                                                </a>
-                                                            </td>
-                                                             
-                                                             
-                                                             
-                                                         </tr>
-                                                       <?php }?>
-                                                       
-                                                          
-                                                    </tbody>
-                                                </table>
-                                            </div>
 
-                                            <div class="modal-body">
-                                                <div class="form-row">
-                                                    <div class="form-group col-12">
-                                                        <label for="">Adjuntar archivo bitácora.</label>
-                                                        <div class="custom-file">
-                                                            <input type="file" name="archivo_bitacora" class="custom-file-input" id="customFileLangHTML" lang="es">
-                                                            <label class="custom-file-label" for="customFileLangHTML" data-browse="Buscar">Seleccionar Archivo</label>
+                                                        </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                        <?php foreach($contrato['BITACORAS'] as $bitacora){?>
+                                                            <tr>
+                                                                <td> <?= $bitacora["ID_CONTRATO"]; ?></td>
+                                                                <td> <?= $bitacora["GLOSA"]; ?></td>
+
+                                                                <td>
+                                                                    <a href="<?= base()."/archivo/download?id=".$bitacora['NRO_DOCUMENTO'] ?>" target="_blank">
+                                                                        <?= $bitacora["DOCUMENTO"] ?>
+                                                                    </a>
+                                                                </td>
+
+
+
+                                                            </tr>
+                                                        <?php }?>
+
+
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+
+                                                <div class="modal-body">
+                                                    <div class="form-row">
+                                                        <div class="form-group col-12">
+                                                            <label for="">Adjuntar archivo bitácora.</label>
+                                                            <div class="custom-file">
+                                                                <input type="file" name="archivo_bitacora" class="custom-file-input" id="customFileLangHTML" lang="es">
+                                                                <label class="custom-file-label" for="customFileLangHTML" data-browse="Buscar">Seleccionar Archivo</label>
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group col-12">
+                                                            <label>Comentarios *</label>
+                                                            <textarea type="text" name="glosa" class="form-control" value="" ></textarea>
+                                                            <input type="hidden" name="id_contrato" value="<?=$contrato['ID_CONTRATO']?>">
+                                                            <input type="hidden" name="save_bitacora" value="1">
                                                         </div>
                                                     </div>
-                                                    <div class="form-group col-12">
-                                                        <label>Comentarios *</label>
-                                                        <textarea type="text" name="glosa" class="form-control" value="" ></textarea>
-                                                        <input type="hidden" name="id_contrato" value="<?=$contrato['ID_CONTRATO']?>">
-                                                        <input type="hidden" name="save_bitacora" value="1">
-                                                    </div>
                                                 </div>
-                                            </div>
 
-                                            <div class="modal-footer">
-                                                <button type="button" class="btn btn-default" data-dismiss="modal">
-                                                    Cancelar
-                                                </button>
-                                                <button type="submit" class="btn btn-success">
-                                                    <i class="fa fa-floppy-o"></i>
-                                                    Guardar
-                                                </button>
-                                            </div>
-                                        </form>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-default" data-dismiss="modal">
+                                                        Cancelar
+                                                    </button>
+                                                    <button type="submit" class="btn btn-success">
+                                                        <i class="fa fa-floppy-o"></i>
+                                                        Guardar
+                                                    </button>
+                                                </div>
+                                            </form>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                            <!-- modal starts -->
-                            <div class="modal fade" id="miModal<?= $index; ?>">
-                            <div class="modal-dialog">
-                                <div class="modal-content contento">
 
-                                    <form method="post" action="<?=base("/contratos/bitacora/store");?>"  enctype="multipart/form-data">
-                                        <div class="modal-header">
-                                            <h5 class="modal-title">
-                                                Asignar Contrato
-                                            </h5>
+
+
+
+                            </td>
+                            <td style="width:2%;">
+                                <a href="<?=base("/contratos/new?id=").$contrato["ID_CONTRATO"];?>" class="btn btn-sm btn-primary btn-xs">
+                                    <i class="fa fa-pencil-alt"></i> Editar
+                                </a>
+                            </td>
+                            <td style="width:2%;">
+                                <!-- <a href="#" data-target="#miModal<?=$index;?>" data-toggle="modal" class="btn btn-sm btn-success btn-xs">
+                            <i class="fa fa-book-open"></i> Detalle</a>
+-->
+                                <a href="<?=base("/contratos/show?id=").$contrato["ID_CONTRATO"];?>" class="btn btn-sm btn-success btn-xs">
+                                    <i class="fa fa-pencil-alt"></i> Detalles
+                                </a>
+
+                            </td>
+                            <td style="width:2%;">
+                                <a href="#" class="btn btn-sm btn-warning btn-xs" data-target="#modalAsigna<?=$index;?>" data-toggle="modal">
+                                    <i class="fa fa-plus-square"></i> Asignar
+                                </a>
+
+
+                                <div class="modal fade" id="modalAsigna<?=$index;?>">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <form method="post" action="<?=base("/contratos/asignar/store");?>">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title">
+                                                        Asignar Contrato
+                                                    </h5>
+                                                </div>
+
+
+                                                <div class="modal-body">
+                                                    <div class="table-responsive table-sm -md -lg -x">
+                                                        <?php
+                                                            foreach ($contrato['AREAS'] as $i => $area) {
+
+                                                                ?>
+                                                                <input type="radio" id="radio<?=$i?>" name="area" value="<?=$area['ID_AREA'];?>">
+                                                                <label for="radio<?=$i?>"><?=$area['AREA'];?></label><br>
+                                                                <?php
+                                                            }
+                                                        ?>
+
+                                                    </div>
+                                                </div>
+
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-default" data-dismiss="modal">
+                                                        Cancelar
+                                                    </button>
+                                                    <button type="submit" class="btn btn-success">
+                                                        <i class="fa fa-floppy-o"></i>
+                                                        Guardar
+                                                    </button>
+                                                    <input type="hidden" name="asignar" value="1">
+                                                    <input type="hidden" name="id_contrato" value="<?=$contrato['ID_CONTRATO']?>">
+                                                </div>
+                                            </form>
                                         </div>
+                                    </div>
+                                </div>
 
-                                        <div class="table-responsive table-sm -md -lg -x">
-                                            <form>
-                                                <input type="radio" id="infraestructura" name="area" value="infraestructura">
-                                                <label for="infraestructura">Infraestructura</label><br>
-                                                <input type="radio" id="sistemas" name="area" value="sistemas">
-                                                <label for="sistemas">Sistemas</label><br>
-                                                <input type="radio" id="mesa_ayuda" name="area" value="mesa_ayuda">
-                                                <label for="mesa_ayuda">Mesa Ayuda</label>
-                                            </form> 
-                                        </div>
-
-                            </div> 
-                            <!-- modal ends -->
-                        </td>
-                        <td style="width:2%;">
-                            <a href="<?=base("/contratos/new?id=").$contrato["ID_CONTRATO"];?>" class="btn btn-primary btn-xs"><i class="fa fa-pencil-alt"></i> Editar</a>
-                        </td>
-                        <td style="width:2%;">
-                            <!-- <a href="#" data-target="#miModal<?=$index;?>" data-toggle="modal" class="btn btn-success btn-xs"><i class="fa fa-book-open"></i> Detalle</a> -->
-                            <a href="<?=base("/contratos/show?id=").$contrato["ID_CONTRATO"];?>" class="btn btn-success btn-xs"><i class="fa fa-pencil-alt"></i> Detalles</a>
-
-                        </td>
-                        <td style="width:2%;">
-                        <a href="#" class="btn btn-warning btn-xs" data-target="#miModal<?=$contrato['ID_CONTRATO'];?>" data-toggle="modal"><i class="fa fa-plus-square"></i> Asignar</a>
-
-                        </td>
+                            </td>
 
 
-                    </tr>
+                        </tr>
                         <?php
                         // }
                     }
                     ?>
-                      
-                </tbody>
-            </table>
+
+                    </tbody>
+                </table>
+            </div>
+
             
         </div>
 

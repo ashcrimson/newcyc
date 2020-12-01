@@ -42,7 +42,7 @@ class ModelTemplateCYC {
 			$query = "SELECT PERMISOS.* from PERMISOS
 						INNER JOIN USUARIOS_PERMISOS ON
 						USUARIOS_PERMISOS.ID_PERMISO = PERMISOS.ID_PERMISO
-						WHERE MAIL_USUARIO = '" . $this->mail . "'";
+						WHERE MAIL = '" . $this->mail . "'";
 
 			$result = oci_parse($this->pdo, $query);
 			oci_execute($result);
