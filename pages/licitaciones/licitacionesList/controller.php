@@ -1,7 +1,7 @@
 <?php
 
 
-
+   
 namespace LicitacionesList;
 
 /**
@@ -11,6 +11,9 @@ class ControllerLicitaciones {
 	
 	//retorna todos las licitaciones
 	public function all(\LicitacionesList\ModelLicitaciones $model){
+		if(isset($_GET["nro_licitacion"])){
+			$model = $model->getId($_GET["nro_licitacion"]);
+		}
 		return $model;
 	}
 

@@ -70,11 +70,11 @@ class ModelLicitaciones {
 				$this->error = true;
 			}
 
-			if(isset($_POST["archivo_licitacion"]) && $_POST["archivo_licitacion"] != ""){
-				$params .= "archivo_licitacion=" . $_POST["archivo_licitacion"] . "&";
+			if(isset($_FILES["archivo_licitacion"]) && $_FILES['archivo_licitacion']['error']!=UPLOAD_ERR_NO_FILE){
+				$this->params .= "archivo_licitacion=" . $_FILES["archivo_licitacion"] . "&";
 			}else{
-				$errores["archivo_licitacion"] = true;
-				$error = true;
+				// $this->errores["archivo_licitacion"] = true;
+				// $this->error = true;
 			}
 		}
 
@@ -89,27 +89,42 @@ class ModelLicitaciones {
 
 			$numero = 0;
 			
+			try {
+				$consulta = "INSERT into LICITACIONES values (
+				'". $this->nro_licitacion ."',
+				'". $this->descripcion_licitacion ."',
+				".  $this->presupuesto .",
+				TO_DATE('". date('yy-m-d') ."','yyyy-mm-dd'), null, null)";
 
-			$consulta = "INSERT into LICITACIONES values (
-						'". $this->nro_licitacion ."',
-						'". $this->descripcion_licitacion ."',
-						".  $this->presupuesto .",
-						TO_DATE('". date('yy-m-d') ."','yyyy-mm-dd'), null, null)";
+				//ejecucion consulta
+				$query = $consulta;
+				$result = oci_parse($this->pdo, $query);
+				
+				oci_execute($result);
+				oci_commit($this->pdo);
 
-			//ejecucion consulta
-			$query = $consulta;
-			$result = oci_parse($this->pdo, $query);
-			//print_r($consulta);
-			oci_execute($result);
+			} catch (Exception $e) {
+				oci_rollback($this->pdo);
+				throw new Exception($e);
+			}
 
-			//oci_error();
+			
+
+			oci_error();
 			//$listado = queryResultToAssoc($result);
-			oci_commit($this->pdo);
+			
 		}else{
-			foreach($this->errores as $e){
-				echo $e."<br>";
+			foreach($this->errores as $campo => $valor ){
+				echo $campo. "=". $valor."<br>";
 			}
 			// header("Location: ". base() . "/ordenCompra/new?" . $params);
+			
+			
+			dump($_FILES);
+			
+			dump($_POST);
+		
+			
 			die();
 		}
 

@@ -1,6 +1,6 @@
 <?php
 
-   
+    
 
 namespace ContratosList;
 
@@ -57,7 +57,10 @@ class ModelContratos {
         if($this->authUser['ID_PERMISO'] == 1 )
         {
             $where = 'where 1=1';
-        } else {
+        } 
+        
+        
+        else {
 
             $where = "WHERE c.ID_CARGO='".$this->authUser['ID_CARGO']."' ";
 
