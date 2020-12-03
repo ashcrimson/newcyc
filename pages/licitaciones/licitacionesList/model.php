@@ -55,11 +55,11 @@ class ModelLicitaciones {
 
 		$where = "WHERE 1=1 ";
 
-		if ($_GET['nro_licitacion']){
-            $where .= " and nro_licitacion = '" . $_GET['nro_licitacion'] . "'";
-		}
+        if ($this->nro_licitacion){
+            $where .= " and l.nro_licitacion = '" . $this->nro_licitacion . "'";
+        }
 
-		$consulta = "
+        $consulta = "
 			select 
 				l.*, 
 				d.nombre as nombre_documento,
@@ -71,7 +71,7 @@ class ModelLicitaciones {
 				LICITACIONES L
 				LEFT JOIN documento_licitaciones dl on dl.nro_licitacion = l.nro_licitacion
 				LEFT JOIN documento d on d.nro_documento = dl.nro_documento
-		
+		    $where
 			";
 
 		//consulta paginada
