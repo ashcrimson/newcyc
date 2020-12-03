@@ -62,7 +62,7 @@ class Router{
 			$this->model = $this->controller->page($this->model);
 		}
 
-		if(isset($_GET['nro_licitacion'])){
+		if(isset($_GET['id'])){
             $this->model = $this->controller->filter($this->model);
         }
 	}

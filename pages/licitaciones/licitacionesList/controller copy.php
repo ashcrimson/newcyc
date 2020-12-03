@@ -11,8 +11,8 @@ class ControllerLicitaciones {
 	
 	//retorna todos las licitaciones
 	public function all(\LicitacionesList\ModelLicitaciones $model){
-		if(isset($_GET["nro_licitacion"])){
-			$model = $model->getId($_GET["nro_licitacion"]);
+		if(isset($_GET["id"])){
+			$model = $model->getId($_GET["id"]);
 		}
 		return $model;
 	}
