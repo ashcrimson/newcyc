@@ -1,6 +1,6 @@
 <?php
 
- 
+  
 
 namespace LicitacionesList;
 
@@ -91,7 +91,7 @@ class ModelLicitaciones {
 		$result = oci_parse($this->pdo, $consulta);
 
 		if($result){
-            $_SESSION["feedback"] = "Contrato ingresado correctamente";
+            $_SESSION["feedback"] = "Licitación ingresada correctamente";
 		}
 		
 		oci_execute($result);

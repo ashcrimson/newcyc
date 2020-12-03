@@ -57,12 +57,14 @@ class Router{
 		$this->controller = new \LicitacionesList\ControllerLicitaciones;
 		
 		$this->model = $this->controller->all($this->model);
-		if(!empty($_GET["nro_licitacion"])){
-			$this->model = $this->controller->filter($this->model);
-		}
+		
 		if(isset($_GET["page"])){
 			$this->model = $this->controller->page($this->model);
 		}
+
+		if(isset($_GET['nro_licitacion'])){
+            $this->model = $this->controller->filter($this->model);
+        }
 	}
 
 	//pagina agregado de licitaciones
@@ -276,7 +278,7 @@ class Router{
 		}
 	}
 
-
+ 
 
 	/***********************************
 	 * mantenedor proveedores
@@ -287,12 +289,13 @@ class Router{
 		$this->view = new \proveedoresList\ViewProveedores;
 		$this->controller = new \proveedoresList\ControllerProveedores;
 		$this->model = $this->controller->all($this->model);
-		if(!empty($_GET["rut"])||!empty($_GET["razon_social"])){
+		if(!empty($_GET["id"])){
 			$this->model = $this->controller->filter($this->model);
 		}
 		if(!empty($_GET["id"])){
             $this->controller->delete($this->model);
-        }
+		}
+		
 		if(isset($_GET["page"])){
 			$this->model = $this->controller->page($this->model);
 		}

@@ -135,3 +135,18 @@ function queryToArray($query=null,$pdo){
 
     return $res;
 }
+
+function dd($variable){
+	echo "<pre>";
+	print_r($variable);
+	echo "</pre>";
+	echo "<br>";
+	exit();
+}
+
+function dump($variable){
+	echo "<pre>";
+	print_r($variable);
+	echo "</pre>";
+	echo "<br>";
+}

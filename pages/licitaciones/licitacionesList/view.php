@@ -1,5 +1,5 @@
 <?php
-
+ 
 
 
 namespace LicitacionesList;
@@ -46,7 +46,7 @@ class ViewLicitaciones {
 								<select name="nro_licitacion" class="selectpicker selectField" placeholder="Seleccione ID Licitación" data-live-search='true'>
 									<option value=""></option>
 									<?php 
-									foreach ($numerosLicitaciones as $licitaciones) { 
+									foreach ($listaLicitaciones as $licitaciones) { 
 										if (!empty($_GET["nro_licitacion"]) && $_GET["nro_licitacion"] == $licitaciones["NRO_LICITACION"]){
 											?>
 											<option selected="true" value="<?= $licitaciones["NRO_LICITACION"];?>"><?= $licitaciones["NRO_LICITACION"];?></option>

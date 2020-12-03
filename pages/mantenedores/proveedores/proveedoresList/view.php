@@ -64,7 +64,7 @@ class ViewProveedores {
                                 <option value=""></option>
                                 <?php
 	                            foreach ($listaProveedores as $proveedores){
-	                            	if ($_GET["razon_social"] == $proveedores["RUT_PROVEEDOR"]) {
+	                            	if ($_GET["razon_social"] == $proveedores["RAZON_SOCIAL"]) {
 		                            	?>
 		                            	<option value="<?=$proveedores["RUT_PROVEEDOR"];?>"><?=$proveedores["RAZON_SOCIAL"];?></option>
 		                            	<?php

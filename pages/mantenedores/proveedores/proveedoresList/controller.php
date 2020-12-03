@@ -1,5 +1,5 @@
 <?php
-
+   
 
 
 namespace ProveedoresList;
@@ -16,12 +16,10 @@ class ControllerProveedores {
 
 	//retorna solo la licitacion solicitada
 	public function filter(\ProveedoresList\ModelProveedores $model){
-		if(isset($_GET["rut"]) && !empty($_GET["rut"])){
-			$model = $model->getId($_GET["rut"]);
+		if(isset($_GET["id"])){
+			$model = $model->getId($_GET["id"]);
 		}
-		if(isset($_GET["razon_social"]) && !empty($_GET["razon_social"])){
-			$model = $model->getId($_GET["razon_social"]);
-		}
+		
 		return $model;
 	}
 

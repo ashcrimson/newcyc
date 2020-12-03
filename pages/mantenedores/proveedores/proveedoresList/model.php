@@ -1,6 +1,6 @@
 <?php 
-
-
+ 
+ 
 
 namespace ProveedoresList;
 
@@ -25,7 +25,7 @@ class ModelProveedores {
 	private $resultados = 10;
 
 	//Constructor
-	function __construct($pdo, $id = '', int $page = 1){
+	function __construct($pdo, string $id = '', int $page = 1){
 		$this->pdo = $pdo;
 		$this->id = $id;
 		$this->page = $page;
@@ -43,9 +43,9 @@ class ModelProveedores {
 
 	}
 
-	//filtra consulta por nro de licitación(id, llave primaria)
+	//filtra consulta por nro de proveedor(id, llave primaria)
 	public function getId($id): self{
-		return new self($this->pdo, $rut, $this->page);
+		return new self($this->pdo, $id, $this->page);
 	}
 
 	//filtra consulta por nro de página
