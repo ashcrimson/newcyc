@@ -17,6 +17,11 @@ class ViewProveedores {
 		$numerosLicitaciones = $data[1];
 		$totales = $data[2];
 
+        $dataListBox = $model->getDataListBox();
+
+        //arrays para los selects
+        $proveedores = $dataListBox['proveedores'];
+
 		ob_start();
 
 		?>
@@ -42,16 +47,11 @@ class ViewProveedores {
                             <select name="rut" class="selectpicker selectField" placeholder='Seleccione RUT' data-live-search='true'>
                                 <option value=""></option>
                                 <?php
-	                            foreach ($listaProveedores as $proveedores){
-	                            	if ($_GET["rut"] == $proveedores["rut"]) {
-		                            	?>
-		                            	<option value="<?=$proveedores["RUT_PROVEEDOR"];?>"><?=$proveedores["RUT_PROVEEDOR"];?></option>
-		                            	<?php
-	                            	}else{
-		                            	?>
-		                            	<option value="<?=$proveedores["RUT_PROVEEDOR"];?>"><?=$proveedores["RUT_PROVEEDOR"];?></option>
-		                            	<?php
-	                            	}
+	                            foreach ($proveedores as $proveedor){
+                                    $selected = $proveedor["RUT_PROVEEDOR"] == $_GET["rut"] ? "selected" : "";
+	                                ?>
+                                    <option value="<?=$proveedor["RUT_PROVEEDOR"];?>" <?=$selected?>><?=$proveedor["RUT_PROVEEDOR"];?></option>
+                                    <?php
 	                            }
 	                            ?>
                             </select>
@@ -63,16 +63,11 @@ class ViewProveedores {
                             <select name="razon_social" class="selectpicker selectField" placeholder='Seleccione razón social' data-live-search='true'>
                                 <option value=""></option>
                                 <?php
-	                            foreach ($listaProveedores as $proveedores){
-	                            	if ($_GET["razon_social"] == $proveedores["RAZON_SOCIAL"]) {
-		                            	?>
-		                            	<option value="<?=$proveedores["RUT_PROVEEDOR"];?>"><?=$proveedores["RAZON_SOCIAL"];?></option>
-		                            	<?php
-	                            	}else{
-		                            	?>
-		                            	<option value="<?=$proveedores["RUT_PROVEEDOR"];?>"><?=$proveedores["RAZON_SOCIAL"];?></option>
-		                            	<?php
-	                            	}
+	                            foreach ($proveedores as $proveedor){
+                                    $selected = $proveedor["RUT_PROVEEDOR"] == $_GET["razon_social"] ? "selected" : "";
+                                    ?>
+                                    <option value="<?=$proveedor["RUT_PROVEEDOR"];?>" <?=$selected?>><?=$proveedor["RAZON_SOCIAL"];?></option>
+                                    <?php
 	                            }
 	                            ?>
                             </select>

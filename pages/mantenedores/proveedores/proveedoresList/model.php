@@ -61,13 +61,15 @@ class ModelProveedores {
 		$numeros = [];
 		$totales = [];
 
-		// $where = "WHERE 1=1 ";
+		 $where = "WHERE 1=1 ";
 
-		// if ($this->rut){
-		// 	$where .= " and p.RUT_PROVEEDOR = '" . $this->rut . "'";
-		// }else{
-		// 	$where = "";
-		// }
+		 if ($_GET['rut']){
+		 	$where .= " and p.RUT_PROVEEDOR = '" . $_GET['rut'] . "'";
+		 }
+
+        if ($_GET['razon_social']){
+            $where .= " and p.RUT_PROVEEDOR = '" . $_GET['razon_social'] . "'";
+        }
  
 		// consulta principal
 		$consulta = "
@@ -79,7 +81,10 @@ class ModelProveedores {
 				pc.TELEFONO,
 				pc.EMAIL 
 			FROM
-				 PROVEEDORES P LEFT JOIN PROVEEDORES_CONTACTO PC ON P.RUT_PROVEEDOR=PC.RUT_PROVEEDOR
+				 PROVEEDORES P LEFT JOIN PROVEEDORES_CONTACTO PC ON P.RUT_PROVEEDOR=PC.RUT_PROVEEDOR    
+				 
+			$where	 
+				 
 			";
 			
 		// $consulta = "SELECT * FROM PROVEEDORES";
@@ -109,4 +114,18 @@ class ModelProveedores {
 		oci_close($this->pdo);
 		return $assoc;
 	}
+
+    public function getDataListBox()
+    {
+
+
+        $query = "SELECT * FROM PROVEEDORES";
+        $proveedores = queryToArray($query,$this->pdo);
+
+
+
+        return [
+            'proveedores' => $proveedores,
+        ];
+    }
 }
