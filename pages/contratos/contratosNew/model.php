@@ -313,6 +313,8 @@ class ModelContratos {
 
                 oci_commit($this->pdo);
 
+                $last_id = $_POST['id'];
+
             }
 	        //inserta
 	        else{
