@@ -17,7 +17,8 @@ class ViewContratos {
 		}
 
 		if(isset($_GET["id"])){
-            $registroEdit = $model->get();
+			$registroEdit = $model->get();
+			
         }
 
 
@@ -121,7 +122,7 @@ class ViewContratos {
 		
 		<ol class="breadcrumb">
 			<li class="breadcrumb-item">
-                <a href="<?=base("/contratos/");?>">Contratos</a>
+                <a href="<?=base();?>/contratos">Contratos</a>
 			</li>
 			 
 		</ol>
@@ -253,7 +254,9 @@ class ViewContratos {
 									foreach ($dataMoneda as $moneda) {
                                         $selected = $registroEdit['ID_MONEDA']==$moneda["CODIGO"]? "selected" : "";
                                         ?>
-                                        <option value="<?= $moneda["CODIGO"];?>" <?= $selected ?>><?= $moneda["NOMBRE"];?></option>
+                                        <option value="<?= $moneda["CODIGO"];?>" <?= $selected ?>>
+										<?= $moneda["NOMBRE"];?>
+										</option>
                                         <?php
 									}
 									?>

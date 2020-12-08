@@ -76,7 +76,7 @@ class ViewContratos {
 						</tr>
 					</thead>
 					<tbody>
-
+ 
 					
 						<?php foreach($contrato["DETALLES"] as  $detalle){?>
 								<tr>
@@ -96,7 +96,13 @@ class ViewContratos {
 							
 					</tbody>
 				</table>
+				
                 </div>
+			</div>
+			<div class="card-footer">
+				<?php
+					paginador($contrato['DETALLES'], "./contratos/show", 10);
+				?>
 			</div>
 		</div>
  

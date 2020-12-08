@@ -222,7 +222,7 @@ class ViewContratos {
                             <td style="width:7%;"><?= $contrato["RAZON_SOCIAL"]; ?></td>
                             <td style="width:1%;"><?= $contrato["TIPO"] ."-". $contrato["ID_CONTRATO"]; ?></td>
                             <td style="width:6%;"><?= $contrato["NRO_LICITACION"]; ?></td>
-                            <td style="width:1%;"><?= $contrato["ID_MONEDA"]; ?></td>
+                            <td style="width:1%;"><?= $contrato["NOMBRE_MONEDA"]; ?></td>
                             <!-- <td><?= $contrato["PRECIO"]; ?></td> -->
                             <!-- <td><?= $contrato["PRECIO"] * $contrato["EQUIVALENCIA"]; ?></td> -->
                             <!-- <td><?= $contrato["RESTANTE"];?></td> -->

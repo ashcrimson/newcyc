@@ -15,14 +15,20 @@ class ModelContratos {
 	 */
 	//Obj de conexion de db
 	private $pdo;
-
+	//filtro de licitacion
+	private $id;
+	//pagina 
+	private  $page;
+	//resultados por pagina
+	private $resultados = 10;
 
 
 
     //Constructor
-    function __construct($pdo, $id = ''){
-        $this->pdo = $pdo;
-        $this->id = $id;
+	function __construct($pdo, string $id = '', int $page = 1){
+		$this->pdo = $pdo;
+		$this->id = $id;
+		$this->page = $page;
 
     }
 
@@ -30,6 +36,11 @@ class ModelContratos {
     {
         return new self($this->pdo, $id);
     }
+
+    //filtra consulta por nro de página
+	public function getPage(int $page): self{
+		return new self($this->pdo, $this->id, $page);
+	}
 
 
 
@@ -45,11 +56,18 @@ class ModelContratos {
         $query = "SELECT * FROM DETALLE_CONTRATO WHERE ID_CONTRATO='" . $this->id . "'";
 
         //consulta paginada
-        $result = oci_parse($this->pdo, $query);
-        oci_execute($result);
+        $query = queryPagination($query, $this->page);
+		$result = oci_parse($this->pdo, $query);
+		oci_execute($result);
+		
         $contrato['DETALLES'] = queryResultToAssoc($result);
 
-        // var_dump($contrato);
+        //consulta para recuperar cantidad de páginas disponibles
+		$result = oci_parse($this->pdo, $query);
+		oci_execute($result);
+		$contrato['TOTAL_DETALLES'] = queryResultToAssoc($result);
+
+        
         // exit();
         return $contrato;
     }

@@ -136,7 +136,10 @@ class Router{
 
         $this->model = new \contratosShow\ModelContratos($this->pdo);
         $this->view = new \contratosShow\ViewContratos;
-        $this->controller = new \contratosShow\ControllerContratos;
+		$this->controller = new \contratosShow\ControllerContratos;
+		if(isset($_GET["page"])){
+            $this->model = $this->controller->page($this->model);
+        }
 
         //si no esta vacío el dato id de la url
         if(!empty($_GET["id"] && $_GET["id"] >= 1)){

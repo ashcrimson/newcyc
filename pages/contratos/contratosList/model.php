@@ -91,12 +91,14 @@ class ModelContratos {
 				d.nombre as nombre_documento,
 			    d.NRO_DOCUMENTO,   
 				d.tipo_archivo,
-				d.archivo
+                d.archivo,
+                m.nombre as nombre_moneda
 				
 			from 
 				CONTRATOS C LEFT JOIN PROVEEDORES P ON c.rut_proveedor = p.rut_proveedor
 				LEFT JOIN documento_contratos dc on dc.nro_contrato = c.id_contrato
-				LEFT JOIN documento d on d.nro_documento = dc.nro_documento
+                LEFT JOIN documento d on d.nro_documento = dc.nro_documento
+                LEFT JOIN moneda m on m.codigo = c.id_moneda
 			$where
 			ORDER BY
 				id_contrato
