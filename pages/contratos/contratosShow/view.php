@@ -4,7 +4,7 @@
  
 namespace ContratosShow;
 
- 
+
 /**
  * clase vista, retorna html con lo recuperado desde el modelo
  */
@@ -24,7 +24,7 @@ class ViewContratos {
 		?>
 
 
- 
+
 
 		<!-- Habilitar nombre de archivo adjunto-->
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
@@ -50,7 +50,7 @@ class ViewContratos {
 			<table>
 			<tr>
 				<td>ID CONTRATO</td>
-				<td><?=$contrato["ID_CONTRATO"]?></td>
+				<td><?= $contrato["TIPO"] ."-". $contrato["ID_CONTRATO"]; ?></td>
 			</tr>
 			<tr>
 				<td>PROVEEDOR</td>
@@ -99,7 +99,7 @@ class ViewContratos {
                 </div>
 			</div>
 		</div>
-
+ 
 		<!-- {{-- Script para mostrar nombre archivo en el select --}} -->
 		<script>
 			$(".custom-file-input").on("change", function() {

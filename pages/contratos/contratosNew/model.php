@@ -249,7 +249,7 @@ class ModelContratos {
 
 
         //consulta para recuperar monedas
-        $query = "SELECT NOMBRE FROM MONEDA";
+        $query = "SELECT * FROM MONEDA";
         $result = oci_parse($this->pdo, $query);
         oci_execute($result);
         $moneda = queryResultToAssoc($result);
@@ -440,7 +440,7 @@ class ModelContratos {
 			oci_execute($result2, OCI_DEFAULT) or die ("No se pudo");
 		}
  
-
+ 
 
 		//agrega resultados a retorno
 

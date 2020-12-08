@@ -1,10 +1,10 @@
 <?php
-
+ 
 
 
 namespace OrdenCompraNew;
 
-/**
+/** 
  * controlador de vista
  */
 class ControllerOrdenCompra {
@@ -19,5 +19,6 @@ class ControllerOrdenCompra {
 		$model->new();
 		return $model;
 	}
+	
 
 }

@@ -1,5 +1,5 @@
 <?php
-
+ 
  
 
 namespace OrdenCompraList;
@@ -13,7 +13,7 @@ class ControllerOrdenCompra {
 	public function all(\OrdenCompraList\ModelOrdenCompra $model){
 		return $model;
 	}
- 
+
 	//retorna solo la licitacion solicitada
 	public function filter(\OrdenCompraList\ModelOrdenCompra $model){
 		if(isset($_GET["nro_orden_compra"])){
@@ -21,7 +21,7 @@ class ControllerOrdenCompra {
 		}
 		return $model;
 	}
- 
+
 
 	//retorna con la paginación 
 	public function page(\OrdenCompraList\ModelOrdenCompra $model){
@@ -30,6 +30,7 @@ class ControllerOrdenCompra {
 		}
 		return $model;
 	}
+
 
 
 	public function delete(\OrdenCompraList\ModelOrdenCompra $model){

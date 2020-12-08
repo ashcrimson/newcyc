@@ -90,7 +90,7 @@ class Modelcargos {
 				//$listado = queryResultToAssoc($result);
 				oci_commit($this->pdo);
 			}else{
-				$cons = "SELECT COUNT(*)+1 AS CTA FROM CARGOS";
+				$cons = "SELECT COUNT(*)+5 AS CTA FROM CARGOS";
 				$result = oci_parse($this->pdo, $cons);
 				oci_execute($result);
 				$numero = queryResultToAssoc($result)[0]["CTA"];

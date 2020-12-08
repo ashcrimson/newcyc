@@ -13,7 +13,7 @@ class ViewLicitaciones {
 
 		$data = $model->get();
 
-		$listaLicitaciones = $data[0];
+		$listado = $data[0];
 		$numerosLicitaciones = $data[1];
 		$totales = $data[2];
 		$documentos = $data[3];
@@ -46,7 +46,7 @@ class ViewLicitaciones {
 								<select name="nro_licitacion" class="selectpicker selectField" placeholder="Seleccione ID Licitación" data-live-search='true'>
 									<option value=""></option>
 									<?php 
-									foreach ($listaLicitaciones as $licitaciones) { 
+									foreach ($listado as $licitaciones) { 
 										if (!empty($_GET["nro_licitacion"]) && $_GET["nro_licitacion"] == $licitaciones["NRO_LICITACION"]){
 											?>
 											<option selected="true" value="<?= $licitaciones["NRO_LICITACION"];?>"><?= $licitaciones["NRO_LICITACION"];?></option>
@@ -109,7 +109,7 @@ class ViewLicitaciones {
 						</thead>
 						<tbody>
 							<?php 
-							foreach ($listaLicitaciones as $licitaciones) {
+							foreach ($listado as $licitaciones) {
 								// foreach ($documentos as $documento) {	
 								?>
 							<tr>

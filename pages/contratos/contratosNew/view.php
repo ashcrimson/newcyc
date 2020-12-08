@@ -243,42 +243,31 @@ class ViewContratos {
 						</div>
 					</div>
 
-                    <div class="container">
+					<div class="container">
 						<div class="row col-12">
-						<div class="form-group has-feedback col-xs-4 col-md-4 col-lg-4 <?=$moneda_id ? 'has-error' : '' ;?>" >
-                    <label>Moneda *</label>
- 
-                    <select name='moneda_id' class ='selectpicker selectField' placeholder='Seleccione Moneda' data-live-search='true' id ='moneda_id' value="<?=isset($_GET["moneda_id"]) ? $_GET["moneda_id"]: (isset($registroEdit["ID_MONEDA"]) ? $registroEdit["ID_MONEDA"] : "") ?>">
-                    	<option value=""></option>
-                        <?php 
-                        foreach ($dataMoneda as $moneda) { 
-							$selected = $registroEdit['moneda_id']==$moneda["moneda_id"] ? "selected" : "";
-                            if (!empty($_GET["moneda_id"]) && $_GET["moneda_id"]){
-                                ?>
-                                <option selected="true" value="<?= $moneda["NOMBRE"];?>"><?= $selected ?>><?= $moneda["NOMBRE"];?></option>
-								<option value="<?= $cargo["ID_CARGO"];?>" <?= $selected ?>><?= $cargo["NOMBRE"];?></option>
-
-                                <?php
-                            }else{
-                                ?>
-                                
-								<option value="<?= $moneda["NOMBRE"];?>" <?= $selected ?>><?= $moneda["NOMBRE"];?></option>
-
-                                <?php
-                            }
-                        }
-                        ?>
-                    </select>
-					<?php if ($moneda_id){ ?>
-					<span class="help-block text-danger"> 
-						<strong>Error: Numero de licitacion vacio</strong>
-					</span>
-					<?php } ?>
-                </div>
+							<div class="form-group has-feedback col-xs-4 col-md-4 col-lg-4 ">
+								<label>Moneda *</label>
+								<select class="selectpicker selectField" name='moneda_id'  class ='form-control selectpicker selectField' placeholder='Seleccione Moneda' data-live-search='true' id ='moneda_id' value="<?=isset($_GET["moneda_id"]) ? $_GET["moneda_id"]: (isset($registroEdit["ID_MONEDA"]) ? $registroEdit["ID_MONEDA"] : "") ?>">
+									<option value=""></option>
+									<?php 
+									foreach ($dataMoneda as $moneda) {
+                                        $selected = $registroEdit['ID_MONEDA']==$moneda["CODIGO"]? "selected" : "";
+                                        ?>
+                                        <option value="<?= $moneda["CODIGO"];?>" <?= $selected ?>><?= $moneda["NOMBRE"];?></option>
+                                        <?php
+									}
+									?>
+								</select>
+								<?php if ($moneda_id){ ?>
+								<span class="help-block text-danger"> 
+									<strong>Error: Cargo inválido.</strong>
+								</span>
+								<?php } ?>
+							</div>
 						</div>
 					</div>
 
-            
+                    
 
                     <div class="container">
 						<div class="row col-12">

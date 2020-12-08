@@ -19,7 +19,7 @@ class ModelProveedores {
 	private $rut;
 
 	private $id;
-	//pagina 
+	//pagina  
 	private $page;
 	//resultados por pagina
 	private $resultados = 10;
@@ -50,7 +50,7 @@ class ModelProveedores {
 
 	//filtra consulta por nro de página
 	public function getPage(int $page): self{
-		return new self($this->pdo, $this->rut, $page);
+		return new self($this->pdo, $this->id, $page);
 	}
 
 	//retorna el/los datos seleccionados
