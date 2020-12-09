@@ -34,6 +34,8 @@ function queryPagination(string $query, int $page = 1, int $resultados = 10):str
 
 //genera html con paginador segun los parametros indicados
 function paginador($result, string $ruta, int $resultados = 10){
+
+    $simbolo = strpos($ruta, '?id') !== false ? "&" : "?";
 	//calculo cuantas paginas
 	$paginas = ceil(count($result) / $resultados);
 	if(isset($_GET["page"]) && $_GET["page"] > 1){
@@ -55,11 +57,11 @@ function paginador($result, string $ruta, int $resultados = 10){
 			    </li>
 				<?php 
 			}else{
-				?>
-			    <li class="page-item" aria-disabled="true" aria-label="« Anterior">
-			        <a class="page-link" href="<?=$ruta?>?page=<?=$pos-1?>" rel="prev" aria-label="« Anterior">‹</a>
-			    </li>
-				<?php 
+			    ?>
+                <li class="page-item" aria-disabled="true" aria-label="« Anterior">
+                    <a class="page-link" href="<?= $ruta .$simbolo?>page=<?= $pos - 1 ?>" rel="prev" aria-label="« Anterior">‹</a>
+                </li>
+                <?php
 			}
 
 			//botones para cada página
@@ -70,7 +72,7 @@ function paginador($result, string $ruta, int $resultados = 10){
 					<?php
 				}else{
 					?>
-					<li class="page-item"><a class="page-link" href="<?=$ruta?>?page=<?=$i;?>"><?=$i;?></a></li>
+					<li class="page-item"><a class="page-link" href="<?=$ruta.$simbolo?>page=<?=$i;?>"><?=$i;?></a></li>
 					<?php
 				}
 			}
@@ -85,7 +87,7 @@ function paginador($result, string $ruta, int $resultados = 10){
 			}else{
 				?>
 			    <li class="page-item" aria-disabled="true" aria-label="Siguiente »">
-			        <a class="page-link" href="<?=$ruta?>?page=<?=$pos+1?>" rel="next" aria-label="Siguiente »">›</a>
+			        <a class="page-link" href="<?=$ruta.$simbolo?>page=<?=$pos+1?>" rel="next" aria-label="Siguiente »">›</a>
 			    </li>
 				<?php 
 			}

@@ -9,6 +9,11 @@ namespace ContratosShow;
  */
 class ControllerContratos {
 
+    //retorna todos las licitaciones
+    public function all(ModelContratos $model){
+        return $model;
+    }
+
 	public function show(ModelContratos $model){
 		$model = $model->show($_GET["id"]);
 		return $model;

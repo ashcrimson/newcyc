@@ -53,21 +53,24 @@ class ModelContratos {
         oci_execute($result);
         $contrato = queryResultToAssoc($result)[0];
 
-        $query = "SELECT * FROM DETALLE_CONTRATO WHERE ID_CONTRATO='" . $this->id . "'";
+        $consulta = "SELECT * FROM DETALLE_CONTRATO WHERE ID_CONTRATO='" . $this->id . "'";
 
         //consulta paginada
-        $query = queryPagination($query, $this->page);
-		$result = oci_parse($this->pdo, $query);
-		oci_execute($result);
-		
-        $contrato['DETALLES'] = queryResultToAssoc($result);
+        $query = queryPagination($consulta, $this->page);
+        $result = oci_parse($this->pdo, $query);
+        oci_execute($result);
+        $listado = queryResultToAssoc($result);
+
+
+        $contrato['DETALLES'] = $listado;
 
         //consulta para recuperar cantidad de páginas disponibles
-		$result = oci_parse($this->pdo, $query);
-		oci_execute($result);
-		$contrato['TOTAL_DETALLES'] = queryResultToAssoc($result);
+        $result = oci_parse($this->pdo, $consulta);
+        oci_execute($result);
+        $totales = queryResultToAssoc($result);
 
-        
+        $contrato['TOTAL_DETALLES'] = $totales;
+
         // exit();
         return $contrato;
     }

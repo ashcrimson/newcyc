@@ -99,11 +99,11 @@ class ViewContratos {
 				
                 </div>
 			</div>
-			<div class="card-footer">
-				<?php
-					paginador($contrato['DETALLES'], "./contratos/show", 10);
-				?>
-			</div>
+            <div class="card-footer">
+                <?php
+                paginador($contrato['TOTAL_DETALLES'], "/contratos/show?id=".$_GET["id"], 10);
+                ?>
+            </div>
 		</div>
  
 		<!-- {{-- Script para mostrar nombre archivo en el select --}} -->
