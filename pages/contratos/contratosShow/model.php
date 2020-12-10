@@ -1,5 +1,5 @@
 <?php
-
+ 
 
 
 namespace ContratosShow;
@@ -36,6 +36,11 @@ class ModelContratos {
     {
         return new self($this->pdo, $id);
     }
+
+    //filtra consulta por nro de contrato (id, llave primaria)
+	public function getId($id): self{
+        return new self($this->pdo, $id, $this->page);
+	}
 
     //filtra consulta por nro de página
 	public function getPage(int $page): self{
