@@ -61,7 +61,7 @@ class ViewContratos {
 			</table>
 			<hr>
 			<div class="row">
-				<form method="get" class="form-horizontal" action="<?=base("/contratos/show/")?>">
+				<form method="get" class="form-horizontal" action="<?=base()."/contratos/show"?>">
 					<div class="col-6">
 						<label>Buscar</label>
 							<div>
@@ -80,10 +80,11 @@ class ViewContratos {
 								</select>
 								
 							</div>
+                        <input type="hidden" name="id" value="<?=$contrato['ID_CONTRATO']?>">
 					</div>
 					<div class="btn-group float-right">
 						<?php if(!empty($_GET)){ ?> 
-							<a class="btn btn-default" href="<?=base()."/contratos/show/";?>">Limpiar Filtros</a>
+							<a class="btn btn-default" href="<?=base()."/contratos/show?id=".$contrato['ID_CONTRATO'];?>">Limpiar Filtros</a>
 						<?php } ?>
 							<button type="submit" class="btn btn-primary rounded"><i class="fa fa-search"></i> Buscar</button>
 					</div>

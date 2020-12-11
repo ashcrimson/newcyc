@@ -58,7 +58,17 @@ class ModelContratos {
         oci_execute($result);
         $contrato = queryResultToAssoc($result)[0];
 
-        $consulta = "SELECT * FROM DETALLE_CONTRATO WHERE ID_CONTRATO='" . $this->id . "'";
+
+        $where = '';
+
+
+        if ($_GET['codigo']){
+            $where .= " and CODIGO = '" . $_GET['codigo'] . "'";
+        }
+
+
+        $consulta = "SELECT * FROM DETALLE_CONTRATO WHERE ID_CONTRATO='" . $this->id . "' ".$where;
+
 
         //consulta paginada
         $query = queryPagination($consulta, $this->page);
