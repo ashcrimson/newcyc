@@ -151,6 +151,28 @@ class Router{
 		if(isset($_GET['id'])){
             $this->model = $this->controller->filter($this->model);
         }
+	}
+	
+	public function contratosBitacoraShow(){
+
+
+        $this->model = new \ContratosBitacoraShow\ModelContratos($this->pdo);
+        $this->view = new \ContratosBitacoraShow\ViewContratos;
+		$this->controller = new \ContratosBitacoraShow\ControllerContratos;
+        $this->model = $this->controller->all($this->model);
+
+        //si no esta vacío el dato id de la url
+        if(!empty($_GET["id"] && $_GET["id"] >= 1)){
+            $this->model = $this->controller->show($this->model);
+        }
+
+        if(isset($_GET["page"])){
+            $this->model = $this->controller->page($this->model);
+		}
+		
+		if(isset($_GET['id'])){
+            $this->model = $this->controller->filter($this->model);
+        }
     }
 
 
