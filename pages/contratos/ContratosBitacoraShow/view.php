@@ -91,7 +91,38 @@ class ViewContratos {
 				</form>
 			</div>
 
-			
+            <div class="table-responsive table-sm -md -lg -x tabla-bitacora">
+                <table class="table table-bordered"  class="table-sm w-25" id="dataBitacoras" width=100% cellspacing="0">
+                    <thead>
+                    <tr>
+                        <th>ID Contrato</th>
+                        <th>Glosa</th>
+                        <th>Documento</th>
+
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <?php foreach($contrato['BITACORAS'] as $bitacora){?>
+                        <tr>
+                            <td> <?= $bitacora["ID_CONTRATO"]; ?></td>
+                            <td> <?= $bitacora["GLOSA"]; ?></td>
+
+                            <td>
+                                <a href="<?= base()."/archivo/download?id=".$bitacora['NRO_DOCUMENTO'] ?>" target="_blank">
+                                    <?= $bitacora["DOCUMENTO"] ?>
+                                </a>
+                            </td>
+
+
+
+                        </tr>
+                    <?php }?>
+
+
+                    </tbody>
+                </table>
+            </div>
+
             <div class="card-footer">
                 <?php
                 paginador($contrato['TOTAL_DETALLES'], base()."/contratos/show?id=".$_GET["id"], 10);

@@ -241,84 +241,88 @@ class ViewContratos {
                             </td>
 
                             <td style="width:2%;">
-                                <a href="#" class="btn btn-sm btn-info btn-xs" data-target="#modalBitacoras<?=$contrato['ID_CONTRATO'];?>" data-toggle="modal">
-                                    <i class="far fa-eye"></i> Bitacora
+                                <a href="<?=base("/contratos/bitacora/show?id=").$contrato["ID_CONTRATO"];?>" class="btn btn-sm btn-success btn-xs">
+                                    <i class="fa fa-pencil-alt"></i> Bitacoras
                                 </a>
 
+                                <!--                                <a href="#" class="btn btn-sm btn-info btn-xs" data-target="#modalBitacoras--><?//=$contrato['ID_CONTRATO'];?><!--" data-toggle="modal">-->
+<!--                                    <i class="far fa-eye"></i> Bitacora-->
+<!--                                </a>-->
+
                                 <!-- modal starts -->
-                                <div class="modal fade" id="modalBitacoras<?=$contrato['ID_CONTRATO'];?>">
-                                    <div class="modal-dialog">
-                                        <div class="modal-content">
-                                            <form method="post" action="<?=base("/contratos/bitacora/store");?>"  enctype="multipart/form-data">
-                                                <div class="modal-header">
-                                                    <h5 class="modal-title">
-                                                        Bitacoras
-                                                    </h5>
-                                                </div>
-
-                                                <div class="table-responsive table-sm -md -lg -x tabla-bitacora">
-                                                    <table class="table table-bordered"  class="table-sm w-25" id="dataBitacoras" width=100% cellspacing="0">
-                                                        <thead>
-                                                        <tr>
-                                                            <th>ID Contrato</th>
-                                                            <th>Glosa</th>
-                                                            <th>Documento</th>
-
-                                                        </tr>
-                                                        </thead>
-                                                        <tbody>
-                                                        <?php foreach($contrato['BITACORAS'] as $bitacora){?>
-                                                            <tr>
-                                                                <td> <?= $bitacora["ID_CONTRATO"]; ?></td>
-                                                                <td> <?= $bitacora["GLOSA"]; ?></td>
-
-                                                                <td>
-                                                                    <a href="<?= base()."/archivo/download?id=".$bitacora['NRO_DOCUMENTO'] ?>" target="_blank">
-                                                                        <?= $bitacora["DOCUMENTO"] ?>
-                                                                    </a>
-                                                                </td>
-
-
-
-                                                            </tr>
-                                                        <?php }?>
-
-
-                                                        </tbody>
-                                                    </table>
-                                                </div>
-
-                                                <div class="modal-body">
-                                                    <div class="form-row">
-                                                        <div class="form-group col-12">
-                                                            <label for="">Adjuntar archivo bitácora.</label>
-                                                            <div class="custom-file">
-                                                                <input type="file" name="archivo_bitacora" class="custom-file-input" id="customFileLangHTML" lang="es">
-                                                                <label class="custom-file-label" for="customFileLangHTML" data-browse="Buscar">Seleccionar Archivo</label>
-                                                            </div>
-                                                        </div>
-                                                        <div class="form-group col-12">
-                                                            <label>Comentarios *</label>
-                                                            <textarea type="text" name="glosa" class="form-control" value="" ></textarea>
-                                                            <input type="hidden" name="id_contrato" value="<?=$contrato['ID_CONTRATO']?>">
-                                                            <input type="hidden" name="save_bitacora" value="1">
-                                                        </div>
-                                                    </div>
-                                                </div>
-
-                                                <div class="modal-footer">
-                                                    <button type="button" class="btn btn-default" data-dismiss="modal">
-                                                        Cancelar
-                                                    </button>
-                                                    <button type="submit" class="btn btn-success">
-                                                        <i class="fa fa-floppy-o"></i>
-                                                        Guardar
-                                                    </button>
-                                                </div>
-                                            </form>
-                                        </div>
-                                    </div>
-                                </div>
+<!--                                <div class="modal fade" id="modalBitacoras--><?//=$contrato['ID_CONTRATO'];?><!--">-->
+<!--                                    <div class="modal-dialog">-->
+<!--                                        <div class="modal-content">-->
+<!--                                            <form method="post" action="--><?//=base("/contratos/bitacora/store");?><!--"  enctype="multipart/form-data">-->
+<!--                                                <div class="modal-header">-->
+<!--                                                    <h5 class="modal-title">-->
+<!--                                                        Bitacoras-->
+<!--                                                    </h5>-->
+<!--                                                </div>-->
+<!---->
+<!--                                                <div class="table-responsive table-sm -md -lg -x tabla-bitacora">-->
+<!--                                                    <table class="table table-bordered"  class="table-sm w-25" id="dataBitacoras" width=100% cellspacing="0">-->
+<!--                                                        <thead>-->
+<!--                                                        <tr>-->
+<!--                                                            <th>ID Contrato</th>-->
+<!--                                                            <th>Glosa</th>-->
+<!--                                                            <th>Documento</th>-->
+<!---->
+<!--                                                        </tr>-->
+<!--                                                        </thead>-->
+<!--                                                        <tbody>-->
+<!--                                                        --><?php //foreach($contrato['BITACORAS'] as $bitacora){?>
+<!--                                                            <tr>-->
+<!--                                                                <td> --><?//= $bitacora["ID_CONTRATO"]; ?><!--</td>-->
+<!--                                                                <td> --><?//= $bitacora["GLOSA"]; ?><!--</td>-->
+<!---->
+<!--                                                                <td>-->
+<!--                                                                    <a href="--><?//= base()."/archivo/download?id=".$bitacora['NRO_DOCUMENTO'] ?><!--" target="_blank">-->
+<!--                                                                        --><?//= $bitacora["DOCUMENTO"] ?>
+<!--                                                                    </a>-->
+<!--                                                                </td>-->
+<!---->
+<!---->
+<!---->
+<!--                                                            </tr>-->
+<!--                                                        --><?php //}?>
+<!---->
+<!---->
+<!--                                                        </tbody>-->
+<!--                                                    </table>-->
+<!--                                                </div>-->
+<!---->
+<!--                                                <div class="modal-body">-->
+<!--                                                    <div class="form-row">-->
+<!--                                                        <div class="form-group col-12">-->
+<!--                                                            <label for="">Adjuntar archivo bitácora.</label>-->
+<!--                                                            <div class="custom-file">-->
+<!--                                                                <input type="file" name="archivo_bitacora" class="custom-file-input" id="customFileLangHTML" lang="es">-->
+<!--                                                                <label class="custom-file-label" for="customFileLangHTML" data-browse="Buscar">Seleccionar Archivo</label>-->
+<!--                                                            </div>-->
+<!--                                                        </div>-->
+<!--                                                        <div class="form-group col-12">-->
+<!--                                                            <label>Comentarios *</label>-->
+<!--                                                            <textarea type="text" name="glosa" class="form-control" value="" ></textarea>-->
+<!--                                                            <input type="hidden" name="id_contrato" value="--><?//=$contrato['ID_CONTRATO']?><!--">-->
+<!--                                                            <input type="hidden" name="save_bitacora" value="1">-->
+<!--                                                        </div>-->
+<!--                                                    </div>-->
+<!--                                                </div>-->
+<!---->
+<!--                                                <div class="modal-footer">-->
+<!--                                                    <button type="button" class="btn btn-default" data-dismiss="modal">-->
+<!--                                                        Cancelar-->
+<!--                                                    </button>-->
+<!--                                                    <button type="submit" class="btn btn-success">-->
+<!--                                                        <i class="fa fa-floppy-o"></i>-->
+<!--                                                        Guardar-->
+<!--                                                    </button>-->
+<!--                                                </div>-->
+<!--                                            </form>-->
+<!--                                        </div>-->
+<!--                                    </div>-->
+<!--                                </div>-->
 
 
 

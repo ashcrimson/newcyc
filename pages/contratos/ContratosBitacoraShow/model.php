@@ -67,7 +67,13 @@ class ModelContratos {
         }
 
 
-        $consulta = "SELECT * FROM BITACORA WHERE ID_CONTRATO='" . $this->id . "' ".$where;
+        $consulta = "select 
+				documento.nombre AS DOCUMENTO,
+				bitacora.* 
+			from 
+				BITACORA LEFT JOIN documento on bitacora.nro_documento = documento.nro_documento
+			where 
+				ID_CONTRATO='" . $this->id . "' ".$where;
 
 
         //consulta paginada

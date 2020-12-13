@@ -132,6 +132,7 @@ class ViewContratos {
 				
                 </div>
 			</div>
+
             <div class="card-footer">
                 <?php
                 paginador($contrato['TOTAL_DETALLES'], base()."/contratos/show?id=".$_GET["id"], 10);
