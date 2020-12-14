@@ -103,7 +103,7 @@ class ViewContratos {
 					<div class="form-group col-12">
 						<label>Comentarios *</label>
 						<textarea type="text" name="glosa" class="form-control" value="" ></textarea>
-						<input type="hidden" name="id_contrato" value="<?//=$contrato['ID_CONTRATO']?><!--">
+						<input type="hidden" name="id_contrato" value="<?=$contrato['ID_CONTRATO']?>">
 						<input type="hidden" name="save_bitacora" value="1">
 					</div>
 				</div>

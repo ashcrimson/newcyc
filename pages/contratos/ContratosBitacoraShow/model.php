@@ -178,7 +178,7 @@ class ModelContratos {
 
         oci_commit($this->pdo);
 
-        header("Location: ". base() . "/contratos");
+        header("Location: ". base() . "/contratos/bitacora/show?id=".$_POST['id_contrato']);
 
     }
 
