@@ -58,8 +58,7 @@ switch ($request) {
 		break;
 	case $base . '/contratos' :
 	case $base . '/contratos/' :
-	case $base . '/contratos/bitacora/store' :
-	case $base . '/contratos/bitacora/store/' :
+	
     case $base . '/contratos/asignar/store' :
     case $base . '/contratos/asignar/store/' :
 		$router->contratosList(); 
@@ -70,11 +69,14 @@ switch ($request) {
 		$router->contratosNew(); 
 		break;
     case $base . '/contratos/show' :
-    case $base . '/contratos/show/' :
+	case $base . '/contratos/show/' :
+	
         $router->contratosShow();
 		break;
 	case $base . '/contratos/bitacora/show' :
-		case $base . '/contratos/bitacora/show/' :
+	case $base . '/contratos/bitacora/show/' :
+	case $base . '/contratos/bitacora/store' :
+	case $base . '/contratos/bitacora/store/' :	
 		$router->contratosBitacoraShow();
 		break;
 	case $base . '/ordenCompra' :

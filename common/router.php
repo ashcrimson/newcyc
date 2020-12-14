@@ -172,6 +172,10 @@ class Router{
 		
 		if(isset($_GET['id'])){
             $this->model = $this->controller->filter($this->model);
+		}
+		
+		if(isset($_POST["save_bitacora"])){
+            $this->model = $this->controller->saveBitacora($this->model);
         }
     }
 
