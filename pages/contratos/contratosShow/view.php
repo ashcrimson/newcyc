@@ -62,9 +62,9 @@ class ViewContratos {
 			<hr>
 			<div class="row">
 				<form method="get" class="form-horizontal" action="<?=base()."/contratos/show"?>">
-					<div class="col-6">
+					<div class="col-12" style="width:600px;">
 						<label>Buscar</label>
-							<div>
+							
 								<select name="codigo" class="selectpicker selectField"  placeholder='Seleccione Código' data-live-search='true'>
 									<option value=""></option>
 									<?php
@@ -79,7 +79,7 @@ class ViewContratos {
 									?>
 								</select>
 								
-							</div>
+							
                         <input type="hidden" name="id" value="<?=$contrato['ID_CONTRATO']?>">
 					</div>
 					<div class="btn-group float-right">
@@ -150,6 +150,25 @@ class ViewContratos {
 
 		<script src="<?=base();?>/assets/assets/frontend/js/jquery-3.3.1.js"></script>
 		<script src="<?=base();?>/assets/assets/frontend/js/selectize.js"></script>
+
+		<script>
+        $('.selectField').selectize({
+            create: false,
+            sortField: {
+                field: 'text',
+                direction: 'asc'
+            },
+            dropdownParent: 'body'
+        });
+	</script>
+
+<!-- {{-- Script para mostrar nombre archivo en el select --}} -->
+    <script>
+        $(".custom-file-input").on("change", function() {
+            var fileName = $(this).val().split("\\").pop();
+            $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
+        });
+    </script>
 
 
 

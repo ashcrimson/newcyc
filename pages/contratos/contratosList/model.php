@@ -22,7 +22,7 @@ class ModelContratos {
 	//resultados por pagina
 	private $resultados = 10;
 
-	private $authUser;
+	private $authUser; 
 
 	//Constructor
 	function __construct($pdo, string $id = '', int $page = 1){

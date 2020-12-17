@@ -245,7 +245,7 @@ class ViewContratos {
                                     <i class="fa fa-pencil-alt"></i> Bitacoras
                                 </a>
 
-                                <!--                                <a href="#" class="btn btn-sm btn-info btn-xs" data-target="#modalBitacoras--><?//=$contrato['ID_CONTRATO'];?><!--" data-toggle="modal">-->
+                                                               <!-- <a href="#" class="btn btn-sm btn-info btn-xs" data-target="#modalBitacoras--><?//=$contrato['ID_CONTRATO'];?><!--" data-toggle="modal">-->
 <!--                                    <i class="far fa-eye"></i> Bitacora-->
 <!--                                </a>-->
 
@@ -253,7 +253,7 @@ class ViewContratos {
 <!--                                <div class="modal fade" id="modalBitacoras--><?//=$contrato['ID_CONTRATO'];?><!--">-->
 <!--                                    <div class="modal-dialog">-->
 <!--                                        <div class="modal-content">-->
-<!--                                            <form method="post" action="--><?//=base("/contratos/bitacora/store");?><!--"  enctype="multipart/form-data">-->
+                                           <!-- <form method="post" action="--><?//=base("/contratos/bitacora/store");?><!--"  enctype="multipart/form-data"> -->
 <!--                                                <div class="modal-header">-->
 <!--                                                    <h5 class="modal-title">-->
 <!--                                                        Bitacoras-->
@@ -320,9 +320,9 @@ class ViewContratos {
 <!--                                                    </button>-->
 <!--                                                </div>-->
 <!--                                            </form>-->
-<!--                                        </div>-->
-<!--                                    </div>-->
-<!--                                </div>-->
+<!--                                        </div> -->
+                                   </div>
+                               </div>
 
 
 
@@ -336,7 +336,7 @@ class ViewContratos {
                             <td style="width:2%;">
                                 <!-- <a href="#" data-target="#miModal<?=$index;?>" data-toggle="modal" class="btn btn-sm btn-success btn-xs">
                             <i class="fa fa-book-open"></i> Detalle</a>
--->
+ -->
                                 <a href="<?=base("/contratos/show?id=").$contrato["ID_CONTRATO"];?>" class="btn btn-sm btn-success btn-xs">
                                     <i class="fa fa-pencil-alt"></i> Detalles
                                 </a>

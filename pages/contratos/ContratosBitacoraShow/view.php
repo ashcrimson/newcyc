@@ -36,7 +36,7 @@ class ViewContratos {
 		?>
 		<!-- Breadcrumbs-->
 
-		
+		<link rel="stylesheet" href="//cdn.datatables.net/1.10.22/css/jquery.dataTables.min.css">
 		<ol class="breadcrumb">
 			<li class="breadcrumb-item">
                 <a href="<?=base("/contratos/");?>">Contratos</a>
@@ -60,7 +60,7 @@ class ViewContratos {
 			</tr>
 			</table>
 			<hr>
-			<div class="row">
+			<!-- <div class="row">
 				<form method="get" class="form-horizontal" action="<?=base()."/contratos/show"?>">
 					<div class="col-6">
 						<label>Buscar</label>
@@ -89,7 +89,7 @@ class ViewContratos {
 							<button type="submit" class="btn btn-primary rounded"><i class="fa fa-search"></i> Buscar</button>
 					</div>
 				</form>
-			</div>
+			</div> -->
 			<hr>
 			<form method="post" action="<?=base();?>/contratos/bitacora/store" enctype="multipart/form-data">
 				<div class="form-row">
@@ -109,9 +109,7 @@ class ViewContratos {
 				</div>
 
 				<div>
-					<button type="button" class="btn btn-default" data-dismiss="modal">
-						Cancelar
-					</button>
+					
 					<button type="submit" class="btn btn-success">
 						<i class="fa fa-floppy-o"></i>
 						Guardar
@@ -168,6 +166,15 @@ class ViewContratos {
 
 		<script src="<?=base();?>/assets/assets/frontend/js/jquery-3.3.1.js"></script>
 		<script src="<?=base();?>/assets/assets/frontend/js/selectize.js"></script>
+
+		<script src="//cdn.datatables.net/1.10.22/js/jquery.dataTables.min.js"></script>
+
+		<script>
+		$(document).ready( function () {
+			$('#myTable').DataTable();
+		} );
+		
+		</script>
 
 
 
