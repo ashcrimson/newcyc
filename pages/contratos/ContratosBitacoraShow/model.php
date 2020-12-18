@@ -98,8 +98,10 @@ class ModelContratos {
 
     public function saveBitacora(): self{
 
+        $nro_documento="NULL";
 
-        if(isset($_FILES["archivo_bitacora"]) && $_FILES["archivo_bitacora"] != "") {
+
+        if($_FILES["archivo_bitacora"]["error"] == 0){
 
             $cons = "select documentos_sequence.nextval as NRO_DOCUMENTO from dual";
             $result = oci_parse($this->pdo, $cons);
@@ -143,7 +145,7 @@ class ModelContratos {
                 oci_commit($this->pdo);
             }
 
-            oci_free_statement($result);
+            oci_free_statement($result); 
             $blob->free();
         }
 
@@ -165,7 +167,9 @@ class ModelContratos {
 				$nro_documento, 
 				TO_DATE('2020-10-19 00:00:00', 'YYYY-MM-DD HH24:MI:SS')  
 			)
-	    ";
+        ";
+        
+        // dd($consulta);
 
 
         $result = oci_parse($this->pdo, $consulta);
