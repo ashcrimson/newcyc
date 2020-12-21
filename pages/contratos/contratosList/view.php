@@ -3,13 +3,20 @@
  
  
 namespace ContratosList;
+
+
  
 /**
  * clase vista, retorna html con lo recuperado desde el modelo
  */
 class ViewContratos {
+
+    
 	
 	public function output(\ContratosList\ModelContratos $model){
+
+        
+        $authUser = authUser($model->pdo);
 
 		$data = $model->get();
 
@@ -343,6 +350,9 @@ class ViewContratos {
 
                             </td>
                             <td style="width:2%;">
+
+                            <?php if($authUser['ID_PERMISO'] == 2) {?>
+
                                 <a href="#" class="btn btn-sm btn-warning btn-xs" data-target="#modalAsigna<?=$index;?>" data-toggle="modal">
                                     <i class="fa fa-plus-square"></i> Asignar
                                 </a>
@@ -389,6 +399,16 @@ class ViewContratos {
                                         </div>
                                     </div>
                                 </div>
+                            <?php } 
+                            else {
+                                echo "No puedes asignar";
+                                } 
+                            ?>
+
+
+                           
+
+                            
 
                             </td>
 

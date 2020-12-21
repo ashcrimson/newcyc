@@ -14,7 +14,7 @@ class ModelContratos {
 	 * varaibles globales
 	 */
 	//Obj de conexion de db
-	private $pdo;
+	public $pdo;
 	//filtro de licitacion
 	private $id;
 	//pagina 
@@ -31,7 +31,7 @@ class ModelContratos {
 		$this->page = $page;
 
         session_start();
-        //consulta para recuperar numeros de licitaciones
+        
         $query = "SELECT * FROM USUARIOS WHERE mail='".$_SESSION['mail']."'";
 
 
@@ -57,7 +57,7 @@ class ModelContratos {
         if($this->authUser['ID_PERMISO'] == 1 )
         {
             $where = 'where 1=1';
-        } 
+        }  
         
         
         else {

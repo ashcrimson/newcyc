@@ -152,3 +152,14 @@ function dump($variable){
 	echo "</pre>";
 	echo "<br>";
 }
+
+function authUser($pdo){
+
+	if(!isset($_SESSION['mail'])){
+		return false;
+	}
+
+	$query = "SELECT * FROM USUARIOS WHERE mail='".$_SESSION['mail']."'";
+
+    return queryToArray($query,$pdo)[0];
+}
