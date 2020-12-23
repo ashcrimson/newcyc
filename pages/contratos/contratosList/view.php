@@ -170,7 +170,13 @@ class ViewContratos {
 
                 <hr>
                 <div class="btn-group float-right ml-3">
+                <?php if($authUser['ID_PERMISO']== 1)
+                {
+                ?>
                     <a href="<?=base("/contratos/new/");?>" class="btn btn-primary rounded"><i class="fa fa-plus-circle"></i>&nbsp;&nbsp;Nuevo</a>         
+                <?php
+                }
+                ?>
         </div>
                 <div class="btn-group float-right">
                     <?php if(!empty($_GET)){ ?> 
@@ -351,55 +357,61 @@ class ViewContratos {
                             </td>
                             <td style="width:2%;">
 
-                            <?php if($authUser['ID_PERMISO'] == 2) {?>
+                            <?php if($authUser['ID_PERMISO'] == 2) {
 
-                                <a href="#" class="btn btn-sm btn-warning btn-xs" data-target="#modalAsigna<?=$index;?>" data-toggle="modal">
-                                    <i class="fa fa-plus-square"></i> Asignar
-                                </a>
+                                if(!$contrato['ASIGNADO']) {
+                                    ?>
 
+                                    <a href="#" class="btn btn-sm btn-warning btn-xs" data-target="#modalAsigna<?=$index;?>" data-toggle="modal">
+                                        <i class="fa fa-plus-square"></i> Asignar
+                                    </a>
 
-                                <div class="modal fade" id="modalAsigna<?=$index;?>">
-                                    <div class="modal-dialog">
-                                        <div class="modal-content">
-                                            <form method="post" action="<?=base("/contratos/asignar/store");?>">
-                                                <div class="modal-header">
-                                                    <h5 class="modal-title">
-                                                        Asignar Contrato
-                                                    </h5>
-                                                </div>
-
-
-                                                <div class="modal-body">
-                                                    <div class="table-responsive table-sm -md -lg -x">
-                                                        <?php
-                                                            foreach ($contrato['AREAS'] as $i => $area) {
-
-                                                                ?>
-                                                                <input type="radio" id="radio<?=$i?>" name="area" value="<?=$area['ID_AREA'];?>">
-                                                                <label for="radio<?=$i?>"><?=$area['AREA'];?></label><br>
-                                                                <?php
-                                                            }
-                                                        ?>
-
+                                    <div class="modal fade" id="modalAsigna<?=$index;?>">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                <form method="post" action="<?=base("/contratos/asignar/store");?>">
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title">
+                                                            Asignar Contrato
+                                                        </h5>
                                                     </div>
-                                                </div>
 
-                                                <div class="modal-footer">
-                                                    <button type="button" class="btn btn-default" data-dismiss="modal">
-                                                        Cancelar
-                                                    </button>
-                                                    <button type="submit" class="btn btn-success">
-                                                        <i class="fa fa-floppy-o"></i>
-                                                        Guardar
-                                                    </button>
-                                                    <input type="hidden" name="asignar" value="1">
-                                                    <input type="hidden" name="id_contrato" value="<?=$contrato['ID_CONTRATO']?>">
-                                                </div>
-                                            </form>
+
+                                                    <div class="modal-body">
+                                                        <div class="table-responsive table-sm -md -lg -x">
+                                                            <?php
+                                                                foreach ($contrato['AREAS'] as $i => $area) {
+
+                                                                    ?>
+                                                                    <input type="radio" id="radio<?=$i?>" name="area" value="<?=$area['ID_AREA'];?>">
+                                                                    <label for="radio<?=$i?>"><?=$area['AREA'];?></label><br>
+                                                                    <?php
+                                                                }
+                                                            ?>
+
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-default" data-dismiss="modal">
+                                                            Cancelar
+                                                        </button>
+                                                        <button type="submit" class="btn btn-success">
+                                                            <i class="fa fa-floppy-o"></i>
+                                                            Guardar
+                                                        </button>
+                                                        <input type="hidden" name="asignar" value="1">
+                                                        <input type="hidden" name="id_contrato" value="<?=$contrato['ID_CONTRATO']?>">
+                                                    </div>
+                                                </form>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                            <?php } 
+                                    <?php
+                                } else {
+                                    echo "asignado";
+                                }
+                            } 
                             else {
                                 echo "No puedes asignar";
                                 } 

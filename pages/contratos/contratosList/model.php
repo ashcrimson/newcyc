@@ -54,9 +54,16 @@ class ModelContratos {
 	//retorna el/los datos seleccionados
 	public function get(){
 
+        
         if($this->authUser['ID_PERMISO'] == 1 )
         {
             $where = 'where 1=1';
+        } elseif($this->authUser['ID_PERMISO'] == 4 ) {
+
+
+
+            $where = "WHERE id_contrato in (select id_contrato from contratos_asignacion where id_area = '".$this->authUser['ID_AREA']."')";
+        
         }  
         
         
@@ -99,10 +106,13 @@ class ModelContratos {
 				LEFT JOIN documento_contratos dc on dc.nro_contrato = c.id_contrato
                 LEFT JOIN documento d on d.nro_documento = dc.nro_documento
                 LEFT JOIN moneda m on m.codigo = c.id_moneda
+                
 			$where
 			ORDER BY
-				id_contrato
-			";
+				c.id_contrato
+            ";
+            
+           
 
 		//consulta paginada
 		$query = queryPagination($consulta, $this->page);
@@ -148,6 +158,13 @@ class ModelContratos {
             $areas = queryToArray($query,$this->pdo);
 
             $contrato['AREAS'] = $areas ?? [];
+
+            $query = "select * from CONTRATOS_ASIGNACION where ID_CONTRATO=".$contrato['ID_CONTRATO'];
+            $asignado = queryToArray($query,$this->pdo)[0];
+
+            $contrato['ASIGNADO'] = $asignado ? 1 : 0;
+
+
 
             return $contrato;
 

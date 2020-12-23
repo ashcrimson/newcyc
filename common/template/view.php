@@ -102,14 +102,12 @@ class ViewTemplateCYC {
 			<a class="nav-link" href="<?=base();?>/">
 				<i class="fas fa-fw fa-tachometer-alt"></i>
 				<span>Home</span>
-			</a>
+			</a> 
 		</li>
 		<!-- @hasanyrole('SuperAdmin|Admin|Comprador') -->
 		<?php
-		if( ($permisos["ID_PERMISO"] == 1) ||
-			($permisos["ID_PERMISO"] == 2) ||
-			($permisos["ID_PERMISO"] == 3)){
-				?>
+		if( ($permisos["ID_PERMISO"] == 1)){
+		?>
 
 		<li class="nav-item dropdown">
 			<a class="nav-link" href="<?=base();?>/licitaciones" id="pagesDropdown" role="button" >
@@ -132,7 +130,7 @@ class ViewTemplateCYC {
 		<!-- @hasanyrole('SuperAdmin|Admin|Comprador') -->
 		<?php
 		if( ($permisos["ID_PERMISO"] == 1) ||
-			($permisos["ID_PERMISO"] == 2) ||
+			
 			($permisos["ID_PERMISO"] == 3)){
 				?>
 
@@ -154,8 +152,7 @@ class ViewTemplateCYC {
 
 		<!-- @hasanyrole('SuperAdmin|Admin') -->
 		<?php
-		if( ($permisos["ID_PERMISO"] == 1) ||
-			($permisos["ID_PERMISO"] == 2)){
+		if( ($permisos["ID_PERMISO"] == 1) ){
 				?>
 
 		<!-- <li class="nav-item">
