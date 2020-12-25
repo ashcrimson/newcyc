@@ -62,7 +62,7 @@ class ViewContratos {
     <!-- Breadcrumbs-->
     <ol class="breadcrumb">
         <li class="breadcrumb-item">
-            <a href="<?=base();?>/contratos">Contratos</a>
+            <a href="<?=base();?>/contratos">Contratossss</a>
         </li>
         <li class="breadcrumb-item active">Mantenedor</li>
     </ol>
