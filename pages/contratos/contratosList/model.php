@@ -99,13 +99,15 @@ class ModelContratos {
 			    d.NRO_DOCUMENTO,   
 				d.tipo_archivo,
                 d.archivo,
-                m.nombre as nombre_moneda
+                m.nombre as nombre_moneda,
+                ca.nombre as nombre_cargo
 				
 			from 
 				CONTRATOS C LEFT JOIN PROVEEDORES P ON c.rut_proveedor = p.rut_proveedor
 				LEFT JOIN documento_contratos dc on dc.nro_contrato = c.id_contrato
                 LEFT JOIN documento d on d.nro_documento = dc.nro_documento
                 LEFT JOIN moneda m on m.codigo = c.id_moneda
+                LEFT JOIN cargos ca on ca.id_cargo = c.id_cargo
                 
 			$where
 			ORDER BY

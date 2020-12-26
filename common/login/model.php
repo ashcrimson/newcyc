@@ -44,38 +44,44 @@ class ModelLoginCYC {
 			$dominio = (str_replace("@", "", strstr($usuario, '@')) . "\n");
 			$clave = $_POST["password"];
 
-			if($dominio){
-				require_once('/var/www/html/nusoap/lib/nusoap.php');
-                /*
-				$client = new \SoapClient("http://172.25.16.18/bus/webservice/ws.php?wsdl");
+			session_destroy();
+			session_start();
+			$_SESSION["mail"] = $mail;
+			$_SESSION["nombre"] = "entorno local";
+			header("Location: ". base() . "/home");
 
-				$params = array(
-					"id" => $usuario,
-					"clave" => $clave
-				);
+			// if($dominio){
+			// 	require_once('/var/www/html/nusoap/lib/nusoap.php');
+            //     /*
+			// 	$client = new \SoapClient("http://172.25.16.18/bus/webservice/ws.php?wsdl");
 
-				$response = $client->__soapCall("autentifica_ldap", $params);
+			// 	$params = array(
+			// 		"id" => $usuario,
+			// 		"clave" => $clave
+			// 	);
 
-				print_r($response);
-                */
-				$params = array(
-					"id" => $usuario,
-					"clave" => $clave
-				);
-				$client = new \soapclient('http://172.25.16.18/bus/webservice/ws.php?wsdl');
-				$response = $client->call('autentifica_ldap', $params);
+			// 	$response = $client->__soapCall("autentifica_ldap", $params);
+
+			// 	print_r($response);
+            //     */
+			// 	$params = array(
+			// 		"id" => $usuario,
+			// 		"clave" => $clave
+			// 	);
+			// 	$client = new \soapclient('http://172.25.16.18/bus/webservice/ws.php?wsdl');
+			// 	$response = $client->call('autentifica_ldap', $params);
 				
 
-			    $response["resp"]=1; // Aquí va el login
-				if($response["resp"]==1){
-					session_destroy();
-					session_start();
-					$_SESSION["mail"] = $mail;
-					$_SESSION["nombre"] = $response["nombre"];
-					header("Location: ". base() . "/home");
-				}
+			//     $response["resp"]=1; // Aquí va el login
+			// 	if($response["resp"]==1){
+			// 		session_destroy();
+			// 		session_start();
+			// 		$_SESSION["mail"] = $mail;
+			// 		$_SESSION["nombre"] = $response["nombre"];
+			// 		header("Location: ". base() . "/home");
+			// 	}
 
-			}
+			// }
 		}
 
 // 		$where = "";	

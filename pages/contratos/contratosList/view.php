@@ -239,7 +239,7 @@ class ViewContratos {
                             <!-- <td><?= $contrato["PRECIO"]; ?></td> -->
                             <!-- <td><?= $contrato["PRECIO"] * $contrato["EQUIVALENCIA"]; ?></td> -->
                             <!-- <td><?= $contrato["RESTANTE"];?></td> -->
-                            <td style="width:2%;"><?= $contrato["ID_CARGO"];?></td>
+                            <td style="width:2%;"><?= $contrato["NOMBRE_CARGO"];?></td>
                             <td style="width:3%;"><?= $contrato["FECHA_INICIO"]; ?></td>
                             <td style="width:3%;"><?= $contrato["FECHA_TERMINO"]; ?></td>
                             <td style="width:2%;"><?= $contrato["FECHA_APROBACION"]; ?></td>
