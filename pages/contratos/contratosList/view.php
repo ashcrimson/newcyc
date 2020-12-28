@@ -54,6 +54,10 @@ class ViewContratos {
         width: 230%;
     }
 
+    .table {
+        width: 200%;
+    }
+
     
 
    
@@ -231,7 +235,7 @@ class ViewContratos {
                         <tr>
 
 
-                            <td style="width:2%;"><?= $contrato["RUT_PROVEEDOR"]; ?></td>
+                            <td style="width:5%;"><?= $contrato["RUT_PROVEEDOR"]; ?></td>
                             <td style="width:7%;"><?= $contrato["RAZON_SOCIAL"]; ?></td>
                             <td style="width:1%;"><?= $contrato["TIPO"] ."-". $contrato["ID_CONTRATO"]; ?></td>
                             <td style="width:6%;"><?= $contrato["NRO_LICITACION"]; ?></td>
@@ -243,11 +247,11 @@ class ViewContratos {
                             <td style="width:3%;"><?= $contrato["FECHA_INICIO"]; ?></td>
                             <td style="width:3%;"><?= $contrato["FECHA_TERMINO"]; ?></td>
                             <td style="width:2%;"><?= $contrato["FECHA_APROBACION"]; ?></td>
-                            <td><?= $contrato["OBJETO_CONTRATO"]; ?></td>
+                            <td style="width:1%;"><?= $contrato["OBJETO_CONTRATO"]; ?></td>
                             <!-- <td><?= $contrato["BOLETA"]; ?></td> -->
-                            <td>$<?= number_format($contrato["MONTO"], 2, ',', '.') ?></td>
+                            <td style="width:1%;">$<?= number_format($contrato["MONTO"], 2, ',', '.') ?></td>
                             <td style="width:2%;"><?= $contrato["FECHA_ALERTA_VENCIMIENTO"]; ?></td>
-                            <td>
+                            <td style="width:1%;>
                                 <a href="<?= base()."/archivo/download?id=".$contrato['NRO_DOCUMENTO'] ?>" target="_blank">
                                     <?= $contrato["NOMBRE_DOCUMENTO"] ?>
                                 </a>
