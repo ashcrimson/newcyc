@@ -1,6 +1,6 @@
 <?php
 
-     
+      
 
 namespace OrdenCompraList;
 
@@ -124,7 +124,7 @@ class ViewOrdenCompra {
                     <thead>
                         <tr>
 							<th>ID Contrato</th>
-							<th>Nro. Licitación</th>
+							
 							<th>Nro. Orden de Compra</th>
 							<th>Fecha de Envío</th>
 							<th>Total</th>
@@ -140,7 +140,7 @@ class ViewOrdenCompra {
 							?>
                         <tr>
 							<td><?= $ordenCompra["ID_CONTRATO"];?></td>
-							<td><?= $ordenCompra["NRO_LICITACION"];?></td>
+							
 							<td><?= $ordenCompra["NRO_ORDEN_COMPRA"];?></td>
 							<td><?= $ordenCompra["FECHA_ENVIO"];?></td>
 							<td><?= $ordenCompra["TOTAL"];?></td>

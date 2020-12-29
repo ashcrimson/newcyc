@@ -102,11 +102,13 @@ class ViewContratos {
                                 <select name="id_contrato" class="selectpicker selectField" placeholder='Seleccione Contrato' data-live-search='true'>
                                     <option value=""></option>
                                     <?php 
-                                    foreach ($contratos as $contrato) {
+                                    foreach ($listado as $index => $contrato) {
+                                        
                                         $selected = $_GET["id_contrato"]==$contrato["ID_CONTRATO"] ? 'selected' : '';
                                         ?>
-                                            <option value="<?= $contrato["ID_CONTRATO"];?>" <?=$selected?>>
-                                                <?= $contrato["ID_CONTRATO"];?>
+                                        
+                                            <option value="<?= $contrato["TIPO"] ."-". $contrato["ID_CONTRATO"]; ?>" <?=$selected?>>
+                                            <?= $contrato["TIPO"] ."-". $contrato["ID_CONTRATO"]; ?>
                                             </option>
                                         <?php
                                     }
@@ -125,6 +127,7 @@ class ViewContratos {
                                     foreach ($cargos as $cargo) { 
                                         if (!empty($_GET["cargos"]) && $_GET["cargos"] == $cargo["ID_CARGO"]){
                                             ?>
+                                            
                                             <option selected="true" value="<?= $cargo["ID_CARGO"];?>"><?= $cargo["NOMBRE"];?></option>
                                             <?php
                                         }else{
