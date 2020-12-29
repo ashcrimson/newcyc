@@ -251,7 +251,7 @@ class ViewContratos {
                             <!-- <td><?= $contrato["BOLETA"]; ?></td> -->
                             <td style="width:1%;">$<?= number_format($contrato["MONTO"], 2, ',', '.') ?></td>
                             <td style="width:2%;"><?= $contrato["FECHA_ALERTA_VENCIMIENTO"]; ?></td>
-                            <td style="width:1%;>
+                            <td style="width:1%;">
                                 <a href="<?= base()."/archivo/download?id=".$contrato['NRO_DOCUMENTO'] ?>" target="_blank">
                                     <?= $contrato["NOMBRE_DOCUMENTO"] ?>
                                 </a>

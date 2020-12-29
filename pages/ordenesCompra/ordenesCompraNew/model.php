@@ -18,6 +18,7 @@ class ModelOrdenCompra {
 	private $error = false;
 	private $errores = [];
 	private $params = "";
+	private $feedback = "";
 
 	private $nro_orden_compra;
 	private $id_contrato;
@@ -97,7 +98,7 @@ class ModelOrdenCompra {
 		//validar si faltó algo
 		if(!$this->error){
 			
-			$numero = 0;
+			$numero = 0; 
 
 			$consulta = "INSERT INTO ORDEN_COMPRA VALUES (
 				'". $this->nro_orden_compra ."', 
@@ -110,9 +111,15 @@ class ModelOrdenCompra {
 				TO_DATE('2020-09-09 14:30:00','yyyy-mm-dd hh24-mi-ss')
 				)";
 
+			
+
 			//ejecucion consulta
 			$query = $consulta;
 			$result = oci_parse($this->pdo, $query);
+
+			if($result){
+				$_SESSION["feedback"] = "Orden de compra ingresada correctamente";
+			}
 			//print_r($consulta);
 			oci_execute($result);
 
@@ -128,7 +135,8 @@ class ModelOrdenCompra {
 			die();
 		}
 
-		if(isset($_FILES["archivo_orden_compra"]) && $_FILES["archivo_orden_compra"] != ""){
+		if($_FILES["archivo_orden_compra"]["error"] == 0){
+
 				
 			$cons = "select documentos_sequence.nextval as NRO_DOCUMENTO from dual";
 			$result = oci_parse($this->pdo, $cons);

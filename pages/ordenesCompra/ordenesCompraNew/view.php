@@ -6,7 +6,7 @@ namespace OrdenCompraNew;
 
 /**
  * clase vista, retorna html con lo recuperado desde el modelo
- */
+ */ 
 class ViewOrdenCompra {
 	
 	public function output(\OrdenCompraNew\ModelOrdenCompra $model){
@@ -66,10 +66,11 @@ class ViewOrdenCompra {
                 <form method="post" class="form-horizontal" action="<?=base();?>/ordenCompra/new" enctype="multipart/form-data">
                     
                     <div class="container">
+                    <?php feedback();?>
                         <div class="row col-12">
                         <div class="form-group has-feedback col-xs-4 col-md-4 col-lg-4 <?=$id_contrato ? 'has-error' : '' ;?>" >
                         <label>ID Contrato *</label>
-                        <select name='id_contrato' class ='selectpicker selectField' placeholder='Seleccione Contrato' data-live-search='true' id ='id_contrato'>
+                        <select name='id_contrato' class ='selectpicker selectField' placeholder='Seleccione Contrato' data-live-search='true' id ='id_contrato' required>
                             <option value=""></option>
                             <?php 
                             foreach ($dataContratos as $contrato) { 
@@ -95,7 +96,7 @@ class ViewOrdenCompra {
                                     <label>Número Orden de Compra * </label>
 
                                     <!-- <input type="text" name="numeroOrdenCompra"  class="form-control" value="{{ $ordenCompraData->numeroOrdenCompra ?: old('numeroOrdenCompra') }}"> -->
-                                    <input type="text" name="nro_orden_compra"  class="form-control" >
+                                    <input type="text" name="nro_orden_compra"  class="form-control" required>
 
 <!--                                    
                         <?php if ($nro_orden_compra){ ?>
@@ -136,7 +137,7 @@ class ViewOrdenCompra {
                                             <div class="form-group has-feedback col-xs-4 col-md-4 col-lg-4 {{ $errors->has('total') ? 'has-error' : '' }}">
                                                 <label>Total</label>
                                                 
-                                                <input type="text" name="total" class="form-control" value="<?=isset($_GET["total"]) ? $_GET["total"]: '' ?>">
+                                                <input type="text" name="total" class="form-control" value="<?=isset($_GET["total"]) ? $_GET["total"]: '' ?>" required>
 
                                                 <?php if ($total){ ?>
                                                 <span class="help-block text-danger"> 
