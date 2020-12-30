@@ -95,19 +95,19 @@ class ViewContratos {
                                 </select>
                             </div>
                     </div>
-
+ 
                     <div class="col-3">
                         <label>ID Contrato</label>
                             <div>
                                 <select name="id_contrato" class="selectpicker selectField" placeholder='Seleccione Contrato' data-live-search='true'>
                                     <option value=""></option>
                                     <?php 
-                                    foreach ($listado as $index => $contrato) {
+                                    foreach ($contratos as $index => $contrato) {
                                         
                                         $selected = $_GET["id_contrato"]==$contrato["ID_CONTRATO"] ? 'selected' : '';
                                         ?>
                                         
-                                            <option value="<?= $contrato["TIPO"] ."-". $contrato["ID_CONTRATO"]; ?>" <?=$selected?>>
+                                            <option value="<?=$contrato["ID_CONTRATO"]; ?>" <?=$selected?>>
                                             <?= $contrato["TIPO"] ."-". $contrato["ID_CONTRATO"]; ?>
                                             </option>
                                         <?php

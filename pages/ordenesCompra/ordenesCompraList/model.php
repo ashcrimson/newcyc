@@ -1,6 +1,6 @@
 <?php 
   
-
+ 
 
 namespace OrdenCompraList;
 
@@ -21,7 +21,7 @@ class ModelOrdenCompra {
 	private $id;
 	//pagina 
 	private $page;
-	//resultados por pagina
+	//resultados por pagina 
 	private $resultados = 10;
 
 	//Constructor
@@ -61,33 +61,36 @@ class ModelOrdenCompra {
 		$numeros = [];
 		$totales = [];
 
-		// $where = "WHERE 1=1 ";
+		$where = "WHERE 1=1 ";
 
-		// if ($this->rut){
-		// 	$where .= " and p.RUT_PROVEEDOR = '" . $this->rut . "'";
-		// }else{
-		// 	$where = "";
-		// }
+		if ($this->nro_orden_compra){
+			$where .= " and o.NRO_ORDEN_COMPRA= '" . $this->nro_orden_compra. "'";
+		}else{
+			$where = "";
+		}
  
 		// consulta principal
 		$consulta = "
 			select 
 				o.*, 
 				d.nombre as nombre_documento,
-			    d.NRO_DOCUMENTO,   
+				d.NRO_DOCUMENTO,   
 				d.tipo_archivo,
-				d.archivo
+				d.archivo,
+				c.tipo
 				
 			from 
 				ORDEN_COMPRA O 
 				LEFT JOIN documento_orden_compra do on do.nro_orden_compra = o.nro_orden_compra
 				LEFT JOIN documento d on d.nro_documento = do.nro_documento
+				left join contratos c on c.id_contrato = o.id_contrato
 			$where
 			ORDER BY
 				nro_documento
 				
-		
 			";
+
+
 		
 		//consulta para recuperar todos los codigos de monedas
 		$query = "select * from licitaciones ";
@@ -95,6 +98,8 @@ class ModelOrdenCompra {
 		$result = oci_parse($this->pdo, $query);
 		oci_execute($result);
 		$codigos = queryResultToAssoc($result);
+
+		
 
 		//consulta para recuperar cantidad de páginas disponibles
 		$result = oci_parse($this->pdo, $consulta);
@@ -108,6 +113,8 @@ class ModelOrdenCompra {
 		$result = oci_parse($this->pdo, $query);
 		oci_execute($result);
 		$listado = queryResultToAssoc($result);
+
+		
 
 		//consulta para recuperar todos los numeros de licitaciones
 		$result = oci_parse($this->pdo, $consulta);
@@ -128,4 +135,21 @@ class ModelOrdenCompra {
 		oci_close($this->pdo);
 		return $assoc;
 	}
+
+	public function getDataListBox()
+    {
+
+
+        $query = "SELECT * FROM CONTRATOS " .$where;
+        $contratos = queryToArray($query,$this->pdo);
+
+        $query = "SELECT * FROM ORDEN_COMPRA";
+        $ordenes_compra = queryToArray($query,$this->pdo);
+
+
+        return [
+            'contratos' => $contratos,
+            'ordenes_compra' => $ordenes_compra
+        ];
+    }
 }

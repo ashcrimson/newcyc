@@ -60,7 +60,7 @@ class ModelContratos {
             $where = 'where 1=1';
         } elseif($this->authUser['ID_PERMISO'] == 4 ) {
 
-
+ 
 
             $where = "WHERE id_contrato in (select id_contrato from contratos_asignacion where id_area = '".$this->authUser['ID_AREA']."')";
         
@@ -189,7 +189,6 @@ class ModelContratos {
 
     public function getDataListBox()
     {
-
 
         $query = "SELECT * FROM PROVEEDORES";
         $proveedores = queryToArray($query,$this->pdo);

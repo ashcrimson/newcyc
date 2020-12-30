@@ -14,7 +14,12 @@ class ViewOrdenCompra {
 		$data = $model->get();
 
 		$listado = $data[0];
-		$totales = $data[1];
+        $totales = $data[1];
+        
+        $dataListBox = $model->getDataListBox();
+
+        $contratos = $dataListBox['contratos'];
+        $ordenes_compra = $dataListBox['ordenes_compra'];
 
 		ob_start();
 
@@ -36,70 +41,67 @@ class ViewOrdenCompra {
 
                 <div class="row">
                     <div class="col-3">
-						<label>ID Contrato</label>
-                        <div>
-						<select name="numeroLicitacion" class="selectpicker selectField" placeholder='Seleccione ID Contrato' data-live-search='true'>
-                                <option value=""></option>
-                                <?php
-	                            foreach ($listado as $contrato){
-	                            	if (!empty($_GET["numeroLicitacion"]) && $_GET["numeroLicitacion"] == $contrato["ID_CONTRATO"]){
-										?>
-										<option selected="true" value="<?= $contrato["ID_CONTRATO"];?>"><?= $contrato["ID_CONTRATO"];?></option>
-										<?php
-									}else{
-										?>
-										<option value="<?= $contrato["ID_CONTRATO"];?>"><?= $contrato["ID_CONTRATO"];?></option>
-										<?php
-									}
-								}
-	                            ?>
-                            </select>
+                        <label>ID Contrato</label>
+                            <div>
+                                <select name="id_contrato" class="selectpicker selectField" placeholder='Seleccione Contrato' data-live-search='true'>
+                                    <option value=""></option>
+                                    <?php 
+                                    foreach ($contratos as $index => $contrato) {
+                                        
+                                        $selected = $_GET["id_contrato"]==$contrato["ID_CONTRATO"] ? 'selected' : '';
+                                        ?>
+                                        
+                                            <option value="<?=$contrato["ID_CONTRATO"]; ?>" <?=$selected?>>
+                                            <?= $contrato["TIPO"] ."-". $contrato["ID_CONTRATO"]; ?>
+                                            </option>
+                                        <?php
+                                    }
+                                    ?>
+                                </select>
+                            </div>
+                    
                     </div>
-                </div>
                     <div class="col-3">
-						<label>N° Orden de Compra</label>
+                        <label>N° Orden de Compra</label>
+                            <div>
+                                <select name="ordenes_compra" class="selectpicker selectField" placeholder='Seleccione Orden de Compra' data-live-search='true'>
+                                    <option value=""></option>
+                                    <?php 
+                                    foreach ($ordenes_compra as $index => $orden) {
+                                        
+                                        $selected = $_GET["ordenes_compra"]==$orden["NRO_ORDEN_COMPRA"] ? 'selected' : '';
+                                        ?>
+                                        
+                                            <option value="<?=$orden["NRO_ORDEN_COMPRA"]; ?>" <?=$selected?>>
+                                            <?=$orden["NRO_ORDEN_COMPRA"]; ?>
+                                            </option>
+                                        <?php
+                                    }
+                                    ?>
+                                </select>
+                            </div>
+                    </div>
+                    <div class="col-3">
+                        <label>Estado</label>
                         <div>
-							<select name="numeroOrden" class="selectpicker selectField" placeholder='Seleccione N° Orden de Compra' data-live-search='true'>
-                                <option value=""></option>
-                                <?php
-	                            foreach ($listado as $orden) { 
-									if (!empty($_GET["numeroOrden"]) && $_GET["numeroOrden"] == $orden["NRO_ORDEN_COMPRA"]){
-										?>
-										<option selected="true" value="<?= $orden["NRO_ORDEN_COMPRA"];?>"><?= $orden["NRO_ORDEN_COMPRA"];?></option>
-										<?php
-									}else{
-										?>
-										<option value="<?= $orden["NRO_ORDEN_COMPRA"];?>"><?= $orden["NRO_ORDEN_COMPRA"];?></option>
-										<?php
-									}
-								}
-	                            ?>
+                            <select name="estado" class="selectpicker selectField" placeholder='Seleccione Estado' data-live-search='true'>                                <option value=""></option>
+                            <option value=""></option>
+                                    <?php 
+                                    foreach ($listado as $estado) { 
+                                        if (!empty($_GET["estado"]) && $_GET["estado"] == $estado["ESTADO"]){
+                                            ?>
+                                            <option selected="true" value="<?= $estado["ESTADO"];?>"><?= $estado["ESTADO"];?></option>
+                                            <?php
+                                        }else{
+                                            ?>
+                                            <option value="<?= $estado["ESTADO"];?>"><?= $estado["ESTADO"];?></option>
+                                            <?php
+                                        }
+                                    }
+                                    ?>
                             </select>
                         </div>
                     </div>
-
-					<div class="col-3">
-						<label>Estado</label>
-                        <div>
-							<select name="estado" class="selectpicker selectField" placeholder='Seleccione Estado' data-live-search='true'>                                <option value=""></option>
-							<option value=""></option>
-	                                <?php 
-	                                foreach ($listado as $estado) { 
-	                                    if (!empty($_GET["estado"]) && $_GET["estado"] == $estado["ESTADO"]){
-	                                        ?>
-	                                        <option selected="true" value="<?= $estado["ESTADO"];?>"><?= $estado["ESTADO"];?></option>
-	                                        <?php
-	                                    }else{
-	                                        ?>
-	                                        <option value="<?= $estado["ESTADO"];?>"><?= $estado["ESTADO"];?></option>
-	                                        <?php
-	                                    }
-	                                }
-	                                ?>
-                            </select>
-                        </div>
-                    </div>
-
                 </div>
                 <hr>
                 <div class="btn-group float-right ml-3">
@@ -124,7 +126,6 @@ class ViewOrdenCompra {
                     <thead>
                         <tr>
 							<th>ID Contrato</th>
-							
 							<th>Nro. Orden de Compra</th>
 							<th>Fecha de Envío</th>
 							<th>Total</th>
@@ -139,7 +140,7 @@ class ViewOrdenCompra {
                     	foreach ($listado as $ordenCompra) {
 							?>
                         <tr>
-							<td><?= $ordenCompra["ID_CONTRATO"];?></td>
+							<td><?= $ordenCompra["TIPO"] . "-" .$ordenCompra["ID_CONTRATO"];?></td>
 							
 							<td><?= $ordenCompra["NRO_ORDEN_COMPRA"];?></td>
 							<td><?= $ordenCompra["FECHA_ENVIO"];?></td>
