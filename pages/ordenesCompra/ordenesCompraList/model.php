@@ -63,11 +63,19 @@ class ModelOrdenCompra {
 
 		$where = "WHERE 1=1 ";
 
-		if ($this->nro_orden_compra){
-			$where .= " and o.NRO_ORDEN_COMPRA= '" . $this->nro_orden_compra. "'";
-		}else{
-			$where = "";
+		
+
+		if ($_GET['id_contrato']){
+            $where .= " and C.ID_CONTRATO = '" . $_GET['id_contrato'] . "'";
 		}
+		
+		if ($_GET['ordenes_compra']){
+            $where .= " and O.NRO_ORDEN_COMPRA = '" . $_GET['ordenes_compra'] . "'";
+		}
+		
+		if ($_GET['estado']){
+            $where .= " and O.ESTADO = '" . $_GET['estado'] . "'";
+        }
  
 		// consulta principal
 		$consulta = "
@@ -140,7 +148,7 @@ class ModelOrdenCompra {
     {
 
 
-        $query = "SELECT * FROM CONTRATOS " .$where;
+        $query = "SELECT * FROM CONTRATOS  WHERE ID_CONTRATO IN (SELECT ID_CONTRATO FROM ORDEN_COMPRA)";
         $contratos = queryToArray($query,$this->pdo);
 
         $query = "SELECT * FROM ORDEN_COMPRA";

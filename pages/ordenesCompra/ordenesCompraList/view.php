@@ -18,6 +18,7 @@ class ViewOrdenCompra {
         
         $dataListBox = $model->getDataListBox();
 
+        //arrays para los selects
         $contratos = $dataListBox['contratos'];
         $ordenes_compra = $dataListBox['ordenes_compra'];
 
@@ -29,7 +30,7 @@ class ViewOrdenCompra {
     <!-- Breadcrumbs-->
     <ol class="breadcrumb">
         <li class="breadcrumb-item">
-			<a href="<?= base("/ordenCompra");?>">Orden de Compra</a>
+			<a href="<?= base("/ordenCompra");?>">Ordenes de Compra</a>
         </li>
         <li class="breadcrumb-item active">Mantenedor</li>
     </ol>
@@ -59,8 +60,8 @@ class ViewOrdenCompra {
                                     ?>
                                 </select>
                             </div>
-                    
                     </div>
+
                     <div class="col-3">
                         <label>N° Orden de Compra</label>
                             <div>
@@ -87,16 +88,15 @@ class ViewOrdenCompra {
                             <select name="estado" class="selectpicker selectField" placeholder='Seleccione Estado' data-live-search='true'>                                <option value=""></option>
                             <option value=""></option>
                                     <?php 
-                                    foreach ($listado as $estado) { 
-                                        if (!empty($_GET["estado"]) && $_GET["estado"] == $estado["ESTADO"]){
-                                            ?>
-                                            <option selected="true" value="<?= $estado["ESTADO"];?>"><?= $estado["ESTADO"];?></option>
-                                            <?php
-                                        }else{
-                                            ?>
-                                            <option value="<?= $estado["ESTADO"];?>"><?= $estado["ESTADO"];?></option>
-                                            <?php
-                                        }
+                                    foreach (['Aceptado', 'Pendiente'] as $index => $estado) {
+                                        
+                                        $selected = $_GET["estado"]==$estado ? 'selected' : '';
+                                        ?>
+                                        
+                                            <option value="<?=$estado; ?>" <?=$selected?>>
+                                            <?=$estado; ?>
+                                            </option>
+                                        <?php
                                     }
                                     ?>
                             </select>
@@ -137,11 +137,10 @@ class ViewOrdenCompra {
                     
                     <tbody>
                     	<?php
-                    	foreach ($listado as $ordenCompra) {
-							?>
+                    	foreach ($listado as $index => $ordenCompra) {
+						?>
                         <tr>
 							<td><?= $ordenCompra["TIPO"] . "-" .$ordenCompra["ID_CONTRATO"];?></td>
-							
 							<td><?= $ordenCompra["NRO_ORDEN_COMPRA"];?></td>
 							<td><?= $ordenCompra["FECHA_ENVIO"];?></td>
 							<td><?= $ordenCompra["TOTAL"];?></td>
@@ -159,7 +158,7 @@ class ViewOrdenCompra {
                                         <div class="modal fade" id="miModal<?= $index; ?>">
                                             <div class="modal-dialog">
                                                 <div class="modal-content">
-                                                    <form class="form-horizontal" method="post" action="<?=base("/ordenCompra/delete?id=").$ordenCompra["NRO_ORDEN_COMPRA"];?>" >
+                                                    <form class="form-horizontal" method="post" action="<?=base("/ordenCompra/delete?nro_orden_compra=").$ordenCompra["NRO_ORDEN_COMPRA"];?>" >
                                                     <div class="modal-header">
                                                         <h4 class="modal-title"> Borrar <?= $ordenCompra["NRO_ORDEN_COMPRA"]; ?> </h4>
                                                         <button type="button" class="close" data-dismiss="modal">&times;</button>
@@ -220,10 +219,6 @@ class ViewOrdenCompra {
                                             </div>
                                         </div> 
                                         <!-- modal ends -->
-
-                                        
-
-
                                     <?php
                                 }
                                 ?>
@@ -262,15 +257,12 @@ class ViewOrdenCompra {
 
 
 
+    <?php
 
+    $output = ob_get_contents();
+    ob_end_clean();
 
-
-		<?php
-
-		$output = ob_get_contents();
-		ob_end_clean();
-
-		return $output;
+    return $output;
 //		return "";
 
 	}

@@ -16,8 +16,8 @@ class ControllerOrdenCompra {
 
 	//retorna solo la licitacion solicitada
 	public function filter(\OrdenCompraList\ModelOrdenCompra $model){
-		if(isset($_GET["nro_orden_compra"])){
-			$model = $model->getId($_GET["nro_orden_compra"]);
+		if(isset($_GET["ordenes_compra"])){
+			$model = $model->getId($_GET["ordenes_compra"]);
 		}
 		return $model;
 	}

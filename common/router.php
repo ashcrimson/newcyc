@@ -196,7 +196,7 @@ class Router{
             $this->model = $this->controller->page($this->model);
 		}
 		
-		if(isset($_GET['nro_orden_compra'])){
+		if(isset($_GET['ordenes_compra'])){
             $this->model = $this->controller->filter($this->model);
         }
 	}

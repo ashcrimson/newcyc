@@ -70,7 +70,6 @@ switch ($request) {
 		break;
     case $base . '/contratos/show' :
 	case $base . '/contratos/show/' :
-	
         $router->contratosShow();
 		break;
 	case $base . '/contratos/bitacora/show' :
@@ -81,12 +80,13 @@ switch ($request) {
 		break;
 	case $base . '/ordenCompra' :
 	case $base . '/ordenCompra/' :
+	case $base . '/ordenCompra/delete' :
+	case $base . '/ordenCompra/delete/' :
 		$router->ordenCompraList(); 
 		break;
 	case $base . '/ordenCompra/new' :
 	case $base . '/ordenCompra/new/' :
-	case $base . '/ordenCompra/delete' :
-	case $base . '/ordenCompra/delete/' :
+	
 		$router->ordenCompraNew(); 
 		break;
 	case $base . '/alertaContrato' :
