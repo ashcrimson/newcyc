@@ -192,6 +192,7 @@ class ViewTemplateCYC {
 				<div class="dropdown-divider"></div>    
 				<!-- <a class="dropdown-item" href="<?=base();?>/prestaciones">Prestaciones</a> -->
 				<a class="dropdown-item" href="<?=base();?>/proveedores">Proveedores</a>
+				<a class="dropdown-item" href="<?=base();?>/prestaciones">Prestaciones</a>
 			</div>
 		</li>
 		<!-- <li class="nav-item dropdown">

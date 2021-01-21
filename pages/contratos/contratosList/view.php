@@ -142,6 +142,8 @@ class ViewContratos {
                             </div>
                     </div>
 
+                    
+
                     <div class="col-3 mt-3">
                         <label>Vigencia Contrato</label>
                         <div>
@@ -156,7 +158,7 @@ class ViewContratos {
 		            <div class="col-3 mt-3">
                         <label>Licitación</label>
                         <div>
-                            <select name="licitacion" class="selectpicker selectField" placeholder='Seleccione licitación' data-live-search='true'>
+                            <select name="licitacion" class="selectpicker selectField" placeholder='Seleccione Licitación' data-live-search='true'>
                                 <option value=""></option>
                                 <?php 
                                 foreach ($licitaciones as $licitacion) { 
@@ -167,6 +169,28 @@ class ViewContratos {
                                     }else{
                                         ?>
                                         <option value="<?= $licitacion["NRO_LICITACION"];?>"><?= $licitacion["NRO_LICITACION"];?></option>
+                                        <?php
+                                    }
+                                }
+                                ?>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="col-3 mt-3">
+                        <label>Objeto Contrato</label>
+                        <div>
+                            <select name="objeto" class="selectpicker selectField" placeholder='Seleccione Objeto' data-live-search='true'>
+                                <option value=""></option>
+                                <?php 
+                                foreach ($contratos as $index => $contrato) { 
+                                    if (!empty($_GET["objeto"]) && $_GET["objeto"] == $contrato["OBJETO_CONTRATO"]){
+                                        ?>
+                                        <option selected="true" value="<?= $contrato["OBJETO_CONTRATO"];?>"><?= $contrato["OBJETO_CONTRATO"];?></option>
+                                        <?php
+                                    }else{
+                                        ?>
+                                        <option value="<?= $contrato["OBJETO_CONTRATO"];?>"><?= $contrato["OBJETO_CONTRATO"];?></option>
                                         <?php
                                     }
                                 }
@@ -212,20 +236,25 @@ class ViewContratos {
                         <th >Licitación</th>
                         <th >Moneda</th>
                         <!-- <th>Precio</th> -->
-                        <!-- <th>Valor CLP</th> -->
+                        
                         <!-- <th>Restante</th> -->
                         <th>Cargo</th>
                         <th>Fecha inicio contrato</th>
                         <th>Fecha termino contrato</th>
                         <th>Fecha último acto administrativo</th>
                         <th>Objeto del contrato</th>
-                        <!-- <th>N° Boleta Garantía</th> -->
+                        <th>N° Boleta Garantía</th>
                         <th>Monto</th>
-                        <th>Fecha de Vencimiento</th>
+                        <th>Valor CLP</th>
+                        <th>Saldo</th>
+                        
+                        <th>Fecha Alerta de Vencimiento</th>
+                        <th>Fecha Vencimiento Boleta</th>
                         <th>Adjunto</th>
                         <!-- @role('Admin')
                             <th>Acción</th>
                         @endrole -->
+                        
                         <th>Bitácora</th>
                         <th>Editar</th>
                         <th>Detalle Contrato</th>
@@ -241,25 +270,28 @@ class ViewContratos {
                     foreach ($listado as $index => $contrato) {
                         // foreach ($documentos as $documento) {
                         ?>
-                        <tr>
+                        <tr> 
 
 
-                            <td style="width:5%;"><?= $contrato["RUT_PROVEEDOR"]; ?></td>
+                            <td style="width:6%;"><?= $contrato["RUT_PROVEEDOR"]; ?></td>
                             <td style="width:7%;"><?= $contrato["RAZON_SOCIAL"]; ?></td>
                             <td style="width:1%;"><?= $contrato["TIPO"] ."-". $contrato["ID_CONTRATO"]; ?></td>
                             <td style="width:6%;"><?= $contrato["NRO_LICITACION"]; ?></td>
                             <td style="width:1%;"><?= $contrato["NOMBRE_MONEDA"]; ?></td>
                             <!-- <td><?= $contrato["PRECIO"]; ?></td> -->
-                            <!-- <td><?= $contrato["PRECIO"] * $contrato["EQUIVALENCIA"]; ?></td> -->
+                            
                             <!-- <td><?= $contrato["RESTANTE"];?></td> -->
                             <td style="width:2%;"><?= $contrato["NOMBRE_CARGO"];?></td>
                             <td style="width:3%;"><?= $contrato["FECHA_INICIO"]; ?></td>
                             <td style="width:3%;"><?= $contrato["FECHA_TERMINO"]; ?></td>
                             <td style="width:2%;"><?= $contrato["FECHA_APROBACION"]; ?></td>
                             <td style="width:1%;"><?= $contrato["OBJETO_CONTRATO"]; ?></td>
-                            <!-- <td><?= $contrato["BOLETA"]; ?></td> -->
+                            <td style="width:1%;"><?= $contrato["NRO_BOLETA_GARANTIA"]; ?></td>
                             <td style="width:1%;">$<?= number_format($contrato["MONTO"], 2, ',', '.') ?></td>
+                            <td style="width:1%;">$<?= number_format($contrato["MONTO"] * $contrato["EQUIVALENCIA"], 2, ',', '.'); ?></td>
+                            <td style="width:1%;">$<?= number_format($contrato["SALDO"], 2, ',', '.') ?></td>
                             <td style="width:2%;"><?= $contrato["FECHA_ALERTA_VENCIMIENTO"]; ?></td>
+                            <td style="width:2%;"><?= $contrato["FECHA_VENCIMIENTO_BOLETA"]; ?></td>
                             <td style="width:1%;">
                                 <a href="<?= base()."/archivo/download?id=".$contrato['NRO_DOCUMENTO'] ?>" target="_blank">
                                     <?= $contrato["NOMBRE_DOCUMENTO"] ?>

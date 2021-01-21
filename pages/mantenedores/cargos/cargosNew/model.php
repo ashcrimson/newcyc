@@ -42,7 +42,7 @@ class Modelcargos {
 		if(isset($_POST["submit"])){
 			if(isset($_POST["nombre"]) && $_POST["nombre"] != ""){
 				$this->params .= "nombre=" . $_POST["nombre"] . "&";
-				$this->nombre = $_POST["nombre"];
+				$this->nombre = acentos($_POST["nombre"]);
 			}else{
 				$this->errores["nombre"] = true;
 				$this->error = true;
@@ -99,7 +99,7 @@ class Modelcargos {
 				/*$consulta = "INSERT into cargos (ID, NOMBRE) values (
 							".$numero.",'". $this->nombre ."')";*/
 				$consulta = "INSERT into cargos (ID_CARGO, NOMBRE) values (
-							".$numero.", '". $_POST["nombre"] ."')";
+							".$numero.", '". acentos($_POST["nombre"]) ."')";
 				//ejecucion consulta
 				$query = $consulta;
 				$result = oci_parse($this->pdo, $query);

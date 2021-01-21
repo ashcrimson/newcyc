@@ -212,6 +212,10 @@ class Router{
 		}else {
 			$this->model = $this->controller->all($this->model);
 		}
+
+		if(!empty($_GET["nro_orden_compra"] && $_GET["nro_orden_compra"] >= 1)){
+            $this->model = $this->controller->edit($this->model);
+        }
 	}
 
 
@@ -353,6 +357,51 @@ class Router{
         $this->model = new \proveedoresShow\ModelProveedores($this->pdo);
         $this->view = new \proveedoresShow\ViewProveedores;
         $this->controller = new \proveedoresShow\ControllerProveedores;
+
+        //si no esta vacío el dato id de la url
+        if(!empty($_GET["id"] && $_GET["id"] >= 1)){
+            $this->model = $this->controller->show($this->model);
+        }
+	}
+	
+	/***********************************
+	 * mantenedor prestaciones
+	 ***********************************/
+	//pagina listado de prestaciones
+	public function prestacionesList(){
+		$this->model = new \prestacionesList\ModelPrestaciones($this->pdo);
+		$this->view = new \prestacionesList\ViewPrestaciones;
+		$this->controller = new \prestacionesList\ControllerPrestaciones;
+		$this->model = $this->controller->all($this->model);
+		if(!empty($_GET["id"])){
+			$this->model = $this->controller->filter($this->model);
+		}
+		if(!empty($_GET["id"])){
+            $this->controller->delete($this->model);
+		}
+		
+		if(isset($_GET["page"])){
+			$this->model = $this->controller->page($this->model);
+		}
+	}
+
+	//pagina agregado de prestaciones
+	public function prestacionesNew(){
+		$this->model = new \prestacionesNew\ModelPrestaciones($this->pdo);
+		$this->view = new \prestacionesNew\ViewPrestaciones;
+		$this->controller = new \prestacionesNew\ControllerPrestaciones;
+		$this->model = $this->controller->all($this->model);
+		if(!empty($_GET["id"])){
+			$this->model = $this->controller->edit($this->model);
+		}
+	}
+
+	public function prestacionesShow(){
+
+
+        $this->model = new \prestacionesShow\ModelPrestaciones($this->pdo);
+        $this->view = new \prestacionesShow\ViewPrestaciones;
+        $this->controller = new \prestacionesShow\ControllerPrestaciones;
 
         //si no esta vacío el dato id de la url
         if(!empty($_GET["id"] && $_GET["id"] >= 1)){

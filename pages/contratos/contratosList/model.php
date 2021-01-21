@@ -90,16 +90,22 @@ class ModelContratos {
             $where .= " and NRO_LICITACION = '" . $_GET['licitacion'] . "'";
         }
 
+        if ($_GET['objeto']){
+            $where .= " and OBJETO_CONTRATO = '" . $_GET['objeto'] . "'";
+        }
+
         //consulta principal
 		$consulta = "
 			select 
-				c.*, 
+                c.*, 
+                saldoContrato(c.ID_CONTRATO) as saldo,
 				p.razon_social,
 				d.nombre as nombre_documento,
 			    d.NRO_DOCUMENTO,   
 				d.tipo_archivo,
                 d.archivo,
                 m.nombre as nombre_moneda,
+                m.equivalencia as equivalencia,
                 ca.nombre as nombre_cargo
 				
 			from 

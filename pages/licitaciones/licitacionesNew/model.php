@@ -64,7 +64,7 @@ class ModelLicitaciones {
 
 			if(isset($_POST["descripcion_licitacion"]) && $_POST["descripcion_licitacion"] != ""){
 				$this->params .= "descripcion_licitacion=" . $_POST["descripcion_licitacion"] . "&";
-				$this->descripcion_licitacion = $_POST["descripcion_licitacion"];
+				$this->descripcion_licitacion = acentos($_POST["descripcion_licitacion"]);
 			}else{
 				$this->errores["descripcion_licitacion"] = true;
 				$this->error = true;

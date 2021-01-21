@@ -152,6 +152,28 @@ switch ($request) {
 		//$router->proveedoresNew(); 
 		break;
 
+	/** PRESTACIONES **/
+	case $base . '/prestaciones' :
+	case $base . '/prestaciones/' :
+	case $base . '/prestaciones/delete' :
+	case $base . '/prestaciones/delete/' :
+			$router->prestacionesList(); 
+			break;
+		case $base . '/prestaciones/new' :
+		case $base . '/prestaciones/new/' :
+		case $base . '/prestaciones/save' :
+		case $base . '/prestaciones/save/' :
+			$router->prestacionesNew(); 
+			break;
+		case $base . '/prestaciones/show' :
+		case $base . '/prestaciones/show/' :
+			$router->prestacionesShow();
+			break;
+		//edicion de monedas
+		//case (preg_match("/\/proveedores\/\d*\/edit\/{0,1}/", $base . $request) ? true : false) :
+			//$router->proveedoresNew(); 
+			break;
+
 	/** USERS **/
 	case $base . '/usuarios' :
 	case $base . '/usuarios/' :

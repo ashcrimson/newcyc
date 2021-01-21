@@ -203,8 +203,8 @@ class ModelProveedores  {
 				) 
 			VALUES (
 				'". $_POST["rut"] ."', 
-				'". $_POST["nombre"] ."',
-				'". $_POST["nombre_fantasia"] ."',
+				'". acentos($_POST["nombre"]) ."',
+				'". acentos($_POST["nombre_fantasia"]) ."',
 				'". $_POST["telefono"] ."',
 				'". $_POST["email"] ."',
 				'". $_POST["direccion"] ."',

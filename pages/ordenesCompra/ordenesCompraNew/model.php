@@ -51,32 +51,32 @@ class ModelOrdenCompra {
 				$this->params .= "nro_orden_compra" . $_POST["nro_orden_compra"] . "&";
 				$this->nro_orden_compra = $_POST["nro_orden_compra"];
 			}else{
-				$this->errores["nro_orden_compra"] = true;
-				$this->error = true;
+				// $this->errores["nro_orden_compra"] = true;
+				// $this->error = true;
 			}
 
 			if(isset($_POST["id_contrato"]) && $_POST["id_contrato"] != ""){
 				$this->params .= "id_contrato" . $_POST["id_contrato"] . "&";
 				$this->id_contrato = $_POST["id_contrato"];
 			}else{
-				$this->errores[] = "No mando el id del contrato";
-				$this->error = true;
+				// $this->errores[] = "No mando el id del contrato";
+				// $this->error = true;
 			}
 
 			if(isset($_POST["estado"]) && $_POST["estado"] != ""){
 				$this->params .= "estado" . $_POST["estado"] . "&";
 				$this->estado = $_POST["estado"];
 			}else{
-				$this->errores[] = "No mando el estado";
-				$this->error = true;
+				// $this->errores[] = "No mando el estado";
+				// $this->error = true;
 			}
 
 			if(isset($_POST["total"]) && $_POST["total"] != ""){
 				$this->params .= "total" . $_POST["total"] . "&";
 				$this->total = $_POST["total"];
 			}else{
-				$this->errores[] = "No mando el total";
-				$this->error = true;
+				// $this->errores[] = "No mando el total";
+				// $this->error = true;
 			}
 
 			if(isset($_POST["archivo_orden_compra"]) && $_POST["archivo_orden_compra"] != ""){
@@ -92,40 +92,86 @@ class ModelOrdenCompra {
 
 	}
 
+	public function edit($nro_orden_compra)
+    {
+        return new self($this->pdo, $nro_orden_compra);
+	}
+	
+	
+
 	public function execute(){
 
 		
 		//validar si faltó algo
-		if(!$this->error){
+		if(!$this->error)
+		{
+// 			if(isset($_POST["nro_orden_compra"]) && $_POST["nro_orden_compra"] != "") {
+// 				$query = "
+//                     UPDATE ORDEN_COMPRA SET 
+// 						NRO_ORDEN_COMPRA='" . $_POST['nro_orden_compra'] . "', 
+// 						ID_CONTRATO='" . $_POST['id_contrato'] . "', 
+// 						FECHA_ENVIO='" . $_POST['fecha_envio'] . "', 
+// 						TOTAL='" . $_POST['total'] . "', 
+// 						ESTADO='" . $_POST['estado'] . "', 
+// 						FECHA_CREACION=TO_DATE('2020-09-09 14:30:00','yyyy-mm-dd hh24-mi-ss'), 
+// 						FECHA_ACTUALIZACION=TO_DATE('2020-09-09 14:30:00','yyyy-mm-dd hh24-mi-ss'), 
+// 						FECHA_ELIMINACION=TO_DATE('2020-09-09 14:30:00','yyyy-mm-dd hh24-mi-ss')
+// 					WHERE 
+// 						NRO_ORDEN_COMPRA='" . $_POST['nro_orden_compra'] . "'
+//                 ";
+
+
+// //                echo "<pre>";
+// //                var_dump($query);
+// //                exit();
+// //                echo "</pre>";
+
+
+//                 $result = oci_parse($this->pdo, $query);
+
+//                 if($result){
+//                     $_SESSION["feedback"] = "Orden de compra actualizada correctamente";
+//                 }
+
+//                 oci_execute($result);
+
+//                 oci_commit($this->pdo);
+
+//                 $last_id = $_POST['id'];
+
+
+// 			}else{
 			
-			$numero = 0; 
+				$numero = 0; 
 
-			$consulta = "INSERT INTO ORDEN_COMPRA VALUES (
-				'". $this->nro_orden_compra ."', 
-				'". $this->id_contrato ."', 
-				TO_DATE('". date('yy-m-d') ."','yyyy-mm-dd'),
-				'". $this->total ."', 
-				'". $this->estado ."', 
-				TO_DATE('2020-09-09 14:30:00','yyyy-mm-dd hh24-mi-ss'),
-				TO_DATE('2020-09-09 14:30:00','yyyy-mm-dd hh24-mi-ss'),
-				TO_DATE('2020-09-09 14:30:00','yyyy-mm-dd hh24-mi-ss')
-				)";
+				$consulta = "INSERT INTO ORDEN_COMPRA VALUES (
+					'". $this->nro_orden_compra ."', 
+					'". $this->id_contrato ."', 
+					TO_DATE('". date('yy-m-d') ."','yyyy-mm-dd'),
+					'". $this->total ."', 
+					'". $this->estado ."', 
+					TO_DATE('2020-09-09 14:30:00','yyyy-mm-dd hh24-mi-ss'),
+					TO_DATE('2020-09-09 14:30:00','yyyy-mm-dd hh24-mi-ss'),
+					TO_DATE('2020-09-09 14:30:00','yyyy-mm-dd hh24-mi-ss')
+					)";
 
+				
+
+				//ejecucion consulta
+				$query = $consulta;
+				$result = oci_parse($this->pdo, $query);
+
+				if($result){
+					$_SESSION["feedback"] = "Orden de compra ingresada correctamente";
+				}
+				//print_r($consulta);
+				oci_execute($result);
+
+				//oci_error();
+				//$listado = queryResultToAssoc($result);
+				oci_commit($this->pdo);
 			
-
-			//ejecucion consulta
-			$query = $consulta;
-			$result = oci_parse($this->pdo, $query);
-
-			if($result){
-				$_SESSION["feedback"] = "Orden de compra ingresada correctamente";
-			}
-			//print_r($consulta);
-			oci_execute($result);
-
-			//oci_error();
-			//$listado = queryResultToAssoc($result);
-			oci_commit($this->pdo);
+				
 		}else{
 
 			foreach($this->errores as $e){
@@ -211,6 +257,15 @@ class ModelOrdenCompra {
 		oci_execute($result);
 		$contratos = queryResultToAssoc($result);
 		array_push($assoc, $contratos);
+
+		$query = "SELECT * FROM ORDEN_COMPRA WHERE NRO_ORDEN_COMPRA='" . $this->nro_orden_compra . "'";
+
+        //consulta paginada
+        $result = oci_parse($this->pdo, $query);
+        oci_execute($result);
+        $listado = queryResultToAssoc($result);
+		array_push($assoc, $listado);
+    
 
 
 

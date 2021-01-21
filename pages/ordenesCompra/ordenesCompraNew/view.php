@@ -1,6 +1,6 @@
 <?php
 
-
+ 
 
 namespace OrdenCompraNew;
 
@@ -14,10 +14,16 @@ class ViewOrdenCompra {
 		if(!empty($_POST)){
 			$model->execute();
         }
+
+        if(isset($_GET["nro_orden_compra"])){
+			$registroEdit = $model->get();
+			
+        }
         
         $data = $model->get();
 
-		$dataContratos = $data[0];
+        $dataContratos = $data[0];
+        $dataOrdenCompra= $data[1];
 
 		$id_contrato = false;
         $nro_orden_compra = false;
@@ -41,7 +47,10 @@ class ViewOrdenCompra {
 				$archivo_orden_compra = !$archivo_orden_compra;
 			}
             if(!isset($_GET["total"])){
-				$estado = !$total;
+				$total = !$total;
+            }
+            if(!isset($_GET["fecha_envio"])){
+				$fecha_envio = !$total;
 			}
 			
 		}
@@ -54,7 +63,7 @@ class ViewOrdenCompra {
         <!-- Breadcrumbs-->
         <ol class="breadcrumb">
             <li class="breadcrumb-item">
-                <a href="<?=base("/ordenCompra/new");?>">Orden de Compra</a>
+                <a href="<?=base("/ordenCompra");?>">Orden de Compra</a>
             </li>
             <!-- <li class="breadcrumb-item active">Mantenedor</li> -->
         </ol>
@@ -70,13 +79,14 @@ class ViewOrdenCompra {
                         <div class="row col-12">
                         <div class="form-group has-feedback col-xs-4 col-md-4 col-lg-4 <?=$id_contrato ? 'has-error' : '' ;?>" >
                         <label>ID Contrato *</label>
-                        <select name='id_contrato' class ='selectpicker selectField' placeholder='Seleccione Contrato' data-live-search='true' id ='id_contrato' required>
+                        <select name='id_contrato' class ='selectpicker selectField' placeholder='Seleccione Contrato' data-live-search='true' id ='id_contrato' required
+                        value="<?=isset($_GET["id_contrato"]) ? $_GET["id_contrato"]: (isset($registroEdit["ID_CONTRATO"]) ? $registroEdit["ID_CONTRATO"] : "") ?>>
                             <option value=""></option>
                             <?php 
                             foreach ($dataContratos as $contrato) { 
                                 if (!empty($_GET["id_contrato"]) && $_GET["id_contrato"]){
                                     ?>
-                                    <option selected="true" value="<?= $contrato["ID_CONTRATO"];?>"><?= $contrato["ID_CONTRATO"];?></option>
+                                    <option selected="true" value="<?=$registroEdit['ID_CONTRATO']=='lc' ? 'selected' : ''?>"><?= $contrato["ID_CONTRATO"];?></option>
                                     <?php
                                 }else{
                                     ?>
@@ -96,13 +106,12 @@ class ViewOrdenCompra {
                                     <label>Número Orden de Compra * </label>
 
                                     <!-- <input type="text" name="numeroOrdenCompra"  class="form-control" value="{{ $ordenCompraData->numeroOrdenCompra ?: old('numeroOrdenCompra') }}"> -->
-                                    <input type="text" name="nro_orden_compra"  class="form-control" required>
+                                    <input type="text" name="nro_orden_compra"  class="form-control" required
+                                    value="<?= $_GET["nro_orden_compra"] ?? $registroEdit['NRO_ORDEN_COMPRA'] ?>">
 
 <!--                                    
                         <?php if ($nro_orden_compra){ ?>
-                            <span class="help-block text-danger"> 
-                                <strong>Error: Numero orden de compra</strong>
-                            </span>
+                            
                         <?php } ?>
 
                             </div>
@@ -111,10 +120,6 @@ class ViewOrdenCompra {
                     </div>
 
 
-                    <div class="container">
-                        <div class="row col 12">
-                            <div class="form-group has-feedback col-xs-4 col-md-4 col-lg4 {{ $errors->has('fecha_envio') ? 'has-error' : ''}}">
-                                <label>Fecha de Envío * </label>
 
                                 <input type="date" name="fecha_envio" class="form-control" value="{{ $ordenCompraData->fecha_envio ?: old('fecha_envio') }}">
                                 <?php if ($nro_licitacion){ ?>
@@ -134,16 +139,29 @@ class ViewOrdenCompra {
 
                                     <div class="container">
                                         <div class="row col-12">
+                                            <div class="form-group has-feedback col-xs-4 col-md-4 col-lg-4 {{ $errors->has('fecha_envio') ? 'has-error' : '' }}">
+                                                <label>Fecha de Envío</label>
+                                                
+                                                <input type="date" name="fecha_envio" class="form-control" value="<?=isset($_GET["fecha_envio"]) ? $_GET["fecha_envio"]: '' ?>" required>
+
+                                                <?php if ($fecha_envio){ ?>
+                                                <span class="help-block text-danger"> 
+                                                    <strong>Error: fecha_envio vacio</strong>
+                                                </span>
+                                                <?php } ?>
+                                            </div>
+                                        </div>
+                                    </div> 
+
+                                    <div class="container">
+                                        <div class="row col-12">
                                             <div class="form-group has-feedback col-xs-4 col-md-4 col-lg-4 {{ $errors->has('total') ? 'has-error' : '' }}">
                                                 <label>Total</label>
                                                 
-                                                <input type="text" name="total" class="form-control" value="<?=isset($_GET["total"]) ? $_GET["total"]: '' ?>" required>
+                                                <input type="text" name="total" class="form-control" required
+                                                value="<?= $_GET["total"] ?? $registroEdit['TOTAL'] ?>">
 
-                                                <?php if ($total){ ?>
-                                                <span class="help-block text-danger"> 
-                                                    <strong>Error: Total vacio</strong>
-                                                </span>
-                                                <?php } ?>
+                                                
                                             </div>
                                         </div>
                                     </div>   
@@ -156,20 +174,11 @@ class ViewOrdenCompra {
                                                 <select class="selectpicker selectField" placeholder='Seleccione Estado' name="estado" id="estado">
                                                     <option value="Aceptado">Aceptado</option>
                                                     <option value="Pendiente">Pendiente</option>
-                                                    <option value="Recepción Conforme">Recepción Conforme</option>
+                                                    <option value="Recepcion Conforme">Recepcion Conforme</option>
 
                                                 </select>
-                                                <?php if ($estado){ ?>
-                                                    <span class="help-block text-danger"> 
-                                                        <strong>Error: Numero de estado vacio</strong>
-                                                    </span>
-                                                <?php } ?>
+                                                
 
-<!--                                                 @if ($errors->has('estado'))
-                                                <span class="help-block text-danger">
-                                                    <strong>{{ $errors->first('estado')}}</strong>
-                                                </span>                        
-                                                @endif -->
                                             </div>
                                         </div>
                                     </div>

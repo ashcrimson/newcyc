@@ -46,6 +46,7 @@ class ViewContratos {
         $fecha_creacion = false;
         $fecha_actualizacion = false;
 		$fecha_eliminacion = false;
+		$fecha_vencimiento_boleta = false;
 
 
 
@@ -98,6 +99,9 @@ class ViewContratos {
             if(!isset($_GET["fecha_eliminacion"])){
 				$fecha_eliminacion = !$fecha_eliminacion;
 			}
+			if(!isset($_GET["fecha_vencimiento_boleta"])){
+				$fecha_vencimiento_boleta = !$fecha_vencimiento_boleta;
+			}
 		}
 
 		
@@ -132,7 +136,7 @@ class ViewContratos {
 				<form method="post" class="form-horizontal" action="<?=base();?>/contratos/new" enctype="multipart/form-data">
 					
 					<div class="container">
-					<?php feedback();?>
+						<?php feedback();?>
 						<div class="row col-12">
 							<div class="form-group has-feedback col-xs-4 col-md-4 col-lg-4 <?=$selectContrato ? 'has-error' : '' ;?>">
 								<label>Tipo Contrato</label>
@@ -192,30 +196,30 @@ class ViewContratos {
 					</div>
 
                     <div class="container">
-					<div class="row col-12">
-                <!-- <input type="hidden" name="id" value="{{ $contrato->id }}" > -->
+						<div class="row col-12">
+							<!-- <input type="hidden" name="id" value="{{ $contrato->id }}" > -->
 
-                <div class="form-group has-feedback col-xs-4 col-md-4 col-lg-4 <?=$proveedor_id ? 'has-error' : '' ;?>">
-                    <label>Proveedor *</label>
+							<div class="form-group has-feedback col-xs-4 col-md-4 col-lg-4 <?=$proveedor_id ? 'has-error' : '' ;?>">
+								<label>Proveedor *</label>
 
-                    <select class="selectpicker selectField" name='proveedor_id'  class ='form-control selectpicker selectField' placeholder='Seleccione Proveedor' data-live-search='true' id ='proveedor_id' value="<?=isset($_GET["proveedor_id"]) ? $_GET["proveedor_id"]: (isset($registroEdit["RUT_PROVEEDOR"]) ? $registroEdit["RUT_PROVEEDOR"] : "") ?>">
-                    	<option value=""></option>
-                        <?php 
-                        foreach ($dataProveedores as $proveedor) {
-                            $selected = $registroEdit['RUT_PROVEEDOR']==$proveedor["RUT_PROVEEDOR"] ? "selected" : "";
-                            ?>
-                            <option value="<?= $proveedor["RUT_PROVEEDOR"];?>" <?=$selected?> ><?= $proveedor["RUT_PROVEEDOR"];?></option>
-                            <?php
-                        }
-                        ?>
-                    </select>
-					<?php if ($proveedor_id){ ?>
-					<span class="help-block text-danger"> 
-						<strong>Error: Numero de licitacion vacio</strong>
-					</span>
-					<?php } ?>
-                </div>
-            </div>
+								<select class="selectpicker selectField" name='proveedor_id'  class ='form-control selectpicker selectField' placeholder='Seleccione Proveedor' data-live-search='true' id ='proveedor_id' value="<?=isset($_GET["proveedor_id"]) ? $_GET["proveedor_id"]: (isset($registroEdit["RUT_PROVEEDOR"]) ? $registroEdit["RUT_PROVEEDOR"] : "") ?>">
+									<option value=""></option>
+									<?php 
+									foreach ($dataProveedores as $proveedor) {
+										$selected = $registroEdit['RUT_PROVEEDOR']==$proveedor["RUT_PROVEEDOR"] ? "selected" : "";
+										?>
+										<option value="<?= $proveedor["RUT_PROVEEDOR"];?>" <?=$selected?> ><?= $proveedor["RUT_PROVEEDOR"];?></option>
+										<?php
+									}
+									?>
+								</select>
+								<?php if ($proveedor_id){ ?>
+								<span class="help-block text-danger"> 
+									<strong>Error: Numero de licitacion vacio</strong>
+								</span>
+								<?php } ?>
+                			</div>
+            			</div>
 					</div>
 
                     
@@ -274,17 +278,17 @@ class ViewContratos {
 
                     <div class="container">
 						<div class="row col-12">
-						<div class="form-group has-feedback col-xs-4 col-md-4 col-lg-4 <?=$monto ? 'has-error' : '' ;?>">
-                            <label>Monto *</label> <!--Sección que guarda el monto del contrato   -->
-                            <!-- <input type="number" name="monto" class="form-control" value="<?=!empty($_GET["monto"]) ? $_GET["monto"]: '' ;?>"> -->
-							<input type="number" class="form-control" name="monto" onchange="setTwoNumberDecimal" min="0" max="100000000000000" step="0.25"
-                                   value="<?= $_GET["monto"] ?? $registroEdit['MONTO'] ?? '0.00'?>" />
-							<?php if ($monto){ ?>0
-							<span class="help-block text-danger"> 
-								<strong>Error: Numero de licitacion vacio</strong>
-							</span>
-							<?php } ?>
-                        </div>
+							<div class="form-group has-feedback col-xs-4 col-md-4 col-lg-4 <?=$monto ? 'has-error' : '' ;?>">
+								<label>Monto *</label> <!--Sección que guarda el monto del contrato   -->
+								<!-- <input type="number" name="monto" class="form-control" value="<?=!empty($_GET["monto"]) ? $_GET["monto"]: '' ;?>"> -->
+								<input type="number" class="form-control" name="monto" onchange="setTwoNumberDecimal" min="0" max="100000000000000" step="0.25"
+									value="<?= $_GET["monto"] ?? $registroEdit['MONTO'] ?? '0.00'?>" />
+								<?php if ($monto){ ?>0
+								<span class="help-block text-danger"> 
+									<strong>Error: Numero de licitacion vacio</strong>
+								</span>
+								<?php } ?>
+							</div>
 						</div>
 					</div>
 
@@ -292,20 +296,21 @@ class ViewContratos {
 
                     <div class="container">
 						<div class="row col-12">
-						<div class="form-group has-feedback col-xs-4 col-md-4 col-lg-4 <?=$fecha_inicio ? 'has-error' : '' ;?>" >
-                    <label>Fecha Inicio Contrato*</label>
-                    
-                    <input type="date" name="fecha_inicio" id="fecha_inicio" class="form-control"
-                           value="<?=$_GET["fecha_inicio"] ??  fechaEn($registroEdit['FECHA_INICIO']) ?? ''?>" 
-                    >
-					<?php if ($fecha_inicio){ ?>
-					<span class="help-block text-danger"> 
-						<strong>Fecha incorrecta</strong>
-					</span>
-					<?php } ?>
-                </div>
+							<div class="form-group has-feedback col-xs-4 col-md-4 col-lg-4 <?=$fecha_inicio ? 'has-error' : '' ;?>" >
+								<label>Fecha Inicio Contrato*</label>
+								
+								<input type="date" name="fecha_inicio" id="fecha_inicio" class="form-control"
+									value="<?=$_GET["fecha_inicio"] ??  fechaEn($registroEdit['FECHA_INICIO']) ?? ''?>" 
+								>
+								<?php if ($fecha_inicio){ ?>
+								<span class="help-block text-danger"> 
+									<strong>Fecha incorrecta</strong>
+								</span>
+								<?php } ?>
+                			</div>
 						</div>
 					</div>
+
 
                     <div class="container">
 						<div class="row col-12">
@@ -328,6 +333,7 @@ class ViewContratos {
 						</div>
 					</div>
 
+
                     <div class="container">
 						<div class="row col-12">
 							<div class="form-group has-feedback col-xs-4 col-md-4 col-lg-4">
@@ -345,9 +351,10 @@ class ViewContratos {
 						</div>
 					</div>
 
+
                     <div class="container">
 						<div class="row col-12">
-						<div class="form-group has-feedback col-xs-4 col-md-4 col-lg-4">
+							<div class="form-group has-feedback col-xs-4 col-md-4 col-lg-4">
 								<label>Fecha Alerta Término Contrato</label>
 								<input type="date" name="fecha_alert" class="form-control"
                                        value="<?=$_GET["fecha_alert"] ??  fechaEn($registroEdit['FECHA_ALERTA_VENCIMIENTO']) ?? ''?>"
@@ -365,21 +372,77 @@ class ViewContratos {
                 
                     <div class="container">
 						<div class="row col-12">
-						<div class="form-group has-feedback col-xs-4 col-md-4 col-lg-4 <?=$objeto_contrato ? 'has-error' : '' ;?>">
-                    <label>Objeto del contrato *</label>
-                    
-                    <input type="text" name="objeto_contrato" class="form-control"
-                           value="<?=$_GET["objeto_contrato"] ?? $registroEdit['OBJETO_CONTRATO'] ?? ''?>"
-                    >
-					<?php if ($objeto_contrato){ ?>
-					<span class="help-block text-danger"> 
-						<strong>Error: Numero de licitacion vacio</strong>
-					</span>
-					<?php } ?>
-                </div>
+							<div class="form-group has-feedback col-xs-4 col-md-4 col-lg-4 <?=$objeto_contrato ? 'has-error' : '' ;?>">
+								<label>Objeto del contrato *</label>
+								
+								<input type="text" name="objeto_contrato" class="form-control"
+									value="<?=$_GET["objeto_contrato"] ?? $registroEdit['OBJETO_CONTRATO'] ?? ''?>"
+								>
+								<?php if ($objeto_contrato){ ?>
+								<span class="help-block text-danger"> 
+									<strong>Error: Numero de licitacion vacio</strong>
+								</span>
+								<?php } ?>
+							</div>
+                		</div>
+					</div>
+
+
+					<div class="container">
+						<div class="row col-12">
+							<div class="form-group has-feedback col-xs-4 col-md-4 col-lg-4 <?=$numero ? 'has-error' : '' ;?>">
+								<label>N° Boleta Garantía*</label>
+								
+								<input type="text" name="numero" class="form-control"
+									value="<?=$_GET["numero"] ?? $registroEdit['NRO_BOLETA_GARANTIA'] ?? ''?>"
+								>
+								<?php if ($numero){ ?>
+								<span class="help-block text-danger"> 
+									<strong>Error: Numero boleta garantia vacio</strong>
+								</span>
+								<?php } ?>
+                			</div>
+						</div>
+					</div>
+
+
+					<div class="container">
+						<div class="row col-12">
+							<div class="form-group has-feedback col-xs-4 col-md-4 col-lg-4">
+									<label>Fecha Vencimiento Boleta</label>
+									<input type="date" name="fecha_vencimiento_boleta" class="form-control"
+										value="<?=$_GET["fecha_vencimiento_boleta"] ??  fechaEn($registroEdit['FECHA_VENCIMIENTO_BOLETA']) ?? ''?>"
+									>
+
+									<?php if ($fecha_vencimiento_boleta){ ?>
+									<span class="help-block text-danger"> 
+										<strong>Error: Fecha Aprobación inválida.</strong>
+									</span>
+									<?php } ?>
+							</div>
+						</div>
+					</div>
+
+
+					<div class="container">
+						<div class="row col-12">
+							<div class="form-group has-feedback col-xs-4 col-md-4 col-lg-4">
+								<label>Alerta Vencimiento Boleta</label>
+								<input type="date" name="alerta_vencimiento_boleta" class="form-control"
+                                       value="<?=$_GET["alerta_vencimiento_boleta"] ??  fechaEn($registroEdit['ALERTA_VENCIMIENTO_BOLETA']) ?? ''?>"
+                                >
+
+								<?php if ($fecha_vencimiento_boleta){ ?>
+								<span class="help-block text-danger"> 
+									<strong>Error: Fecha Alerta inválida.</strong>
+								</span>
+								<?php } ?>
+							</div>
+						</div>
+					</div>
 
 							
-							</div>
+							
 						</div>
 					</div>
 					

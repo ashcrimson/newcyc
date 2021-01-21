@@ -163,3 +163,9 @@ function authUser($pdo){
 
     return queryToArray($query,$pdo)[0];
 }
+
+function acentos($string){
+
+	$string = str_replace(array("á", "é", "í", "ó", "ú","ñ"), array("a", "e", "i", "o", "u","n"), $string);
+	return $string;
+}

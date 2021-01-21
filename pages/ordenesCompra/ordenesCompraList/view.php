@@ -88,7 +88,7 @@ class ViewOrdenCompra {
                             <select name="estado" class="selectpicker selectField" placeholder='Seleccione Estado' data-live-search='true'>                                <option value=""></option>
                             <option value=""></option>
                                     <?php 
-                                    foreach (['Aceptado', 'Pendiente'] as $index => $estado) {
+                                    foreach (['Aceptado', 'Pendiente', 'Recepcion Conforme'] as $index => $estado) {
                                         
                                         $selected = $_GET["estado"]==$estado ? 'selected' : '';
                                         ?>
@@ -152,7 +152,11 @@ class ViewOrdenCompra {
 						
 							</td>
                                 <td>
+                                    <a href="<?=base("/ordenCompra/new?nro_orden_compra=").$ordenCompra["NRO_ORDEN_COMPRA"];?>" class="btn btn-sm btn-primary btn-xs">
+                                        <i class="fa fa-pencil-alt"></i> Editar
+                                    </a>
                                     <?php if(!$proveedores["FECHA_ELIMINACION"]){ ?>
+                                        
                                         <a href="#" data-target="#miModal<?=$index;?>" data-toggle="modal" class="btn btn-danger btn-xs"  ><i class="far fa-trash-alt"></i> Eliminar</a>
                                         <!-- modal starts -->
                                         <div class="modal fade" id="miModal<?= $index; ?>">
