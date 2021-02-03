@@ -96,8 +96,8 @@ class ModelContratos {
 
         //consulta principal
 		$consulta = "
-			select 
-                c.*, 
+			select  
+                c.*,  
                 saldoContrato(c.ID_CONTRATO) as saldo,
 				p.razon_social,
 				d.nombre as nombre_documento,
@@ -106,7 +106,8 @@ class ModelContratos {
                 d.archivo,
                 m.nombre as nombre_moneda,
                 m.equivalencia as equivalencia,
-                ca.nombre as nombre_cargo
+                ca.nombre as nombre_cargo,
+                oc.total
 				
 			from 
 				CONTRATOS C LEFT JOIN PROVEEDORES P ON c.rut_proveedor = p.rut_proveedor
@@ -114,6 +115,8 @@ class ModelContratos {
                 LEFT JOIN documento d on d.nro_documento = dc.nro_documento
                 LEFT JOIN moneda m on m.codigo = c.id_moneda
                 LEFT JOIN cargos ca on ca.id_cargo = c.id_cargo
+                LEFT JOIN ORDEN_COMPRA oc on oc.id_contrato = c.id_cargo
+               
                 
 			$where
 			ORDER BY
@@ -205,7 +208,6 @@ class ModelContratos {
         } else {
 
             $where = "WHERE ID_CARGO='".$this->authUser['ID_CARGO']."' ";
-
            
         }
 

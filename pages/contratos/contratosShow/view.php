@@ -14,10 +14,14 @@ class ViewContratos {
 
 
 		if(isset($_GET["id"])){
-            $contrato = $model->get();
-        }
-
-
+			$contrato = $model->get();
+			// $suma = $model->suma();
+		}
+		
+		
+		
+            
+	
 
 		ob_start();
 
@@ -106,6 +110,7 @@ class ViewContratos {
 							<th>F_F</th>
 							<th>DESC_TEC_PROD_OFERTADO</th>
 							<th>U_ENTREGA_OFERENTE</th>
+							<!-- <th>SUMA</th> -->
 						</tr>
 					</thead>
 					<tbody>  
@@ -123,6 +128,8 @@ class ViewContratos {
 									<td> <?= $detalle["F_F"]; ?></td>
 									<td> <?= $detalle["DESC_TEC_PROD_OFERTADO"]; ?></td>
 									<td> <?= $detalle["U_ENTREGA_OFERENTE"]; ?></td>
+									<!-- <td><?= $suma ?></td> -->
+									
 								</tr>
 						<?php }?>
 						

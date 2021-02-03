@@ -33,11 +33,18 @@ class ModelOrdenCompra {
 
 	//elimina registro indicado
 	public function delete($nro_orden_compra): self{
+	
+	$sql2 = "DELETE FROM DOCUMENTO_ORDEN_COMPRA WHERE NRO_ORDEN_COMPRA= '{$nro_orden_compra}'";
+		$result = oci_parse($this->pdo, $sql2);
+		oci_execute($result);
+		oci_commit($this->pdo);
 
 	$sql = "DELETE FROM ORDEN_COMPRA WHERE NRO_ORDEN_COMPRA= '{$nro_orden_compra}'";
         $result = oci_parse($this->pdo, $sql);
         oci_execute($result);
-        oci_commit($this->pdo);
+		oci_commit($this->pdo);
+		
+	
 
         return new self($this->pdo, '', $this->page);
 

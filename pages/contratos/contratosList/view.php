@@ -247,13 +247,10 @@ class ViewContratos {
                         <th>Monto</th>
                         <th>Valor CLP</th>
                         <th>Saldo</th>
-                        
+                    
                         <th>Fecha Alerta de Vencimiento</th>
                         <th>Fecha Vencimiento Boleta</th>
                         <th>Adjunto</th>
-                        <!-- @role('Admin')
-                            <th>Acción</th>
-                        @endrole -->
                         
                         <th>Bitácora</th>
                         <th>Editar</th>
@@ -273,7 +270,7 @@ class ViewContratos {
                         <tr> 
 
 
-                            <td style="width:6%;"><?= $contrato["RUT_PROVEEDOR"]; ?></td>
+                            <td style="width:7%;"><?= $contrato["RUT_PROVEEDOR"]; ?></td>
                             <td style="width:7%;"><?= $contrato["RAZON_SOCIAL"]; ?></td>
                             <td style="width:1%;"><?= $contrato["TIPO"] ."-". $contrato["ID_CONTRATO"]; ?></td>
                             <td style="width:6%;"><?= $contrato["NRO_LICITACION"]; ?></td>
@@ -283,13 +280,15 @@ class ViewContratos {
                             <!-- <td><?= $contrato["RESTANTE"];?></td> -->
                             <td style="width:2%;"><?= $contrato["NOMBRE_CARGO"];?></td>
                             <td style="width:3%;"><?= $contrato["FECHA_INICIO"]; ?></td>
-                            <td style="width:3%;"><?= $contrato["FECHA_TERMINO"]; ?></td>
+                            <td style="width:3%;"><?= $contrato["FECHA_TERMINO"]; ?></td> 
                             <td style="width:2%;"><?= $contrato["FECHA_APROBACION"]; ?></td>
-                            <td style="width:1%;"><?= $contrato["OBJETO_CONTRATO"]; ?></td>
+                            <td style="width:2%;"><?= $contrato["OBJETO_CONTRATO"]; ?></td>
                             <td style="width:1%;"><?= $contrato["NRO_BOLETA_GARANTIA"]; ?></td>
                             <td style="width:1%;">$<?= number_format($contrato["MONTO"], 2, ',', '.') ?></td>
                             <td style="width:1%;">$<?= number_format($contrato["MONTO"] * $contrato["EQUIVALENCIA"], 2, ',', '.'); ?></td>
                             <td style="width:1%;">$<?= number_format($contrato["SALDO"], 2, ',', '.') ?></td>
+                            <!-- <td style="width:1%;">$<?= number_format($contrato["MONTO"] - $contrato["TOTAL"], 2, ',', '.'); ?></td> -->
+
                             <td style="width:2%;"><?= $contrato["FECHA_ALERTA_VENCIMIENTO"]; ?></td>
                             <td style="width:2%;"><?= $contrato["FECHA_VENCIMIENTO_BOLETA"]; ?></td>
                             <td style="width:1%;">
@@ -431,56 +430,6 @@ class ViewContratos {
         });
     </script>
 
-<script>
-function checkRut(rut) {
-    // Despejar Puntos
-    var valor = rut.value.replace('.','');
-    // Despejar Guión
-    valor = valor.replace('-','');
-    
-    // Aislar Cuerpo y Dígito Verificador
-    cuerpo = valor.slice(0,-1);
-    dv = valor.slice(-1).toUpperCase();
-    
-    // Formatear RUN
-    rut.value = cuerpo + '-'+ dv
-    
-    // Si no cumple con el mínimo ej. (n.nnn.nnn)
-    if(cuerpo.length < 7) { rut.setCustomValidity("RUT Incompleto"); return false;}
-    
-    // Calcular Dígito Verificador
-    suma = 0;
-    multiplo = 2;
-    
-    // Para cada dígito del Cuerpo
-    for(i=1;i<=cuerpo.length;i++) {
-    
-        // Obtener su Producto con el Múltiplo Correspondiente
-        index = multiplo * valor.charAt(cuerpo.length - i);
-        
-        // Sumar al Contador General
-        suma = suma + index;
-        
-        // Consolidar Múltiplo dentro del rango [2,7]
-        if(multiplo < 7) { multiplo = multiplo + 1; } else { multiplo = 2; }
-  
-    }
-    
-    // Calcular Dígito Verificador en base al Módulo 11
-    dvEsperado = 11 - (suma % 11);
-    
-    // Casos Especiales (0 y K)
-    dv = (dv == 'K')?10:dv;
-    dv = (dv == 0)?11:dv;
-    
-    // Validar que el Cuerpo coincide con su Dígito Verificador
-    if(dvEsperado != dv) { rut.setCustomValidity("RUT Inválido"); return false; }
-    
-    // Si todo sale bien, eliminar errores (decretar que es válido)
-    rut.setCustomValidity('');
-}
-
-</script>
     
 
 

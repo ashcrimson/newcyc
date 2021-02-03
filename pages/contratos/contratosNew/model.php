@@ -474,11 +474,6 @@ class ModelContratos {
 
 			$consulta2= "DELETE FROM DOCUMENTO_CONTRATOS WHERE NRO_CONTRATO ='{$last_id}'";
 
-			// $consulta2 = "INSERT into DOCUMENTO_CONTRATOS (NRO_DOCUMENTO, NRO_CONTRATO) values (
-			// 	'". $nro_documento ."',
-			// 	'". $last_id ."'
-			// )";
-
 			$query2 = $consulta2;
 			$result2 = oci_parse($this->pdo, $query2);
 			oci_execute($result2, OCI_DEFAULT) or die ("No se pudo");

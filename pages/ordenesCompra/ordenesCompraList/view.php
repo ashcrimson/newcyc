@@ -1,7 +1,7 @@
 <?php
 
       
-
+ 
 namespace OrdenCompraList;
 
 /**
@@ -164,7 +164,7 @@ class ViewOrdenCompra {
                                                 <div class="modal-content">
                                                     <form class="form-horizontal" method="post" action="<?=base("/ordenCompra/delete?nro_orden_compra=").$ordenCompra["NRO_ORDEN_COMPRA"];?>" >
                                                     <div class="modal-header">
-                                                        <h4 class="modal-title"> Borrar <?= $ordenCompra["NRO_ORDEN_COMPRA"]; ?> </h4>
+                                                        <h4 class="modal-title"> Borrar Orden de Compra n°<?= $ordenCompra["NRO_ORDEN_COMPRA"]; ?> </h4>
                                                         <button type="button" class="close" data-dismiss="modal">&times;</button>
                                                     </div>
 

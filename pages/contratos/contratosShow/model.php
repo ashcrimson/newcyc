@@ -60,8 +60,8 @@ class ModelContratos {
 
 
         $where = '';
-
-
+ 
+ 
         if ($_GET['codigo']){
             $where .= " and CODIGO = '" . $_GET['codigo'] . "'";
         }
@@ -89,6 +89,28 @@ class ModelContratos {
         // exit();
         return $contrato;
     }
+
+    // public function suma(){
+    //     $where = '';
+
+ 
+    //     if ($_GET['codigo']){
+    //         $where .= " and CODIGO = '" . $_GET['codigo'] . "'";
+    //     }
+    //     $consulta="SELECT
+    //         SUM( PRECIO_U_BRUTO )AS SUMA
+    //         FROM
+    //             DETALLE_CONTRATO
+    //         WHERE
+    //             ID_CONTRATO='" . $this->id . "' ".$where;
+    //         $result = oci_parse($this->pdo, $query);
+    //         oci_execute($result);
+    //         $suma = queryResultToAssoc($result);
+
+    //         dd($consulta);
+
+    //         return $suma;
+    // }
 
 
 

@@ -213,9 +213,13 @@ class Router{
 			$this->model = $this->controller->all($this->model);
 		}
 
-		if(!empty($_GET["nro_orden_compra"] && $_GET["nro_orden_compra"] >= 1)){
-            $this->model = $this->controller->edit($this->model);
-        }
+		// if(!empty($_GET["nro_orden_compra"] && $_GET["nro_orden_compra"] >= 1)){
+        //     $this->model = $this->controller->edit($this->model);
+		// }
+		
+		if(!empty($_GET["nro_orden_compra"])){
+			$this->model = $this->controller->edit($this->model);
+		}
 	}
 
 

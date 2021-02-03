@@ -286,7 +286,7 @@ class ViewContratos {
 								<?php if ($monto){ ?>0
 								<span class="help-block text-danger"> 
 									<strong>Error: Numero de licitacion vacio</strong>
-								</span>
+								</span> 
 								<?php } ?>
 							</div>
 						</div>
@@ -375,9 +375,10 @@ class ViewContratos {
 							<div class="form-group has-feedback col-xs-4 col-md-4 col-lg-4 <?=$objeto_contrato ? 'has-error' : '' ;?>">
 								<label>Objeto del contrato *</label>
 								
-								<input type="text" name="objeto_contrato" class="form-control"
+								<textarea name="objeto_contrato" class="form-control"
 									value="<?=$_GET["objeto_contrato"] ?? $registroEdit['OBJETO_CONTRATO'] ?? ''?>"
 								>
+								</textarea>
 								<?php if ($objeto_contrato){ ?>
 								<span class="help-block text-danger"> 
 									<strong>Error: Numero de licitacion vacio</strong>

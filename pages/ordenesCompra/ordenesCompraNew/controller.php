@@ -22,6 +22,7 @@ class ControllerOrdenCompra {
 
 	//solicita edicion de registro
 	public function edit(\OrdenCompraNew\ModelOrdenCompra $model){
+                
 		$model = $model->edit($_GET["nro_orden_compra"]);
 		return $model;
 	}

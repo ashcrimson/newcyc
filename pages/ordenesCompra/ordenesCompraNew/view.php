@@ -22,8 +22,19 @@ class ViewOrdenCompra {
         
         $data = $model->get();
 
-        $dataContratos = $data[0];
-        $dataOrdenCompra= $data[1];
+        $dataContratos = $model->getContratos();
+        $dataDetalleContratos = $model->getDetalleContrato();
+        $dataDetalleContratos2 = $model->getDetalleContrato2();
+        $dataDetalleContratos3 = $model->getDetalleContrato3();
+        $dataDetalleContratos4 = $model->getDetalleContrato4();
+        $dataDetalleContratos5 = $model->getDetalleContrato5();
+        $dataDetalleContratos6 = $model->getDetalleContrato6();
+        $dataDetalleContratos7 = $model->getDetalleContrato7();
+        $dataDetalleContratos8 = $model->getDetalleContrato8();
+        $dataDetalleContratos9 = $model->getDetalleContrato9();
+        $dataDetalleContratos10 = $model->getDetalleContrato10();
+        $dataDetalleContratos11 = $model->getDetalleContrato11();
+        $dataDetalleContratos12 = $model->getDetalleContrato12();
 
 		$id_contrato = false;
         $nro_orden_compra = false;
@@ -73,32 +84,234 @@ class ViewOrdenCompra {
             <div class="card-header">
                 
                 <form method="post" class="form-horizontal" action="<?=base();?>/ordenCompra/new" enctype="multipart/form-data">
-                    
-                    <div class="container">
+                <div class="container">
                     <?php feedback();?>
-                        <div class="row col-12">
-                        <div class="form-group has-feedback col-xs-4 col-md-4 col-lg-4 <?=$id_contrato ? 'has-error' : '' ;?>" >
-                        <label>ID Contrato *</label>
-                        <select name='id_contrato' class ='selectpicker selectField' placeholder='Seleccione Contrato' data-live-search='true' id ='id_contrato' required
-                        value="<?=isset($_GET["id_contrato"]) ? $_GET["id_contrato"]: (isset($registroEdit["ID_CONTRATO"]) ? $registroEdit["ID_CONTRATO"] : "") ?>>
-                            <option value=""></option>
-                            <?php 
-                            foreach ($dataContratos as $contrato) { 
-                                if (!empty($_GET["id_contrato"]) && $_GET["id_contrato"]){
+                    <div class="row col-12">
+                    <input type="hidden" name="id" value="<?=isset($_GET["nro_orden_compra"]) ? $_GET["nro_orden_compra"]: "" ?>" >
+                        <div class="form-group has-feedback col-xs-4 col-md-4 col-lg-4 <?=$selectContrato ? 'has-error' : '' ;?>">
+                            <label>ID Contrato</label>
+                            <input type="hidden" name="submit" value="true">
+                            <select class="selectpicker " placeholder='Seleccione Tipo de Contrato' name="id_contrato" id="selectContrato" value="<?=isset($_GET["id_contrato"]) ? $_GET["id_contrato"]: (isset($registroEdit["ID_CONTRATO"]) ? $registroEdit["ID_CONTRATO"] : "") ?>">
+                                <?php 
+                                foreach ($dataContratos as $contrato) {
+                                    $selected = $registroEdit['ID_CONTRATO']==$contrato["ID_CONTRATO"] ? "selected" : "";
                                     ?>
-                                    <option selected="true" value="<?=$registroEdit['ID_CONTRATO']=='lc' ? 'selected' : ''?>"><?= $contrato["ID_CONTRATO"];?></option>
-                                    <?php
-                                }else{
-                                    ?>
-                                    <option value="<?= $contrato["ID_CONTRATO"];?>"><?= $contrato["ID_CONTRATO"];?></option>
+                                    <option value="<?= $contrato["ID_CONTRATO"];?>" <?=$selected?> ><?=$contrato["TIPO"] ."-". $contrato["ID_CONTRATO"];?></option>
                                     <?php
                                 }
-                            }
-                            ?>
-                        </select>
+                                ?>
+                            </select>
+                            
                         </div>
+                    </div>
+                </div>
+					
+                <div class="container">
+                    <div class="row col-12">
+                        <div class="form-group has-feedback col-xs-4 col-md-4 col-lg-4 <?=$detalle_contrato ? 'has-error' : '' ;?>" id="licitacion"  >
+                            <label>Detalle Contrato</label>
+                            <select name='detalle_contrato' class ='selectpicker selectField' placeholder='Seleccione Detalle' data-live-search='true' id ='licitacion_id' value="<?=isset($_GET["detalle_contrato"]) ? $_GET["detalle_contrato"]: (isset($registroEdit["CODIGO"]) ? $registroEdit["CODIGO"] : "") ?>">
+                                <option value=""></option>
+                                <?php 
+                                foreach ($dataDetalleContratos as $detalle) {
+                                    $selected = $registroEdit['CODIGO']==$detalle["CODIGO"] ? "selected" : "";
+                                    ?>
+                                    <option value="<?= $detalle["CODIGO"];?>" <?=$selected?> ><?=$detalle["CODIGO"] ."-". $detalle["DESC_PROD_SOLI"];?></option>
+                                    <?php
+                                }
+                                ?>
+                            </select>                            
                         </div>
-                    </div>                        
+
+                        <div class="form-group has-feedback col-xs-4 col-md-4 col-lg-4 <?=$detalle_contrato ? 'has-error' : '' ;?>" id="licitacion2"  >
+                            <label>Detalle Contrato</label>
+                            <select name='detalle_contrato' class ='selectpicker selectField' placeholder='Seleccione Detalle' data-live-search='true' id ='licitacion_id' value="<?=isset($_GET["detalle_contrato"]) ? $_GET["detalle_contrato"]: (isset($registroEdit["CODIGO"]) ? $registroEdit["CODIGO"] : "") ?>">
+                                <option value=""></option>
+                                <?php 
+                                foreach ($dataDetalleContratos2 as $detalle) {
+                                    $selected = $registroEdit['CODIGO']==$detalle["CODIGO"] ? "selected" : "";
+                                    ?>
+                                    <option value="<?= $detalle["CODIGO"];?>" <?=$selected?> ><?=$detalle["CODIGO"] ."-". $detalle["DESC_PROD_SOLI"];?></option>
+                                    <?php
+                                }
+                                ?>
+                            </select>
+                        </div>
+
+                        <div class="form-group has-feedback col-xs-4 col-md-4 col-lg-4 <?=$detalle_contrato ? 'has-error' : '' ;?>" id="licitacion3"  >
+                            <label>Detalle Contrato</label>
+                            <select name='detalle_contrato' class ='selectpicker selectField' placeholder='Seleccione Detalle' data-live-search='true' id ='licitacion_id' value="<?=isset($_GET["detalle_contrato"]) ? $_GET["detalle_contrato"]: (isset($registroEdit["CODIGO"]) ? $registroEdit["CODIGO"] : "") ?>">
+                                <option value=""></option>
+                                <?php 
+                                foreach ($dataDetalleContratos3 as $detalle) {
+                                    $selected = $registroEdit['CODIGO']==$detalle["CODIGO"] ? "selected" : "";
+                                    ?>
+                                    <option value="<?= $detalle["CODIGO"];?>" <?=$selected?> ><?=$detalle["CODIGO"] ."-". $detalle["DESC_PROD_SOLI"];?></option>
+                                    <?php
+                                }
+                                ?>
+                            </select>
+                        </div>
+
+                        <div class="form-group has-feedback col-xs-4 col-md-4 col-lg-4 <?=$detalle_contrato ? 'has-error' : '' ;?>" id="licitacion4"  >
+                            <label>Detalle Contrato</label>
+                            <select name='detalle_contrato' class ='selectpicker selectField' placeholder='Seleccione Detalle' data-live-search='true' id ='licitacion_id' value="<?=isset($_GET["detalle_contrato"]) ? $_GET["detalle_contrato"]: (isset($registroEdit["CODIGO"]) ? $registroEdit["CODIGO"] : "") ?>">
+                                <option value=""></option>
+                                <?php 
+                                foreach ($dataDetalleContratos4 as $detalle) {
+                                    $selected = $registroEdit['CODIGO']==$detalle["CODIGO"] ? "selected" : "";
+                                    ?>
+                                    <option value="<?= $detalle["CODIGO"];?>" <?=$selected?> ><?=$detalle["CODIGO"] ."-". $detalle["DESC_PROD_SOLI"];?></option>
+                                    <?php
+                                }
+                                ?>
+                            </select>
+                        </div>
+
+                        <div class="form-group has-feedback col-xs-4 col-md-4 col-lg-4 <?=$detalle_contrato ? 'has-error' : '' ;?>" id="licitacion5"  >
+                            <label>Detalle Contrato</label>
+                            <select name='detalle_contrato' class ='selectpicker selectField' placeholder='Seleccione Detalle' data-live-search='true' id ='licitacion_id' value="<?=isset($_GET["detalle_contrato"]) ? $_GET["detalle_contrato"]: (isset($registroEdit["CODIGO"]) ? $registroEdit["CODIGO"] : "") ?>">
+                                <option value=""></option>
+                                <?php 
+                                foreach ($dataDetalleContratos5 as $detalle) {
+                                    $selected = $registroEdit['CODIGO']==$detalle["CODIGO"] ? "selected" : "";
+                                    ?>
+                                    <option value="<?= $detalle["CODIGO"];?>" <?=$selected?> ><?=$detalle["CODIGO"] ."-". $detalle["DESC_PROD_SOLI"];?></option>
+                                    <?php
+                                }
+                                ?>
+                            </select>
+                        </div>
+
+                        <div class="form-group has-feedback col-xs-4 col-md-4 col-lg-4 <?=$detalle_contrato ? 'has-error' : '' ;?>" id="licitacion6"  >
+                            <label>Detalle Contrato</label>
+                            <select name='detalle_contrato' class ='selectpicker selectField' placeholder='Seleccione Detalle' data-live-search='true' id ='licitacion_id' value="<?=isset($_GET["detalle_contrato"]) ? $_GET["detalle_contrato"]: (isset($registroEdit["CODIGO"]) ? $registroEdit["CODIGO"] : "") ?>">
+                                <option value=""></option>
+                                <?php 
+                                foreach ($dataDetalleContratos6 as $detalle) {
+                                    $selected = $registroEdit['CODIGO']==$detalle["CODIGO"] ? "selected" : "";
+                                    ?>
+                                    <option value="<?= $detalle["CODIGO"];?>" <?=$selected?> ><?=$detalle["CODIGO"] ."-". $detalle["DESC_PROD_SOLI"];?></option>
+                                    <?php
+                                }
+                                ?>
+                            </select>
+                        </div>
+
+                        <div class="form-group has-feedback col-xs-4 col-md-4 col-lg-4 <?=$detalle_contrato ? 'has-error' : '' ;?>" id="licitacion7"  >
+                            <label>Detalle Contrato</label>
+                            <select name='detalle_contrato' class ='selectpicker selectField' placeholder='Seleccione Detalle' data-live-search='true' id ='licitacion_id' value="<?=isset($_GET["detalle_contrato"]) ? $_GET["detalle_contrato"]: (isset($registroEdit["CODIGO"]) ? $registroEdit["CODIGO"] : "") ?>">
+                                <option value=""></option>
+                                <?php 
+                                foreach ($dataDetalleContratos7 as $detalle) {
+                                    $selected = $registroEdit['CODIGO']==$detalle["CODIGO"] ? "selected" : "";
+                                    ?>
+                                    <option value="<?= $detalle["CODIGO"];?>" <?=$selected?> ><?=$detalle["CODIGO"] ."-". $detalle["DESC_PROD_SOLI"];?></option>
+                                    <?php
+                                }
+                                ?>
+                            </select>
+                        </div>
+
+                        <div class="form-group has-feedback col-xs-4 col-md-4 col-lg-4 <?=$detalle_contrato ? 'has-error' : '' ;?>" id="licitacion8"  >
+                            <label>Detalle Contrato</label>
+                            <select name='detalle_contrato' class ='selectpicker selectField' placeholder='Seleccione Detalle' data-live-search='true' id ='licitacion_id' value="<?=isset($_GET["detalle_contrato"]) ? $_GET["detalle_contrato"]: (isset($registroEdit["CODIGO"]) ? $registroEdit["CODIGO"] : "") ?>">
+                                <option value=""></option>
+                                <?php 
+                                foreach ($dataDetalleContratos8 as $detalle) {
+                                    $selected = $registroEdit['CODIGO']==$detalle["CODIGO"] ? "selected" : "";
+                                    ?>
+                                    <option value="<?= $detalle["CODIGO"];?>" <?=$selected?> ><?=$detalle["CODIGO"] ."-". $detalle["DESC_PROD_SOLI"];?></option>
+                                    <?php
+                                }
+                                ?>
+                            </select>
+                        </div>
+
+                        <div class="form-group has-feedback col-xs-4 col-md-4 col-lg-4 <?=$detalle_contrato ? 'has-error' : '' ;?>" id="licitacion9"  >
+                            <label>Detalle Contrato</label>
+                            <select name='detalle_contrato' class ='selectpicker selectField' placeholder='Seleccione Detalle' data-live-search='true' id ='licitacion_id' value="<?=isset($_GET["detalle_contrato"]) ? $_GET["detalle_contrato"]: (isset($registroEdit["CODIGO"]) ? $registroEdit["CODIGO"] : "") ?>">
+                                <option value=""></option>
+                                <?php 
+                                foreach ($dataDetalleContratos9 as $detalle) {
+                                    $selected = $registroEdit['CODIGO']==$detalle["CODIGO"] ? "selected" : "";
+                                    ?>
+                                    <option value="<?= $detalle["CODIGO"];?>" <?=$selected?> ><?=$detalle["CODIGO"] ."-". $detalle["DESC_PROD_SOLI"];?></option>
+                                    <?php
+                                }
+                                ?>
+                            </select>
+                        </div>
+
+                        <div class="form-group has-feedback col-xs-4 col-md-4 col-lg-4 <?=$detalle_contrato ? 'has-error' : '' ;?>" id="licitacion10"  >
+                            <label>Detalle Contrato</label>
+                            <select name='detalle_contrato' class ='selectpicker selectField' placeholder='Seleccione Detalle' data-live-search='true' id ='licitacion_id' value="<?=isset($_GET["detalle_contrato"]) ? $_GET["detalle_contrato"]: (isset($registroEdit["CODIGO"]) ? $registroEdit["CODIGO"] : "") ?>">
+                                <option value=""></option>
+                                <?php 
+                                foreach ($dataDetalleContratos10 as $detalle) {
+                                    $selected = $registroEdit['CODIGO']==$detalle["CODIGO"] ? "selected" : "";
+                                    ?>
+                                    <option value="<?= $detalle["CODIGO"];?>" <?=$selected?> ><?=$detalle["CODIGO"] ."-". $detalle["DESC_PROD_SOLI"];?></option>
+                                    <?php
+                                }
+                                ?>
+                            </select>
+                        </div>
+
+                        <div class="form-group has-feedback col-xs-4 col-md-4 col-lg-4 <?=$detalle_contrato ? 'has-error' : '' ;?>" id="licitacion11"  >
+                            <label>Detalle Contrato</label>
+                            <select name='detalle_contrato' class ='selectpicker selectField' placeholder='Seleccione Detalle' data-live-search='true' id ='licitacion_id' value="<?=isset($_GET["detalle_contrato"]) ? $_GET["detalle_contrato"]: (isset($registroEdit["CODIGO"]) ? $registroEdit["CODIGO"] : "") ?>">
+                                <option value=""></option>
+                                <?php 
+                                foreach ($dataDetalleContratos11 as $detalle) {
+                                    $selected = $registroEdit['CODIGO']==$detalle["CODIGO"] ? "selected" : "";
+                                    ?>
+                                    <option value="<?= $detalle["CODIGO"];?>" <?=$selected?> ><?=$detalle["CODIGO"] ."-". $detalle["DESC_PROD_SOLI"];?></option>
+                                    <?php
+                                }
+                                ?>
+                            </select>
+                        </div>
+
+                        <div class="form-group has-feedback col-xs-4 col-md-4 col-lg-4 <?=$detalle_contrato ? 'has-error' : '' ;?>" id="licitacion12"  >
+                            <label>Detalle Contrato</label>
+                            <select name='detalle_contrato' class ='selectpicker selectField' placeholder='Seleccione Detalle' data-live-search='true' id ='licitacion_id' value="<?=isset($_GET["detalle_contrato"]) ? $_GET["detalle_contrato"]: (isset($registroEdit["CODIGO"]) ? $registroEdit["CODIGO"] : "") ?>">
+                                <option value=""></option>
+                                <?php 
+                                foreach ($dataDetalleContratos12 as $detalle) {
+                                    $selected = $registroEdit['CODIGO']==$detalle["CODIGO"] ? "selected" : "";
+                                    ?>
+                                    <option value="<?= $detalle["CODIGO"];?>" <?=$selected?> ><?=$detalle["CODIGO"] ."-". $detalle["DESC_PROD_SOLI"];?></option>
+                                    <?php
+                                }
+                                ?>
+                            </select>
+                        </div>
+
+
+
+                    </div>
+                </div>
+
+
+                    
+
+                <!-- CANTIDAD -->
+
+                <div class="container">
+                    <div class="row col-12">
+                        <div class="form-group has-feedback col-xs-4 col-md-4 col-lg-4 {{ $errors->has('cantidad') ? 'has-error' : '' }}">
+                            <label>Cantidad</label>
+                            
+                            <input type="number" name="cantidad" class="form-control" required
+                            value="<?= $_GET["cantidad"] ?? $registroEdit['CANTIDAD'] ?>" min="0" >
+
+                            
+                        </div>
+                    </div>
+                </div>  
+
+                    <!-- FIN CANTIDAD  -->
 
                         <div class="container">
                             <div class="row col 12">
@@ -109,49 +322,27 @@ class ViewOrdenCompra {
                                     <input type="text" name="nro_orden_compra"  class="form-control" required
                                     value="<?= $_GET["nro_orden_compra"] ?? $registroEdit['NRO_ORDEN_COMPRA'] ?>">
 
-<!--                                    
-                        <?php if ($nro_orden_compra){ ?>
-                            
-                        <?php } ?>
 
-                            </div>
-                        </div>
-
-                    </div>
-
-
-
-                                <input type="date" name="fecha_envio" class="form-control" value="{{ $ordenCompraData->fecha_envio ?: old('fecha_envio') }}">
-                                <?php if ($nro_licitacion){ ?>
-                                    <span class="help-block text-danger"> 
-                                        <strong>Error: Numero de licitacion vacio</strong>
-                                    </span>
-                                <?php } ?>
-
-<!--                                             @if ($errors->has('fecha_envio'))
-                                                <span class="help-block text-danger">
-                                                    <strong>{{ $errors->first('fecha_envio') }}</strong>
-                                                </span>
-                                                @endif -->
                                             </div>
                                         </div>
-                                    </div> 
+                            </div> 
+ 
+                            <div class="container">
+                                <div class="row col-12">
+                                    <div class="form-group has-feedback col-xs-4 col-md-4 col-lg-4 {{ $errors->has('fecha_envio') ? 'has-error' : '' }}">
+                                        <label>Fecha de Envío</label>
+                                        
+                                        <input type="date" name="fecha_envio" class="form-control" 
+                                        value="<?=$_GET["fecha_envio"] ??  fechaEn($registroEdit['FECHA_ENVIO']) ?? ''?>" required>
 
-                                    <div class="container">
-                                        <div class="row col-12">
-                                            <div class="form-group has-feedback col-xs-4 col-md-4 col-lg-4 {{ $errors->has('fecha_envio') ? 'has-error' : '' }}">
-                                                <label>Fecha de Envío</label>
-                                                
-                                                <input type="date" name="fecha_envio" class="form-control" value="<?=isset($_GET["fecha_envio"]) ? $_GET["fecha_envio"]: '' ?>" required>
-
-                                                <?php if ($fecha_envio){ ?>
-                                                <span class="help-block text-danger"> 
-                                                    <strong>Error: fecha_envio vacio</strong>
-                                                </span>
-                                                <?php } ?>
-                                            </div>
-                                        </div>
-                                    </div> 
+                                        <?php if ($fecha_envio){ ?>
+                                        <span class="help-block text-danger"> 
+                                            <strong>Error: fecha_envio vacio</strong>
+                                        </span>
+                                        <?php } ?>
+                                    </div>
+                                </div>
+                            </div> 
 
                                     <div class="container">
                                         <div class="row col-12">
@@ -165,16 +356,16 @@ class ViewOrdenCompra {
                                             </div>
                                         </div>
                                     </div>   
- 
+  
 
                                     <div class="container">
                                         <div class="row col-12">
                                             <div class="form-group has-feedback col-xsñ-4 col-md-4 col-lg-4 {{ $errors->has('estado') ? 'has-error' : ''}}">
                                                 <label>Estado *</label>
-                                                <select class="selectpicker selectField" placeholder='Seleccione Estado' name="estado" id="estado">
-                                                    <option value="Aceptado">Aceptado</option>
-                                                    <option value="Pendiente">Pendiente</option>
-                                                    <option value="Recepcion Conforme">Recepcion Conforme</option>
+                                                <select class="selectpicker selectField" placeholder='Seleccione Estado' name="estado" id="estado" value="<?=isset($_GET["estado"]) ? $_GET["estado"]: (isset($registroEdit["ESTADO"]) ? $registroEdit["ESTADO"] : "") ?>">
+                                                    <option value="Aceptado" <?=$registroEdit['ESTADO']=='Aceptado' ? 'selected' : ''?>>Aceptado</option>
+                                                    <option value="Pendiente" <?=$registroEdit['ESTADO']=='Pendiente' ? 'selected' : ''?>>Pendiente</option>
+                                                    <option value="Recepcion Conforme" <?=$registroEdit['ESTADO']=='Recepcion Conforme' ? 'selected' : ''?>>Recepcion Conforme</option>
 
                                                 </select>
                                                 
@@ -196,6 +387,8 @@ class ViewOrdenCompra {
                                         </div>
                                     </div>
 
+                                    
+
 
                                     <div class="card-footer">
                                         <div class="row">
@@ -208,16 +401,9 @@ class ViewOrdenCompra {
                             </div>
                         </form>
                     </div>
-                </div>            
+                </div>     
+
                 
-                <script src="<?= base(); ?>/assets/assets/frontend/js/jquery-3.3.1.js"></script>
-                <script src="<?= base(); ?>/assets/assets/frontend/js/selectize.js"></script>
-                <script>
-                    $('.selectField').selectize({
-                        create: false,            
-                        dropdownParent: 'body'
-                    });
-                </script>
 
                 <!-- {{-- Script para mostrar nombre archivo en el select --}} -->
                 <script>
@@ -225,7 +411,206 @@ class ViewOrdenCompra {
                         var fileName = $(this).val().split("\\").pop();
                         $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
                     });
-                </script>
+                </script>       
+                
+                <script src="<?=base();?>/assets/assets/frontend/js/jquery-3.3.1.js"></script>
+                <script src="<?=base();?>/assets/assets/frontend/js/selectize.js"></script>
+                <script>
+
+            $('#licitacion').hide(); 
+            $('#licitacion2').hide();
+            $('#licitacion3').hide(); 
+            $('#licitacion4').hide();
+            $('#licitacion5').hide();
+            $('#licitacion6').hide();
+            $('#licitacion7').hide();
+            $('#licitacion8').hide();
+            $('#licitacion9').hide();
+            $('#licitacion10').hide();
+            $('#licitacion11').hide();
+            $('#licitacion12').hide();
+                
+			$('.selectField').selectize({
+				create: false,
+				sortField: {
+					field: 'text', 
+					direction: 'asc'
+				},
+				dropdownParent: 'body'
+				
+			});
+		
+			$('#selectContrato').selectize({
+
+				create: false,
+				sortField: {
+					field: 'text',
+					direction: 'asc'
+				},
+				dropdownParent: 'body',
+				onChange: function(value) {
+					if(value == "1"){
+						$('#licitacion').show();
+                        $('#licitacion2').hide();
+                        $('#licitacion3').hide();
+                        $('#licitacion4').hide();
+                        $('#licitacion5').hide();
+                        $('#licitacion6').hide();
+                        $('#licitacion7').hide();
+                        $('#licitacion8').hide();
+                        $('#licitacion9').hide();
+                        $('#licitacion10').hide();
+                        $('#licitacion11').hide();
+                        $('#licitacion12').hide();
+					} else if(value == "2") {
+                        $('#licitacion').hide(); 
+						$('#licitacion2').show();
+                        $('#licitacion3').hide();
+                        $('#licitacion4').hide(); 
+                        $('#licitacion5').hide();
+                        $('#licitacion6').hide();
+                        $('#licitacion7').hide();
+                        $('#licitacion8').hide();
+                        $('#licitacion9').hide();
+                        $('#licitacion10').hide();
+                        $('#licitacion11').hide();
+                        $('#licitacion12').hide();
+					} else if(value == "3") {
+                        $('#licitacion').hide(); 
+						$('#licitacion2').hide(); 
+                        $('#licitacion3').show();
+                        $('#licitacion4').hide();
+                        $('#licitacion5').hide();
+                        $('#licitacion6').hide();
+                        $('#licitacion7').hide();
+                        $('#licitacion8').hide();
+                        $('#licitacion9').hide();
+                        $('#licitacion10').hide();
+                        $('#licitacion11').hide();
+                        $('#licitacion12').hide();
+					} else if(value == "4") {
+                        $('#licitacion').hide(); 
+						$('#licitacion2').hide(); 
+                        $('#licitacion3').hide();
+                        $('#licitacion4').show();
+                        $('#licitacion5').hide();
+                        $('#licitacion6').hide();
+                        $('#licitacion7').hide();
+                        $('#licitacion8').hide();
+                        $('#licitacion9').hide();
+                        $('#licitacion10').hide();
+                        $('#licitacion11').hide();
+                        $('#licitacion12').hide();
+					} else if(value == "5") {
+                        $('#licitacion').hide(); 
+						$('#licitacion2').hide(); 
+                        $('#licitacion3').hide();
+                        $('#licitacion4').hide();
+                        $('#licitacion5').show();
+                        $('#licitacion6').hide();
+                        $('#licitacion7').hide();
+                        $('#licitacion8').hide();
+                        $('#licitacion9').hide();
+                        $('#licitacion10').hide();
+                        $('#licitacion11').hide();
+                        $('#licitacion12').hide();
+					} else if(value == "6") {
+                        $('#licitacion').hide(); 
+						$('#licitacion2').hide(); 
+                        $('#licitacion3').hide();
+                        $('#licitacion4').hide();
+                        $('#licitacion5').hide();
+                        $('#licitacion6').show();
+                        $('#licitacion7').hide();
+                        $('#licitacion8').hide();
+                        $('#licitacion9').hide();
+                        $('#licitacion10').hide();
+                        $('#licitacion11').hide();
+                        $('#licitacion12').hide();
+					} else if(value == "7") {
+                        $('#licitacion').hide(); 
+						$('#licitacion2').hide(); 
+                        $('#licitacion3').hide();
+                        $('#licitacion4').hide();
+                        $('#licitacion5').hide();
+                        $('#licitacion6').hide();
+                        $('#licitacion7').show();
+                        $('#licitacion8').hide();
+                        $('#licitacion9').hide();
+                        $('#licitacion10').hide();
+                        $('#licitacion11').hide();
+                        $('#licitacion12').hide();
+					} else if(value == "8") {
+                        $('#licitacion').hide(); 
+						$('#licitacion2').hide(); 
+                        $('#licitacion3').hide();
+                        $('#licitacion4').hide();
+                        $('#licitacion5').hide();
+                        $('#licitacion6').hide();
+                        $('#licitacion7').hide();
+                        $('#licitacion8').show();
+                        $('#licitacion9').hide();
+                        $('#licitacion10').hide();
+                        $('#licitacion11').hide();
+                        $('#licitacion12').hide();
+					} else if(value == "9") {
+                        $('#licitacion').hide(); 
+						$('#licitacion2').hide(); 
+                        $('#licitacion3').hide();
+                        $('#licitacion4').hide();
+                        $('#licitacion5').hide();
+                        $('#licitacion6').hide();
+                        $('#licitacion7').hide();
+                        $('#licitacion8').hide();
+                        $('#licitacion9').show();
+                        $('#licitacion10').hide();
+                        $('#licitacion11').hide();
+                        $('#licitacion12').hide();
+					} else if(value == "10") {
+                        $('#licitacion').hide(); 
+						$('#licitacion2').hide(); 
+                        $('#licitacion3').hide();
+                        $('#licitacion4').hide();
+                        $('#licitacion5').hide();
+                        $('#licitacion6').hide();
+                        $('#licitacion7').hide();
+                        $('#licitacion8').hide();
+                        $('#licitacion9').hide();
+                        $('#licitacion10').show();
+                        $('#licitacion11').hide();
+                        $('#licitacion12').hide();
+					} else if(value == "11") {
+                        $('#licitacion').hide(); 
+						$('#licitacion2').hide(); 
+                        $('#licitacion3').hide();
+                        $('#licitacion4').hide();
+                        $('#licitacion5').hide();
+                        $('#licitacion6').hide();
+                        $('#licitacion7').hide();
+                        $('#licitacion8').hide();
+                        $('#licitacion9').hide();
+                        $('#licitacion10').hide();
+                        $('#licitacion11').show();
+                        $('#licitacion12').hide();
+					} else if(value == "12") {
+                        $('#licitacion').hide(); 
+						$('#licitacion2').hide(); 
+                        $('#licitacion3').hide();
+                        $('#licitacion4').hide();
+                        $('#licitacion5').hide();
+                        $('#licitacion6').hide();
+                        $('#licitacion7').hide();
+                        $('#licitacion8').hide();
+                        $('#licitacion9').hide();
+                        $('#licitacion10').hide();
+                        $('#licitacion11').hide();
+                        $('#licitacion12').show();
+					}
+                    
+					// console.log("Cambio", value);
+				}
+			});
+		    </script> 
 
                 
 
