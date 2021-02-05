@@ -68,6 +68,14 @@ switch ($request) {
 	case $base . '/contratos/new/' :
 		$router->contratosNew(); 
 		break;
+    case $base . '/get/detalles/contratos/ajax' :
+    case $base . '/get/detalles/contratos/ajax/' :
+
+        $router->getDetallesContratosAjax();
+
+        exit();
+
+        break;
     case $base . '/contratos/show' :
 	case $base . '/contratos/show/' :
         $router->contratosShow();

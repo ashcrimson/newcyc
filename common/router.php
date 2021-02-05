@@ -130,6 +130,36 @@ class Router{
         }
 	}
 
+    public function getDetallesContratosAjax()
+    {
+
+        $id = $_POST['id'];
+
+        $query = 'select * from detalle_contrato where id_contrato='.$id;
+
+        $result = queryToArray($query,$this->pdo);
+
+        if ($result){
+            $detalles = [];
+
+            foreach ($result as $index => $item) {
+                $codigo = $item['CODIGO'];
+                $nombre = $item['DESC_PROD_SOLI']." / ".$item['DESC_TEC_PROD_OFERTADO'];
+
+                $detalles[] = ['value' => $codigo,'text' => $nombre];
+            }
+
+            echo json_encode($detalles);
+
+        }else{
+            echo json_encode("No tiene items");
+        }
+
+
+
+
+	}
+
 
     public function contratosShow(){
 

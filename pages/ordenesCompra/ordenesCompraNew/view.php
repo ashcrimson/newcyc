@@ -1,14 +1,14 @@
 <?php
 
- 
+
 
 namespace OrdenCompraNew;
 
 /**
  * clase vista, retorna html con lo recuperado desde el modelo
- */ 
+ */
 class ViewOrdenCompra {
-	
+
 	public function output(\OrdenCompraNew\ModelOrdenCompra $model){
 
 		if(!empty($_POST)){
@@ -17,7 +17,7 @@ class ViewOrdenCompra {
 
         if(isset($_GET["nro_orden_compra"])){
 			$registroEdit = $model->get();
-			
+
         }
 
 
@@ -28,7 +28,7 @@ class ViewOrdenCompra {
         $archivo_orden_compra = false;
         $estado = false;
         $total = false;
-		
+
 
 
 		if(sizeof($_GET)){
@@ -50,7 +50,7 @@ class ViewOrdenCompra {
             if(!isset($_GET["fecha_envio"])){
 				$fecha_envio = !$total;
 			}
-			
+
 		}
 
 		ob_start();
@@ -201,7 +201,7 @@ class ViewOrdenCompra {
 
                                         <tr>
                                             <td width="45%">
-                                                <select name='detalle_contrato' class='selectpicker selectField'
+                                                <select name='detalle_contrato' class='selectpicker'
                                                         placeholder='Seleccione un contrato'
                                                         data-live-search='true' id='detalle_contrato'>
 
@@ -224,7 +224,7 @@ class ViewOrdenCompra {
                                 <!-- /.card-body -->
                             </div>
 
-                            
+
                         </div>
                     </div>
 
@@ -243,31 +243,27 @@ class ViewOrdenCompra {
 
         </form>
 
-                
 
-        <!-- {{-- Script para mostrar nombre archivo en el select --}} -->
-        <script>
-            $(".custom-file-input").on("change", function() {
-                var fileName = $(this).val().split("\\").pop();
-                $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
-            });
-        </script>
 
         <script src="<?=base();?>/assets/assets/frontend/js/jquery-3.3.1.js"></script>
         <script src="<?=base();?>/assets/assets/frontend/js/selectize.js"></script>
         <script>
 
-                
-			$('.selectField').selectize({
-				create: false,
-				sortField: {
-					field: 'text', 
-					direction: 'asc'
-				},
-				dropdownParent: 'body'
-				
-			});
-		
+            var optionsSelect = {
+                create: false,
+                sortField: {
+                    field: 'text',
+                    direction: 'asc'
+                },
+                dropdownParent: 'body'
+
+            };
+
+			$('.selectField').selectize(optionsSelect);
+
+            var $selectDetalleContrato = $(document.getElementById('detalle_contrato')).selectize(optionsSelect);
+
+
 			$('#selectContrato').selectize({
 
 				create: false,
@@ -278,13 +274,54 @@ class ViewOrdenCompra {
 				dropdownParent: 'body',
 				onChange: function(value) {
 
-                    
-					// console.log("Cambio", value);
+				    console.log('cambio select contrato');
+				    var data = {
+				        id: value
+                    };
+
+                    $.ajax({
+                        method: 'POST',
+                        url: '<?=base()."/get/detalles/contratos/ajax";?>',
+                        data: data,
+                        dataType: 'json',
+                        success: function (res) {
+                            console.log('respuesta ajax:',res)
+
+
+
+                            var selectize = $selectDetalleContrato[0].selectize;
+
+                            selectize.clearOptions();
+
+
+                            if (Array.isArray(res)){
+                                $.each(res, function(index,item) {
+                                    console.log('add item:',item);
+                                    selectize.addOption(item);
+                                    selectize.addItem(1);
+                                });
+                                selectize.refreshOptions();
+                                selectize.settings.placeholder = "Seleccione un item...";
+                            }else{
+                                selectize.settings.placeholder = res;
+                            }
+
+                            selectize.updatePlaceholder()
+
+
+
+
+                        },
+                        error: function (res) {
+                            console.log('respuesta ajax:',res);
+
+                        }
+                    })
 				}
 			});
-		    </script> 
+        </script>
 
-                
+
 
         <?php
 
