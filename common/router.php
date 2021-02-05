@@ -145,8 +145,9 @@ class Router{
             foreach ($result as $index => $item) {
                 $codigo = $item['CODIGO'];
                 $nombre = $item['DESC_PROD_SOLI']." / ".$item['DESC_TEC_PROD_OFERTADO'];
+                $precio = $item['PRECIO_U_BRUTO'];
 
-                $detalles[] = ['value' => $codigo,'text' => $nombre];
+                $detalles[] = ['value' => $codigo,'text' => $nombre,'precio' => $precio];
             }
 
             echo json_encode($detalles);

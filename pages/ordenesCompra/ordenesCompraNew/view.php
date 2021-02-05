@@ -162,7 +162,7 @@ class ViewOrdenCompra {
                                     <table class="table table-bordered table-sm">
                                         <thead>
                                         <tr>
-                                            <th>Detalle</th>
+                                            <th>Descripción</th>
                                             <th>Cantidad</th>
                                             <th>Precio</th>
                                             <th>Agrear</th>
@@ -173,7 +173,7 @@ class ViewOrdenCompra {
                                             if ($registroEdit && count($registroEdit['detalles'])){
                                                 ?>
                                                 <tr>
-                                                    <th>Detalle</th>
+                                                    <th>Descripción</th>
                                                     <th>Cantidad</th>
                                                     <th>Precio</th>
                                                     <th>
@@ -186,20 +186,13 @@ class ViewOrdenCompra {
                                             } else{
                                                 ?>
                                                 <tr>
-                                                    <th>Detalle</th>
-                                                    <th>Cantidad</th>
-                                                    <th>Precio</th>
-                                                    <th>
-                                                        <a name="" id=""
-                                                           class="btn btn-danger"
-                                                           href="#" role="button">Eliminar</a>
-                                                    </th>
+                                                    <td colspan="4" class="text-center text-warning">No hay ningún detalles agregado</td>
                                                 </tr>
                                                 <?php
                                             }
                                         ?>
 
-                                        <tr>
+                                        <tr id="filaNuevoDetalle">
                                             <td width="45%">
                                                 <select name='detalle_contrato' class='selectpicker'
                                                         placeholder='Seleccione un contrato'
@@ -208,14 +201,14 @@ class ViewOrdenCompra {
                                                 </select>
                                             </td>
                                             <td>
-                                                <input type="text" class="form-control" name="cantidad" id="cantidad" readonly value="0">
+                                                <input type="text" class="form-control" name="cantidad" id="cantidad" value="0">
                                             </td>
                                             <td>
-                                                <input type="text" class="form-control" name="cantidad" id="cantidad" readonly value="0">
+                                                <input type="text" class="form-control" name="precio" id="precio" readonly value="0">
                                             </td>
                                             <td>
-                                                <a name="" id="" class="btn btn-success"
-                                                   href="#" role="button">Agregar</a>
+                                                <button type="button" id="btnAdd" class="btn btn-success"
+                                                   href="#" role="button">Agregar</button>
                                             </td>
                                         </tr>
                                         </tbody>
@@ -319,6 +312,14 @@ class ViewOrdenCompra {
                     })
 				}
 			});
+
+			$("#btnAdd").click(function (e) {
+                e.preventDefault();
+
+                var nuevoDet = $('#filaNuevoDetalle *').serializeArray()
+
+                console.log('Agregar item',nuevoDet);
+            })
         </script>
 
 
