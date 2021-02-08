@@ -97,6 +97,16 @@ switch ($request) {
 	
 		$router->ordenCompraNew(); 
 		break;
+	case $base . '/ordenCompra/detalles/delete' :
+
+		$router->ordenCompraDetalleDelete();
+		break;
+
+    case $base . '/ordenCompra/detalles/add' :
+
+        $router->ordenCompraDetalleAdd();
+        break;
+
 	case $base . '/alertaContrato' :
 	case $base . '/alertaContrato/' :
 		$router->alertaContrato(); 

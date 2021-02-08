@@ -253,6 +253,20 @@ class Router{
 		}
 	}
 
+    public function ordenCompraDetalleDelete()
+    {
+        $model = new \OrdenCompraNew\ModelOrdenCompra($this->pdo);
+
+        $model->detalleDelete();
+	}
+
+	public function ordenCompraDetalleAdd()
+    {
+        $model = new \OrdenCompraNew\ModelOrdenCompra($this->pdo);
+
+        $model->detalleAdd();
+	}
+
 
 
 	/***********************************

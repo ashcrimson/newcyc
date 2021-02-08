@@ -169,3 +169,7 @@ function acentos($string){
 	$string = str_replace(array("á", "é", "í", "ó", "ú","ñ"), array("a", "e", "i", "o", "u","n"), $string);
 	return $string;
 }
+
+function redirect($ruta){
+    header("Location: ". base() . $ruta);
+}

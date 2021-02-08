@@ -13,6 +13,10 @@ class ViewOrdenCompra {
 
 		if(!empty($_POST)){
 			$model->execute();
+
+			if (!$model->hayErrores()){
+                header("Location: ". base() . "/ordenCompra/new?nro_orden_compra=".$model->getId());
+            }
         }
 
         if(isset($_GET["nro_orden_compra"])){
@@ -23,35 +27,7 @@ class ViewOrdenCompra {
 
         $dataContratos = $model->getContratos();
 
-		$id_contrato = false;
-        $nro_orden_compra = false;
-        $archivo_orden_compra = false;
-        $estado = false;
-        $total = false;
 
-
-
-		if(sizeof($_GET)){
-			if(!isset($_GET["id_contrato"])){
-				$id_contrato = !$id_contrato;
-			}
-			if(!isset($_GET["nro_orden_compra"])){
-				$nro_orden_compra = !$nro_orden_compra;
-            }
-            if(!isset($_GET["estado"])){
-				$estado = !$estado;
-            }
-            if(!isset($_GET["archivo_orden_compra"])){
-				$archivo_orden_compra = !$archivo_orden_compra;
-			}
-            if(!isset($_GET["total"])){
-				$total = !$total;
-            }
-            if(!isset($_GET["fecha_envio"])){
-				$fecha_envio = !$total;
-			}
-
-		}
 
 		ob_start();
 
@@ -73,16 +49,23 @@ class ViewOrdenCompra {
                     <?php feedback();?>
 
                     <div class="row">
-
                         <div class="form-group has-feedback col-xs-4 col-md-4 col-lg-4 <?=$selectContrato ? 'has-error' : '' ;?>">
-                            <label>ID Contrato</label>
-                            <input type="hidden" name="submit" value="true">
-                            <select class="selectpicker " placeholder='Seleccione Tipo de Contrato' name="id_contrato" id="selectContrato" value="<?=isset($_GET["id_contrato"]) ? $_GET["id_contrato"]: (isset($registroEdit["ID_CONTRATO"]) ? $registroEdit["ID_CONTRATO"] : "") ?>">
+                            <label>
+                                ID Contrato
+                                <i class="fa fa-spinner fa-spin " style="display: none" id="iconLoading"></i>
+                            </label>
+                            <select class="selectpicker "
+                                    placeholder='Seleccione Tipo de Contrato'
+                                    name="id_contrato"
+                                    id="selectContrato">
+                                <option value=""></option>
                                 <?php
                                 foreach ($dataContratos as $contrato) {
                                     $selected = $registroEdit['ID_CONTRATO']==$contrato["ID_CONTRATO"] ? "selected" : "";
                                     ?>
-                                    <option value="<?= $contrato["ID_CONTRATO"];?>" <?=$selected?> ><?=$contrato["TIPO"] ."-". $contrato["ID_CONTRATO"];?></option>
+                                    <option value="<?= $contrato["ID_CONTRATO"];?>" <?=$selected?> >
+                                        <?=$contrato["TIPO"] ."-". $contrato["ID_CONTRATO"];?>
+                                    </option>
                                     <?php
                                 }
                                 ?>
@@ -159,60 +142,105 @@ class ViewOrdenCompra {
                                 </div>
                                 <!-- /.card-header -->
                                 <div class="card-body">
-                                    <table class="table table-bordered table-sm">
-                                        <thead>
-                                        <tr>
-                                            <th>Descripción</th>
-                                            <th>Cantidad</th>
-                                            <th>Precio</th>
-                                            <th>Agrear</th>
-                                        </tr>
-                                        </thead>
-                                        <tbody>
-                                        <?php
-                                            if ($registroEdit && count($registroEdit['detalles'])){
+                                    <?php
+                                    if ($registroEdit){
+                                        ?>
+                                        <table class="table table-bordered table-sm">
+                                            <thead>
+                                            <tr>
+                                                <th>Descripción</th>
+                                                <th>Cantidad</th>
+                                                <th>Precio</th>
+                                                <th>Sub Total</th>
+                                                <th>Agrear</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            <?php
+                                            if ($registroEdit && count($registroEdit['detalles_compra'])){
+                                                foreach ($registroEdit['detalles_compra'] as $index => $detalle) {
+                                                    $sub = $detalle['CANTIDAD'] * $detalle['PRECIO'];
+                                                    ?>
+                                                    <tr>
+                                                        <td><?=$detalle['DESC_PROD_SOLI']." / ".$detalle['DESC_TEC_PROD_OFERTADO']?></td>
+                                                        <td><?=$detalle['CANTIDAD']?></td>
+                                                        <td><?=$detalle['PRECIO']?></td>
+                                                        <td><?=$sub?></td>
+
+                                                        <td>
+                                                            <a href="/ordenCompra/detalles/delete?nro_orden_compra=<?=$detalle['NRO_ORDEN_COMPRA']?>&id=<?=$detalle['ID']?>"
+                                                               class="btn btn-danger"
+                                                                role="button">Eliminar</a>
+                                                        </td>
+                                                    </tr>
+                                                    <?php
+                                                }
                                                 ?>
-                                                <tr>
-                                                    <th>Descripción</th>
-                                                    <th>Cantidad</th>
-                                                    <th>Precio</th>
-                                                    <th>
-                                                        <a name="" id=""
-                                                           class="btn btn-danger"
-                                                           href="#" role="button">Eliminar</a>
-                                                    </th>
-                                                </tr>
                                                 <?php
                                             } else{
                                                 ?>
                                                 <tr>
-                                                    <td colspan="4" class="text-center text-warning">No hay ningún detalles agregado</td>
+                                                    <td colspan="5" class="text-center text-warning">No hay ningún detalles agregado</td>
                                                 </tr>
                                                 <?php
                                             }
+                                            ?>
+
+                                            <tr id="filaNuevoDetalle">
+                                                <td width="45%">
+                                                    <select name='detalle_contrato' class='selectpicker'
+                                                            placeholder='Seleccione un contrato'
+                                                            data-live-search='true' id='detalle_contrato'>
+                                                        <?php
+                                                        if ($registroEdit && count($registroEdit['detalles_contrato'])){
+                                                            foreach ($registroEdit['detalles'] as $detalle) {
+                                                             ?>
+                                                                <option value="<?=$detalle['value']?>">
+                                                                    <?=$detalle['text']?>
+                                                                </option>
+                                                            <?php
+                                                            }
+                                                        }
+                                                        ?>
+
+                                                    </select>
+                                                </td>
+                                                <td>
+                                                    <input type="text" class="form-control" name="cantidad" id="cantidad" value="0">
+                                                </td>
+                                                <td>
+                                                    <input type="text" class="form-control" name="precio" id="precio" readonly value="0">
+                                                </td>
+                                                <td>
+                                                    <input type="text" class="form-control" id="subtotal" readonly value="0">
+                                                </td>
+                                                <td>
+                                                    <input type="hidden" name="nro_orden_compra" value="<?=$registroEdit['NRO_ORDEN_COMPRA']?>">
+                                                    <button type="button" id="btnAdd" class="btn btn-success"
+                                                            href="#" role="button">Agregar</button>
+                                                </td>
+                                            </tr>
+                                            </tbody>
+                                            <tfoot>
+                                            <tr>
+                                                <th colspan="3">Total</th>
+                                                <th class="text-right" >
+                                                    <span id="total">0</span>
+                                                </th>
+                                                <th></th>
+                                            </tr>
+                                            </tfoot>
+                                        </table>
+                                        <?php
+                                    }else {
                                         ?>
+                                        <h3 class="text-info text-center">
+                                            Guarde primero para poder agregar detalles
+                                        </h3>
+                                        <?php
+                                    }
+                                    ?>
 
-                                        <tr id="filaNuevoDetalle">
-                                            <td width="45%">
-                                                <select name='detalle_contrato' class='selectpicker'
-                                                        placeholder='Seleccione un contrato'
-                                                        data-live-search='true' id='detalle_contrato'>
-
-                                                </select>
-                                            </td>
-                                            <td>
-                                                <input type="text" class="form-control" name="cantidad" id="cantidad" value="0">
-                                            </td>
-                                            <td>
-                                                <input type="text" class="form-control" name="precio" id="precio" readonly value="0">
-                                            </td>
-                                            <td>
-                                                <button type="button" id="btnAdd" class="btn btn-success"
-                                                   href="#" role="button">Agregar</button>
-                                            </td>
-                                        </tr>
-                                        </tbody>
-                                    </table>
                                 </div>
                                 <!-- /.card-body -->
                             </div>
@@ -254,71 +282,110 @@ class ViewOrdenCompra {
 
 			$('.selectField').selectize(optionsSelect);
 
-            var $selectDetalleContrato = $(document.getElementById('detalle_contrato')).selectize(optionsSelect);
+
+            $('#selectContrato').selectize({
+                create: false,
+                dropdownParent: 'body',
+                <?php
+                if ($registroEdit){
+                    ?>
+                    onChange: function(value) {
+
+                        $("#iconLoading").show();
+
+                        var data = {
+                            id: value
+                        };
+
+                        $.ajax({
+                            method: 'POST',
+                            url: '<?=base()."/get/detalles/contratos/ajax";?>',
+                            data: data,
+                            dataType: 'json',
+                            success: function (res) {
+                                console.log('respuesta ajax:',res);
+
+                                items = res;
+
+                                var selectize = $selectDetalleContrato[0].selectize;
+
+                                selectize.clearOptions();
 
 
-			$('#selectContrato').selectize({
+                                if (Array.isArray(res)){
+                                    $.each(res, function(index,item) {
+                                        selectize.addOption(item);
+                                        selectize.addItem(1);
+                                    });
+                                    selectize.refreshOptions();
+                                    selectize.settings.placeholder = "Seleccione un item...";
+                                }else{
+                                    selectize.settings.placeholder = res;
+                                }
 
-				create: false,
-				sortField: {
-					field: 'text',
-					direction: 'asc'
-				},
-				dropdownParent: 'body',
-				onChange: function(value) {
+                                selectize.updatePlaceholder();
 
-				    console.log('cambio select contrato');
-				    var data = {
-				        id: value
-                    };
-
-                    $.ajax({
-                        method: 'POST',
-                        url: '<?=base()."/get/detalles/contratos/ajax";?>',
-                        data: data,
-                        dataType: 'json',
-                        success: function (res) {
-                            console.log('respuesta ajax:',res)
+                                $("#iconLoading").hide();
 
 
+                            },
+                            error: function (res) {
+                                console.log('respuesta ajax error:',res);
+                                $("#iconLoading").hide();
 
-                            var selectize = $selectDetalleContrato[0].selectize;
-
-                            selectize.clearOptions();
-
-
-                            if (Array.isArray(res)){
-                                $.each(res, function(index,item) {
-                                    console.log('add item:',item);
-                                    selectize.addOption(item);
-                                    selectize.addItem(1);
-                                });
-                                selectize.refreshOptions();
-                                selectize.settings.placeholder = "Seleccione un item...";
-                            }else{
-                                selectize.settings.placeholder = res;
                             }
+                        })
+                    }
+                    <?php
+                }
+                ?>
+            });
 
-                            selectize.updatePlaceholder()
+            var items = [];
+
+            var $selectDetalleContrato = $('#detalle_contrato').selectize({
+                create: false,
+                dropdownParent: 'body',
+                onChange: function(value) {
+                    console.log('Selecciona el articulo:'+value,items);
+
+                    var item = items.find( o => (o.value == value));
+
+                    $("#filaNuevoDetalle").find("#precio").val(item.precio);
+                    subTotal();
+
+                }
+            });
+
+            $("#cantidad").focus(function () {
+                $(this).select();
+            });
+
+            $("#cantidad").keyup(function (e) {
+                subTotal();
+            });
+
+            function subTotal(){
+
+                var cantidad = parseFloat($("#cantidad").val());
+                var precio = parseFloat($("#precio").val());
 
 
-
-
-                        },
-                        error: function (res) {
-                            console.log('respuesta ajax:',res);
-
-                        }
-                    })
-				}
-			});
+                if(cantidad && precio){
+                    $("#subtotal").val(cantidad*precio) ;
+                }
+            }
 
 			$("#btnAdd").click(function (e) {
                 e.preventDefault();
 
-                var nuevoDet = $('#filaNuevoDetalle *').serializeArray()
+                var nuevoDet = $('#filaNuevoDetalle *').serialize();
 
-                console.log('Agregar item',nuevoDet);
+                var uri = "/ordenCompra/detalles/add?" + nuevoDet;
+
+                console.log('Agregar item',uri);
+
+                window.location.href= uri;
             })
         </script>
 

@@ -122,210 +122,59 @@ class ModelOrdenCompra {
 		
 		
 		$query = "SELECT * FROM ORDEN_COMPRA WHERE NRO_ORDEN_COMPRA='" . $this->nro_orden_compra . "'";
-        $result = oci_parse($this->pdo, $query);
-        oci_execute($result);
-        $listado = queryResultToAssoc($result);
-		// array_push($assoc, $listado);
-    
-		return $listado[0];
+
+		$ordenCompra = queryToArray($query,$this->pdo)[0];
+
+		$ordenCompra['detalles_contrato'] = [];
+
+
+        $query = 'select * from detalle_contrato where id_contrato='.$ordenCompra['ID_CONTRATO'];
+
+        $result = queryToArray($query,$this->pdo);
+
+        if ($result){
+            $detalles = [];
+
+            foreach ($result as $index => $item) {
+                $codigo = $item['CODIGO'];
+                $nombre = $item['DESC_PROD_SOLI']." / ".$item['DESC_TEC_PROD_OFERTADO'];
+                $precio = $item['PRECIO_U_BRUTO'];
+
+                $detalles[] = ['value' => $codigo,'text' => $nombre,'precio' => $precio];
+            }
+
+            $ordenCompra['detalles_contrato'] = $detalles;
+
+        }
+
+
+        $query = 'select 
+                    * 
+                from 
+                    orden_compra_detalles do inner join detalle_contrato dc on dc.codigo=do.codigo_detalle_contrato 
+                where 
+                    nro_orden_compra='.$this->nro_orden_compra;
+
+        $result = queryToArray($query,$this->pdo);
+
+
+        $ordenCompra['detalles_compra'] = $result ?? [];
+
+
+
+		return $ordenCompra;
 	
 
 	}
 
 	public function getContratos(){
 
-		$assoc = [];
+		$query = "SELECT * FROM CONTRATOS order by ID_CONTRATO asc";
 
 
-		//consulta para recuperar los ids de los contratos
-		$query = "SELECT * FROM CONTRATOS";
-		$result = oci_parse($this->pdo, $query);
-		oci_execute($result);
-		$contratos = queryResultToAssoc($result);
-		// array_push($assoc, $contratos);
-
-		return $contratos;
+		return queryToArray($query,$this->pdo);;
 	}
 
-	public function getDetalleContrato(){
-
-		$assoc = [];
-
-
-		//consulta para recuperar los detalles de los contratos
-		$query = "SELECT * FROM DETALLE_CONTRATO WHERE ID_CONTRATO=1";
-		$result = oci_parse($this->pdo, $query);
-		oci_execute($result);
-		$detalle_contrato = queryResultToAssoc($result);
-		
-
-		return $detalle_contrato;
-	}
-
-	public function getDetalleContrato2(){
-
-		$assoc = [];
-
-
-		//consulta para recuperar los detalles de los contratos
-		$query = "SELECT * FROM DETALLE_CONTRATO WHERE ID_CONTRATO=2";
-		$result = oci_parse($this->pdo, $query);
-		oci_execute($result);
-		$detalle_contrato2 = queryResultToAssoc($result);
-		
-
-		return $detalle_contrato2;
-	}
-
-	public function getDetalleContrato3(){
-
-		$assoc = [];
-
-
-		//consulta para recuperar los detalles de los contratos
-		$query = "SELECT * FROM DETALLE_CONTRATO WHERE ID_CONTRATO=3";
-		$result = oci_parse($this->pdo, $query);
-		oci_execute($result);
-		$detalle_contrato3 = queryResultToAssoc($result);
-		
-
-		return $detalle_contrato3;
-	}
-
-	public function getDetalleContrato4(){
-
-		$assoc = [];
-
-
-		//consulta para recuperar los detalles de los contratos
-		$query = "SELECT * FROM DETALLE_CONTRATO WHERE ID_CONTRATO=4";
-		$result = oci_parse($this->pdo, $query);
-		oci_execute($result);
-		$detalle_contrato4 = queryResultToAssoc($result);
-		
-
-		return $detalle_contrato4;
-	}
-
-	public function getDetalleContrato5(){
-
-		$assoc = [];
-
-
-		//consulta para recuperar los detalles de los contratos
-		$query = "SELECT * FROM DETALLE_CONTRATO WHERE ID_CONTRATO=5";
-		$result = oci_parse($this->pdo, $query);
-		oci_execute($result);
-		$detalle_contrato5 = queryResultToAssoc($result);
-		
-
-		return $detalle_contrato5;
-	}
-
-	public function getDetalleContrato6(){
-
-		$assoc = [];
-
-
-		//consulta para recuperar los detalles de los contratos
-		$query = "SELECT * FROM DETALLE_CONTRATO WHERE ID_CONTRATO=6";
-		$result = oci_parse($this->pdo, $query);
-		oci_execute($result);
-		$detalle_contrato6 = queryResultToAssoc($result);
-		
-
-		return $detalle_contrato6;
-	}
-
-	public function getDetalleContrato7(){
-
-		$assoc = [];
-
-
-		//consulta para recuperar los detalles de los contratos
-		$query = "SELECT * FROM DETALLE_CONTRATO WHERE ID_CONTRATO=7";
-		$result = oci_parse($this->pdo, $query);
-		oci_execute($result);
-		$detalle_contrato7 = queryResultToAssoc($result);
-		
-
-		return $detalle_contrato7;
-	}
-
-	public function getDetalleContrato8(){
-
-		$assoc = [];
-
-
-		//consulta para recuperar los detalles de los contratos
-		$query = "SELECT * FROM DETALLE_CONTRATO WHERE ID_CONTRATO=8";
-		$result = oci_parse($this->pdo, $query);
-		oci_execute($result);
-		$detalle_contrato8 = queryResultToAssoc($result);
-		
-
-		return $detalle_contrato8;
-	}
-	
-	public function getDetalleContrato9(){
-
-		$assoc = [];
-
-
-		//consulta para recuperar los detalles de los contratos
-		$query = "SELECT * FROM DETALLE_CONTRATO WHERE ID_CONTRATO=9";
-		$result = oci_parse($this->pdo, $query);
-		oci_execute($result);
-		$detalle_contrato9 = queryResultToAssoc($result);
-		
-
-		return $detalle_contrato9;
-	}
-
-	public function getDetalleContrato10(){
-
-		$assoc = [];
-
-
-		//consulta para recuperar los detalles de los contratos
-		$query = "SELECT * FROM DETALLE_CONTRATO WHERE ID_CONTRATO=10";
-		$result = oci_parse($this->pdo, $query);
-		oci_execute($result);
-		$detalle_contrato10 = queryResultToAssoc($result);
-		
-
-		return $detalle_contrato10;
-	}
-	
-	public function getDetalleContrato11(){
-
-		$assoc = [];
-
-
-		//consulta para recuperar los detalles de los contratos
-		$query = "SELECT * FROM DETALLE_CONTRATO WHERE ID_CONTRATO=11";
-		$result = oci_parse($this->pdo, $query);
-		oci_execute($result);
-		$detalle_contrato11 = queryResultToAssoc($result);
-		
-
-		return $detalle_contrato11;
-	}
-
-	public function getDetalleContrato12(){
-
-		$assoc = [];
-
-
-		//consulta para recuperar los detalles de los contratos
-		$query = "SELECT * FROM DETALLE_CONTRATO WHERE ID_CONTRATO=12";
-		$result = oci_parse($this->pdo, $query);
-		oci_execute($result);
-		$detalle_contrato12 = queryResultToAssoc($result);
-		
-
-		return $detalle_contrato12;
-	}
 
 	public function execute(){
 
@@ -362,7 +211,8 @@ class ModelOrdenCompra {
                 oci_commit($this->pdo);
  
                
-			}else{
+			}
+			else{
 			
 				// $numero = 0; 
 
@@ -467,11 +317,74 @@ class ModelOrdenCompra {
 
 
 		oci_close($this->pdo);
-		// return $assoc;
+
+
+		return $_POST['nro_orden_compra'];
 
 		
 		
 	}
 
+
+    public function getErrors()
+    {
+        return $this->errores;
+	}
+
+    public function hayErrores()
+    {
+        return $this->error;
+	}
+
+    public function getId()
+    {
+        return $this->nro_orden_compra;
+	}
+
+    public function detalleDelete()
+    {
+
+        $query = "delete from orden_compra_detalles WHERE id=".$_GET['id'];
+        $result = oci_parse($this->pdo, $query);
+        oci_execute($result);
+        oci_commit();
+        oci_close();
+
+        redirect('/ordenCompra/new?nro_orden_compra='.$_GET['nro_orden_compra']);
+	}
+
+	public function detalleAdd()
+    {
+
+        $query = "
+            INSERT INTO 
+                ORDEN_COMPRA_DETALLES(
+                    ID,
+                    NRO_ORDEN_COMPRA, 
+                    CODIGO_DETALLE_CONTRATO, 
+                    CANTIDAD, 
+                    PRECIO, 
+                    FECHA_CREACION
+                ) 
+            VALUES(
+                0,
+                '".$_GET['nro_orden_compra']."', 
+                '".$_GET['detalle_contrato']."', 
+                ".$_GET['cantidad'].",
+                ".$_GET['precio'].",
+                SYSDATE 
+            )
+        ";
+
+
+        $result = oci_parse($this->pdo, $query);
+
+        oci_execute($result);
+
+        oci_commit();
+        oci_close();
+
+        redirect('/ordenCompra/new?nro_orden_compra='.$_GET['nro_orden_compra']);
+	}
 	
 }
