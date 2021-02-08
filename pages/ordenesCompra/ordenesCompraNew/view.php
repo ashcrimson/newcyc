@@ -191,17 +191,7 @@ class ViewOrdenCompra {
                                                     <select name='detalle_contrato' class='selectpicker'
                                                             placeholder='Seleccione un contrato'
                                                             data-live-search='true' id='detalle_contrato'>
-                                                        <?php
-                                                        if ($registroEdit && count($registroEdit['detalles_contrato'])){
-                                                            foreach ($registroEdit['detalles'] as $detalle) {
-                                                             ?>
-                                                                <option value="<?=$detalle['value']?>">
-                                                                    <?=$detalle['text']?>
-                                                                </option>
-                                                            <?php
-                                                            }
-                                                        }
-                                                        ?>
+
 
                                                     </select>
                                                 </td>
@@ -283,6 +273,14 @@ class ViewOrdenCompra {
 			$('.selectField').selectize(optionsSelect);
 
 
+            <?php
+            if ($registroEdit){
+                ?>
+                    getDetallesContrato("<?=$registroEdit['ID_CONTRATO']?>");
+                <?php
+            }
+            ?>
+
             $('#selectContrato').selectize({
                 create: false,
                 dropdownParent: 'body',
@@ -293,53 +291,15 @@ class ViewOrdenCompra {
 
                         $("#iconLoading").show();
 
-                        var data = {
-                            id: value
-                        };
+                        getDetallesContrato(value)
 
-                        $.ajax({
-                            method: 'POST',
-                            url: '<?=base()."/get/detalles/contratos/ajax";?>',
-                            data: data,
-                            dataType: 'json',
-                            success: function (res) {
-                                console.log('respuesta ajax:',res);
-
-                                items = res;
-
-                                var selectize = $selectDetalleContrato[0].selectize;
-
-                                selectize.clearOptions();
-
-
-                                if (Array.isArray(res)){
-                                    $.each(res, function(index,item) {
-                                        selectize.addOption(item);
-                                        selectize.addItem(1);
-                                    });
-                                    selectize.refreshOptions();
-                                    selectize.settings.placeholder = "Seleccione un item...";
-                                }else{
-                                    selectize.settings.placeholder = res;
-                                }
-
-                                selectize.updatePlaceholder();
-
-                                $("#iconLoading").hide();
-
-
-                            },
-                            error: function (res) {
-                                console.log('respuesta ajax error:',res);
-                                $("#iconLoading").hide();
-
-                            }
-                        })
                     }
                     <?php
                 }
                 ?>
             });
+
+
 
             var items = [];
 
@@ -356,6 +316,49 @@ class ViewOrdenCompra {
 
                 }
             });
+
+            function getDetallesContrato(id) {
+                $.ajax({
+                    method: 'POST',
+                    url: '<?=base()."/get/detalles/contratos/ajax";?>',
+                    data: {
+                        id: id
+                    },
+                    dataType: 'json',
+                    success: function (res) {
+                        console.log('respuesta ajax:',res);
+
+                        items = res;
+
+                        var selectize = $selectDetalleContrato[0].selectize;
+
+                        selectize.clearOptions();
+
+
+                        if (Array.isArray(res)){
+                            $.each(res, function(index,item) {
+                                selectize.addOption(item);
+                                selectize.addItem(1);
+                            });
+                            selectize.refreshOptions();
+                            selectize.settings.placeholder = "Seleccione un item...";
+                        }else{
+                            selectize.settings.placeholder = res;
+                        }
+
+                        selectize.updatePlaceholder();
+
+                        $("#iconLoading").hide();
+
+
+                    },
+                    error: function (res) {
+                        console.log('respuesta ajax error:',res);
+                        $("#iconLoading").hide();
+
+                    }
+                })
+            }
 
             $("#cantidad").focus(function () {
                 $(this).select();
