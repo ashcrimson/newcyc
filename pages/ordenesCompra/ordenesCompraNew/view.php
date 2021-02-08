@@ -168,7 +168,7 @@ class ViewOrdenCompra {
                                                         <td><?=$sub?></td>
 
                                                         <td>
-                                                            <a href="/ordenCompra/detalles/delete?nro_orden_compra=<?=$detalle['NRO_ORDEN_COMPRA']?>&id=<?=$detalle['ID']?>"
+                                                            <a href="<?=base()?>/ordenCompra/detalles/delete?nro_orden_compra=<?=$detalle['NRO_ORDEN_COMPRA']?>&id=<?=$detalle['ID']?>"
                                                                class="btn btn-danger"
                                                                 role="button">Eliminar</a>
                                                         </td>
@@ -384,7 +384,7 @@ class ViewOrdenCompra {
 
                 var nuevoDet = $('#filaNuevoDetalle *').serialize();
 
-                var uri = "/ordenCompra/detalles/add?" + nuevoDet;
+                var uri = "<?=base()?>/ordenCompra/detalles/add?" + nuevoDet;
 
                 console.log('Agregar item',uri);
 
