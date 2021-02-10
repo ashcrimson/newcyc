@@ -370,8 +370,8 @@ class ModelOrdenCompra {
                 0,
                 '".$_GET['nro_orden_compra']."', 
                 '".$_GET['detalle_contrato']."', 
-                ".$_GET['cantidad'].",
-                ".$_GET['precio'].",
+                TO_NUMBER('".$_GET['cantidad']."'),
+                TO_NUMBER('".$_GET['precio']."'),
                 SYSDATE 
             )
         ";
