@@ -384,8 +384,17 @@ class ViewOrdenCompra {
                 }
             }
 
+
 			$("#btnAdd").click(function (e) {
                 e.preventDefault();
+
+                if(parseFloat($("#cantidad").val()) == 0){
+
+                    alert('La cantidad debe ser mayor a 0');
+                    $("#cantidad").focus().select();
+                    return
+                }
+
 
                 var nuevoDet = $('#filaNuevoDetalle *').serialize();
 
