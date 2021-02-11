@@ -158,8 +158,11 @@ class ViewOrdenCompra {
                                             <tbody>
                                             <?php
                                             if ($registroEdit && count($registroEdit['detalles_compra'])){
+                                                $total = 0;
                                                 foreach ($registroEdit['detalles_compra'] as $index => $detalle) {
                                                     $sub = $detalle['CANTIDAD'] * $detalle['PRECIO'];
+
+                                                    $total += $sub;
                                                     ?>
                                                     <tr>
                                                         <td><?=$detalle['DESC_PROD_SOLI']." / ".$detalle['DESC_TEC_PROD_OFERTADO']?></td>
@@ -215,7 +218,9 @@ class ViewOrdenCompra {
                                             <tr>
                                                 <th colspan="3">Total</th>
                                                 <th class="text-right" >
-                                                    <span id="total">0</span>
+                                                    <span id="total">
+                                                        <?=$total?>
+                                                    </span>
                                                 </th>
                                                 <th></th>
                                             </tr>
