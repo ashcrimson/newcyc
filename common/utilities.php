@@ -173,3 +173,9 @@ function acentos($string){
 function redirect($ruta){
     header("Location: ". base() . $ruta);
 }
+
+function toFloat($val){
+    $val = str_replace(",",".",$val);
+    $val = preg_replace('/\.(?=.*\.)/', '', $val);
+    return floatval($val);
+}

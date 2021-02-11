@@ -160,7 +160,7 @@ class ViewOrdenCompra {
                                             if ($registroEdit && count($registroEdit['detalles_compra'])){
                                                 $total = 0;
                                                 foreach ($registroEdit['detalles_compra'] as $index => $detalle) {
-                                                    $sub = $detalle['CANTIDAD'] * $detalle['PRECIO'];
+                                                    $sub = toFloat($detalle['CANTIDAD']) * toFloat($detalle['PRECIO']);
 
                                                     $total += $sub;
                                                     ?>
