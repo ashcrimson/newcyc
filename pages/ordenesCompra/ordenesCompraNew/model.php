@@ -381,6 +381,29 @@ class ModelOrdenCompra {
 
         oci_execute($result);
 
+        $query = "
+            select  
+                sum(CANTIDAD*PRECIO) as total
+            from 
+                ORDEN_COMPRA_DETALLES 
+            where 
+                NRO_ORDEN_COMPRA='".$_GET['nro_orden_compra']."' group by 1";
+
+        $total = queryToArray($query,$this->pdo)[0]['TOTAL'];
+
+        $query="
+            update 
+                ORDEN_COMPRA 
+            set 
+                TOTAL=TO_NUMBER('".$total."') 
+            where 
+                NRO_ORDEN_COMPRA='".$_GET['nro_orden_compra']."'
+        ";
+
+        $result = oci_parse($this->pdo, $query);
+
+        oci_execute($result);
+
         oci_commit();
         oci_close();
 

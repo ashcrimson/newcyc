@@ -375,8 +375,8 @@ class ViewOrdenCompra {
 
             function subTotal(){
 
-                var cantidad = parseFloat($("#cantidad").val());
-                var precio = parseFloat($("#precio").val());
+                var cantidad = parseFloat($("#cantidad").val().replace(',', '.'));
+                var precio = parseFloat($("#precio").val().replace(',', '.'));
 
 
                 if(cantidad && precio){
