@@ -97,6 +97,11 @@ switch ($request) {
 	
 		$router->ordenCompraNew(); 
 		break;
+	case $base . '/ordenCompra/save' :
+	case $base . '/ordenCompra/save/' :
+
+		$router->ordenCompraSave();
+		break;
 	case $base . '/ordenCompra/detalles/delete' :
 
 		$router->ordenCompraDetalleDelete();

@@ -148,12 +148,12 @@ class ModelOrdenCompra {
         }
 
 
-        $query = 'select 
+        $query = "select 
                     * 
                 from 
                     orden_compra_detalles do inner join detalle_contrato dc on dc.codigo=do.codigo_detalle_contrato 
                 where 
-                    nro_orden_compra='.$this->nro_orden_compra;
+                    NRO_ORDEN_COMPRA='" . $this->nro_orden_compra . "'";
 
         $result = queryToArray($query,$this->pdo);
 
@@ -203,18 +203,15 @@ class ModelOrdenCompra {
                 $result = oci_parse($this->pdo, $query);
 
                 if($result){
-                    $_SESSION["feedback"] = "Orden de compra actualizada correctamente";
+                    flash("Orden de compra actualizada correctamente")->success();
                 }
 
                 oci_execute($result);
 
-                oci_commit($this->pdo);
- 
                
 			}
 			else{
 			
-				// $numero = 0; 
 
 				$consulta = "INSERT INTO ORDEN_COMPRA VALUES (
 					'". $this->nro_orden_compra ."', 
@@ -230,49 +227,37 @@ class ModelOrdenCompra {
 					
 					)";
 
-				
-
 				//ejecucion consulta
 				$query = $consulta;
 				$result = oci_parse($this->pdo, $query);
 
 				if($result){
-					$_SESSION["feedback"] = "Orden de compra ingresada correctamente";
+
+					flash("Orden de compra ingresada correctamente")->success();
 				}
 				//print_r($consulta);
 				oci_execute($result);
 
-				//oci_error();
-				//$listado = queryResultToAssoc($result);
-				oci_commit($this->pdo);
-			
-			}	
-		}else{
 
-			foreach($this->errores as $e){
-				echo $e."<br>";
 			}
-			// header("Location: ". base() . "/ordenCompra/new?" . $params);
-			die();
-		}
 
-		if($_FILES["archivo_orden_compra"]["error"] == 0){
+            if($_FILES["archivo_orden_compra"]["error"] == 0){
 
-				
-			$cons = "select documentos_sequence.nextval as NRO_DOCUMENTO from dual";
-			$result = oci_parse($this->pdo, $cons);
-			oci_execute($result);
-			$nro_documento = queryResultToAssoc($result)[0]["NRO_DOCUMENTO"];
-			
-			$archivo = basename($_FILES["archivo_orden_compra"]["name"]);
-			$tipo = $_FILES["archivo_orden_compra"]["type"];
-			$peso = $_FILES["archivo_orden_compra"]["size"];
-			
-			$pdf = file_get_contents($_FILES['archivo_orden_compra']['tmp_name']);
 
-			//consulta de inserción
-			//$consulta = "SELECT * FROM LICITACIONES " . " ORDER BY FECHA_CREACION DESC";
-			$consulta = "INSERT into DOCUMENTO (NRO_DOCUMENTO, TIPO_DOCUMENTO, NOMBRE, ARCHIVO, PESO_ARCHIVO, TIPO_ARCHIVO, FECHA_CREACION) values (
+                $cons = "select documentos_sequence.nextval as NRO_DOCUMENTO from dual";
+                $result = oci_parse($this->pdo, $cons);
+                oci_execute($result);
+                $nro_documento = queryResultToAssoc($result)[0]["NRO_DOCUMENTO"];
+
+                $archivo = basename($_FILES["archivo_orden_compra"]["name"]);
+                $tipo = $_FILES["archivo_orden_compra"]["type"];
+                $peso = $_FILES["archivo_orden_compra"]["size"];
+
+                $pdf = file_get_contents($_FILES['archivo_orden_compra']['tmp_name']);
+
+                //consulta de inserción
+                //$consulta = "SELECT * FROM LICITACIONES " . " ORDER BY FECHA_CREACION DESC";
+                $consulta = "INSERT into DOCUMENTO (NRO_DOCUMENTO, TIPO_DOCUMENTO, NOMBRE, ARCHIVO, PESO_ARCHIVO, TIPO_ARCHIVO, FECHA_CREACION) values (
 						'". $nro_documento ."',
 						'oc',
 						'". $archivo ."',
@@ -282,44 +267,55 @@ class ModelOrdenCompra {
 						TO_DATE('". date('yy-m-d') ."','yyyy-mm-dd'))
 						RETURNING archivo INTO :archivo";
 
-			//ejecucion consulta
-			$query = $consulta;
-			$result = oci_parse($this->pdo, $query);
+                //ejecucion consulta
+                $query = $consulta;
+                $result = oci_parse($this->pdo, $query);
 
-			$blob = oci_new_descriptor($this->pdo, OCI_D_LOB);
-			oci_bind_by_name($result, ":archivo", $blob, -1, OCI_B_BLOB);
-			//print_r($consulta);
-			oci_execute($result, OCI_DEFAULT) or die ("Unable to execute query");
+                $blob = oci_new_descriptor($this->pdo, OCI_D_LOB);
+                oci_bind_by_name($result, ":archivo", $blob, -1, OCI_B_BLOB);
+                //print_r($consulta);
+                oci_execute($result, OCI_DEFAULT) or die ("Unable to execute query");
 
-			if(!$blob->save($pdf)) {
-				oci_rollback($this->pdo);
-			}
-			else {
-				oci_commit($this->pdo);
-			}
+                if(!$blob->save($pdf)) {
+                    oci_rollback($this->pdo);
+                }
+                else {
+                    oci_commit($this->pdo);
+                }
 
-			oci_free_statement($result);
-			$blob->free();
-			//OJOOOOOOOOOOOOOO
-			//DESPUES DE INSERTAR EL BLOB
-			////Guardar en lka tbla documento_lictacion
-			///LA RELACION DE ESTE DOCUMENTO $nro_documento ----> id y  $this->nro_licitacion ---> nro_lictacion
+                oci_free_statement($result);
+                $blob->free();
+                //OJOOOOOOOOOOOOOO
+                //DESPUES DE INSERTAR EL BLOB
+                ////Guardar en lka tbla documento_lictacion
+                ///LA RELACION DE ESTE DOCUMENTO $nro_documento ----> id y  $this->nro_licitacion ---> nro_lictacion
 
-			$consulta2 = "INSERT into DOCUMENTO_ORDEN_COMPRA (NRO_DOCUMENTO, NRO_ORDEN_COMPRA) values (
+                $consulta2 = "INSERT into DOCUMENTO_ORDEN_COMPRA (NRO_DOCUMENTO, NRO_ORDEN_COMPRA) values (
 				'". $nro_documento ."',
 				'". $this->nro_orden_compra ."'
 			)";
 
-			$query2 = $consulta2;
-			$result2 = oci_parse($this->pdo, $query2);
-			oci_execute($result2, OCI_DEFAULT) or die ("No se pudo");
+                $query2 = $consulta2;
+                $result2 = oci_parse($this->pdo, $query2);
+                oci_execute($result2, OCI_DEFAULT) or die ("No se pudo");
+            }
+
+
+            oci_commit($this->pdo);
+            oci_close($this->pdo);
+
+            $id = $_GET['nro_orden_compra'] ?? $_POST['nro_orden_compra'];
+
+            redirect('/ordenCompra/new?nro_orden_compra='.$id);
+		}else{
+
+			foreach($this->errores as $e){
+				echo $e."<br>";
+			}
+			// header("Location: ". base() . "/ordenCompra/new?" . $params);
+			die();
 		}
 
-
-		oci_close($this->pdo);
-
-
-		return $_POST['nro_orden_compra'];
 
 		
 		
@@ -347,8 +343,10 @@ class ModelOrdenCompra {
         $query = "delete from orden_compra_detalles WHERE id=".$_GET['id'];
         $result = oci_parse($this->pdo, $query);
         oci_execute($result);
-        oci_commit();
-        oci_close();
+        oci_commit($this->pdo);
+        oci_close($this->pdo);
+
+        flash("Detalle eliminado")->success();
 
         redirect('/ordenCompra/new?nro_orden_compra='.$_GET['nro_orden_compra']);
 	}
@@ -404,8 +402,10 @@ class ModelOrdenCompra {
 
         oci_execute($result);
 
-        oci_commit();
-        oci_close();
+        oci_commit($this->pdo);
+        oci_close($this->pdo);
+
+        flash("Detalle agregado")->success();
 
         redirect('/ordenCompra/new?nro_orden_compra='.$_GET['nro_orden_compra']);
 	}

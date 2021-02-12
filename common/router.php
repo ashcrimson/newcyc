@@ -253,6 +253,14 @@ class Router{
 		}
 	}
 
+    public function ordenCompraSave()
+    {
+        $model = new \OrdenCompraNew\ModelOrdenCompra($this->pdo);
+
+        $model->new();
+        $model->execute();
+	}
+
     public function ordenCompraDetalleDelete()
     {
         $model = new \OrdenCompraNew\ModelOrdenCompra($this->pdo);

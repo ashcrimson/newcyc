@@ -11,13 +11,6 @@ class ViewOrdenCompra {
 
 	public function output(\OrdenCompraNew\ModelOrdenCompra $model){
 
-		if(!empty($_POST)){
-			$model->execute();
-
-			if (!$model->hayErrores()){
-                header("Location: ". base() . "/ordenCompra/new?nro_orden_compra=".$model->getId());
-            }
-        }
 
         if(isset($_GET["nro_orden_compra"])){
 			$registroEdit = $model->get();
@@ -26,7 +19,6 @@ class ViewOrdenCompra {
 
 
         $dataContratos = $model->getContratos();
-
 
 
 		ob_start();
@@ -41,12 +33,12 @@ class ViewOrdenCompra {
             <!-- <li class="breadcrumb-item active">Mantenedor</li> -->
         </ol>
 
-        <form method="post" class="form-horizontal" action="<?=base();?>/ordenCompra/new" enctype="multipart/form-data">
+        <form method="post" class="form-horizontal" action="<?=base();?>/ordenCompra/save" enctype="multipart/form-data">
 
             <div class="card mb-3">
                 <div class="card-body">
 
-                    <?php feedback();?>
+                    <?php feedback2();?>
 
                     <div class="row">
                         <div class="form-group has-feedback col-xs-4 col-md-4 col-lg-4 <?=$selectContrato ? 'has-error' : '' ;?>">

@@ -102,6 +102,18 @@ function base(string $ruta = ""){
 	return substr($_SERVER["SCRIPT_NAME"], 0, -10) . $ruta;
 }
 
+
+function flash($message = null, $level = 'info')
+{
+    $notifier = new \Laracasts\Flash\FlashNotifier();
+
+    if (! is_null($message)) {
+        return $notifier->message($message, $level);
+    }
+
+    return $notifier;
+}
+
 function feedback(){
     if(isset($_SESSION["feedback"])){
         echo "
@@ -111,6 +123,43 @@ function feedback(){
 		";
 		unset($_SESSION["feedback"]);
 	}
+}
+
+function feedback2(){
+
+    session_start();
+
+
+
+    if (is_array($_SESSION['flash_notification'])){
+
+
+        foreach ($_SESSION['flash_notification'] as $message){
+            ?>
+            <div class="alert
+                    alert-<?=$message['level']?>
+                    <?=$message['important'] ? 'alert-important' : '' ?>"
+                 role="alert"
+            >
+                <?php
+                if ($message['important']){
+                    ?>
+                    <button type="button"
+                            class="close"
+                            data-dismiss="alert"
+                            aria-hidden="true"
+                    >&times;</button>
+                    <?php
+                }
+
+                echo  $message['message'];
+                ?>
+            </div>
+            <?php
+        }
+        unset($_SESSION["flash_notification"]);
+    }
+
 }
 
 function fechaEn($fecha=null){
