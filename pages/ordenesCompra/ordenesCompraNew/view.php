@@ -163,7 +163,7 @@ class ViewOrdenCompra {
                                                         <td><?=$sub?></td>
 
                                                         <td>
-                                                            <a href="<?=base()?>/ordenCompra/detalles/delete?nro_orden_compra=<?=$detalle['NRO_ORDEN_COMPRA']?>&id=<?=$detalle['ID']?>"
+                                                            <a href="<?=base()?>/ordenCompra/detalles/delete?nro_orden_compra=<?=$detalle['NRO_ORDEN_COMPRA']?>&codigo=<?=$detalle['CODIGO_DETALLE_CONTRATO']?>&cantidad=<?=$detalle['CANTIDAD']?>&id=<?=$detalle['ID']?>"
                                                                class="btn btn-danger"
                                                                 role="button">Eliminar</a>
                                                         </td>
