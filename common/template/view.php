@@ -56,11 +56,56 @@ class ViewTemplateCYC {
 	<link rel="stylesheet" href="<?=base();?>/assets/assets/frontend/css/normalize.css" rel="stylesheet">
 	<link rel="stylesheet" href="<?=base();?>/assets/assets/frontend/css/selectize.default.css" rel="stylesheet">
 
+	<style>
+		.navbar-dark .navbar-nav .nav-link {
+			color: white;
+		}
+
+		.sidebar .nav-item .nav-link span{
+			color: white;
+			
+		}
+		.skin-blue .sidebar-menu>li:hover>a, .skin-blue .sidebar-menu>li.active>a, .skin-blue .sidebar-menu>li.menu-open>a {
+			color: #fff;
+			background: #1e282c;
+		}
+
+		.sidebar-menu, .main-sidebar .user-panel, .sidebar-menu>li.header {
+			white-space: nowrap;
+			overflow: hidden;
+		}
+
+		.elmenu {
+			color: rgba(255, 255, 255, 0.5);
+			text-decoration: none;
+		}
+
+		.elmenu:hover {
+			color: #fff;
+			text-decoration: none;
+		}
+
+		.treeview {
+			text-align: left;
+		}
+
+		::marker {
+			unicode-bidi: isolate;
+			font-variant-numeric: tabular-nums;
+			text-transform: none;
+			text-indent: 0px !important;
+			text-align: start !important;
+			text-align-last: start !important;
+		}
+
+		
+	</style>
+
 </head>
 
 <body id="page-top">
-	<nav class="navbar navbar-expand-md navbar-dark bg-dark static-top">
-		<a class="navbar-brand mr-1" href="<?=base();?>/">Bienvenido</a>
+	<nav class="navbar navbar-expand-md navbar-dark bg-dark static-top" style="background-color:#3c8dbc !important;">
+		<a class="navbar-brand mr-1 ml-5" href="<?=base();?>/">Bienvenido</a>
 
 		<button class="btn btn-link btn-sm text-white order-1 order-sm-0" id="sidebarToggle" href="#">
 			<i class="fas fa-bars"></i>
@@ -97,7 +142,9 @@ class ViewTemplateCYC {
 
 <div id="wrapper">
 	<!-- Sidebar -->
+	
 	<ul class="sidebar navbar-nav">
+	
 		<li class="nav-item">
 			<a class="nav-link" href="<?=base();?>/">
 				<i class="fas fa-fw fa-tachometer-alt"></i>
@@ -162,39 +209,65 @@ class ViewTemplateCYC {
 			</a>
 		</li>
  -->
-		<li class="nav-item dropdown">
-			<a class="nav-link dropdown-toggle" href="#" id="pagesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-				<i class="fas fa-exclamation-triangle"></i>
-				<span>Alertas</span>
-			</a>
-			<div class="dropdown-menu" aria-labelledby="pagesDropdown">
-				<a class="dropdown-item" href="<?=base();?>/alertaContrato">Contratos</a>
-				<!-- <div class="dropdown-divider"></div> 
-				<a class="dropdown-item" href="<?=base();?>/alertaConvenio">Convenios</a> -->
-			</div>
-		</li>
+		
 
-		<li class="nav-item">
+		<li class="nav-item dropdown">
+
+		<ul class="sidebar-menu  " data-widget="tree">
+        
+        
+        <li class="treeview " style="height: auto; text-align:left; margin-left:-22px; padding-top:10px;">
+          <a href="#" class="elmenu">
+            <i class="fa fa-exclamation-triangle"></i>
+            <span style="color:#fff;">Alertas</span>
+            <span class="pull-right-container">
+              <i class="fa fa-angle-right pull-right" style="padding-left:102px;"></i>
+            </span>
+          </a>
+          <ul class="treeview-menu elmenu" style="display: none;">
+            <li ><a href="<?=base();?>/alertaContrato" class="elmenu"><i class="fa fa-circle-o"></i> Contratos</a></li>
+            
+          </ul>
+        </li>
+     
+        
+      </ul>
+	  </li>
+
+		<li class="nav-item" style="padding-top:10px;">
 			<a class="nav-link" href="<?=base();?>/usuarios">
 				<i class="fas fa-fw fa-user-circle"></i>
 				<span>Usuarios</span>
 			</a>
 		</li>
 
+		
+
 		<li class="nav-item dropdown">
-			<a class="nav-link dropdown-toggle" href="#" id="pagesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-				<i class="fas fa-fw fa-folder"></i>
-				<span>Mantenedores</span>
-			</a>
-			<div class="dropdown-menu" aria-labelledby="pagesDropdown">
-				<a class="dropdown-item" href="<?=base();?>/cargos">Cargos</a>
-				<a class="dropdown-item" href="<?=base();?>/monedas">Monedas</a>
-				<div class="dropdown-divider"></div>    
-				<!-- <a class="dropdown-item" href="<?=base();?>/prestaciones">Prestaciones</a> -->
-				<a class="dropdown-item" href="<?=base();?>/proveedores">Proveedores</a>
-				<a class="dropdown-item" href="<?=base();?>/prestaciones">Prestaciones</a>
-			</div>
-		</li>
+
+		<ul class="sidebar-menu  " data-widget="tree">
+        
+        
+        <li class="treeview " style="height: auto; text-align:left; margin-left:-22px; padding-top:10px;">
+          <a href="#" class="elmenu">
+            <i class="fa fa-folder"></i>
+            <span style="padding-left:2px;  color:#fff;">Mantenedores</span>
+            <span class="pull-right-container">
+              <i class="fa fa-angle-right pull-right" style="padding-left:50px;"></i>
+            </span>
+          </a>
+          <ul class="treeview-menu elmenu" style="display: none;">
+            <li ><a href="<?=base();?>/cargos" class="elmenu"><i class="fa fa-circle-o"></i> Cargos</a></li>
+            <li><a href="<?=base();?>/monedas" class="elmenu"><i class="fa fa-circle-o"></i> Monedas</a></li>
+            <li><a href="<?=base();?>/proveedores" class="elmenu"><i class="fa fa-circle-o"></i> Proveedores</a></li>
+            <li><a href="<?=base();?>/prestaciones" class="elmenu"><i class="fa fa-circle-o"></i> Prestaciones</a></li>
+          </ul>
+        </li>
+     
+        
+      </ul>
+	  </li>
+		
 		<!-- <li class="nav-item dropdown">
 			<a class="nav-link dropdown-toggle" href="#" id="pagesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 				<i class="fas fa-fw fa-book"></i>
@@ -291,6 +364,15 @@ class ViewTemplateCYC {
 
 <!--   Custom scripts for all pages -->
 <script src="<?=base();?>/assets/assets/frontend/js/sb-admin.min.js"></script>
+
+<!-- Slimscroll -->
+<script src="https://adminlte.io/themes/AdminLTE/bower_components/jquery-slimscroll/jquery.slimscroll.min.js"></script>
+<!-- FastClick -->
+<script src="https://adminlte.io/themes/AdminLTE/bower_components/fastclick/lib/fastclick.js"></script>
+<!-- AdminLTE App -->
+<script src="https://adminlte.io/themes/AdminLTE/dist/js/adminlte.min.js"></script>
+<!-- AdminLTE for demo purposes -->
+<script src="https://adminlte.io/themes/AdminLTE/dist/js/demo.js"></script>
 
 </body>
 </html>
