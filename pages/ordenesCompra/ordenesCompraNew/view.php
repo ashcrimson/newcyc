@@ -142,9 +142,10 @@ class ViewOrdenCompra {
                                             <tr>
                                                 <th>Descripción</th>
                                                 <th>Cantidad</th>
+                                                <th>Saldo</th>
                                                 <th>Precio</th>
                                                 <th>Sub Total</th>
-                                                <th>Agrear</th>
+                                                <th>Agregar</th>
                                             </tr>
                                             </thead>
                                             <tbody>
@@ -159,6 +160,7 @@ class ViewOrdenCompra {
                                                     <tr>
                                                         <td><?=$detalle['DESC_PROD_SOLI']." / ".$detalle['DESC_TEC_PROD_OFERTADO']?></td>
                                                         <td><?=$detalle['CANTIDAD']?></td>
+                                                        <td><?=$detalle['SALDO']?></td>
                                                         <td><?=$detalle['PRECIO']?></td>
                                                         <td><?=$sub?></td>
 
@@ -192,6 +194,11 @@ class ViewOrdenCompra {
                                                 </td>
                                                 <td>
                                                     <input type="text" class="form-control" name="cantidad" id="cantidad" value="0">
+                                                </td>
+
+                                                
+                                                <td>
+
                                                 </td>
                                                 <td>
                                                     <input type="text" class="form-control" name="precio" id="precio" readonly value="0">
