@@ -139,8 +139,9 @@ class ModelOrdenCompra {
                 $codigo = $item['CODIGO'];
                 $nombre = $item['DESC_PROD_SOLI']." / ".$item['DESC_TEC_PROD_OFERTADO'];
                 $precio = $item['PRECIO_U_BRUTO'];
+                $saldo = $item['SALDO'];
 
-                $detalles[] = ['value' => $codigo,'text' => $nombre,'precio' => $precio];
+                $detalles[] = ['value' => $codigo,'text' => $nombre,'precio' => $precio,'saldo' => $saldo];
             }
 
             $ordenCompra['detalles_contrato'] = $detalles;
@@ -369,7 +370,7 @@ class ModelOrdenCompra {
 
         //query cantidad total detalle contrato
         $query="
-          update DETALLE_CONTRATO set SALDO=CANTIDAD_TOTAL+to_number('".$_GET['cantidad']."') where CODIGO='".$_GET['codigo']."'
+          update DETALLE_CONTRATO set SALDO=SALDO+to_number('".$_GET['cantidad']."') where CODIGO='".$_GET['codigo']."'
         ";
 
 
@@ -441,7 +442,7 @@ class ModelOrdenCompra {
 
         //query cantidad total detalle contrato
         $query="
-          update DETALLE_CONTRATO set SALDO=CANTIDAD_TOTAL-to_number('".$_GET['cantidad']."') where CODIGO='".$_GET['detalle_contrato']."'
+          update DETALLE_CONTRATO set SALDO=SALDO-to_number('".$_GET['cantidad']."') where CODIGO='".$_GET['detalle_contrato']."'
         ";
 
         $result = oci_parse($this->pdo, $query);

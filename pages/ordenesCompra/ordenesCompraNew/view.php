@@ -198,7 +198,7 @@ class ViewOrdenCompra {
 
                                                 
                                                 <td>
-
+                                                    <input type="text" class="form-control" name="saldo" id="saldo" readonly value="0">
                                                 </td>
                                                 <td>
                                                     <input type="text" class="form-control" name="precio" id="precio" readonly value="0">
@@ -215,7 +215,7 @@ class ViewOrdenCompra {
                                             </tbody>
                                             <tfoot>
                                             <tr>
-                                                <th colspan="3">Total</th>
+                                                <th colspan="4">Total</th>
                                                 <th class="text-right" >
                                                     <span id="total">
                                                         <?=$total?>
@@ -311,11 +311,14 @@ class ViewOrdenCompra {
                 create: false,
                 dropdownParent: 'body',
                 onChange: function(value) {
-                    console.log('Selecciona el articulo:'+value,items);
+
 
                     var item = items.find( o => (o.value == value));
 
+                    console.log('Selecciona el articulo:',item);
+
                     $("#filaNuevoDetalle").find("#precio").val(item.precio);
+                    $("#filaNuevoDetalle").find("#saldo").val(item.saldo);
                     subTotal();
 
                 }

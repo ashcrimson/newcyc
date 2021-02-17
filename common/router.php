@@ -146,8 +146,9 @@ class Router{
                 $codigo = $item['CODIGO'];
                 $nombre = $item['DESC_PROD_SOLI']." / ".$item['DESC_TEC_PROD_OFERTADO'];
                 $precio = $item['PRECIO_U_BRUTO'];
+                $saldo = $item['SALDO'];
 
-                $detalles[] = ['value' => $codigo,'text' => $nombre,'precio' => $precio];
+                $detalles[] = ['value' => $codigo,'text' => $nombre,'precio' => $precio,'saldo' => $saldo];
             }
 
             echo json_encode($detalles);
