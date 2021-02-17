@@ -390,9 +390,19 @@ class ViewOrdenCompra {
 			$("#btnAdd").click(function (e) {
                 e.preventDefault();
 
-                if(parseFloat($("#cantidad").val()) == 0){
+                var cantidad = parseFloat($("#cantidad").val());
+                var saldo = parseFloat($("#saldo").val());
+
+                if(cantidad <= 0){
 
                     alert('La cantidad debe ser mayor a 0');
+                    $("#cantidad").focus().select();
+                    return
+                }
+
+                if(cantidad > saldo){
+
+                    alert('La cantidad no  puede ser mayor al saldo');
                     $("#cantidad").focus().select();
                     return
                 }
