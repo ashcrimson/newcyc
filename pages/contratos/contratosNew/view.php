@@ -406,6 +406,23 @@ class ViewContratos {
 						</div>
 					</div>
 
+					<div class="container">
+						<div class="row col-12">
+							<div class="form-group has-feedback col-xs-4 col-md-4 col-lg-4 <?=$mboleta ? 'has-error' : '' ;?>">
+								<label>Monto Boleta Garantía*</label>
+								
+								<input type="text" name="mboleta" class="form-control"
+									value="<?=$_GET["mboleta"] ?? $registroEdit['MONTO_BOLETA_GARANTIA'] ?? ''?>"
+								>
+								<?php if ($mboleta){ ?>
+								<span class="help-block text-danger"> 
+									<strong>Error: Monto boleta garantia vacio</strong>
+								</span>
+								<?php } ?>
+                			</div>
+						</div>
+					</div>
+
 
 					<div class="container">
 						<div class="row col-12">

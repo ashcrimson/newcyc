@@ -187,6 +187,13 @@ class ModelContratos {
 				$this->errores["numero"] = true;
 				// $this->error = true;
 			}
+			if(isset($_POST["mboleta"]) && $_POST["mboleta"] != ""){
+				$this->params .= "mboleta" . $_POST["mboleta"] . "&";
+				$this->mboleta = $_POST["mboleta"];
+			}else{
+				$this->errores["numero"] = true;
+				// $this->error = true;
+			}
 			if(isset($_POST["monto"]) && $_POST["monto"] != ""){
 				$this->params .= "monto" . $_POST["monto"] . "&";
 				$this->monto = $_POST["monto"];
@@ -317,6 +324,7 @@ class ModelContratos {
                          FECHA_ALERTA_VENCIMIENTO=TO_DATE('" . $_POST['fecha_alert'] . "','yyyy-mm-dd'),                      
 						 OBJETO_CONTRATO='" . $_POST['objeto_contrato'] . "',
 						 NRO_BOLETA_GARANTIA='" . $_POST['numero'] . "',
+						 MONTO_BOLETA_GARANTIA='" . $_POST['mboleta'] . "',
 						 FECHA_VENCIMIENTO_BOLETA=TO_DATE('" . $_POST['fecha_vencimiento_boleta'] . "','yyyy-mm-dd'),
 						 ALERTA_VENCIMIENTO_BOLETA=TO_DATE('" . $_POST['alerta_vencimiento_boleta'] . "','yyyy-mm-dd')
 					WHERE 
@@ -363,6 +371,7 @@ class ModelContratos {
 				FECHA_ELIMINACION, 
 				OBJETO_CONTRATO,
 				NRO_BOLETA_GARANTIA,
+				MONTO_BOLETA_GARANTIA,
 				FECHA_VENCIMIENTO_BOLETA,
 				ALERTA_VENCIMIENTO_BOLETA
 				) 
@@ -383,6 +392,7 @@ class ModelContratos {
 				TO_DATE('2020-10-19 00:00:00', 'YYYY-MM-DD HH24:MI:SS'), 
 				'".  $this->objeto_contrato ."',
 				'". $this->numero ."',
+				'". $this->mboleta ."',
 				TO_DATE('". $this->fecha_vencimiento_boleta ."','yyyy-mm-dd'),
 				TO_DATE('". $this->alerta_vencimiento_boleta ."','yyyy-mm-dd')
 				)

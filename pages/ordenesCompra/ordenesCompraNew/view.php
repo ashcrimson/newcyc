@@ -113,6 +113,8 @@ class ViewOrdenCompra {
 
                         </div>
 
+                        
+
 
                         <div class="form-group has-feedback col-xsñ-4 col-md-4 col-lg-4">
                             <label for="">Adjuntar Orden de Compra</label>
@@ -123,6 +125,7 @@ class ViewOrdenCompra {
                         </div>
 
                     </div>
+                    
 
 
                     <div class="row">
