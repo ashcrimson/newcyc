@@ -99,6 +99,8 @@ class ModelOrdenCompra {
 				// $this->error = true;
 			}
 
+            
+
 			if(isset($_POST["archivo_orden_compra"]) && $_POST["archivo_orden_compra"] != ""){
 				$params .= "archivo_orden_compra=" . $_POST["archivo_orden_compra"] . "&";
 			}else{
@@ -189,7 +191,7 @@ class ModelOrdenCompra {
 						NRO_ORDEN_COMPRA='" . $_POST['nro_orden_compra'] . "', 
 						ID_CONTRATO='" . $_POST['id_contrato'] . "', 
 						FECHA_ENVIO=TO_DATE('2020-09-09 14:30:00','yyyy-mm-dd hh24-mi-ss'), 
-						TOTAL='" . $_POST['total'] . "', 
+						TOTAL='". $this->estado ."',  
 						ESTADO='" . $_POST['estado'] . "', 
 						FECHA_CREACION=TO_DATE('2020-09-09 14:30:00','yyyy-mm-dd hh24-mi-ss'), 
 						FECHA_ACTUALIZACION=TO_DATE('2020-09-09 14:30:00','yyyy-mm-dd hh24-mi-ss'), 
@@ -218,7 +220,7 @@ class ModelOrdenCompra {
 					'". $this->nro_orden_compra ."', 
 					'". $this->id_contrato ."', 
 					TO_DATE('". date('yy-m-d') ."','yyyy-mm-dd'),
-					'". $this->total ."', 
+					100, 
 					'". $this->estado ."', 
 					TO_DATE('2020-09-09 14:30:00','yyyy-mm-dd hh24-mi-ss'),
 					TO_DATE('2020-09-09 14:30:00','yyyy-mm-dd hh24-mi-ss'),
@@ -360,7 +362,7 @@ class ModelOrdenCompra {
             update 
                 ORDEN_COMPRA 
             set 
-                TOTAL=TO_NUMBER('".$total."') 
+                TOTAL=TO_NUMBER('".$_POST['total']."') 
             where 
                 NRO_ORDEN_COMPRA='".$_GET['nro_orden_compra']."'
         ";
@@ -428,7 +430,7 @@ class ModelOrdenCompra {
 
         //query actualizar el campo total de la compra
         $query="
-            update 
+            update  
                 ORDEN_COMPRA 
             set 
                 TOTAL=TO_NUMBER('".$total."') 
