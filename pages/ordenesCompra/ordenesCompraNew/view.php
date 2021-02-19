@@ -132,8 +132,7 @@ class ViewOrdenCompra {
                         <div class="form-group has-feedback col-xs-12 col-md-12 col-lg-12 <?=$descripcion ? 'has-error' : '' ;?>" id="descripcion">
                             <label>Descripción Orden de Compra</label>
 
-                            <textarea name="descripcion" class="form-control" rows="2"
-                                value="<?=$_GET["descripcion"] ?? $registroEdit['DESCRIPCION'] ?>"></textarea>
+                            <textarea name="descripcion" class="form-control" rows="2"><?=$_GET["descripcion"] ?? $registroEdit['DESCRIPCION'] ?></textarea>
 
                         </div>
 
@@ -141,7 +140,7 @@ class ViewOrdenCompra {
                             <label>Monto </label>
 
                             <input type="text" name="total"   class="form-control" required
-                                   value="<?= $_GET["total"] ?? $registroEdit['TOTAL'] ?>">
+                                   value="<?= $_GET["total"] ?? $registroEdit['TOTAL']  ?? 0?>">
 
                         </div>
                 		
