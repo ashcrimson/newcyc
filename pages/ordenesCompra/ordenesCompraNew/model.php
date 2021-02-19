@@ -190,6 +190,7 @@ class ModelOrdenCompra {
 
 	public function execute(){
 
+        $tienDetalles = $_POST['tiene_detalles']=='S' ? 1 : 0;
 		
 		//validar si faltó algo
 		if(!$this->error)
@@ -199,15 +200,16 @@ class ModelOrdenCompra {
                     UPDATE ORDEN_COMPRA SET 
 						NRO_ORDEN_COMPRA='" . $_POST['nro_orden_compra'] . "', 
 						ID_CONTRATO='" . $_POST['id_contrato'] . "', 
-						FECHA_ENVIO=TO_DATE('2020-09-09 14:30:00','yyyy-mm-dd hh24-mi-ss'), 
+						FECHA_ENVIO=SYSDATE, 
 						TOTAL='". $_POST['total'] ."',  
 						ESTADO='" . $_POST['estado'] . "', 
-						FECHA_CREACION=TO_DATE('2020-09-09 14:30:00','yyyy-mm-dd hh24-mi-ss'), 
-						FECHA_ACTUALIZACION=TO_DATE('2020-09-09 14:30:00','yyyy-mm-dd hh24-mi-ss'), 
-						FECHA_ELIMINACION=TO_DATE('2020-09-09 14:30:00','yyyy-mm-dd hh24-mi-ss'),
+						FECHA_CREACION=SYSDATE, 
+						FECHA_ACTUALIZACION=SYSDATE, 
+						FECHA_ELIMINACION=SYSDATE,
 						CODIGO='" . $_POST['detalle_contrato'] . "',
 						CANTIDAD='" . $_POST['cantidad'] . "',
-                        DESCRIPCION='" . $_POST['descripcion'] . "'
+                        DESCRIPCION='" . $_POST['descripcion'] . "',
+                        TIENE_DETALLES='" . $tienDetalles . "'
 					WHERE 
 						NRO_ORDEN_COMPRA='" . $_POST['id'] . "'
                 ";
@@ -232,12 +234,13 @@ class ModelOrdenCompra {
 					TO_DATE('". date('yy-m-d') ."','yyyy-mm-dd'),
 					'". $_POST['total'] ."', 
 					'". $this->estado ."', 
-					TO_DATE('2020-09-09 14:30:00','yyyy-mm-dd hh24-mi-ss'),
-					TO_DATE('2020-09-09 14:30:00','yyyy-mm-dd hh24-mi-ss'),
-					TO_DATE('2020-09-09 14:30:00','yyyy-mm-dd hh24-mi-ss'),
+					SYSDATE,
+					SYSDATE,
+					SYSDATE,
 					'". $this->detalle_contrato ."',
 					'". $this->cantidad ."',
-                    '". $_POST['descripcion'] ."'
+                    '". $_POST['descripcion'] ."',
+                    '". $tienDetalles ."'
 					
 					)";
 

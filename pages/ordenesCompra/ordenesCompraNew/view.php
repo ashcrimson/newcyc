@@ -116,42 +116,34 @@ class ViewOrdenCompra {
                             </div>
                         </div>
 
-                        <div class="form-group has-feedback col-xs-4 col-md-4 col-lg-4 <?=$selectContrato2 ? 'has-error' : '' ;?>">
-								<label>¿Agregar detalles de Contrato?</label>
-								<input type="hidden" name="submit" value="true">
-								<select class="selectpicker " placeholder='Seleccione Tipo de Contrato' name="selectContrato2" id="selectContrato2" value="<?=isset($_GET["selectContrato2"]) ? $_GET["selectContrato2"]: (isset($registroEdit["TIPO"]) ? $registroEdit["TIPO"] : "") ?>">
-									<option value="lc" <?=$registroEdit['TIPO']=='lc' ? 'selected' : ''?> >Sí</option>
-									<option value="td" <?=$registroEdit['TIPO']=='td' ? 'selected' : ''?>>No</option>
-								</select>
-								<?php if ($selectContrato2){ ?>
-								<span class="help-block text-danger"> 
-									<strong>Tipo de contrato vacío</strong>
-								</span>
-								<?php } ?>
+                        <div class="form-group has-feedback col-xs-4 col-md-4 col-lg-4">
+                            <label>¿Agregar detalles de Contrato?</label>
+                            <input type="hidden" name="submit" value="true">
+                            <select class="selectpicker " placeholder='Seleccione Tipo de Contrato'
+                                    name="tiene_detalles"
+                                    id="tiene_detalles">
+                                <option value="S" <?=$registroEdit['TIENE_DETALLES'] ? 'selected' : ''?>>Sí</option>
+                                <option value="N" <?=!$registroEdit['TIENE_DETALLES'] ? 'selected' : ''?>>No</option>
+                            </select>
 						</div>
-
-
-                        <div class="form-group has-feedback col-xs-4 col-md-4 col-lg-4 <?=$total ? 'has-error' : '' ;?>" id="total">
-                            <label>Monto </label>
-
-                            <!-- <input type="text" name="numeroOrdenCompra"  class="form-control" value="{{ $ordenCompraData->numeroOrdenCompra ?: old('numeroOrdenCompra') }}"> -->
-                            <input type="text" name="total"  class="form-control" required
-                                   value="<?= $_GET["total"] ?? $registroEdit['TOTAL'] ?>">
-
-                        </div>
-
-                        
 
                         
 						
-							<div class="form-group has-feedback col-xs-4 col-md-4 col-lg-4 <?=$descripcion ? 'has-error' : '' ;?>" id="descripcion">
-								<label>Descripción Orden de Compra</label>
-								
-								<textarea name="descripcion" class="form-control"
-									value="<?=$_GET["descripcion"] ?? $registroEdit['DESCRIPCION'] ?>">
-								</textarea>
-								
-							</div>
+                        <div class="form-group has-feedback col-xs-12 col-md-12 col-lg-12 <?=$descripcion ? 'has-error' : '' ;?>" id="descripcion">
+                            <label>Descripción Orden de Compra</label>
+
+                            <textarea name="descripcion" class="form-control" rows="2"
+                                value="<?=$_GET["descripcion"] ?? $registroEdit['DESCRIPCION'] ?>"></textarea>
+
+                        </div>
+
+                        <div class="form-group has-feedback col-xs-4 col-md-4 col-lg-4 " id="total">
+                            <label>Monto </label>
+
+                            <input type="text" name="total"   class="form-control" required
+                                   value="<?= $_GET["total"] ?? $registroEdit['TOTAL'] ?>">
+
+                        </div>
                 		
 					
                         
@@ -476,8 +468,11 @@ class ViewOrdenCompra {
 				dropdownParent: 'body'
 				
 			});
-		
-			$('#selectContrato2').selectize({
+
+
+            $('#total').hide();
+
+			$('#tiene_detalles').selectize({
 
 				create: false,
 				sortField: {
@@ -486,14 +481,21 @@ class ViewOrdenCompra {
 				},
 				dropdownParent: 'body',
 				onChange: function(value) {
-					if(value == "td"){
-						$('#licitacion2').hide(); 
-					} else {
-						$('#licitacion2').show(); 
-					}
-					// console.log("Cambio", value);
+					validaTieneDetalles()
 				}
 			});
+
+            validaTieneDetalles();
+
+			function validaTieneDetalles() {
+                if($('#tiene_detalles').val()=='S'){
+                    $('#total').hide();
+                    $('#licitacion2').show();
+                }else {
+                    $('#total').show();
+                    $('#licitacion2').hide();
+                }
+            }
 		</script>
 
 
