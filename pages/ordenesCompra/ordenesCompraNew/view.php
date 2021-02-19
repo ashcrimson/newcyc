@@ -92,14 +92,7 @@ class ViewOrdenCompra {
                         </div>
 
 
-<!--                        <div class="form-group has-feedback col-xs-4 col-md-4 col-lg-4 {{ $errors->has('total') ? 'has-error' : '' }}">-->
-<!--                            <label>Total</label>-->
-<!---->
-<!--                            <input type="text" name="total" class="form-control" required-->
-<!--                                   value="--><?//= $_GET["total"] ?? $registroEdit['TOTAL'] ?><!--">-->
-<!---->
-<!---->
-<!--                        </div>-->
+
 
                         <div class="form-group has-feedback col-xsñ-4 col-md-4 col-lg-4 {{ $errors->has('estado') ? 'has-error' : ''}}">
                             <label>Estado *</label>
@@ -109,7 +102,6 @@ class ViewOrdenCompra {
                                 <option value="Recepcion Conforme" <?=$registroEdit['ESTADO']=='Recepcion Conforme' ? 'selected' : ''?>>Recepcion Conforme</option>
 
                             </select>
-
 
                         </div>
 
@@ -124,11 +116,62 @@ class ViewOrdenCompra {
                             </div>
                         </div>
 
-                    </div>
+                        <div class="form-group has-feedback col-xs-4 col-md-4 col-lg-4 <?=$selectContrato2 ? 'has-error' : '' ;?>">
+								<label>¿Agregar detalles de Contrato?</label>
+								<input type="hidden" name="submit" value="true">
+								<select class="selectpicker " placeholder='Seleccione Tipo de Contrato' name="selectContrato2" id="selectContrato2" value="<?=isset($_GET["selectContrato2"]) ? $_GET["selectContrato2"]: (isset($registroEdit["TIPO"]) ? $registroEdit["TIPO"] : "") ?>">
+									<option value="lc" <?=$registroEdit['TIPO']=='lc' ? 'selected' : ''?> >Sí</option>
+									<option value="td" <?=$registroEdit['TIPO']=='td' ? 'selected' : ''?>>No</option>
+								</select>
+								<?php if ($selectContrato2){ ?>
+								<span class="help-block text-danger"> 
+									<strong>Tipo de contrato vacío</strong>
+								</span>
+								<?php } ?>
+						</div>
+
+
+                        <div class="form-group has-feedback col-xs-4 col-md-4 col-lg-4 <?=$total ? 'has-error' : '' ;?>" id="total">
+                            <label>Monto </label>
+
+                            <!-- <input type="text" name="numeroOrdenCompra"  class="form-control" value="{{ $ordenCompraData->numeroOrdenCompra ?: old('numeroOrdenCompra') }}"> -->
+                            <input type="text" name="total"  class="form-control" required
+                                   value="<?= $_GET["total"] ?? $registroEdit['TOTAL'] ?>">
+
+                        </div>
+
+                        
+
+                        
+						
+							<div class="form-group has-feedback col-xs-4 col-md-4 col-lg-4 <?=$descripcion ? 'has-error' : '' ;?>" id="descripcion">
+								<label>Descripción Orden de Compra</label>
+								
+								<textarea name="descripcion" class="form-control"
+									value="<?=$_GET["descripcion"] ?? $registroEdit['DESCRIPCION'] ?>">
+								</textarea>
+								
+							</div>
+                		
+					
+                        
+
+                    </div> <!-- AAAA -->
+
+                    <div class="container">
+						<?php feedback();?>
+						<div class="row ">
+							
+            			</div>
+					</div>
+					
+			
+
+					
                     
 
 
-                    <div class="row">
+                    <div class="row" id="licitacion2" >
                         <div class="col-sm-12">
                             <div class="card card-outline card-success">
                                 <div class="card-header pb-1">
@@ -374,6 +417,8 @@ class ViewOrdenCompra {
                 $(this).select();
             });
 
+            
+
             $("#cantidad").keyup(function (e) {
                 subTotal();
             });
@@ -420,6 +465,36 @@ class ViewOrdenCompra {
                 window.location.href= uri;
             })
         </script>
+
+        <script>
+			$('.selectField2').selectize({
+				create: false,
+				sortField: {
+					field: 'text', 
+					direction: 'asc'
+				},
+				dropdownParent: 'body'
+				
+			});
+		
+			$('#selectContrato2').selectize({
+
+				create: false,
+				sortField: {
+					field: 'text',
+					direction: 'asc'
+				},
+				dropdownParent: 'body',
+				onChange: function(value) {
+					if(value == "td"){
+						$('#licitacion2').hide(); 
+					} else {
+						$('#licitacion2').show(); 
+					}
+					// console.log("Cambio", value);
+				}
+			});
+		</script>
 
 
 

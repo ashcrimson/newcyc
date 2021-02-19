@@ -367,14 +367,14 @@ class ViewTemplateCYC {
 <!--   Custom scripts for all pages -->
 <script src="<?=base();?>/assets/assets/frontend/js/sb-admin.min.js"></script>
 
-<!--<!-- Slimscroll -->-->
-<!--<script src="https://adminlte.io/themes/AdminLTE/bower_components/jquery-slimscroll/jquery.slimscroll.min.js"></script>-->
-<!--<!-- FastClick -->-->
-<!--<script src="https://adminlte.io/themes/AdminLTE/bower_components/fastclick/lib/fastclick.js"></script>-->
-<!--<!-- AdminLTE App -->-->
-<!--<script src="https://adminlte.io/themes/AdminLTE/dist/js/adminlte.min.js"></script>-->
-<!--<!-- AdminLTE for demo purposes -->-->
-<!--<script src="https://adminlte.io/themes/AdminLTE/dist/js/demo.js"></script>-->
+<!-- Slimscroll -->
+<script src="https://adminlte.io/themes/AdminLTE/bower_components/jquery-slimscroll/jquery.slimscroll.min.js"></script>
+<!-- FastClick -->
+<script src="https://adminlte.io/themes/AdminLTE/bower_components/fastclick/lib/fastclick.js"></script>
+<!-- AdminLTE App -->
+<script src="https://adminlte.io/themes/AdminLTE/dist/js/adminlte.min.js"></script>
+<!-- AdminLTE for demo purposes -->
+<script src="https://adminlte.io/themes/AdminLTE/dist/js/demo.js"></script>
 
 
 </body>

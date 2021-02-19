@@ -367,7 +367,7 @@ class ViewContratos {
 								<?php } ?>
 							</div>
 						</div>
-					</div>
+					</div> 
 
                 
                     <div class="container">
@@ -376,12 +376,13 @@ class ViewContratos {
 								<label>Objeto del contrato *</label>
 								
 								<textarea name="objeto_contrato" class="form-control"
-									value="<?=$_GET["objeto_contrato"] ?? $registroEdit['OBJETO_CONTRATO'] ?? ''?>"
+									
 								>
+								<?=$_GET["objeto_contrato"] ?? $registroEdit['OBJETO_CONTRATO'] ?? ''?>
 								</textarea>
 								<?php if ($objeto_contrato){ ?>
 								<span class="help-block text-danger"> 
-									<strong>Error: Numero de licitacion vacio</strong>
+									<strong>Error: Objeto Contrato vacio</strong>
 								</span>
 								<?php } ?>
 							</div>

@@ -31,6 +31,7 @@ class ModelOrdenCompra {
 	private $pdf;
 	private $detalle_contrato;
 	private $cantidad;
+    private $descripcion;
 
 	//Constructor
 	function __construct($pdo, $nro_orden_compra = ''){
@@ -94,6 +95,14 @@ class ModelOrdenCompra {
 			if(isset($_POST["total"]) && $_POST["total"] != ""){
 				$this->params .= "total" . $_POST["total"] . "&";
 				$this->total = $_POST["total"];
+			}else{
+				// $this->errores[] = "No mando el total";
+				// $this->error = true;
+			}
+
+            if(isset($_POST["descripcion"]) && $_POST["descripcion"] != ""){
+				$this->params .= "descripcion" . $_POST["descripcion"] . "&";
+				$this->total = $_POST["descripcion"];
 			}else{
 				// $this->errores[] = "No mando el total";
 				// $this->error = true;
@@ -191,13 +200,14 @@ class ModelOrdenCompra {
 						NRO_ORDEN_COMPRA='" . $_POST['nro_orden_compra'] . "', 
 						ID_CONTRATO='" . $_POST['id_contrato'] . "', 
 						FECHA_ENVIO=TO_DATE('2020-09-09 14:30:00','yyyy-mm-dd hh24-mi-ss'), 
-						TOTAL='". $this->estado ."',  
+						TOTAL='". $_POST['total'] ."',  
 						ESTADO='" . $_POST['estado'] . "', 
 						FECHA_CREACION=TO_DATE('2020-09-09 14:30:00','yyyy-mm-dd hh24-mi-ss'), 
 						FECHA_ACTUALIZACION=TO_DATE('2020-09-09 14:30:00','yyyy-mm-dd hh24-mi-ss'), 
 						FECHA_ELIMINACION=TO_DATE('2020-09-09 14:30:00','yyyy-mm-dd hh24-mi-ss'),
 						CODIGO='" . $_POST['detalle_contrato'] . "',
-						CANTIDAD='" . $_POST['cantidad'] . "'
+						CANTIDAD='" . $_POST['cantidad'] . "',
+                        DESCRIPCION='" . $_POST['descripcion'] . "'
 					WHERE 
 						NRO_ORDEN_COMPRA='" . $_POST['id'] . "'
                 ";
@@ -220,13 +230,14 @@ class ModelOrdenCompra {
 					'". $this->nro_orden_compra ."', 
 					'". $this->id_contrato ."', 
 					TO_DATE('". date('yy-m-d') ."','yyyy-mm-dd'),
-					100, 
+					'". $_POST['total'] ."', 
 					'". $this->estado ."', 
 					TO_DATE('2020-09-09 14:30:00','yyyy-mm-dd hh24-mi-ss'),
 					TO_DATE('2020-09-09 14:30:00','yyyy-mm-dd hh24-mi-ss'),
 					TO_DATE('2020-09-09 14:30:00','yyyy-mm-dd hh24-mi-ss'),
 					'". $this->detalle_contrato ."',
-					'". $this->cantidad ."'
+					'". $this->cantidad ."',
+                    '". $_POST['descripcion'] ."'
 					
 					)";
 

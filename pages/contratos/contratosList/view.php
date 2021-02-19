@@ -227,8 +227,8 @@ class ViewContratos {
                         <th data-priority="2" width="50%">Razón Social Proveedor</th>
                         <th data-priority="3">Licitación</th>
                         <th data-priority="4">Moneda</th>
-                        <th data-priority="5">Precio</th>
-                        <th data-priority="100001">Restante</th>
+                        <!-- <th data-priority="5">Precio</th> -->
+                        <!-- <th data-priority="100001">Restante</th> -->
                         <th data-priority="100001">Cargo</th>
                         <th data-priority="100001">Fecha inicio contrato</th>
                         <th data-priority="100001">Fecha termino contrato</th>
@@ -262,9 +262,9 @@ class ViewContratos {
 
                             <td ><?= $contrato["NRO_LICITACION"]; ?></td>
                             <td><?= $contrato["NOMBRE_MONEDA"]; ?></td>
-                            <td><?= $contrato["PRECIO"]; ?></td>
+                            <!-- <td><?= $contrato["PRECIO"]; ?></td> -->
 
-                            <td><?= $contrato["RESTANTE"];?></td>
+                            <!-- <td><?= $contrato["RESTANTE"];?></td> -->
                             <td><?= $contrato["NOMBRE_CARGO"];?></td>
                             <td><?= $contrato["FECHA_INICIO"]; ?></td>
                             <td><?= $contrato["FECHA_TERMINO"]; ?></td>
