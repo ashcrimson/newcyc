@@ -374,12 +374,8 @@ class ViewContratos {
 						<div class="row col-12">
 							<div class="form-group has-feedback col-xs-4 col-md-4 col-lg-4 <?=$objeto_contrato ? 'has-error' : '' ;?>">
 								<label>Objeto del contrato *</label>
-								
-								<textarea name="objeto_contrato" class="form-control"
-									
-								>
-								<?=$_GET["objeto_contrato"] ?? $registroEdit['OBJETO_CONTRATO'] ?? ''?>
-								</textarea>
+								 
+								<textarea name="objeto_contrato" class="form-control"><?=$_GET["objeto_contrato"] ?? $registroEdit['OBJETO_CONTRATO'] ?? ''?></textarea>
 								<?php if ($objeto_contrato){ ?>
 								<span class="help-block text-danger"> 
 									<strong>Error: Objeto Contrato vacio</strong>
