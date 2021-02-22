@@ -21,7 +21,7 @@ class ControllerOrdenCompra {
 		}
 		return $model;
 	}
-
+ 
 
 	//retorna con la paginación 
 	public function page(\OrdenCompraList\ModelOrdenCompra $model){
@@ -36,6 +36,13 @@ class ControllerOrdenCompra {
 	public function delete(\OrdenCompraList\ModelOrdenCompra $model){
 		if(isset($_GET["nro_orden_compra"])){
 			$model = $model->delete($_GET["nro_orden_compra"]);
+		}
+		return $model;
+	}
+
+	public function anula(\OrdenCompraList\ModelOrdenCompra $model){
+		if(isset($_GET["nro_orden_compra"])){
+			$model = $model->anula($_GET["nro_orden_compra"]);
 		}
 		return $model;
 	}

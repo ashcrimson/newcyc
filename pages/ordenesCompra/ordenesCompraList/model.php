@@ -33,6 +33,11 @@ class ModelOrdenCompra {
 
 	//elimina registro indicado
 	public function delete($nro_orden_compra): self{
+
+	$sql3 = "DELETE FROM ORDEN_COMPRA_DETALLES WHERE NRO_ORDEN_COMPRA= '{$nro_orden_compra}'";
+		$result = oci_parse($this->pdo, $sql3);
+		oci_execute($result);
+		oci_commit($this->pdo);
 	
 	$sql2 = "DELETE FROM DOCUMENTO_ORDEN_COMPRA WHERE NRO_ORDEN_COMPRA= '{$nro_orden_compra}'";
 		$result = oci_parse($this->pdo, $sql2);
@@ -49,6 +54,18 @@ class ModelOrdenCompra {
         return new self($this->pdo, '', $this->page);
 
 	}
+
+	//anula registro indicado
+	public function anula($nro_orden_compra): self{
+
+	$sql = "UPDATE ORDEN_COMPRA SET ESTADO = 'Anulada' WHERE NRO_ORDEN_COMPRA= '{$nro_orden_compra}'";
+		$result = oci_parse($this->pdo, $sql);
+		oci_execute($result);
+		oci_commit($this->pdo);
+
+	}
+
+
 
 	//filtra consulta por nro de licitación(id, llave primaria)
 	public function getId($nro_orden_compra): self{

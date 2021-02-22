@@ -215,7 +215,7 @@ class Router{
 	/***********************************
 	 * ordenes compra
 	 ***********************************/
-	//pagina listado ordenes compra
+	//pagina listado ordenes compra 
 	public function ordenCompraList(){
 		$this->model = new \OrdenCompraList\ModelOrdenCompra($this->pdo);
 		$this->view = new \OrdenCompraList\ViewOrdenCompra;
@@ -223,6 +223,9 @@ class Router{
 		$this->model = $this->controller->all($this->model);
 		if(!empty($_GET["nro_orden_compra"])){
             $this->controller->delete($this->model);
+		}
+		if(!empty($_GET["nro_orden_compra"])){
+            $this->controller->anula($this->model);
 		}
 		if(isset($_GET["page"])){
             $this->model = $this->controller->page($this->model);
@@ -592,7 +595,7 @@ class Router{
         }
 
 
-
+ 
 	}
 
 	public function detalle(){

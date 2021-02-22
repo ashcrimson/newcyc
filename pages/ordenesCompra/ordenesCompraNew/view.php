@@ -97,7 +97,7 @@ class ViewOrdenCompra {
                         <div class="form-group has-feedback col-xsñ-4 col-md-4 col-lg-4 {{ $errors->has('estado') ? 'has-error' : ''}}">
                             <label>Estado *</label>
                             <select class="selectpicker selectField" placeholder='Seleccione Estado' name="estado" id="estado" value="<?=isset($_GET["estado"]) ? $_GET["estado"]: (isset($registroEdit["ESTADO"]) ? $registroEdit["ESTADO"] : "") ?>">
-                                <option value="Aceptado" <?=$registroEdit['ESTADO']=='Aceptado' ? 'selected' : ''?>>Aceptado</option>
+                                <option value="Aceptada" <?=$registroEdit['ESTADO']=='Aceptada' ? 'selected' : ''?>>Aceptada</option>
                                 <option value="Pendiente" <?=$registroEdit['ESTADO']=='Pendiente' ? 'selected' : ''?>>Pendiente</option>
                                 <option value="Recepcion Conforme" <?=$registroEdit['ESTADO']=='Recepcion Conforme' ? 'selected' : ''?>>Recepcion Conforme</option>
 

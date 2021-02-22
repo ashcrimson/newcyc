@@ -226,7 +226,7 @@ class ViewContratos {
                         <th data-priority="100001">Rut Proveedor</th>
                         <th data-priority="2" width="50%">Razón Social Proveedor</th>
                         <th data-priority="3">Licitación</th>
-                        <th data-priority="4">Moneda</th>
+                        <th data-priority="100001">Moneda</th>
                         <!-- <th data-priority="5">Precio</th> -->
                         <!-- <th data-priority="100001">Restante</th> -->
                         <th data-priority="100001">Cargo</th>
@@ -235,9 +235,9 @@ class ViewContratos {
                         <th data-priority="100001">Fecha último acto administrativo</th>
                         <th data-priority="100001">Objeto del contrato</th>
                         <th data-priority="100001">N° Boleta Garantía</th>
-                        <th data-priority="100001">Monto</th>
+                        <th data-priority="1">Monto</th>
                         <th data-priority="100001">Valor CLP</th>
-                        <th data-priority="100001">Saldo</th>
+                        <th data-priority="1">Saldo</th>
                         <th data-priority="100001">Fecha Alerta de Vencimiento</th>
                         <th data-priority="100001">Fecha Vencimiento Boleta</th>
                         <th data-priority="100001">Adjunto</th>

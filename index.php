@@ -74,7 +74,7 @@ switch ($request) {
         $router->getDetallesContratosAjax();
 
         exit();
-
+ 
         break;
     case $base . '/contratos/show' :
 	case $base . '/contratos/show/' :
@@ -90,6 +90,8 @@ switch ($request) {
 	case $base . '/ordenCompra/' :
 	case $base . '/ordenCompra/delete' :
 	case $base . '/ordenCompra/delete/' :
+	case $base . '/ordenCompra/anula' :
+	case $base . '/ordenCompra/anula/' :	
 		$router->ordenCompraList(); 
 		break;
 	case $base . '/ordenCompra/new' :
