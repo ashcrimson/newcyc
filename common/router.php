@@ -221,9 +221,9 @@ class Router{
 		$this->view = new \OrdenCompraList\ViewOrdenCompra;
 		$this->controller = new \OrdenCompraList\ControllerOrdenCompra;
 		$this->model = $this->controller->all($this->model);
-		if(!empty($_GET["nro_orden_compra"])){
-            $this->controller->delete($this->model);
-		}
+		// if(!empty($_GET["nro_orden_compra"])){
+        //     $this->controller->delete($this->model);
+		// }
 		if(!empty($_GET["nro_orden_compra"])){
             $this->controller->anula($this->model);
 		}

@@ -158,6 +158,7 @@ class ViewOrdenCompra {
                                     <?php if(!$proveedores["FECHA_ELIMINACION"]){ ?>
                                         
                                         <a href="#" data-target="#miModal<?=$index;?>" data-toggle="modal" class="btn btn-danger btn-xs"  ><i class="far fa-trash-alt"></i> Eliminar</a>
+                                        <a href="#" data-target="#restoreModal<?=$index;?>" data-toggle="modal" class="btn btn-info btn-xs"  ><i class="far fa-eye"></i> Restaurar</a>
                                         <!-- modal starts -->
                                         <div class="modal fade" id="miModal<?= $index; ?>">
                                             <div class="modal-dialog">
@@ -181,16 +182,16 @@ class ViewOrdenCompra {
                                     <?php
                                 }else{
                                 	?>
-                                        <a href="#" class="btn btn-xs btn-success" data-target="#restoreModal<?=$proveedores["RUT_PROVEEDOR"];?>" data-toggle="modal"><i class="fas fa-arrow-circle-up"></i> Restaurar</a>
+                                        <a href="#" class="btn btn-xs btn-success" data-target="#restoreModal<?= $ordenCompra["NRO_ORDEN_COMPRA"]; ?>" data-toggle="modal"><i class="fas fa-arrow-circle-up"></i> Restaurar</a>
 
                                         <!-- modal starts -->
-                                        <div class="modal fade" id="restoreModal<?=$proveedores["RUT_PROVEEDOR"];?>">
+                                        <div class="modal fade" id="restoreModal<?= $index; ?>">
                                             <div class="modal-dialog">
                                                 <div class="modal-content">
                                                     <form class="form-horizontal" method="post" action="<?=base("/ordenCompra/new?restore=true&id=").$ordenCompra["NRO_ORDEN_COMPRA"];?>" >
 
                                                     <div class="modal-header">
-                                                        <h4 class="modal-title"> Restaurar  <?=$proveedores["RAZON_SOCIAL"];?> </h4>
+                                                        <h4 class="modal-title"> Restaurar  <?= $ordenCompra["NRO_ORDEN_COMPRA"]; ?> </h4>
                                                         <button type="button" class="close" data-dismiss="modal">&times;</button>
                                                     </div>
                         

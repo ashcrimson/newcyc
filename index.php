@@ -88,8 +88,8 @@ switch ($request) {
 		break;
 	case $base . '/ordenCompra' :
 	case $base . '/ordenCompra/' :
-	case $base . '/ordenCompra/delete' :
-	case $base . '/ordenCompra/delete/' :
+	// case $base . '/ordenCompra/delete' :
+	// case $base . '/ordenCompra/delete/' :
 	case $base . '/ordenCompra/anula' :
 	case $base . '/ordenCompra/anula/' :	
 		$router->ordenCompraList(); 

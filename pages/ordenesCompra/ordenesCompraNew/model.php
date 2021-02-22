@@ -216,9 +216,11 @@ class ModelOrdenCompra {
 
 
                 $result = oci_parse($this->pdo, $query);
+                
 
                 if($result){
                     flash("Orden de compra actualizada correctamente")->success();
+                    
                 }
 
                 oci_execute($result);
@@ -247,10 +249,12 @@ class ModelOrdenCompra {
 				//ejecucion consulta
 				$query = $consulta;
 				$result = oci_parse($this->pdo, $query);
+                
 
 				if($result){
 
 					flash("Orden de compra ingresada correctamente")->success();
+                    
 				}
 				//print_r($consulta);
 				oci_execute($result);

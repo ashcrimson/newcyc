@@ -160,7 +160,7 @@ class ViewTemplateCYC {
 
 		<li class="nav-item dropdown">
 			<a class="nav-link" href="<?=base();?>/licitaciones" id="pagesDropdown" role="button" >
-				<i class="fas fa-file-signature"></i>
+			<i class="fas fa-book"></i>
 				<span>Licitaciones</span>
 			</a>
 		</li>
@@ -185,7 +185,7 @@ class ViewTemplateCYC {
 
 		<li class="nav-item dropdown">
 			<a class="nav-link" href="<?=base();?>/ordenCompra" id="pagesDropdown" role="button">
-				<i class="fas fa-file-signature"></i>
+				<i class="fas fa-cart"></i>
 				<span>Órdenes de Compra</span>
 			</a>
 			<div class="dropdown-menu" aria-labelledby="pagesDropdown">
