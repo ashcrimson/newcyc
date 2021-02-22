@@ -27,7 +27,7 @@ class viewUsuarios {
 
     <ol class="breadcrumb">
         <li class="breadcrumb-item">
-            <a href="<?=base("/usuarios");?>">Usuarios</a>
+            <a href="<?=base("/usuarios");?>" class="encabezado">Usuarios</a>
         </li>
         <li class="breadcrumb-item active">Mantenedor</li>
     </ol>
@@ -53,7 +53,7 @@ class viewUsuarios {
            
             <div class="table-responsive">
 
-                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                <table class="table table-sm table-bordered table-hover nowrap" id="dataTable" width="100%" cellspacing="0">
                     <thead>
                         <tr>
                             <th>Nombre</th>

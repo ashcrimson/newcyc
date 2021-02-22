@@ -24,7 +24,7 @@ class viewCargos {
 
 <ol class="breadcrumb">
     <li class="breadcrumb-item">
-        <a href="<?=base("/cargos/");?>">Cargos</a>
+        <a href="<?=base("/cargos/");?>" class="encabezado">Cargos</a>
     </li>
     <li class="breadcrumb-item active">Mantenedor</li>
 </ol>
@@ -85,7 +85,7 @@ class viewCargos {
             {{ session('status') }}
         </div>
         @endif
- -->        <div class="table-responsive table-sm -md -lg -x">
+ -->        <div class="table table-sm table-bordered table-hover nowrap">
             <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                 <thead>
                     <tr>

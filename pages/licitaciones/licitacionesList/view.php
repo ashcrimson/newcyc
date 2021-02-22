@@ -30,7 +30,7 @@ class ViewLicitaciones {
 
 		<ol class="breadcrumb">
 			<li class="breadcrumb-item">
-				<a href="./licitaciones">Licitaciones</a>
+				<a href="./licitaciones" class="encabezado">Licitaciones</a>
 			</li>        
 		</ol>
 
@@ -96,7 +96,7 @@ class ViewLicitaciones {
 				</div>
 
 				@endif -->
-				<div class="table-responsive table-sm -md -lg -x">
+				<div class="table table-sm table-bordered table-hover nowrap">
 					<table class="table table-bordered"  class="table-sm w-25" id="dataLicitaciones" width=100% cellspacing="0">
 						<thead>
 							<tr>

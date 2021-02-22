@@ -26,7 +26,7 @@ class ViewAlertaContrato {
 		<!-- Breadcrumbs-->
 		<ol class="breadcrumb">
 			<li class="breadcrumb-item">
-				<a href="<?=base("alertaContrato");?>">Contratos</a>
+				<a href="<?=base("alertaContrato");?>" class="encabezado">Contratos</a>
 			</li>
 			<li class="breadcrumb-item active">Alertas</li>
 		</ol>
@@ -47,7 +47,7 @@ class ViewAlertaContrato {
 
 			<div class="card-body">
 				
-				<div class="table-responsive">
+				<div class="table table-sm table-bordered table-hover nowrap">
 					<table class="table table-bordered table-sm" id="dataTable" width="100%" cellspacing="0">
 						<thead>
 							<tr>

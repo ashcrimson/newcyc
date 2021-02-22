@@ -30,7 +30,7 @@ class ViewOrdenCompra {
     <!-- Breadcrumbs-->
     <ol class="breadcrumb">
         <li class="breadcrumb-item">
-			<a href="<?= base("/ordenCompra");?>">Ordenes de Compra</a>
+			<a href="<?= base("/ordenCompra");?>" class="encabezado">Ordenes de Compra</a>
         </li>
         <li class="breadcrumb-item active">Mantenedor</li>
     </ol>
@@ -121,7 +121,7 @@ class ViewOrdenCompra {
             </form>
         </div>
         <div class="card-body">
-            <div class="table-responsive">
+            <div class="table table-sm table-bordered table-hover nowrap">
                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                     <thead>
                         <tr>
@@ -157,8 +157,8 @@ class ViewOrdenCompra {
                                     </a>
                                     <?php if(!$proveedores["FECHA_ELIMINACION"]){ ?>
                                         
-                                        <a href="#" data-target="#miModal<?=$index;?>" data-toggle="modal" class="btn btn-danger btn-xs"  ><i class="far fa-trash-alt"></i> Eliminar</a>
-                                        <a href="#" data-target="#restoreModal<?=$index;?>" data-toggle="modal" class="btn btn-info btn-xs"  ><i class="far fa-eye"></i> Restaurar</a>
+                                        <a href="#" data-target="#miModal<?=$index;?>" data-toggle="modal" class="btn btn-sm btn-danger btn-xs"  ><i class="far fa-trash-alt"></i> Eliminar</a>
+                                        <a href="#" data-target="#restoreModal<?=$index;?>" data-toggle="modal" class="btn btn-sm btn-info btn-xs"  ><i class="far fa-eye"></i> Restaurar</a>
                                         <!-- modal starts -->
                                         <div class="modal fade" id="miModal<?= $index; ?>">
                                             <div class="modal-dialog">
@@ -182,7 +182,7 @@ class ViewOrdenCompra {
                                     <?php
                                 }else{
                                 	?>
-                                        <a href="#" class="btn btn-xs btn-success" data-target="#restoreModal<?= $ordenCompra["NRO_ORDEN_COMPRA"]; ?>" data-toggle="modal"><i class="fas fa-arrow-circle-up"></i> Restaurar</a>
+                                        <a href="#" class="btn btn-sm  btn-success btn-xs" data-target="#restoreModal<?= $ordenCompra["NRO_ORDEN_COMPRA"]; ?>" data-toggle="modal"><i class="fas fa-arrow-circle-up"></i> Restaurar</a>
 
                                         <!-- modal starts -->
                                         <div class="modal fade" id="restoreModal<?= $index; ?>">

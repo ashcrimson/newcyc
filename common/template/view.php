@@ -100,6 +100,83 @@ class ViewTemplateCYC {
 			text-align-last: start !important;
 		}
 
+		.sidebar-menu, .main-sidebar .user-panel, .sidebar-menu>li.header {
+			white-space: nowrap;
+			overflow: hidden;
+		}
+
+		.user-panel {
+			position: relative;
+			width: 100%;
+			padding: 10px;
+			overflow: hidden;
+			height: 110px;
+			color: rgba(255, 255, 255, 0.5);
+		}
+
+		.user-panel:before, .user-panel:after {
+			content: " ";
+			display: table;
+		}
+
+		.sidebar-menu, .main-sidebar .user-panel, .sidebar-menu>li.header {
+			white-space: nowrap;
+			overflow: hidden;
+		}
+
+		.pull-left {
+			float: left!important;
+		}
+
+		.user-panel>.image>img {
+			width: 100%;
+			max-width: 45px;
+			height: auto;
+		}
+
+		.skin-blue .user-panel>.info, .skin-blue .user-panel>.info>a {
+			color: #fff;
+		}
+
+		.user-panel>.info {
+			padding: 5px 5px 5px 15px;
+			line-height: 1;
+			position: absolute;
+			left: 55px;
+			color: #fff;
+		}
+
+		.user-panel>.info>p {
+			font-weight: 600;
+			margin-bottom: 9px;
+			font-size:14px;
+		}
+
+		.user-panel>.info>a {
+			text-decoration: none;
+			padding-right: 5px;
+			margin-top: 3px;
+			font-size: 11px;
+			color: #fff;
+		}
+
+		.encabezado {
+			font-size: 24px;
+			color: #333;
+			
+		}
+
+		.encabezado:hover {
+			text-decoration: none;
+			color: #000;
+		}
+
+		.breadcrumb-item.active {
+			margin-top: 10px;
+			
+			
+		}
+
 		
 	</style>
 
@@ -144,8 +221,20 @@ class ViewTemplateCYC {
 
 <div id="wrapper">
 	<!-- Sidebar -->
+
+	
 	
 	<ul class="sidebar navbar-nav">
+
+	<div class="user-panel">
+        <div class="pull-left image">
+          <img src="<?=base();?>/assets/img/Admin-User-256.png" class="img-circle" alt="User Image">
+        </div>
+        <div class="pull-left info">
+          <p><?=$_SESSION["nombre"];?></p>
+          <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
+        </div>
+      </div>
 	
 		<li class="nav-item">
 			<a class="nav-link" href="<?=base();?>/">
@@ -185,7 +274,7 @@ class ViewTemplateCYC {
 
 		<li class="nav-item dropdown">
 			<a class="nav-link" href="<?=base();?>/ordenCompra" id="pagesDropdown" role="button">
-				<i class="fas fa-cart"></i>
+			<i class="fa fa-file"></i>
 				<span>Órdenes de Compra</span>
 			</a>
 			<div class="dropdown-menu" aria-labelledby="pagesDropdown">

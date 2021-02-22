@@ -29,7 +29,7 @@ class ViewPrestaciones {
     <!-- Breadcrumbs-->
     <ol class="breadcrumb">
         <li class="breadcrumb-item">
-            <a href="<?=base("/prestaciones/");?>">Prestaciones</a>
+            <a href="<?=base("/prestaciones/");?>" class="encabezado">Prestaciones</a>
         </li>
         <li class="breadcrumb-item active">Mantenedor</li>
     </ol>
@@ -96,7 +96,7 @@ class ViewPrestaciones {
             </form>
         </div>
         <div class="card-body">
-            <div class="table-responsive">
+            <div class="table table-sm table-bordered table-hover nowrap">
                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                     <thead>
                         <tr>
