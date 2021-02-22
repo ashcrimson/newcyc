@@ -71,7 +71,8 @@ class ViewOrdenCompra {
                             <label>Número Orden de Compra * </label>
 
                             <!-- <input type="text" name="numeroOrdenCompra"  class="form-control" value="{{ $ordenCompraData->numeroOrdenCompra ?: old('numeroOrdenCompra') }}"> -->
-                            <input type="text" name="nro_orden_compra"  class="form-control" required
+                            <input type="text" name="nro_orden_compra"  class="form-control"
+                                   required id="nro_orden_compra"
                                    value="<?= $_GET["nro_orden_compra"] ?? $registroEdit['NRO_ORDEN_COMPRA'] ?>">
 
                         </div>
@@ -322,7 +323,7 @@ class ViewOrdenCompra {
             }
             ?>
 
-            $('#selectContrato').selectize({
+            var $selectContrato = $('#selectContrato').selectize({
                 create: false,
                 dropdownParent: 'body',
                 <?php
@@ -384,13 +385,14 @@ class ViewOrdenCompra {
                                 selectize.addOption(item);
                                 selectize.addItem(1);
                             });
-                            selectize.refreshOptions();
+                            // selectize.refreshOptions();
                             selectize.settings.placeholder = "Seleccione un item...";
                         }else{
                             selectize.settings.placeholder = res;
                         }
 
                         selectize.updatePlaceholder();
+
 
                         $("#iconLoading").hide();
 
