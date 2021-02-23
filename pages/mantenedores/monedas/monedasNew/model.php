@@ -149,6 +149,7 @@ class ModelMonedas {
 		//$results["result"] = $result;
 
 		oci_close($this->pdo);
+		header("Location:". base() ."/monedas");
 		//return $assoc;
 	}
 }

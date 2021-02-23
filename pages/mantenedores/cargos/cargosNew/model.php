@@ -94,7 +94,7 @@ class Modelcargos {
 				$result = oci_parse($this->pdo, $cons);
 				oci_execute($result);
 				$numero = queryResultToAssoc($result)[0]["CTA"];
-				print_r($numero);
+				
 
 				/*$consulta = "INSERT into cargos (ID, NOMBRE) values (
 							".$numero.",'". $this->nombre ."')";*/
@@ -111,7 +111,7 @@ class Modelcargos {
 				oci_commit($this->pdo);
 			}
 
-			print_r($consulta);
+			
 
 		}else{
 			//print_r("redirige");
@@ -128,6 +128,7 @@ class Modelcargos {
 		//$results["result"] = $result;
 
 		oci_close($this->pdo);
+		header("Location:". base() ."/cargos");
 		//return $assoc;
 	}
 }

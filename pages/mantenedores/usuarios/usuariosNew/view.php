@@ -111,7 +111,7 @@ class ViewUsuarios {
             
 
                 <?php feedback();?>
-                <div class="row col-12">
+                
                     <div class="form-group has-feedback col-xs-4 col-md-4 col-lg-4 <?=$selectContrato ? 'has-error' : '' ;?>">
                         <label>Rol</label>
                         <input type="hidden" name="submit" value="true">
@@ -135,10 +135,8 @@ class ViewUsuarios {
                     
                         
                     </div>
-                </div>
+               
 			
-					
-                <div class="row col-12">
                     <div class="form-group has-feedback col-xs-4 col-md-4 col-lg-4 <?=$licitacion ? 'has-error' : '' ;?>" id="licitacion"  >
                         <label>Cargo</label>
                         <select name='cargo_id' class ='selectpicker selectField' placeholder='Seleccione Licitacion' data-live-search='true' id ='licitacion_id' value="<?=isset($_GET["licitacion"]) ? $_GET["licitacion"]: (isset($registroEdit["NRO_LICITACION"]) ? $registroEdit["NRO_LICITACION"] : "") ?>">
@@ -161,7 +159,7 @@ class ViewUsuarios {
                         </select>
                         
                     </div>
-                </div>
+               
                 
 
 
@@ -235,7 +233,7 @@ class ViewUsuarios {
         },
         dropdownParent: 'body',
         onChange: function(value) {
-            if(value == "4"){
+            if(value != "2"){
                 $('#licitacion').hide(); 
             } else {
                 $('#licitacion').show(); 

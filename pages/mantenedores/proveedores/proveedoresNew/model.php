@@ -238,6 +238,8 @@ class ModelProveedores  {
 		//agrega resultados a retorno
 
 		oci_close($this->pdo);
+
+		header("Location:". base() ."/proveedores");
 		
 		//return $assoc;
 	}

@@ -221,6 +221,7 @@ class ModelOrdenCompra {
                 if($result){
                     flash("Orden de compra actualizada correctamente")->success();
                     
+                    
                 }
 
                 oci_execute($result);
@@ -474,6 +475,8 @@ class ModelOrdenCompra {
         flash("Detalle agregado")->success();
 
         redirect('/ordenCompra/new?nro_orden_compra='.$_GET['nro_orden_compra']);
+
+        
 	}
 	
 }

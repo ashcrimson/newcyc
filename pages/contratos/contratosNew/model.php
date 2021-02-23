@@ -337,18 +337,24 @@ class ModelContratos {
 //                exit();
 //                echo "</pre>";
 
+				dd($query);
 
+				
                 $result = oci_parse($this->pdo, $query);
 
                 if($result){
+					
                     $_SESSION["feedback"] = "Contrato actualizado correctamente";
                 }
+
+				
 
                 oci_execute($result);
 
                 oci_commit($this->pdo);
 
                 $last_id = $_POST['id'];
+				
 
             }
 	        //inserta
@@ -414,6 +420,8 @@ class ModelContratos {
 
 
 				oci_commit($this->pdo);
+
+				
 				
             }
 			
@@ -505,6 +513,8 @@ class ModelContratos {
 		oci_close($this->pdo);
 		
 		//return $assoc;
+
+		header("Location:". base() ."/contratos");
 	}
 
 

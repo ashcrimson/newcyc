@@ -351,7 +351,7 @@ class ViewTemplateCYC {
             <li ><a href="<?=base();?>/cargos" class="elmenu"><i class="fa fa-circle-o"></i> Cargos</a></li>
             <li><a href="<?=base();?>/monedas" class="elmenu"><i class="fa fa-circle-o"></i> Monedas</a></li>
             <li><a href="<?=base();?>/proveedores" class="elmenu"><i class="fa fa-circle-o"></i> Proveedores</a></li>
-            <li><a href="<?=base();?>/prestaciones" class="elmenu"><i class="fa fa-circle-o"></i> Prestaciones</a></li>
+            <!-- <li><a href="<?=base();?>/prestaciones" class="elmenu"><i class="fa fa-circle-o"></i> Prestaciones</a></li> -->
           </ul>
         </li>
      

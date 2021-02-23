@@ -103,6 +103,8 @@ class ModelLicitaciones {
 				oci_execute($result);
 				oci_commit($this->pdo);
 
+				
+
 			} catch (Exception $e) {
 				oci_rollback($this->pdo);
 				throw new Exception($e);
@@ -199,5 +201,7 @@ class ModelLicitaciones {
 
 		oci_close($this->pdo);
 		//return $assoc;
+
+		header("Location:". base() ."/licitaciones");
 	}
 }
