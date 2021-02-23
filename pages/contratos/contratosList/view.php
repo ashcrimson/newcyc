@@ -59,7 +59,7 @@ class ViewContratos {
         <li class="breadcrumb-item">
             <a href="<?=base();?>/contratos" class="encabezado">Contratos</a>
         </li>
-        <li class="breadcrumb-item active">Mantenedor</li>
+        
     </ol>
 
     <!-- DataTables Example --> 

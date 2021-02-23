@@ -58,7 +58,7 @@ class ModelOrdenCompra {
 	//anula registro indicado
 	public function anula($nro_orden_compra): self{
 
-	$sql = "UPDATE ORDEN_COMPRA SET ESTADO = 'Anulada', TOTAL=0 WHERE NRO_ORDEN_COMPRA= '{$nro_orden_compra}'";
+	$sql = "UPDATE ORDEN_COMPRA SET ESTADO = 'Anulada' WHERE NRO_ORDEN_COMPRA= '{$nro_orden_compra}'";
 		$result = oci_parse($this->pdo, $sql);
 		oci_execute($result);
 		oci_commit($this->pdo);

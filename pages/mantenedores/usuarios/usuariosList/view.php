@@ -29,7 +29,7 @@ class viewUsuarios {
         <li class="breadcrumb-item">
             <a href="<?=base("/usuarios");?>" class="encabezado">Usuarios</a>
         </li>
-        <li class="breadcrumb-item active">Mantenedor</li>
+        
     </ol>
 
     <!-- DataTables -->

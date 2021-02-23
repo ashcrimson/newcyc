@@ -32,7 +32,7 @@ class ViewOrdenCompra {
         <li class="breadcrumb-item">
 			<a href="<?= base("/ordenCompra");?>" class="encabezado">Ordenes de Compra</a>
         </li>
-        <li class="breadcrumb-item active">Mantenedor</li>
+       
     </ol>
 
     <!-- DataTables -->
@@ -157,8 +157,8 @@ class ViewOrdenCompra {
                                     </a>
                                     <?php if(!$proveedores["FECHA_ELIMINACION"]){ ?>
                                         
-                                        <a href="#" data-target="#miModal<?=$index;?>" data-toggle="modal" class="btn btn-sm btn-danger btn-xs"  ><i class="far fa-trash-alt"></i> Eliminar</a>
-                                        <a href="#" data-target="#restoreModal<?=$index;?>" data-toggle="modal" class="btn btn-sm btn-info btn-xs"  ><i class="far fa-eye"></i> Restaurar</a>
+                                        <a href="#" data-target="#miModal<?=$index;?>" data-toggle="modal" class="btn btn-sm btn-danger btn-xs"  ><i class="far fa-trash-alt"></i> Anular</a>
+                                        <!-- <a href="#" data-target="#restoreModal<?=$index;?>" data-toggle="modal" class="btn btn-sm btn-info btn-xs"  ><i class="far fa-eye"></i> Restaurar</a> -->
                                         <!-- modal starts -->
                                         <div class="modal fade" id="miModal<?= $index; ?>">
                                             <div class="modal-dialog">

@@ -32,7 +32,7 @@ class ViewProveedores {
         <li class="breadcrumb-item">
             <a href="<?=base("/proveedores/");?>" class="encabezado">Proveedores</a>
         </li>
-        <li class="breadcrumb-item active">Mantenedor</li>
+        
     </ol>
 
     <!-- DataTables -->

@@ -29,7 +29,7 @@ class ViewMonedas {
         <li class="breadcrumb-item">
             <a href="<?=base("/monedas");?>" class="encabezado">Monedas</a>
         </li>
-        <li class="breadcrumb-item active">Mantenedor</li>
+        
     </ol>
 
     <!-- DataTables -->

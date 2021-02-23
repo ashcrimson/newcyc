@@ -34,9 +34,9 @@ class ViewCargos {
 
     <ol class="breadcrumb">
         <li class="breadcrumb-item">
-            <a href="<?=base("/cargos");?>">Cargos</a>
+            <a href="<?=base("/cargos");?>" class="encabezado">Cargos</a>
         </li>
-        <li class="breadcrumb-item active">Mantenedor</li>
+        
     </ol>
 
     <form method="post" action="<?=base("/cargos/save");?>" enctype="multipart/form-data" >

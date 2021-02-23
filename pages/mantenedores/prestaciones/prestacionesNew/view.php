@@ -64,9 +64,9 @@ class ViewPrestaciones {
 		
 		<ol class="breadcrumb">
 			<li class="breadcrumb-item">
-                <a href="<?=base("/prestaciones/");?>">Prestaciones</a>
+                <a href="<?=base("/prestaciones/");?>" class="encabezado">Prestaciones</a>
 			</li>
-            <li class="breadcrumb-item active">Mantenedor</li>
+            
 		</ol> 
  
 		<div class="card mb-3">

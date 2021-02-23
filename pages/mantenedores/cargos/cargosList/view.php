@@ -26,7 +26,7 @@ class viewCargos {
     <li class="breadcrumb-item">
         <a href="<?=base("/cargos/");?>" class="encabezado">Cargos</a>
     </li>
-    <li class="breadcrumb-item active">Mantenedor</li>
+  
 </ol>
 
 <div class="card mb-3">

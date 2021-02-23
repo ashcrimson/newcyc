@@ -55,7 +55,7 @@ class ViewLicitaciones {
 		<!-- Breadcrumbs-->
 		<ol class="breadcrumb">
 			<li class="breadcrumb-item">
-				<a href="<?=base();?>/licitaciones">Licitaciones</a>
+				<a href="<?=base();?>/licitaciones" class="encabezado">Licitaciones</a>
 			</li>
 			<!-- <li class="breadcrumb-item active">Mantenedor</li> -->
 		</ol>

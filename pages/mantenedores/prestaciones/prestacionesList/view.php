@@ -31,7 +31,7 @@ class ViewPrestaciones {
         <li class="breadcrumb-item">
             <a href="<?=base("/prestaciones/");?>" class="encabezado">Prestaciones</a>
         </li>
-        <li class="breadcrumb-item active">Mantenedor</li>
+        
     </ol>
 
     <!-- DataTables -->

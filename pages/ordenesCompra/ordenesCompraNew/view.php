@@ -28,7 +28,7 @@ class ViewOrdenCompra {
         <!-- Breadcrumbs-->
         <ol class="breadcrumb">
             <li class="breadcrumb-item">
-                <a href="<?=base("/ordenCompra");?>">Orden de Compra</a>
+                <a href="<?=base("/ordenCompra");?>" class="encabezado">Orden de Compra</a>
             </li>
             <!-- <li class="breadcrumb-item active">Mantenedor</li> -->
         </ol>

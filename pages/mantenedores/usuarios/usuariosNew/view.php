@@ -62,9 +62,9 @@ class ViewUsuarios {
 
     <ol class="breadcrumb">
         <li class="breadcrumb-item">
-            <a href="<?=base("/usuarios");?>">Usuarios</a>
+            <a href="<?=base("/usuarios");?>" class="encabezado">Usuarios</a>
         </li>
-        <li class="breadcrumb-item active">Mantenedor</li>
+      
     </ol>
 
     <form method="post" action="<?=base("/usuarios/save");?>" enctype="multipart/form-data" >
@@ -108,78 +108,61 @@ class ViewUsuarios {
 
 
             </div>
-            <div class="form-group has-feedback col-xs-4 col-md-4 col-lg-4 {{ $errors->has('rol') ? 'has-error' : '' }}">
-                <label>Rol *</label>
-                <select name="rol" class="selectpicker selectField" placeholder='Seleccione rol' data-live-search='true' required>
-                    <option value=""></option>
+            
 
-                    <?php 
-                    foreach ($permisos as $rol) { 
-                        if (!empty($_GET["rol"]) && $_GET["rol"] == $rol["ID_PERMISO"]){
+                <?php feedback();?>
+                <div class="row col-12">
+                    <div class="form-group has-feedback col-xs-4 col-md-4 col-lg-4 <?=$selectContrato ? 'has-error' : '' ;?>">
+                        <label>Rol</label>
+                        <input type="hidden" name="submit" value="true">
+                        <select class="selectpicker " placeholder='Seleccione Tipo de Contrato' name="selectContrato" id="selectContrato" value="<?=isset($_GET["selectContrato"]) ? $_GET["selectContrato"]: (isset($registroEdit["TIPO"]) ? $registroEdit["TIPO"] : "") ?>">
+                        <option value=""></option>
+
+                            <?php 
+                            foreach ($permisos as $rol) { 
+                                if (!empty($_GET["rol"]) && $_GET["rol"] == $rol["ID_PERMISO"]){
+                                    ?>
+                                    <option selected="true" value="<?= $rol["ID_PERMISO"];?>"><?= $rol["NOMBRE_PERMISO"];?></option>
+                                    <?php
+                                }else{
+                                    ?>
+                                    <option value="<?= $rol["ID_PERMISO"];?>"><?= $rol["NOMBRE_PERMISO"];?></option>
+                                    <?php
+                                }
+                            }
                             ?>
-                            <option selected="true" value="<?= $rol["ID_PERMISO"];?>"><?= $rol["NOMBRE_PERMISO"];?></option>
-                            <?php
-                        }else{
+                        </select>
+                    
+                        
+                    </div>
+                </div>
+			
+					
+                <div class="row col-12">
+                    <div class="form-group has-feedback col-xs-4 col-md-4 col-lg-4 <?=$licitacion ? 'has-error' : '' ;?>" id="licitacion"  >
+                        <label>Cargo</label>
+                        <select name='cargo_id' class ='selectpicker selectField' placeholder='Seleccione Licitacion' data-live-search='true' id ='licitacion_id' value="<?=isset($_GET["licitacion"]) ? $_GET["licitacion"]: (isset($registroEdit["NRO_LICITACION"]) ? $registroEdit["NRO_LICITACION"] : "") ?>">
+                            <option value="" ></option>
+
+
+                            <?php 
+                            foreach ($cargos as $cargo) { 
+                                if (!empty($_GET["cargo_id"]) && $_GET["cargo_id"] == $cargo["ID_CARGO"]){
+                                    ?>
+                                    <option selected="true" value="<?= $cargo["ID_CARGO"];?>"><?= $cargo["NOMBRE"];?></option>
+                                    <?php
+                                }else{
+                                    ?>
+                                    <option value="<?= $cargo["ID_CARGO"];?>"><?= $cargo["NOMBRE"];?></option>
+                                    <?php
+                                }
+                            }
                             ?>
-                            <option value="<?= $rol["ID_PERMISO"];?>"><?= $rol["NOMBRE_PERMISO"];?></option>
-                            <?php
-                        }
-                    }
-                    ?>
-                </select>
-<!--                 @if ($errors->has('rol'))
-                    <span class="help-block text-danger">
-                        <strong>{{ $errors->first('rol') }}</strong>
-                    </span>
-                @endif
- -->
-                <!-- <?php if ($rol){ ?>
-                <span class="help-block text-danger"> 
-                    <strong>Error: rol</strong>
-                </span>
-                <?php } ?> -->
-
-
-            </div>
-
-            <!--***CARGO*** -->
-            <div class="form-group has-feedback col-xs-4 col-md-4 col-lg-4 {{ $errors->has('cargo_id') ? 'has-error' : '' }}">
-                <label>Cargo *</label>
-
-                <select name='cargo_id' class ='selectpicker selectField' placeholder='Seleccione Cargo' data-live-search='true' id ='cargo_id' required>
-                    <option value="" ></option>
-
-
-                    <?php 
-                    foreach ($cargos as $cargo) { 
-                        if (!empty($_GET["cargo_id"]) && $_GET["cargo_id"] == $cargo["ID_CARGO"]){
-                            ?>
-                            <option selected="true" value="<?= $cargo["ID_CARGO"];?>"><?= $cargo["NOMBRE"];?></option>
-                            <?php
-                        }else{
-                            ?>
-                            <option value="<?= $cargo["ID_CARGO"];?>"><?= $cargo["NOMBRE"];?></option>
-                            <?php
-                        }
-                    }
-                    ?>
-                </select>
-
-<!--                 @if ($errors->has('cargo_id'))
-                    <span class="help-block text-danger">
-                    <strong>{{ $errors->first('cargo_id') }}</strong>
-                    </span>
-                @endif
- -->
-
-                <?php if ($cargo_id){ ?>
-                <span class="help-block text-danger"> 
-                    <strong>Error: Cargo</strong>
-                </span>
-                <?php } ?>
-
-
-            </div>
+                        </select>
+                        
+                    </div>
+                </div>
+                
 
 
 <!--             <div class="form-group has-feedback col-xs-4 col-md-4 col-lg-4 {{ $errors->has('password') ? 'has-error' : '' }}">
@@ -242,9 +225,27 @@ class ViewUsuarios {
             },
             dropdownParent: 'body'
         });
+
+        $('#selectContrato').selectize({
+
+        create: false,
+        sortField: {
+            field: 'text',
+            direction: 'asc'
+        },
+        dropdownParent: 'body',
+        onChange: function(value) {
+            if(value == "4"){
+                $('#licitacion').hide(); 
+            } else {
+                $('#licitacion').show(); 
+            }
+            // console.log("Cambio", value);
+        }
+        });
     </script>
 
-
+ 
 
 
 
