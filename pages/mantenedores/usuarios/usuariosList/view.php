@@ -22,7 +22,7 @@ class viewUsuarios {
 
 		?>
 
-
+<?php feedback2();?>
 
 
     <ol class="breadcrumb">
@@ -58,6 +58,7 @@ class viewUsuarios {
                         <tr>
                             <th>Nombre</th>
                             <th>E-mail</th>
+                            <th>Anexo</th>
                             <th>Acción</th>
                         </tr>
                     </thead>
@@ -70,6 +71,7 @@ class viewUsuarios {
                             <tr>
                                 <td> <?=$users["NOMBRE"];?></td>
                                 <td> <?=$users["MAIL"];?></td>
+                                <td> <?=$users["ANEXO"];?></td>
                                 <td>
                                 <?php
 

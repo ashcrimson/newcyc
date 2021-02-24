@@ -70,10 +70,10 @@ class ViewUsuarios {
     <form method="post" action="<?=base("/usuarios/save");?>" enctype="multipart/form-data" >
     <div class="card">
         <div class="card-body row">
-            <input type="hidden" name="id" value="{{ $users->id }}" >
+            <input type="hidden" name="id" value="<?= $_GET["id"] ?? "" ?>" >
             <div class="form-group has-feedback col-xs-4 col-md-4 col-lg-4 {{ $errors->has('nombre') ? 'has-error' : '' }}">
                 <label>Nombre *</label>
-                <input type="text" name="nombre" class="form-control" value="<?=isset($_GET['nombre']) ? $_GET['nombre']: (isset($data['NOMBRE']) ? $data['NOMBRE'] : '') ?>" required>
+                <input type="text" name="nombre" class="form-control" value="<?=isset($_GET["nombre"]) ? $_GET["nombre"]: (isset($data["NOMBRE"]) ? $data["NOMBRE"] : "") ?>">
 
 
                 <?php if ($nombre){ ?>
@@ -104,9 +104,17 @@ class ViewUsuarios {
                     </span>
                 @endif
  -->
-            
+            </div>
 
-
+            <div class="form-group has-feedback col-xs-4 col-md-4 col-lg-4 {{ $errors->has('anexo') ? 'has-error' : '' }}">
+                <label>Anexo</label>
+                <input type="text" name="anexo" class="form-control" value="<?=isset($_GET['anexo']) ? $_GET['anexo']: (isset($data['ANEXO']) ? $data['ANEXO'] : '') ?>" required>
+<!--                 @if ($errors->has('email'))
+                    <span class="help-block text-danger">
+                        <strong>{{ $errors->first('email') }}</strong>
+                    </span>
+                @endif
+ -->
             </div>
             
 
@@ -115,7 +123,7 @@ class ViewUsuarios {
                     <div class="form-group has-feedback col-xs-4 col-md-4 col-lg-4 <?=$selectContrato ? 'has-error' : '' ;?>">
                         <label>Rol</label>
                         <input type="hidden" name="submit" value="true">
-                        <select class="selectpicker " placeholder='Seleccione Tipo de Contrato' name="selectContrato" id="selectContrato" value="<?=isset($_GET["selectContrato"]) ? $_GET["selectContrato"]: (isset($registroEdit["TIPO"]) ? $registroEdit["TIPO"] : "") ?>">
+                        <select class="selectpicker " placeholder='Seleccione Rol' name="rol" id="selectContrato" value="<?=isset($_GET["selectContrato"]) ? $_GET["selectContrato"]: (isset($registroEdit["TIPO"]) ? $registroEdit["TIPO"] : "") ?>">
                         <option value=""></option>
 
                             <?php 
@@ -139,7 +147,7 @@ class ViewUsuarios {
 			
                     <div class="form-group has-feedback col-xs-4 col-md-4 col-lg-4 <?=$licitacion ? 'has-error' : '' ;?>" id="licitacion"  >
                         <label>Cargo</label>
-                        <select name='cargo_id' class ='selectpicker selectField' placeholder='Seleccione Licitacion' data-live-search='true' id ='licitacion_id' value="<?=isset($_GET["licitacion"]) ? $_GET["licitacion"]: (isset($registroEdit["NRO_LICITACION"]) ? $registroEdit["NRO_LICITACION"] : "") ?>">
+                        <select name='cargo_id' class ='selectpicker selectField' placeholder='Seleccione Cargo' data-live-search='true' id ='licitacion_id' value="<?=isset($_GET["licitacion"]) ? $_GET["licitacion"]: (isset($registroEdit["NRO_LICITACION"]) ? $registroEdit["NRO_LICITACION"] : "") ?>">
                             <option value="" ></option>
 
 

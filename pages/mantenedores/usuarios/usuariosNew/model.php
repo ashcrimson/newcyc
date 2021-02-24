@@ -22,6 +22,7 @@ class ModelUsuarios {
 
 	private $nombre;
 	private $mail;
+	private $anexo;
 
 
 
@@ -75,6 +76,14 @@ class ModelUsuarios {
 				$this->errores["cargo_id"] = true;
 				$this->error = true;
 			}
+
+			if(isset($_POST["anexo"]) && $_POST["anexo"] != ""){
+				$this->params .= "anexo" . $_POST["anexo"] . "&";
+				$this->anexo = $_POST["anexo"];
+			}else{
+				$this->errores["anexo"] = true;
+				$this->error = true;
+			}
 			
 
 		}
@@ -97,6 +106,7 @@ class ModelUsuarios {
 				PASSWORD,
 				ID_CARGO,
 				ID_PERMISO,
+				ANEXO,
 				FECHA_CREACION,
 				FECHA_ACTUALIZACION
 				) 
@@ -106,6 +116,7 @@ class ModelUsuarios {
 				'12345',
 				'". $_POST["cargo_id"] ."',
 				'". $_POST["rol"] ."',
+				'". $_POST["anexo"] ."',
 				TO_DATE('2020-11-05 00:00:00', 'YYYY-MM-DD HH24:MI:SS'),
 				TO_DATE('2020-11-05 00:00:00', 'YYYY-MM-DD HH24:MI:SS')
 				)";
@@ -119,6 +130,12 @@ class ModelUsuarios {
 			$result = oci_parse($this->pdo, $query);
 
 			// oci_bind_by_name($result, "mylastid", $last_id, 8, SQLT_INT);
+
+			if($result){
+
+				$_SESSION["feedback"] = "Contrato actualizado correctamente";
+				flash("Usuario creado correctamente")->success() ;
+			}
 			
 			oci_execute($result);
 
@@ -127,17 +144,17 @@ class ModelUsuarios {
 
 			oci_commit($this->pdo);
 
-			$consulta2 = "INSERT INTO USUARIOS_PERMISOS (
-				MAIL_USUARIO, 
-				ID_PERMISO)
-			VALUES(
-				'". $_POST["email"] ."',
-				'". $_POST["rol"] ."'
-				)";
+			// $consulta2 = "INSERT INTO USUARIOS_PERMISOS (
+			// 	MAIL, 
+			// 	ID_PERMISO)
+			// VALUES(
+			// 	'". $_POST["email"] ."',
+			// 	'". $_POST["rol"] ."'
+			// 	)";
 
-			$query2 = $consulta2;
-			$result2 = oci_parse($this->pdo, $query2);
-			oci_execute($result2, OCI_DEFAULT) or die ("No se pudo");
+			// $query2 = $consulta2;
+			// $result2 = oci_parse($this->pdo, $query2);
+			// oci_execute($result2, OCI_DEFAULT) or die ("No se pudo");
 			
 		}else{
 			
@@ -150,6 +167,8 @@ class ModelUsuarios {
 		
 
 		//agrega resultados a retorno
+
+		header("Location:". base() ."/usuarios");
 
 		oci_close($this->pdo);
 		
@@ -185,7 +204,10 @@ class ModelUsuarios {
 
 
 		oci_close($this->pdo);
+		
 		return $assoc;
+
+		
 
 
 	}
