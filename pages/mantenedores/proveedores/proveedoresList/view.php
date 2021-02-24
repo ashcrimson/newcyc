@@ -35,7 +35,9 @@ class ViewProveedores {
         
     </ol>
 
-    <!-- DataTables -->
+    <?php feedback2();?>
+
+    <!-- DataTables --> 
     <div class="card mb-3">
         <div class="card-header">
             <form method="get" class="form-horizontal" action="<?=base("/proveedores/");?>">

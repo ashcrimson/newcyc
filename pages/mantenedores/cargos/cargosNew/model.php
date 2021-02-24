@@ -84,6 +84,11 @@ class Modelcargos {
 				$query = $consulta;
 				$result = oci_parse($this->pdo, $query);
 				//print_r($consulta);
+				if($result){
+
+                    $_SESSION["feedback"] = "Contrato actualizado correctamente";
+                    flash("Cargo actualizado correctamente")->success() ;
+                }
 				oci_execute($result);
 
 				//oci_error();
@@ -92,6 +97,11 @@ class Modelcargos {
 			}else{
 				$cons = "SELECT COUNT(*)+5 AS CTA FROM CARGOS";
 				$result = oci_parse($this->pdo, $cons);
+				if($result){
+
+                    $_SESSION["feedback"] = "Contrato actualizado correctamente";
+                    flash("Cargo ingresado correctamente")->success() ;
+                }
 				oci_execute($result);
 				$numero = queryResultToAssoc($result)[0]["CTA"];
 				
@@ -104,6 +114,11 @@ class Modelcargos {
 				$query = $consulta;
 				$result = oci_parse($this->pdo, $query);
 				//print_r($consulta);
+				if($result){
+
+                    $_SESSION["feedback"] = "Contrato actualizado correctamente";
+                    flash("Cargo ingresado correctamente")->success() ;
+                }
 				oci_execute($result);
 
 				//oci_error();

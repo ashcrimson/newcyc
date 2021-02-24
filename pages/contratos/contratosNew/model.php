@@ -478,17 +478,7 @@ class ModelContratos {
 
 			oci_free_statement($result);
 			$blob->free();
-			//OJOOOOOOOOOOOOOO
-			//DESPUES DE INSERTAR EL BLOB
-			////Guardar en lka tbla documento_lictacion
-			///LA RELACION DE ESTE DOCUMENTO $nro_documento ----> id y  $this->nro_licitacion ---> nro_lictacion
-
 			
-						
-			// $consulta2 = "UPDATE DOCUMENTO_CONTRATOS SET
-			// 	NRO_DOCUMENTO = '". $nro_documento ."',
-			// 	NRO_CONTRATO	= '". $last_id ."'
-			// ";
 
 			$consulta2= "DELETE FROM DOCUMENTO_CONTRATOS WHERE NRO_CONTRATO ='{$last_id}'";
 

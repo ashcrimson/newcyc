@@ -103,6 +103,11 @@ class ModelMonedas {
 				//ejecucion consulta
 				$result = oci_parse($this->pdo, $query);
 				// print_r($query);
+				if($result){
+
+                 
+                    flash("Moneda actualizada correctamente")->success() ;
+                }
 				oci_execute($result);
 
 				//oci_error();
@@ -126,6 +131,11 @@ class ModelMonedas {
 				//ejecucion consulta
 				$result = oci_parse($this->pdo, $query);
 				//print_r($consulta);
+				if($result){
+
+                    
+                    flash("Moneda ingresada correctamente")->success() ;
+                }
 				oci_execute($result);
 
 				//oci_error();

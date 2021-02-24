@@ -18,6 +18,7 @@ class ModelProveedores  {
 	private $error = false;
 	private $errores = [];
 	private $params = "";
+	private $feedback = "";
 	private $rut;
 
 
@@ -180,7 +181,8 @@ class ModelProveedores  {
                 $result = oci_parse($this->pdo, $query);
 
                 if($result){
-                    $_SESSION["feedback"] = "Proveedor actualizado correctamente";
+					
+                    flash("Contrato actualizado correctamente")->success() ;
                 }
 
                 oci_execute($result);
@@ -217,7 +219,8 @@ class ModelProveedores  {
                 $result = oci_parse($this->pdo, $query);
 
                 if($result){
-                    $_SESSION["feedback"] = "Proveedor ingresado correctamente";
+					
+                    flash("Proveedor ingresado correctamente")->success() ;
                 }
 
                 oci_execute($result);
@@ -233,7 +236,7 @@ class ModelProveedores  {
 			die();
 		}
 
- 
+  
 
 		//agrega resultados a retorno
 

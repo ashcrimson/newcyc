@@ -29,6 +29,8 @@ class viewCargos {
   
 </ol>
 
+<?php feedback2();?>
+
 <div class="card mb-3">
     <div class="card-header">
         <form method="get" class="form-horizontal" action="<?=base("/cargos/");?>">
