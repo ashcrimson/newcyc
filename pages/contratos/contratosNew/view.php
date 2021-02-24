@@ -136,7 +136,6 @@ class ViewContratos {
 				<form method="post" class="form-horizontal" action="<?=base();?>/contratos/new" enctype="multipart/form-data">
 					
 					<div class="container">
-						<?php feedback();?>
 						<div class="row col-12">
 							<div class="form-group has-feedback col-xs-4 col-md-4 col-lg-4 <?=$selectContrato ? 'has-error' : '' ;?>">
 								<label>Tipo Contrato</label>

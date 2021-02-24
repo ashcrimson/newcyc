@@ -103,7 +103,8 @@ class ModelLicitaciones {
 				oci_execute($result);
 				oci_commit($this->pdo);
 
-				
+				flash('Licitacion ingresada correctamente')->success();
+
 
 			} catch (Exception $e) {
 				oci_rollback($this->pdo);

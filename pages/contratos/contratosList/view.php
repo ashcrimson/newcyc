@@ -62,7 +62,9 @@ class ViewContratos {
         
     </ol>
 
-    <!-- DataTables Example --> 
+        <?php feedback2();?>
+
+        <!-- DataTables Example -->
     <div class="container">
         <div class="row">
             <div class="col-sm-12">

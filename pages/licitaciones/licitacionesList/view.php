@@ -34,7 +34,9 @@ class ViewLicitaciones {
 			</li>        
 		</ol>
 
-		<!-- DataTables Example -->
+        <?php feedback2();?>
+
+        <!-- DataTables Example -->
 		<div class="card mb-3">
 			<div class="card-header">
 				<form method="get" class="form-horizontal" action="./licitaciones">

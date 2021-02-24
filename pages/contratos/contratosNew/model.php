@@ -344,7 +344,7 @@ class ModelContratos {
 
                 if($result){
 					
-                    $_SESSION["feedback"] = "Contrato actualizado correctamente";
+                    flash("Contrato actualizado correctamente")->success() ;
                 }
 
 				
@@ -409,7 +409,7 @@ class ModelContratos {
                 $result = oci_parse($this->pdo, $query);
 
                 if($result){
-                    $_SESSION["feedback"] = "Contrato ingresado correctamente";
+                    flash("Contrato ingresado correctamente")->success();
                 }
 
 				oci_bind_by_name($result, "mylastid", $last_id, 8, SQLT_INT);
