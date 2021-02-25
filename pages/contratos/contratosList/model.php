@@ -62,7 +62,7 @@ class ModelContratos {
 
  
 
-            $where = "WHERE id_contrato in (select id_contrato from contratos_asignacion where id_area = '".$this->authUser['ID_AREA']."')";
+            $where = "WHERE c.id_contrato in (select id_contrato from contratos_asignacion where id_area = '".$this->authUser['ID_AREA']."')";
         
         }  
         
