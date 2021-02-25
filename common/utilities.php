@@ -221,6 +221,7 @@ function acentos($string){
 
 function redirect($ruta){
     header("Location: ". base() . $ruta);
+    exit();
 }
 
 function toFloat($val){

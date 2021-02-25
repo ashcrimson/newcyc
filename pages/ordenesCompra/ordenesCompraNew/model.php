@@ -190,6 +190,7 @@ class ModelOrdenCompra {
 
 	public function execute(){
 
+	    $actualiza = false;
         $tienDetalles = $_POST['tiene_detalles']=='S' ? 1 : 0;
 		
 		//validar si faltó algo
@@ -219,9 +220,7 @@ class ModelOrdenCompra {
                 
 
                 if($result){
-                    flash("Orden de compra actualizada correctamente")->success();
-                    
-                    
+                    $actualiza=true;
                 }
 
                 oci_execute($result);
@@ -327,6 +326,12 @@ class ModelOrdenCompra {
             oci_close($this->pdo);
 
             $id = $_GET['nro_orden_compra'] ?? $_POST['nro_orden_compra'];
+
+
+            if ($_POST['tiene_detalles']=='N' || $actualiza){
+                flash("Orden de compra ingresada correctamente")->success();
+                redirect('/ordenCompra');
+            }
 
             redirect('/ordenCompra/new?nro_orden_compra='.$id);
 		}else{
