@@ -67,15 +67,18 @@ class ModelUsuarios {
 		$totales = [];
 
 
-
-		if ($this->id){
-			$where = " WHERE ID = '" . $this->id . "'";
-		}else{
-			$where = "";
-		}
 		//consulta principal
-		$consulta = "SELECT * FROM USUARIOS " . $where;// . " ORDER BY CODIGO DESC";
-		//consulta paginada
+		$consulta = "
+            SELECT 
+                U.*,
+                c.NOMBRE AS NOMBRE_CARGO,
+                p.NOMBRE_PERMISO AS NOMBRE_PERMISO
+            FROM 
+                USUARIOS u left join CARGOS c on u.ID_CARGO=c.ID_CARGO
+                left join PERMISOS p on u.ID_PERMISO= p.ID_PERMISO
+        ";
+
+        //consulta paginada
 		$query = queryPagination($consulta, $this->page);
 		$result = oci_parse($this->pdo, $query);
 		oci_execute($result);

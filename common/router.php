@@ -498,7 +498,7 @@ class Router{
 		$this->view = new \UsuariosNew\ViewUsuarios;
 		$this->controller = new \UsuariosNew\ControllerUsuarios;
 		$this->model = $this->controller->all($this->model);
-		if(!empty($_GET["mail"])){
+		if(!empty($_GET["id"])){
 			$this->model = $this->controller->edit($this->model);
 		}
 	}

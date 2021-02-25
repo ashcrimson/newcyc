@@ -22,7 +22,6 @@ class viewUsuarios {
 
 		?>
 
-<?php feedback2();?>
 
 
     <ol class="breadcrumb">
@@ -31,6 +30,8 @@ class viewUsuarios {
         </li>
         
     </ol>
+
+        <?php feedback2();?>
 
     <!-- DataTables -->
     <div class="card mb-3">
@@ -56,8 +57,11 @@ class viewUsuarios {
                 <table class="table table-sm table-bordered table-hover nowrap" id="dataTable" width="100%" cellspacing="0">
                     <thead>
                         <tr>
+                            <th>ID</th>
                             <th>Nombre</th>
                             <th>E-mail</th>
+                            <th>ROL</th>
+                            <th>CARGO</th>
                             <th>Anexo</th>
                             <th>Acción</th>
                         </tr>
@@ -69,16 +73,26 @@ class viewUsuarios {
                 			?>
                         
                             <tr>
+                                <td> <?=$users["ID_USUARIO"];?></td>
                                 <td> <?=$users["NOMBRE"];?></td>
                                 <td> <?=$users["MAIL"];?></td>
+                                <td> <?=$users["NOMBRE_PERMISO"];?></td>
+                                <td> <?=$users["NOMBRE_CARGO"];?></td>
                                 <td> <?=$users["ANEXO"];?></td>
                                 <td>
                                 <?php
 
                                 if(!$users["FECHA_ELIMINACION"]) { ?>
                                 
-                                        <a href="<?=base('/usuarios/new?id=').$users['ID'];?>" class="btn btn-primary btn-xs"><i class="fa fa-pencil-alt"></i> Editar</a>
-                                        <a href="#" class="btn btn-danger btn-xs" data-target="#deleteModal<?= $users["ID"]; ?>" data-toggle="modal"><i class="far fa-trash-alt"></i> Eliminar</a>
+                                        <a href="<?=base('/usuarios/new?id=').$users['ID_USUARIO'];?>"
+                                           class="btn btn-primary btn-sm">
+                                            <i class="fa fa-pencil-alt"></i> Editar
+                                        </a>
+                                        <a href="#" class="btn btn-danger btn-sm"
+                                           data-target="#deleteModal<?= $users["ID"]; ?>"
+                                           data-toggle="modal">
+                                            <i class="far fa-trash-alt"></i> Eliminar
+                                        </a>
 
                                         <!-- modal starts -->
                                         <div class="modal fade" id="deleteModal<?= $users["ID"]; ?>">
@@ -102,7 +116,9 @@ class viewUsuarios {
                                         <?php
                                     }else{
                                     	?>
-                                        <a href="#" class="btn btn-xs btn-success" data-target="#restoreModal<?=$users['ID'];?>" data-toggle="modal"><i class="fas fa-arrow-circle-up"></i> Restaurar</a>
+                                        <a href="#" class="btn btn-xs btn-success" data-target="#restoreModal<?=$users['ID'];?>" data-toggle="modal">
+                                            <i class="fas fa-arrow-circle-up"></i> Restaurar
+                                        </a>
         
 
                                         <!-- modal starts -->

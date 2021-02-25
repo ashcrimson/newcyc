@@ -23,13 +23,15 @@ class ModelUsuarios {
 	private $nombre;
 	private $mail;
 	private $anexo;
+	private $id;
 
 
 
 
 	//Constructor
-	function __construct($pdo){
+	function __construct($pdo,$id= null){
 		$this->pdo = $pdo;
+        $this->id = $id;
 	}
 
 	//retorna el/los datos seleccionados
@@ -98,54 +100,86 @@ class ModelUsuarios {
 		
 		//validar si faltó algo
 		if(!$this->error){
-			
 
-			$consulta = "INSERT INTO USUARIOS (
-				MAIL, 
-				NOMBRE, 
-				PASSWORD,
-				ID_CARGO,
-				ID_PERMISO,
-				ANEXO,
-				FECHA_CREACION,
-				FECHA_ACTUALIZACION
-				) 
-			VALUES (
-				'". $_POST["email"] ."',
-				'". $_POST["nombre"] ."', 
-				'12345',
-				'". $_POST["cargo_id"] ."',
-				'". $_POST["rol"] ."',
-				'". $_POST["anexo"] ."',
-				TO_DATE('2020-11-05 00:00:00', 'YYYY-MM-DD HH24:MI:SS'),
-				TO_DATE('2020-11-05 00:00:00', 'YYYY-MM-DD HH24:MI:SS')
+
+		    //actualiza registro
+            if(isset($_POST["id"]) && $_POST["id"] != ""){
+
+                $query = "
+                    UPDATE 
+                        USUARIOS 
+	                SET 
+                        NOMBRE='{$_POST['nombre']}',
+	                    MAIL='{$_POST['email']}',
+                        ID_CARGO='{$_POST['cargo_id']}',
+                        ANEXO='{$_POST['anexo']}',
+                        ID_PERMISO='{$_POST['rol']}',
+                        FECHA_ACTUALIZACION=SYSDATE
+	                WHERE 
+	                    ID_USUARIO='{$_POST['id']}'
+                ";
+
+                $result = oci_parse($this->pdo, $query);
+
+
+                if (oci_execute($result)){
+                    oci_commit($this->pdo);
+                    flash("Usuario actualizado correctamente")->success() ;
+                }else{
+                    oci_rollback($this->pdo);
+                    $error = oci_error($result);
+                    flash($error['message'])->error();
+                }
+
+
+            }
+
+            //nuevo registro
+            else {
+                $query = "INSERT INTO USUARIOS (
+                    MAIL, 
+                    NOMBRE, 
+                    PASSWORD,
+                    ID_CARGO,
+                    ID_PERMISO,
+                    ANEXO,
+                    FECHA_CREACION,
+                    FECHA_ACTUALIZACION
+                    ) 
+                VALUES (
+                    '". $_POST["email"] ."',
+                    '". $_POST["nombre"] ."', 
+                    '12345',
+                    '". $_POST["cargo_id"] ."',
+                    '". $_POST["rol"] ."',
+                    '". $_POST["anexo"] ."',
+                    SYSDATE,
+                    SYSDATE
 				)";
 
 
+                $result = oci_parse($this->pdo, $query);
 
-			//ejecucion consulta
-			$query = $consulta;
+                oci_bind_by_name($result, "mylastid", $last_id, 8, SQLT_INT);
 
-			print($consulta);
-			$result = oci_parse($this->pdo, $query);
 
-			// oci_bind_by_name($result, "mylastid", $last_id, 8, SQLT_INT);
+                if (oci_execute($result)){
+                    oci_commit($this->pdo);
+                    flash("Usuario creado correctamente")->success() ;
+                }else{
+                    oci_rollback($this->pdo);
+                    $error = oci_error($result);
+                    flash($error['message'])->error();
+                }
+            }
 
-			if($result){
 
-				$_SESSION["feedback"] = "Contrato actualizado correctamente";
-				flash("Usuario creado correctamente")->success() ;
-			}
-			
-			oci_execute($result);
 
-			// var_dump($last_id);
-			// exit();
 
-			oci_commit($this->pdo);
+            oci_close($this->pdo);
 
 			// $consulta2 = "INSERT INTO USUARIOS_PERMISOS (
-			// 	MAIL, 
+			// 	MAIL,
 			// 	ID_PERMISO)
 			// VALUES(
 			// 	'". $_POST["email"] ."',
@@ -163,16 +197,9 @@ class ModelUsuarios {
 			die();
 		}
 
-	
-		
 
-		//agrega resultados a retorno
+		redirect("/usuarios");
 
-		header("Location:". base() ."/usuarios");
-
-		oci_close($this->pdo);
-		
-		//return $assoc;
 	}
 
 	public function edit($id){
@@ -181,35 +208,19 @@ class ModelUsuarios {
 
 
 
-	public function get(){
-		
-		$assoc = [];
+    public function get(){
 
+        $query = "SELECT * FROM USUARIOS WHERE ID_USUARIO='" . $this->id . "'";
 
-		//consulta para recuperar cargos
-		$query = "SELECT * FROM CARGOS";
-		$result = oci_parse($this->pdo, $query);
-		oci_execute($result);
-		$cargos = queryResultToAssoc($result);
-		array_push($assoc, $cargos);
+        return queryToArray($query,$this->pdo)[0];
+    }
 
-
-		//consulta para recuperar permisos
-		$query = "SELECT * FROM PERMISOS";
-		$result = oci_parse($this->pdo, $query);
-		oci_execute($result);
-		$permisos = queryResultToAssoc($result);
-		array_push($assoc, $permisos);
-
-
-
-		oci_close($this->pdo);
-		
-		return $assoc;
-
-		
-
-
-	}
+    public function getDataListBox()
+    {
+        return [
+            'cargos' => queryToArray("SELECT * FROM CARGOS",$this->pdo),
+            'permisos' => queryToArray("SELECT * FROM PERMISOS",$this->pdo)
+        ];
+    }
 
 }

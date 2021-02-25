@@ -11,22 +11,22 @@ class ViewUsuarios {
 	
 	public function output(\UsuariosNew\ModelUsuarios $model){
 
-        $data = $model->get();
 
-        
+        //si se envia el formulario
 		if(!empty($_POST)){
 			$model->execute();
 		}
+
+		//si se esta editando un registro
         if(isset($_GET["id"])){
-            $data = $model->get()[0];
+            $registroEdit = $model->get();
         }
         
-        
-        $cargos = $data[0];
-        $permisos = $data[1];
 
 
-		$nombre = false;
+        $dataListBox = $model->getDataListBox();
+        $cargos = $dataListBox['cargos'];
+        $permisos = $dataListBox['permisos'];
 
 
 
@@ -54,7 +54,6 @@ class ViewUsuarios {
             
 		}
 
-//print_r(sizeof($_GET));
 		ob_start();
 
 		?>
@@ -73,7 +72,8 @@ class ViewUsuarios {
             <input type="hidden" name="id" value="<?= $_GET["id"] ?? "" ?>" >
             <div class="form-group has-feedback col-xs-4 col-md-4 col-lg-4 {{ $errors->has('nombre') ? 'has-error' : '' }}">
                 <label>Nombre *</label>
-                <input type="text" name="nombre" class="form-control" value="<?=isset($_GET["nombre"]) ? $_GET["nombre"]: (isset($data["NOMBRE"]) ? $data["NOMBRE"] : "") ?>">
+                <input type="text" name="nombre" class="form-control"
+                       value="<?=$_GET["nombre"] ?? $registroEdit["NOMBRE"] ?? "" ?>">
 
 
                 <?php if ($nombre){ ?>
@@ -97,7 +97,9 @@ class ViewUsuarios {
             <!-- </div> -->
             <div class="form-group has-feedback col-xs-4 col-md-4 col-lg-4 {{ $errors->has('email') ? 'has-error' : '' }}">
                 <label>E-mail *</label>
-                <input type="text" name="email" class="form-control" value="<?=isset($_GET['email']) ? $_GET['email']: (isset($data['MAIL']) ? $data['MAIL'] : '') ?>" required>
+                <input type="text" name="email" class="form-control"
+
+                       value="<?=$_GET["email"] ?? $registroEdit["MAIL"] ?? "" ?>" required>
 <!--                 @if ($errors->has('email'))
                     <span class="help-block text-danger">
                         <strong>{{ $errors->first('email') }}</strong>
@@ -108,7 +110,8 @@ class ViewUsuarios {
 
             <div class="form-group has-feedback col-xs-4 col-md-4 col-lg-4 {{ $errors->has('anexo') ? 'has-error' : '' }}">
                 <label>Anexo</label>
-                <input type="text" name="anexo" class="form-control" value="<?=isset($_GET['anexo']) ? $_GET['anexo']: (isset($data['ANEXO']) ? $data['ANEXO'] : '') ?>" required>
+                <input type="text" name="anexo" class="form-control"
+                       value="<?=$_GET["anexo"] ?? $registroEdit["ANEXO"] ?? "" ?>" required>
 <!--                 @if ($errors->has('email'))
                     <span class="help-block text-danger">
                         <strong>{{ $errors->first('email') }}</strong>
@@ -124,19 +127,13 @@ class ViewUsuarios {
                         <label>Rol</label>
                         <input type="hidden" name="submit" value="true">
                         <select class="selectpicker " placeholder='Seleccione Rol' name="rol" id="selectContrato" value="<?=isset($_GET["selectContrato"]) ? $_GET["selectContrato"]: (isset($registroEdit["TIPO"]) ? $registroEdit["TIPO"] : "") ?>">
-                        <option value=""></option>
-
+                            <option value=""></option>
                             <?php 
-                            foreach ($permisos as $rol) { 
-                                if (!empty($_GET["rol"]) && $_GET["rol"] == $rol["ID_PERMISO"]){
-                                    ?>
-                                    <option selected="true" value="<?= $rol["ID_PERMISO"];?>"><?= $rol["NOMBRE_PERMISO"];?></option>
-                                    <?php
-                                }else{
-                                    ?>
-                                    <option value="<?= $rol["ID_PERMISO"];?>"><?= $rol["NOMBRE_PERMISO"];?></option>
-                                    <?php
-                                }
+                            foreach ($permisos as $rol) {
+                                $selected = $registroEdit['ID_PERMISO']==$rol["ID_PERMISO"] ? "selected" : "";
+                                ?>
+                                <option value="<?= $rol["ID_PERMISO"];?>" <?=$selected?>><?= $rol["NOMBRE_PERMISO"];?></option>
+                                <?php
                             }
                             ?>
                         </select>
@@ -150,18 +147,12 @@ class ViewUsuarios {
                         <select name='cargo_id' class ='selectpicker selectField' placeholder='Seleccione Cargo' data-live-search='true' id ='licitacion_id' value="<?=isset($_GET["licitacion"]) ? $_GET["licitacion"]: (isset($registroEdit["NRO_LICITACION"]) ? $registroEdit["NRO_LICITACION"] : "") ?>">
                             <option value="" ></option>
 
-
                             <?php 
-                            foreach ($cargos as $cargo) { 
-                                if (!empty($_GET["cargo_id"]) && $_GET["cargo_id"] == $cargo["ID_CARGO"]){
-                                    ?>
-                                    <option selected="true" value="<?= $cargo["ID_CARGO"];?>"><?= $cargo["NOMBRE"];?></option>
-                                    <?php
-                                }else{
-                                    ?>
-                                    <option value="<?= $cargo["ID_CARGO"];?>"><?= $cargo["NOMBRE"];?></option>
-                                    <?php
-                                }
+                            foreach ($cargos as $cargo) {
+                                $selected = $registroEdit['ID_CARGO']==$cargo["ID_CARGO"] ? "selected" : "";
+                                ?>
+                                <option value="<?= $cargo["ID_CARGO"];?>" <?=$selected?>><?= $cargo["NOMBRE"];?></option>
+                                <?php
                             }
                             ?>
                         </select>
@@ -213,7 +204,8 @@ class ViewUsuarios {
         <div class="card-footer">
         <div class="row">
             <div class="col-sm-8">
-            <button type="submit" class="btn-primary btn rounded" ><i class="icon-floppy-disk"></i> Guardar</button>
+                <input type="hidden" name="id" value="<?=$registroEdit['ID_USUARIO'] ?? '' ?>" >
+                <button type="submit" class="btn-primary btn rounded" ><i class="icon-floppy-disk"></i> Guardar</button>
             </div>
         </div>
         </div>
