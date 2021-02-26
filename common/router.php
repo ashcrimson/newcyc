@@ -481,12 +481,13 @@ class Router{
 		$this->view = new \usuariosList\ViewUsuarios;
 		$this->controller = new \usuariosList\ControllerUsuarios;
 		$this->model = $this->controller->all($this->model);
-		if(!empty($_GET["id"])||!empty($_GET["nombre"])){
-			$this->model = $this->controller->filter($this->model);
-		}
+
+
+
 		if(!empty($_GET["id"])){
             $this->controller->delete($this->model);
         }
+
 		if(isset($_GET["page"])){
 			$this->model = $this->controller->page($this->model);
 		}
