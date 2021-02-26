@@ -117,7 +117,7 @@ class ModelUsuarios {
         $id = $_GET['id'];
 
 
-        $query = "update USUARIOS set FECHA_ELIMINACION=NULL WHERE ID_USUARIO='{$id}'";
+        $query = "update USUARIOS set ESTADO='ACTIVO' WHERE ID_USUARIO='{$id}'";
 
         $result = oci_parse($this->pdo, $query);
 
