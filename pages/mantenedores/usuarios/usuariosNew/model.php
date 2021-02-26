@@ -114,7 +114,8 @@ class ModelUsuarios {
                         ID_CARGO='{$_POST['cargo_id']}',
                         ANEXO='{$_POST['anexo']}',
                         ID_PERMISO='{$_POST['rol']}',
-                        FECHA_ACTUALIZACION=SYSDATE
+                        FECHA_ACTUALIZACION=SYSDATE,
+                        ESTADO='{$_POST['estado']}'
 	                WHERE 
 	                    ID_USUARIO='{$_POST['id']}'
                 ";

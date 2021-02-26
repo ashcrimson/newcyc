@@ -18,6 +18,13 @@ class ViewTemplateCYC {
 		}else{
 			$model = $model->mail($_SESSION["mail"]);
 			$permisos = $model->get()[0];
+			$authUser = authUser($model->pdo);
+
+			if ($authUser['ESTADO'] == 'INACTIVO'){
+			    flash('Usuario inacivo' )->error();
+			    redirect('/login');
+
+            }
 //			 print_r($permisos);
 		}
 		ob_start();
