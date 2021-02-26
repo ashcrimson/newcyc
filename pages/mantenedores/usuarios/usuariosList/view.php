@@ -82,7 +82,7 @@ class viewUsuarios {
                                 <td>
                                 <?php
 
-                                if(!$users["FECHA_ELIMINACION"]) { ?>
+                                if($users["ESTADO"] != 'INACTIVO') { ?>
                                 
                                         <a href="<?=base('/usuarios/new?id=').$users['ID_USUARIO'];?>"
                                            class="btn btn-primary btn-sm">
@@ -91,7 +91,7 @@ class viewUsuarios {
                                         <a href="#" class="btn btn-danger btn-sm"
                                            data-target="#deleteModal<?= $users["ID_USUARIO"]; ?>"
                                            data-toggle="modal">
-                                            <i class="far fa-trash-alt"></i> Eliminar
+                                            <i class="fa fa-ban"></i> Desactivar
                                         </a>
 
                                         <!-- modal starts -->
@@ -100,13 +100,22 @@ class viewUsuarios {
                                                 <div class="modal-content">
                                                     <form class="form-horizontal" method="post" action="<?=base('/usuarios/delete?id=').$users['ID_USUARIO'];?>" >
                                                     <div class="modal-header">
-                                                        <h4 class="modal-title"> Borrar <?=$users["NOMBRE"];?> </h4>
+                                                        <h4 class="modal-title"> Desactivar  <?=$users["NOMBRE"];?></h4>
                                                         <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <div class="row">
+                                                            <div class="col-sm-12">
+                                                                <p>
+                                                                    Presione continuar para confirmar la acción.
+                                                                </p>
+                                                            </div>
+                                                        </div>
                                                     </div>
 
                                                     <div class="modal-footer">
-                                                        <button type="submit" class="btn btn-default">Continuar</button>
-                                                        <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
+                                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                                                        <button type="submit" class="btn btn-danger">Continuar</button>
                                                     </div>
                                                     </form>
                                                 </div>
@@ -117,7 +126,7 @@ class viewUsuarios {
                                     }else{
                                     	?>
                                         <a href="#" class="btn btn-sm btn-success" data-target="#restoreModal<?=$users['ID_USUARIO'];?>" data-toggle="modal">
-                                            <i class="fas fa-arrow-circle-up"></i> Restaurar
+                                            <i class="fas fa-arrow-circle-up"></i> Re-Activar
                                         </a>
         
 

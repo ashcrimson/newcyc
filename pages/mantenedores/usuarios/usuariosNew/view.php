@@ -100,17 +100,17 @@ class ViewUsuarios {
                 </div>
 
 
-                <div class="form-group has-feedback col-xs-4 col-md-4 col-lg-4">
-                    <label>Estado</label>
-                    <select class="selectpicker selectField" name="estado" ">
-                        <option value="ACTIVO" <?=$registroEdit['ESTADO']=='ACTIVO' ? 'selected' : ''?> >
-                            ACTIVO
-                        </option>
-                        <option value="INACTIVO" <?=$registroEdit['ESTADO']=='INACTIVO' ? 'selected' : ''?> >
-                            INACTIVO
-                        </option>
-                    </select>
-                </div>
+<!--                <div class="form-group has-feedback col-xs-4 col-md-4 col-lg-4">-->
+<!--                    <label>Estado</label>-->
+<!--                    <select class="selectpicker selectField" name="estado" ">-->
+<!--                        <option value="ACTIVO" --><?//=$registroEdit['ESTADO']=='ACTIVO' ? 'selected' : ''?><!-- >-->
+<!--                            ACTIVO-->
+<!--                        </option>-->
+<!--                        <option value="INACTIVO" --><?//=$registroEdit['ESTADO']=='INACTIVO' ? 'selected' : ''?><!-- >-->
+<!--                            INACTIVO-->
+<!--                        </option>-->
+<!--                    </select>-->
+<!--                </div>-->
 
 
 

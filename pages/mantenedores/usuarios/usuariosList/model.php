@@ -32,32 +32,15 @@ class ModelUsuarios {
 	//elimina registro indicado
 	public function delete($id): self{
 
-	    $user = queryToArray("select * from USUARIOS WHERE ID_USUARIO= '{$id}'",$this->pdo)[0];
 
-
-        $query = "DELETE FROM USUARIOS_PERMISOS WHERE MAIL_USUARIO = '{$user['MAIL']}'";
-
-
-        $result = oci_parse($this->pdo, $query);
-
-
-        if (oci_execute($result) === false){
-            oci_rollback($this->pdo);
-            $error = oci_error($result);
-            flash($error['message'])->error();
-
-        }
-
-
-
-        $query = "update USUARIOS set FECHA_ELIMINACION=SYSDATE WHERE ID_USUARIO='{$id}'";
+        $query = "update USUARIOS set ESTADO='INACTIVO' WHERE ID_USUARIO='{$id}'";
 
         $result = oci_parse($this->pdo, $query);
 
 
         if (oci_execute($result)){
             oci_commit($this->pdo);
-            flash("Usuario eliminado correctamente")->success() ;
+            flash("Usuario desactivado correctamente")->success() ;
         }else{
             oci_rollback($this->pdo);
             $error = oci_error($result);
