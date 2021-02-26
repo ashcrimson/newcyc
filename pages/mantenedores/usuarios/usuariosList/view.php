@@ -82,7 +82,7 @@ class viewUsuarios {
                                 <td>
                                 <?php
 
-                                if($users["ID_PERMISO"]!=5) { ?>
+                                if(!$users["FECHA_ELIMINACION"]) { ?>
                                 
                                         <a href="<?=base('/usuarios/new?id=').$users['ID_USUARIO'];?>"
                                            class="btn btn-primary btn-sm">
@@ -125,7 +125,7 @@ class viewUsuarios {
                                         <div class="modal fade" id="restoreModal<?=$users["ID_USUARIO"];?>">
                                             <div class="modal-dialog">
                                                 <div class="modal-content">
-                                                    <form class="form-horizontal" method="post" action="<?=base("/usuarios/new?restore=true&id=").$users["ID_USUARIO"];?>" >
+                                                    <form class="form-horizontal" method="post" action="<?=base("/usuarios?restore=1&id=").$users["ID_USUARIO"];?>" >
 
                                                     <div class="modal-header">
                                                         <h4 class="modal-title"> Restaurar  <?=$users["NOMBRE"];?> </h4>

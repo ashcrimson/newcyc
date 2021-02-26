@@ -50,7 +50,7 @@ class ModelUsuarios {
 
 
 
-        $query = "update USUARIOS set ID_PERMISO=5 where ID_USUARIO='{$id}'";
+        $query = "update USUARIOS set FECHA_ELIMINACION=SYSDATE WHERE ID_USUARIO='{$id}'";
 
         $result = oci_parse($this->pdo, $query);
 
@@ -127,5 +127,32 @@ class ModelUsuarios {
 
 		oci_close($this->pdo);
 		return $assoc;
+	}
+
+    public function restore()
+    {
+        $id = $_GET['id'];
+
+
+        $query = "update USUARIOS set FECHA_ELIMINACION=NULL WHERE ID_USUARIO='{$id}'";
+
+        $result = oci_parse($this->pdo, $query);
+
+
+        if (oci_execute($result)){
+            oci_commit($this->pdo);
+            flash("Usuario restaurado correctamente")->success() ;
+        }else{
+            oci_rollback($this->pdo);
+            $error = oci_error($result);
+            flash($error['message'])->error();
+        }
+
+
+        oci_commit($this->pdo);
+
+        redirect('/usuarios');
+
+
 	}
 }

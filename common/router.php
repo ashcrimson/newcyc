@@ -482,11 +482,15 @@ class Router{
 		$this->controller = new \usuariosList\ControllerUsuarios;
 		$this->model = $this->controller->all($this->model);
 
-
+        if(!empty($_GET["restore"])){
+            $this->model->restore();
+        }
 
 		if(!empty($_GET["id"])){
             $this->controller->delete($this->model);
         }
+
+
 
 		if(isset($_GET["page"])){
 			$this->model = $this->controller->page($this->model);
@@ -499,6 +503,8 @@ class Router{
 		$this->view = new \UsuariosNew\ViewUsuarios;
 		$this->controller = new \UsuariosNew\ControllerUsuarios;
 		$this->model = $this->controller->all($this->model);
+
+
 		if(!empty($_GET["id"])){
 			$this->model = $this->controller->edit($this->model);
 		}
