@@ -21,7 +21,7 @@ class ViewTemplateCYC {
 			$authUser = authUser($model->pdo);
 
 			if ($authUser['ESTADO'] == 'INACTIVO'){
-			    flash('Usuario inacivo' )->error();
+			    flash('Usuario inactivo' )->error();
 			    redirect('/login');
 
             }
