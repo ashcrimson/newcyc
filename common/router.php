@@ -144,7 +144,7 @@ class Router{
 
             foreach ($result as $index => $item) {
                 $codigo = $item['CODIGO'];
-                $nombre = $item['DESC_PROD_SOLI']." / ".$item['DESC_TEC_PROD_OFERTADO'];
+                $nombre = $item['CODIGO']." / ".$item['DESC_PROD_SOLI']." / ".$item['DESC_TEC_PROD_OFERTADO'];
                 $precio = $item['PRECIO_U_BRUTO'];
                 $saldo = $item['SALDO'];
 
@@ -221,10 +221,8 @@ class Router{
 		$this->view = new \OrdenCompraList\ViewOrdenCompra;
 		$this->controller = new \OrdenCompraList\ControllerOrdenCompra;
 		$this->model = $this->controller->all($this->model);
-		// if(!empty($_GET["nro_orden_compra"])){
-        //     $this->controller->delete($this->model);
-		// }
-		if(!empty($_GET["nro_orden_compra"])){
+
+		if(!empty($_GET["anula"])){
             $this->controller->anula($this->model);
 		}
 		if(isset($_GET["page"])){

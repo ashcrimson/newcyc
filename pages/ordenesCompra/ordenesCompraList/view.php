@@ -154,10 +154,12 @@ class ViewOrdenCompra {
 						
 							</td>
                                 <td>
-                                    <a href="<?=base("/ordenCompra/new?nro_orden_compra=").$ordenCompra["NRO_ORDEN_COMPRA"];?>" class="btn btn-sm btn-primary btn-xs">
-                                        <i class="fa fa-pencil-alt"></i> Editar
-                                    </a>
-                                    <?php if(!$proveedores["FECHA_ELIMINACION"]){ ?>
+
+                                    <?php if($ordenCompra["ESTADO"]!='Anulada'){ ?>
+
+                                        <a href="<?=base("/ordenCompra/new?nro_orden_compra=").$ordenCompra["NRO_ORDEN_COMPRA"];?>" class="btn btn-sm btn-primary btn-xs">
+                                            <i class="fa fa-pencil-alt"></i> Editar
+                                        </a>
                                         
                                         <a href="#" data-target="#miModal<?=$index;?>" data-toggle="modal" class="btn btn-sm btn-danger btn-xs"  ><i class="far fa-trash-alt"></i> Anular</a>
                                         <!-- <a href="#" data-target="#restoreModal<?=$index;?>" data-toggle="modal" class="btn btn-sm btn-info btn-xs"  ><i class="far fa-eye"></i> Restaurar</a> -->
@@ -165,7 +167,7 @@ class ViewOrdenCompra {
                                         <div class="modal fade" id="miModal<?= $index; ?>">
                                             <div class="modal-dialog">
                                                 <div class="modal-content">
-                                                    <form class="form-horizontal" method="post" action="<?=base("/ordenCompra/anula?nro_orden_compra=").$ordenCompra["NRO_ORDEN_COMPRA"];?>" >
+                                                    <form class="form-horizontal" method="post" action="<?=base("/ordenCompra?anula=1&nro_orden_compra=").$ordenCompra["NRO_ORDEN_COMPRA"];?>" >
                                                     <div class="modal-header">
                                                         <h4 class="modal-title"> Anular Orden de Compra n°<?= $ordenCompra["NRO_ORDEN_COMPRA"]; ?> </h4>
                                                         <button type="button" class="close" data-dismiss="modal">&times;</button>
@@ -196,7 +198,7 @@ class ViewOrdenCompra {
                                                         <h4 class="modal-title"> Restaurar  <?= $ordenCompra["NRO_ORDEN_COMPRA"]; ?> </h4>
                                                         <button type="button" class="close" data-dismiss="modal">&times;</button>
                                                     </div>
-                        
+
                                                     <div class="modal-footer">
                                                         <button type="submit" class="btn btn-success">Restaurar</button>
                                                         <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
@@ -204,28 +206,10 @@ class ViewOrdenCompra {
                                                     </form>
                                                 </div>
                                             </div>
-                                        </div> 
+                                        </div>
                                         <!-- modal ends -->
 
-                                        <!-- modal starts -->
-                                        <div class="modal fade" id="forceDeleteModal<?=$proveedores["RUT"];?>">
-                                            <div class="modal-dialog">
-                                                <div class="modal-content">
-                                                    <form class="form-horizontal" method="post" action="<?=base("/proveedores/delete?force=true&id=").$proveedores["ID"];?>" >
-                                                        <div class="modal-header">
-                                                            <h4 class="modal-title"> Borrar permanentemente <?=$proveedores["RAZON_SOCIAL"];?> </h4>
-                                                            <button type="button" class="close" data-dismiss="modal">&times;</button>
-                                                        </div>
-                                        
-                                                        <div class="modal-footer">
-                                                            <button type="submit" class="btn btn-primary">Eliminar</button>
-                                                            <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
-                                                        </div>
-                                                    </form>
-                                                </div>
-                                            </div>
-                                        </div> 
-                                        <!-- modal ends -->
+
                                     <?php
                                 }
                                 ?>
