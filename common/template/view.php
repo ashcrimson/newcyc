@@ -31,7 +31,7 @@ class ViewTemplateCYC {
 		
 		?>
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+<html lang="">
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -200,277 +200,253 @@ class ViewTemplateCYC {
 		<!-- Navbar -->
 		<ul class="navbar-nav form-inline ml-auto mr-0 mr-md-3 my-2 my-md-0">
 			<!-- Authentication Links -->
-<!-- 			@guest
-			<li class="nav-item">
-				<a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
-			</li>
+            <!-- 			@guest
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
+                        </li>
 
-			@else
-		-->
-		<li class="nav-item dropdown no-arrow">
-			<a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
-				<i class="fas fa-user-circle fa-fw"></i>
-				<!-- {{ Auth::user()->nombre }} --> <?=$_SESSION["nombre"];?><span class="caret"></span>
-			</a>
-			<div class="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">
-				<a class="dropdown-item" href="<?=base();?>/logout" data-toggle="modal" data-target="#logoutModal">
-					Cerrar sesion
-				</a>
-				<form id="logout-form" action="<?=base();?>/logout" method="POST" style="display: none;">
-					@csrf
-				</form>
-			</div>
-		</li>
+                        @else
+                    -->
+            <li class="nav-item dropdown no-arrow">
+                <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                    <i class="fas fa-user-circle fa-fw"></i>
+                    <!-- {{ Auth::user()->nombre }} --> <?=$_SESSION["nombre"];?><span class="caret"></span>
+                </a>
+                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">
+                    <a class="dropdown-item" href="<?=base();?>/logout" data-toggle="modal" data-target="#logoutModal">
+                        Cerrar sesion
+                    </a>
+                    <form id="logout-form" action="<?=base();?>/logout" method="POST" style="display: none;">
+                        @csrf
+                    </form>
+                </div>
+            </li>
 
-		<!-- @endguest -->
-	</ul>
-</nav>
+            <!-- @endguest -->
+        </ul>
+    </nav>
 
-<div id="wrapper">
-	<!-- Sidebar -->
+    <div id="wrapper">
+        <!-- Sidebar -->
+        <ul class="sidebar navbar-nav">
 
-	
-	
-	<ul class="sidebar navbar-nav">
+        <div class="user-panel">
+            <div class="pull-left image">
+              <img src="<?=base();?>/assets/img/Admin-User-256.png" class="img-circle" alt="User Image">
+            </div>
+            <div class="pull-left info">
+              <p><?=$_SESSION["nombre"];?></p>
+              <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
+            </div>
+          </div>
 
-	<div class="user-panel">
-        <div class="pull-left image">
-          <img src="<?=base();?>/assets/img/Admin-User-256.png" class="img-circle" alt="User Image">
-        </div>
-        <div class="pull-left info">
-          <p><?=$_SESSION["nombre"];?></p>
-          <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
-        </div>
-      </div>
-	
-		<li class="nav-item">
-			<a class="nav-link" href="<?=base();?>/">
-				<i class="fas fa-fw fa-tachometer-alt"></i>
-				<span>Home</span>
-			</a> 
-		</li>
-		<!-- @hasanyrole('SuperAdmin|Admin|Comprador') -->
-		<?php
-		if( ($permisos["ID_PERMISO"] == 1)){
-		?>
+            <li class="nav-item">
+                <a class="nav-link" href="<?=base();?>/">
+                    <i class="fas fa-fw fa-tachometer-alt"></i>
+                    <span>Home</span>
+                </a>
+            </li>
+            <!-- @hasanyrole('SuperAdmin|Admin|Comprador') -->
+            <?php
+            if( ($permisos["ID_PERMISO"] == 1)){
+            ?>
 
-		<li class="nav-item dropdown">
-			<a class="nav-link" href="<?=base();?>/licitaciones" id="pagesDropdown" role="button" >
-			<i class="fas fa-book"></i>
-				<span>Licitaciones</span>
-			</a>
-		</li>
-			<?php
-		}
-		?>
-		<!-- @endrole -->
-		<li class="nav-item dropdown">
-			<a class="nav-link" href="<?=base();?>/contratos" id="pagesDropdown" role="button">
-				<i class="fas fa-file-signature"></i>
-				<span>Contratos</span>
-			</a>
+            <li class="nav-item dropdown">
+                <a class="nav-link" href="<?=base();?>/licitaciones" id="pagesDropdown" role="button" >
+                <i class="fas fa-book"></i>
+                    <span>Licitaciones</span>
+                </a>
+            </li>
+                <?php
+            }
+            ?>
+            <!-- @endrole -->
+            <li class="nav-item dropdown">
+                <a class="nav-link" href="<?=base();?>/contratos" id="pagesDropdown" role="button">
+                    <i class="fas fa-file-signature"></i>
+                    <span>Contratos</span>
+                </a>
 
-		</li>
+            </li>
 
-		<!-- @hasanyrole('SuperAdmin|Admin|Comprador') -->
-		<?php
-		if( ($permisos["ID_PERMISO"] == 1) ||
-			
-			($permisos["ID_PERMISO"] == 3)){
-				?>
+            <!-- @hasanyrole('SuperAdmin|Admin|Comprador') -->
+            <?php
+            if( ($permisos["ID_PERMISO"] == 1) ||
 
-		<li class="nav-item dropdown">
-			<a class="nav-link" href="<?=base();?>/ordenCompra" id="pagesDropdown" role="button">
-			<i class="fa fa-file"></i>
-				<span>Órdenes de Compra</span>
-			</a>
-			<div class="dropdown-menu" aria-labelledby="pagesDropdown">
-				<a class="dropdown-item" href="<?=base();?>/ordenCompra">Buscar</a>
-				<div class="dropdown-divider"></div> 
-				<a class="dropdown-item" href="<?=base();?>/ordenCompra/new">Agregar</a>
-			</div>
-		</li>
-			<?php
-		}
-		?>
-		<!-- @endrole -->
+                ($permisos["ID_PERMISO"] == 3)){
+                    ?>
 
-		<!-- @hasanyrole('SuperAdmin|Admin') -->
-		<?php
-		if( ($permisos["ID_PERMISO"] == 1) ){
-				?>
+            <li class="nav-item dropdown">
+                <a class="nav-link" href="<?=base();?>/ordenCompra" id="pagesDropdown" role="button">
+                <i class="fa fa-file"></i>
+                    <span>Órdenes de Compra</span>
+                </a>
+                <div class="dropdown-menu" aria-labelledby="pagesDropdown">
+                    <a class="dropdown-item" href="<?=base();?>/ordenCompra">Buscar</a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" href="<?=base();?>/ordenCompra/new">Agregar</a>
+                </div>
+            </li>
+                <?php
+            }
+            ?>
+            <!-- @endrole -->
 
-		<!-- <li class="nav-item">
-			<a class="nav-link" href="{{ route('convenios.index') }}">
-				<i class="fas fa-file-signature"></i>
-				<span>Convenios</span>
-			</a>
-		</li>
- -->
-		
+            <!-- @hasanyrole('SuperAdmin|Admin') -->
+            <?php
+            if( ($permisos["ID_PERMISO"] == 1) ){
+                    ?>
 
-		<li class="nav-item dropdown">
+            <!-- <li class="nav-item">
+                <a class="nav-link" href="{{ route('convenios.index') }}">
+                    <i class="fas fa-file-signature"></i>
+                    <span>Convenios</span>
+                </a>
+            </li>
+     -->
 
-		<ul class="sidebar-menu  " data-widget="tree">
-        
-        
-        <li class="treeview " style="height: auto; text-align:left; margin-left:-22px; padding-top:10px;">
-          <a href="#" class="elmenu">
-            <i class="fa fa-exclamation-triangle"></i>
-            <span style="color:#fff;">Alertas</span>
-            <span class="pull-right-container">
-              <i class="fa fa-angle-right pull-right" style="padding-left:102px;"></i>
-            </span>
-          </a>
-          <ul class="treeview-menu elmenu" style="display: none;">
-            <li ><a href="<?=base();?>/alertaContrato" class="elmenu"><i class="fa fa-circle-o"></i> Contratos</a></li>
-            
+
+            <li class="nav-item dropdown">
+
+            <ul class="sidebar-menu  " data-widget="tree">
+
+
+            <li class="treeview " style="height: auto; text-align:left; margin-left:-22px; padding-top:10px;">
+              <a href="#" class="elmenu">
+                <i class="fa fa-exclamation-triangle"></i>
+                <span style="color:#fff;">Alertas</span>
+                <span class="pull-right-container">
+                  <i class="fa fa-angle-right pull-right" style="padding-left:102px;"></i>
+                </span>
+              </a>
+              <ul class="treeview-menu elmenu" style="display: none;">
+                <li ><a href="<?=base();?>/alertaContrato" class="elmenu"><i class="fa fa-circle-o"></i> Contratos</a></li>
+
+              </ul>
+            </li>
+
+
           </ul>
-        </li>
-     
-        
-      </ul>
-	  </li>
+          </li>
 
-		<li class="nav-item" style="padding-top:10px;">
-			<a class="nav-link" href="<?=base();?>/usuarios">
-				<i class="fas fa-fw fa-user-circle"></i>
-				<span>Usuarios</span>
-			</a>
-		</li>
+            <li class="nav-item" style="padding-top:10px;">
+                <a class="nav-link" href="<?=base();?>/usuarios">
+                    <i class="fas fa-fw fa-user-circle"></i>
+                    <span>Usuarios</span>
+                </a>
+            </li>
 
-		
 
-		<li class="nav-item dropdown">
 
-		<ul class="sidebar-menu  " data-widget="tree">
-        
-        
-        <li class="treeview " style="height: auto; text-align:left; margin-left:-22px; padding-top:10px;">
-          <a href="#" class="elmenu">
-            <i class="fa fa-folder"></i>
-            <span style="padding-left:2px;  color:#fff;">Mantenedores</span>
-            <span class="pull-right-container">
-              <i class="fa fa-angle-right pull-right" style="padding-left:50px;"></i>
-            </span>
-          </a>
-          <ul class="treeview-menu elmenu" style="display: none;">
-            <li ><a href="<?=base();?>/cargos" class="elmenu"><i class="fa fa-circle-o"></i> Cargos</a></li>
-            <li><a href="<?=base();?>/monedas" class="elmenu"><i class="fa fa-circle-o"></i> Monedas</a></li>
-            <li><a href="<?=base();?>/proveedores" class="elmenu"><i class="fa fa-circle-o"></i> Proveedores</a></li>
-            <!-- <li><a href="<?=base();?>/prestaciones" class="elmenu"><i class="fa fa-circle-o"></i> Prestaciones</a></li> -->
+            <li class="nav-item dropdown">
+
+            <ul class="sidebar-menu  " data-widget="tree">
+
+
+            <li class="treeview " style="height: auto; text-align:left; margin-left:-22px; padding-top:10px;">
+              <a href="#" class="elmenu">
+                <i class="fa fa-folder"></i>
+                <span style="padding-left:2px;  color:#fff;">Mantenedores</span>
+                <span class="pull-right-container">
+                  <i class="fa fa-angle-right pull-right" style="padding-left:50px;"></i>
+                </span>
+              </a>
+              <ul class="treeview-menu elmenu" style="display: none;">
+                <li ><a href="<?=base();?>/cargos" class="elmenu"><i class="fa fa-circle-o"></i> Cargos</a></li>
+                <li><a href="<?=base();?>/monedas" class="elmenu"><i class="fa fa-circle-o"></i> Monedas</a></li>
+                <li><a href="<?=base();?>/proveedores" class="elmenu"><i class="fa fa-circle-o"></i> Proveedores</a></li>
+                <!-- <li><a href="<?=base();?>/prestaciones" class="elmenu"><i class="fa fa-circle-o"></i> Prestaciones</a></li> -->
+              </ul>
+            </li>
+
+
           </ul>
-        </li>
-     
-        
-      </ul>
-	  </li>
-		
-		<!-- <li class="nav-item dropdown">
-			<a class="nav-link dropdown-toggle" href="#" id="pagesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-				<i class="fas fa-fw fa-book"></i>
-				<span>Reportes</span>
-			</a>
-			<div class="dropdown-menu" aria-labelledby="pagesDropdown">
-				<a class="dropdown-item" href="<?=base();?>/creportes">Contrato</a>
-				<div class="dropdown-divider"></div> 
-				<a class="dropdown-item" href="<?=base();?>/cvreportes">Convenio</a>
-			</div>
-		</li>   -->
-			<?php
-		}
-		?>
-		<!-- @endrole -->
-	</ul>
-	<div id="content-wrapper">
-		<div class="container-fluid">
-			<!-- Breadcrumbs-->
-				<!-- @if (session()->has('success'))
-				<div class="container col">
-					<div class="alert alert-success">{{ session('success') }}</div>
-				</div>
-				@endif
-				@if (session()->has('error'))
-				<div class="container col">
-					<div class="help-block text-danger">Error al guardar los datos</div>
-				</div>  
-				@endif
+          </li>
 
-				@yield('content') -->
+            <!-- <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="pagesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <i class="fas fa-fw fa-book"></i>
+                    <span>Reportes</span>
+                </a>
+                <div class="dropdown-menu" aria-labelledby="pagesDropdown">
+                    <a class="dropdown-item" href="<?=base();?>/creportes">Contrato</a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" href="<?=base();?>/cvreportes">Convenio</a>
+                </div>
+            </li>   -->
+                <?php
+            }
+            ?>
+            <!-- @endrole -->
+        </ul>
 
+        <div id="content-wrapper">
+                <div class="container-fluid">
+                    <?php echo $content; ?>
+                </div>
+                <!-- /.container-fluid -->
 
-				<?php
+                <!-- Sticky Footer -->
+                <footer class="sticky-footer">
+                    <div class="container my-auto">
+                        <div class="copyright text-center my-auto">
+                            <span>Copyright © Contratos y Convenios 2019</span>
+                        </div>
+                    </div>
+                </footer>
+                <!-- /.content-wrapper -->
+        </div>
+	    <!-- /#wrapper -->
 
-				echo $content;
+        <!-- Scroll to Top Button-->
+        <a class="scroll-to-top rounded" href="#page-top">
+            <i class="fas fa-angle-up"></i>
+        </a>
 
-				?>
+        <!-- Logout Modal-->
+        <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">¿Listo para salir?</h5>
 
+                        <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">×</span>
+                        </button>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancelar</button>
+                            <a class="btn btn-primary" href="<?=base();?>/logout"
+                            onclick="event.preventDefault();
+                            document.getElementById('logout-form').submit();">
+                            Salir
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
+    <!--  Bootstrap core JavaScript -->
+    <script src="<?=base();?>/assets/assets/frontend/js/popper.js"></script>
+    <script src="<?=base();?>/assets/assets/vendor/jquery/jquery.min.js"></script>
+    <script src="<?=base();?>/assets/assets/vendor/bootstrap/js/bootstrap.min.js"></script>
+    <script src="<?=base();?>/assets/assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
-			</div>
-			<!-- /.container-fluid -->
+    <!-- Core plugin JavaScript -->
+    <script src="<?=base();?>/assets/assets/vendor/jquery-easing/jquery.easing.min.js"></script>
 
-			<!-- Sticky Footer -->
-			<footer class="sticky-footer">
-				<div class="container my-auto">
-					<div class="copyright text-center my-auto">
-						<span>Copyright © Contratos y Convenios 2019</span>
-					</div>
-				</div>
-			</footer>
-		</div>
-		<!-- /.content-wrapper -->   
-	</div>
-	<!-- /#wrapper -->
+    <!--   Custom scripts for all pages -->
+    <script src="<?=base();?>/assets/assets/frontend/js/sb-admin.min.js"></script>
 
-	<!-- Scroll to Top Button-->
-	<a class="scroll-to-top rounded" href="#page-top">
-		<i class="fas fa-angle-up"></i>
-	</a>
-
-	<!-- Logout Modal-->
-	<div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-		<div class="modal-dialog" role="document">
-			<div class="modal-content">
-				<div class="modal-header">
-					<h5 class="modal-title" id="exampleModalLabel">¿Listo para salir?</h5>
-
-					<button class="close" type="button" data-dismiss="modal" aria-label="Close">
-						<span aria-hidden="true">×</span>
-					</button>
-				</div>
-				<div class="modal-footer">
-					<button class="btn btn-secondary" type="button" data-dismiss="modal">Cancelar</button>
-					<a class="btn btn-primary" href="<?=base();?>/logout"
-					onclick="event.preventDefault();
-					document.getElementById('logout-form').submit();">
-					Salir
-				</a>
-			</div>
-		</div>
-	</div>
-</div>
-
-<!--  Bootstrap core JavaScript -->
-<script src="<?=base();?>/assets/assets/frontend/js/popper.js"></script>
-<script src="<?=base();?>/assets/assets/vendor/jquery/jquery.min.js"></script>
-<script src="<?=base();?>/assets/assets/vendor/bootstrap/js/bootstrap.min.js"></script>
-<script src="<?=base();?>/assets/assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>   
-
-<!-- Core plugin JavaScript -->
-<script src="<?=base();?>/assets/assets/vendor/jquery-easing/jquery.easing.min.js"></script>
-
-<!--   Custom scripts for all pages -->
-<script src="<?=base();?>/assets/assets/frontend/js/sb-admin.min.js"></script>
-
-<!-- Slimscroll -->
-<script src="https://adminlte.io/themes/AdminLTE/bower_components/jquery-slimscroll/jquery.slimscroll.min.js"></script>
-<!-- FastClick -->
-<script src="https://adminlte.io/themes/AdminLTE/bower_components/fastclick/lib/fastclick.js"></script>
-<!-- AdminLTE App -->
-<script src="https://adminlte.io/themes/AdminLTE/dist/js/adminlte.min.js"></script>
-<!-- AdminLTE for demo purposes -->
-<script src="https://adminlte.io/themes/AdminLTE/dist/js/demo.js"></script>
+    <!-- Slimscroll -->
+    <script src="https://adminlte.io/themes/AdminLTE/bower_components/jquery-slimscroll/jquery.slimscroll.min.js"></script>
+    <!-- FastClick -->
+    <script src="https://adminlte.io/themes/AdminLTE/bower_components/fastclick/lib/fastclick.js"></script>
+    <!-- AdminLTE App -->
+    <script src="https://adminlte.io/themes/AdminLTE/dist/js/adminlte.min.js"></script>
+    <!-- AdminLTE for demo purposes -->
+    <script src="https://adminlte.io/themes/AdminLTE/dist/js/demo.js"></script>
 
 
 </body>
