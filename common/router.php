@@ -72,6 +72,11 @@ class Router{
 		$this->model = new \LicitacionesNew\ModelLicitaciones($this->pdo);
 		$this->view = new \LicitacionesNew\ViewLicitaciones;
 		$this->controller = new \LicitacionesNew\ControllerLicitaciones;
+
+		if(!empty($_GET["id"])){
+            $this->model = $this->controller->edit($this->model);
+        }
+
 		if(!empty($_POST["submit"])){
 			$this->model = $this->controller->new($this->model);
 		}else {

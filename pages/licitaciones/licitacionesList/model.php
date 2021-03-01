@@ -65,14 +65,19 @@ class ModelLicitaciones {
 				d.nombre as nombre_documento,
 				d.NRO_DOCUMENTO,   
 				d.tipo_archivo,
-				d.archivo
+				d.archivo,
+				u.NOMBRE as USUARIO_CREA,
+				u2.NOMBRE AS USAURIO_ACTUALIZA
 				
 			from 
 				LICITACIONES L
 				LEFT JOIN documento_licitaciones dl on dl.nro_licitacion = l.nro_licitacion
 				LEFT JOIN documento d on d.nro_documento = dl.nro_documento
+				LEFT JOIN USUARIOS u on u.ID_USUARIO = l.CREADO_POR
+				LEFT JOIN USUARIOS u2 on u2.ID_USUARIO = l.ACTUALIZADO_POR
 		    $where
 			";
+
 
 		//consulta paginada
 		$query = queryPagination($consulta, $this->page);

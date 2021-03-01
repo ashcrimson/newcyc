@@ -240,3 +240,15 @@ function dvs(){
 function nfp($numero){
         return dvs().number_format($numero,2,',','.');
 }
+
+function errorsToList($errores){
+    $res = "<ul>";
+
+        foreach ($errores as $index => $error) {
+            $res .= "<li>{$error}</li>";
+        }
+
+    $res .=  "</ul>";
+
+    return $res;
+}

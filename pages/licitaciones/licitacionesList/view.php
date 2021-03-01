@@ -106,23 +106,36 @@ class ViewLicitaciones {
 								<th>Presupuesto</th>
 								<th>Descripción</th>
 								<th>Adjunto</th>
-								<!-- {{-- <th>Acción</th> --}} -->
+								<th>CREADO POR</th>
+								<th>ACTUALIZADO POR</th>
+                                <th>Acción</th>
 							</tr>
 						</thead>
 						<tbody>
 							<?php 
-							foreach ($listado as $licitaciones) {
+							foreach ($listado as $licitacion) {
 								// foreach ($documentos as $documento) {	
 								?>
 							<tr>
-								<td> <?= $licitaciones["NRO_LICITACION"]; ?></td>
-								<td> <?= $licitaciones["PRESUPUESTO"]; ?></td>
-								<td> <?= $licitaciones["DETALLE"]; ?></td>
+								<td> <?= $licitacion["NRO_LICITACION"]; ?></td>
+								<td> <?= $licitacion["PRESUPUESTO"]; ?></td>
+								<td> <?= $licitacion["DETALLE"]; ?></td>
 								<td>
-									<a href="<?= base()."/archivo/download?id=".$licitaciones['NRO_DOCUMENTO'] ?>" target="_blank">
-										<?= $licitaciones["NOMBRE_DOCUMENTO"] ?>
+									<a href="<?= base()."/archivo/download?id=".$licitacion['NRO_DOCUMENTO'] ?>" target="_blank">
+										<?= $licitacion["NOMBRE_DOCUMENTO"] ?>
 									</a>
 								</td>
+                                <td> <?= $licitacion["USUARIO_CREA"]; ?></td>
+                                <td> <?= $licitacion["USAURIO_ACTUALIZA"]; ?></td>
+                                <td>
+
+                                    <a href="<?=base("/licitaciones/new?id=").$licitacion["NRO_LICITACION"];?>"
+                                       class="btn btn-sm btn-primary btn-sm"
+                                       data-toggle="tooltip" title="Editar">
+                                        <i class="fa fa-pencil-alt"></i>
+                                    </a>
+
+                                </td>
 
 								
 							</tr>

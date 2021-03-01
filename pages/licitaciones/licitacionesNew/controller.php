@@ -20,4 +20,7 @@ class ControllerLicitaciones {
 		return $model;
 	}
 
+    public function edit(\LicitacionesNew\ModelLicitaciones $model){
+        return $model;
+    }
 }
