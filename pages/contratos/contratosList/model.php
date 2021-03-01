@@ -107,7 +107,9 @@ class ModelContratos {
                 m.nombre as nombre_moneda,
                 m.equivalencia as equivalencia,
                 ca.nombre as nombre_cargo,
-                oc.total
+                oc.total,
+                u.NOMBRE as USUARIO_CREA,
+                u2.NOMBRE as USUARIO_ACTUALIZA
 				
 			from 
 				CONTRATOS C LEFT JOIN PROVEEDORES P ON c.rut_proveedor = p.rut_proveedor
@@ -116,7 +118,8 @@ class ModelContratos {
                 LEFT JOIN moneda m on m.codigo = c.id_moneda
                 LEFT JOIN cargos ca on ca.id_cargo = c.id_cargo
                 LEFT JOIN ORDEN_COMPRA oc on oc.id_contrato = c.id_cargo
-               
+                left join USUARIOS u on u.ID_USUARIO= c.CREADO_POR
+                left join USUARIOS u2 on u2.ID_USUARIO= c.ACTUALIZADO_POR               
                 
 			$where
 			ORDER BY

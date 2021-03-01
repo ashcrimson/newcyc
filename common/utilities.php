@@ -204,13 +204,16 @@ function dump($variable){
 
 function authUser($pdo){
 
+    session_start();
 	if(!isset($_SESSION['mail'])){
 		return false;
 	}
 
 	$query = "SELECT * FROM USUARIOS WHERE mail='".$_SESSION['mail']."'";
 
-    return queryToArray($query,$pdo)[0];
+	$user = queryToArray($query,$pdo)[0];
+
+    return $user;
 }
 
 function acentos($string){

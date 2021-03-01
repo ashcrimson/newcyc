@@ -407,7 +407,7 @@ class ViewContratos {
 							<div class="form-group has-feedback col-xs-4 col-md-4 col-lg-4 <?=$mboleta ? 'has-error' : '' ;?>">
 								<label>Monto Boleta Garantía*</label>
 								
-								<input type="text" name="mboleta" class="form-control"
+								<input type="number" name="mboleta" class="form-control"
 									value="<?=$_GET["mboleta"] ?? $registroEdit['MONTO_BOLETA_GARANTIA'] ?? ''?>"
 								>
 								<?php if ($mboleta){ ?>

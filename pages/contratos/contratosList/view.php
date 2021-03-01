@@ -243,6 +243,8 @@ class ViewContratos {
                         <th data-priority="100001">Fecha Alerta de Vencimiento</th>
                         <th data-priority="100001">Fecha Vencimiento Boleta</th>
                         <th data-priority="100001">Adjunto</th>
+                        <th data-priority="100001">USUARIO CREA</th>
+                        <th data-priority="100001">USUARIO ACTUALIZA</th>
 
                         <th width="25%">Acciones</th>
                         <?php if($authUser['ID_PERMISO'] == 2) {
@@ -284,6 +286,8 @@ class ViewContratos {
                                 </a>
 
                             </td>
+                            <td><?= $contrato["USUARIO_CREA"]; ?></td>
+                            <td><?= $contrato["USUARIO_ACTUALIZA"]; ?></td>
                             <td>
                                 <a href="<?=base("/contratos/bitacora/show?id=").$contrato["ID_CONTRATO"];?>"
                                    class="btn btn-sm btn-secondary btn-sm "

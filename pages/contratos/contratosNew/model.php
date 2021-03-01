@@ -303,7 +303,9 @@ class ModelContratos {
 
 	public function execute(){
 
-		
+        $user = authUser($this->pdo);
+
+
 		//validar si faltó algo
 		if(!$this->error){
 			
@@ -326,7 +328,9 @@ class ModelContratos {
 						 NRO_BOLETA_GARANTIA='" . $_POST['numero'] . "',
 						 MONTO_BOLETA_GARANTIA='" . $_POST['mboleta'] . "',
 						 FECHA_VENCIMIENTO_BOLETA=TO_DATE('" . $_POST['fecha_vencimiento_boleta'] . "','yyyy-mm-dd'),
-						 ALERTA_VENCIMIENTO_BOLETA=TO_DATE('" . $_POST['alerta_vencimiento_boleta'] . "','yyyy-mm-dd')
+						 ALERTA_VENCIMIENTO_BOLETA=TO_DATE('" . $_POST['alerta_vencimiento_boleta'] . "','yyyy-mm-dd'),
+						 FECHA_ACTUALIZACION=SYSDATE,
+						 ACTUALIZADO_POR={$user['ID_USUARIO']}
 					WHERE 
 					    ID_CONTRATO='" . $_POST['id'] . "'
                 ";
@@ -337,7 +341,6 @@ class ModelContratos {
 //                exit();
 //                echo "</pre>";
 
-				dd($query);
 
 				
                 $result = oci_parse($this->pdo, $query);
@@ -360,49 +363,50 @@ class ModelContratos {
 	        //inserta
 	        else{
 
-                $consulta = "INSERT INTO CONTRATOS (
-				NRO_LICITACION, 
-				RUT_PROVEEDOR, 
-				ID_CARGO, 
-				ID_MONEDA, 
-				TIPO, 
-				MONTO, 
-				ESTADO_ALERTA, 
-				FECHA_INICIO, 
-				FECHA_TERMINO, 
-				FECHA_APROBACION, 
-				FECHA_ALERTA_VENCIMIENTO, 
-				FECHA_CREACION, 
-				FECHA_ACTUALIZACION, 
-				FECHA_ELIMINACION, 
-				OBJETO_CONTRATO,
-				NRO_BOLETA_GARANTIA,
-				MONTO_BOLETA_GARANTIA,
-				FECHA_VENCIMIENTO_BOLETA,
-				ALERTA_VENCIMIENTO_BOLETA
-				) 
-			VALUES (
-				'". $this->licitacion ."',  
-				'". $this->proveedor_id ."',
-				'". $this->id_admin ."', 
-				'". $this->moneda_id ."',  
-				'". $this->selectContrato ."',  
-				". $this->monto .", 
-				null, 
-				TO_DATE('". $this->fecha_inicio ."','yyyy-mm-dd'),  
-				TO_DATE('". $this->fecha_termino ."','yyyy-mm-dd'), 
-				TO_DATE('". $this->fecha_aprobacion ."','yyyy-mm-dd'), 
-				TO_DATE('". $this->fecha_alert ."','yyyy-mm-dd'), 
-				TO_DATE('2020-10-19 00:00:00', 'YYYY-MM-DD HH24:MI:SS'), 
-				TO_DATE('2020-10-19 00:00:00', 'YYYY-MM-DD HH24:MI:SS'), 
-				TO_DATE('2020-10-19 00:00:00', 'YYYY-MM-DD HH24:MI:SS'), 
-				'".  $this->objeto_contrato ."',
-				'". $this->numero ."',
-				'". $this->mboleta ."',
-				TO_DATE('". $this->fecha_vencimiento_boleta ."','yyyy-mm-dd'),
-				TO_DATE('". $this->alerta_vencimiento_boleta ."','yyyy-mm-dd')
-				)
-				RETURNING ID_CONTRATO INTO :mylastid";
+                $consulta = "
+                    INSERT INTO CONTRATOS (
+                        NRO_LICITACION, 
+                        RUT_PROVEEDOR, 
+                        ID_CARGO, 
+                        ID_MONEDA, 
+                        TIPO, 
+                        MONTO, 
+                        ESTADO_ALERTA, 
+                        FECHA_INICIO, 
+                        FECHA_TERMINO, 
+                        FECHA_APROBACION, 
+                        FECHA_ALERTA_VENCIMIENTO, 
+                        FECHA_CREACION, 
+                        OBJETO_CONTRATO,
+                        NRO_BOLETA_GARANTIA,
+                        MONTO_BOLETA_GARANTIA,
+                        FECHA_VENCIMIENTO_BOLETA,
+                        ALERTA_VENCIMIENTO_BOLETA,
+                        CREDO_POR
+                    ) 
+                    VALUES (
+                        '{$this->licitacion}',  
+                        '{$this->proveedor_id}',
+                        '{$this->id_admin}', 
+                        '{$this->moneda_id}',  
+                        '{$this->selectContrato}',  
+                        {$this->monto}, 
+                        null, 
+                        TO_DATE('". $this->fecha_inicio ."','yyyy-mm-dd'),  
+                        TO_DATE('". $this->fecha_termino ."','yyyy-mm-dd'), 
+                        TO_DATE('". $this->fecha_aprobacion ."','yyyy-mm-dd'), 
+                        TO_DATE('". $this->fecha_alert ."','yyyy-mm-dd'), 
+                        SYSDATE, 
+                        '{$this->objeto_contrato}',
+                        '{$this->numero}',
+                        '{$this->mboleta}',
+                        TO_DATE('". $this->fecha_vencimiento_boleta ."','yyyy-mm-dd'),
+                        TO_DATE('". $this->alerta_vencimiento_boleta ."','yyyy-mm-dd'),
+                        {$user['ID_USUARIO']}
+                    )
+                    RETURNING ID_CONTRATO INTO :mylastid
+                ";
+
 
                 //ejecucion consulta
                 $query = $consulta;
