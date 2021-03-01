@@ -345,16 +345,15 @@ class ModelContratos {
 				
                 $result = oci_parse($this->pdo, $query);
 
-                if($result){
-					
+                if (oci_execute($result)){
+                    oci_commit($this->pdo);
                     flash("Contrato actualizado correctamente")->success() ;
+                }else{
+                    oci_rollback($this->pdo);
+                    $error = oci_error($result);
+                    flash($error['message'])->error();
                 }
 
-				
-
-                oci_execute($result);
-
-                oci_commit($this->pdo);
 
                 $last_id = $_POST['id'];
 				
@@ -382,7 +381,7 @@ class ModelContratos {
                         MONTO_BOLETA_GARANTIA,
                         FECHA_VENCIMIENTO_BOLETA,
                         ALERTA_VENCIMIENTO_BOLETA,
-                        CREDO_POR
+                        CREADO_POR
                     ) 
                     VALUES (
                         '{$this->licitacion}',  
@@ -412,18 +411,16 @@ class ModelContratos {
                 $query = $consulta;
                 $result = oci_parse($this->pdo, $query);
 
-                if($result){
+                oci_bind_by_name($result, "mylastid", $last_id, 8, SQLT_INT);
+
+                if (oci_execute($result)){
+                    oci_commit($this->pdo);
                     flash("Contrato ingresado correctamente")->success();
+                }else{
+                    oci_rollback($this->pdo);
+                    $error = oci_error($result);
+                    flash($error['message'])->error();
                 }
-
-				oci_bind_by_name($result, "mylastid", $last_id, 8, SQLT_INT);
-				
-				
-
-                oci_execute($result);
-
-
-				oci_commit($this->pdo);
 
 				
 				
