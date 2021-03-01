@@ -155,6 +155,10 @@ class ViewOrdenCompra {
 							</td>
                                 <td>
 
+                                    <a href="<?=base("/ordenCompra/show?id=").$ordenCompra["NRO_ORDEN_COMPRA"];?>" class="btn btn-sm btn-secondary btn-xs">
+                                        <i class="fa fa-eye"></i> Ver
+                                    </a>
+
                                     <?php if($ordenCompra["ESTADO"]!='Anulada'){ ?>
 
                                         <a href="<?=base("/ordenCompra/new?nro_orden_compra=").$ordenCompra["NRO_ORDEN_COMPRA"];?>" class="btn btn-sm btn-primary btn-xs">
@@ -186,28 +190,7 @@ class ViewOrdenCompra {
                                     <?php
                                 }else{
                                 	?>
-                                        <a href="#" class="btn btn-sm  btn-success btn-xs" data-target="#restoreModal<?= $ordenCompra["NRO_ORDEN_COMPRA"]; ?>" data-toggle="modal"><i class="fas fa-arrow-circle-up"></i> Restaurar</a>
 
-                                        <!-- modal starts -->
-                                        <div class="modal fade" id="restoreModal<?= $index; ?>">
-                                            <div class="modal-dialog">
-                                                <div class="modal-content">
-                                                    <form class="form-horizontal" method="post" action="<?=base("/ordenCompra/new?restore=true&id=").$ordenCompra["NRO_ORDEN_COMPRA"];?>" >
-
-                                                    <div class="modal-header">
-                                                        <h4 class="modal-title"> Restaurar  <?= $ordenCompra["NRO_ORDEN_COMPRA"]; ?> </h4>
-                                                        <button type="button" class="close" data-dismiss="modal">&times;</button>
-                                                    </div>
-
-                                                    <div class="modal-footer">
-                                                        <button type="submit" class="btn btn-success">Restaurar</button>
-                                                        <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
-                                                    </div>
-                                                    </form>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <!-- modal ends -->
 
 
                                     <?php

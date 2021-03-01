@@ -229,3 +229,11 @@ function toFloat($val){
     $val = preg_replace('/\.(?=.*\.)/', '', $val);
     return floatval($val);
 }
+
+function dvs(){
+    return "$";
+}
+
+function nfp($numero){
+        return dvs().number_format($numero,2,',','.');
+}

@@ -263,6 +263,18 @@ class Router{
         $model->execute();
 	}
 
+
+    public function ordenCompraShow(){
+
+
+        $this->model = new \OrdenCompraShow\ModelOrdenCompraShow($this->pdo);
+        $this->view = new \OrdenCompraShow\ViewOrdenCompraShow();
+        $this->controller = new \OrdenCompraShow\ControllerOrdenCompraShow();
+        $this->model = $this->controller->show($this->model);
+
+    }
+
+
     public function ordenCompraDetalleDelete()
     {
         $model = new \OrdenCompraNew\ModelOrdenCompra($this->pdo);
