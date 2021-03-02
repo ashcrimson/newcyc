@@ -192,6 +192,7 @@ class ModelOrdenCompra {
 
 	    $actualiza = false;
         $tienDetalles = $_POST['tiene_detalles']=='S' ? 1 : 0;
+        $userId = authUser($this->pdo)['ID_USUARIO'];
 		
 		//validar si faltó algo
 		if(!$this->error)
@@ -210,54 +211,72 @@ class ModelOrdenCompra {
 						CODIGO='" . $_POST['detalle_contrato'] . "',
 						CANTIDAD='" . $_POST['cantidad'] . "',
                         DESCRIPCION='" . $_POST['descripcion'] . "',
-                        TIENE_DETALLES='" . $tienDetalles . "'
+                        TIENE_DETALLES='" . $tienDetalles . "',
+                        ACTUALIZADO_POR ='{$userId}'
 					WHERE 
 						NRO_ORDEN_COMPRA='" . $_POST['id'] . "'
                 ";
 
 
                 $result = oci_parse($this->pdo, $query);
-                
 
-                if($result){
+
+                if (oci_execute($result)){
+                    oci_commit($this->pdo);
+                    flash("Orden de compra actualizada correctamente")->success();
                     $actualiza=true;
+                }else{
+                    oci_rollback($this->pdo);
+                    $error = oci_error($result);
+                    flash($error['message'])->error();
+                    redirect('/ordenCompra/new');
                 }
 
-                oci_execute($result);
 
                
 			}
 			else{
-			
 
-				$consulta = "INSERT INTO ORDEN_COMPRA VALUES (
-					'". $this->nro_orden_compra ."', 
-					'". $this->id_contrato ."', 
-					TO_DATE('". date('yy-m-d') ."','yyyy-mm-dd'),
-					'". $_POST['total'] ."', 
-					'". $this->estado ."', 
-					SYSDATE,
-					SYSDATE,
-					SYSDATE,
-					'". $this->detalle_contrato ."',
-					'". $this->cantidad ."',
-                    '". $_POST['descripcion'] ."',
-                    '". $tienDetalles ."'
-					
-					)";
+			    $query = "
+			        INSERT INTO 
+                        ORDEN_COMPRA(
+                            NRO_ORDEN_COMPRA, 
+                            ID_CONTRATO, 
+                            FECHA_ENVIO, 
+                            TOTAL, 
+                            ESTADO, 
+                            FECHA_CREACION, 
+                            DESCRIPCION, 
+                            TIENE_DETALLES, 
+                            CREADO_POR 
+                        ) 
+                        VALUES(
+                            '{$this->nro_orden_compra}', 
+                            {$this->id_contrato}, 
+                            SYSDATE, 
+                            {$_POST['total']}, 
+                            '{$this->estado}', 
+                            SYSDATE, 
+                            '{$_POST['descripcion']}', 
+                            {$tienDetalles}, 
+                            {$userId}
+                        )
+			    ";
 
-				//ejecucion consulta
-				$query = $consulta;
+
 				$result = oci_parse($this->pdo, $query);
-                
 
-				if($result){
 
-					flash("Orden de compra ingresada correctamente")->success();
-                    
-				}
-				//print_r($consulta);
-				oci_execute($result);
+
+                if (oci_execute($result)){
+                    oci_commit($this->pdo);
+                    flash("Orden de compra ingresada correctamente")->success();
+                }else{
+                    oci_rollback($this->pdo);
+                    $error = oci_error($result);
+                    flash($error['message'])->error();
+                    redirect('/ordenCompra/new');
+                }
 
 
 			}
@@ -336,11 +355,13 @@ class ModelOrdenCompra {
             redirect('/ordenCompra/new?nro_orden_compra='.$id);
 		}else{
 
-			foreach($this->errores as $e){
-				echo $e."<br>";
-			}
-			// header("Location: ". base() . "/ordenCompra/new?" . $params);
-			die();
+            unset($_POST['id']);
+            unset($_POST['submit']);
+
+            $data = http_build_query($_POST);
+
+            flash(errorsToList($this->errores))->error();
+            redirect('/ordenCompra/new/?'.$data);
 		}
 
 
@@ -432,7 +453,8 @@ class ModelOrdenCompra {
                 '".$_GET['detalle_contrato']."', 
                 TO_NUMBER('".$_GET['cantidad']."'),
                 TO_NUMBER('".$_GET['precio']."'),
-                SYSDATE 
+                SYSDATE,
+                 
             )
         ";
 

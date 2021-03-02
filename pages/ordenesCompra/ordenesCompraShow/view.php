@@ -43,13 +43,13 @@ class ViewOrdenCompraShow {
                             <label for="">TIPO: </label>
                             <b><?=$orden['TIPO']?></b><br>
 
-                            <label for="">NRO_ORDEN_COMPRA: </label>
+                            <label for="">NRO ORDEN: </label>
                             <b><?=$orden['NRO_ORDEN_COMPRA']?></b><br>
 
-                            <label for="">ID_CONTRATO: </label>
+                            <label for="">ID CONTRATO: </label>
                             <b><?=$orden['ID_CONTRATO']?></b><br>
 
-                            <label for="">FECHA_ENVIO: </label>
+                            <label for="">FECHA ENVIO: </label>
                             <b><?=$orden['FECHA_ENVIO']?></b><br>
 
                             <label for="">TOTAL: </label>
@@ -58,14 +58,20 @@ class ViewOrdenCompraShow {
                             <label for="">ESTADO: </label>
                             <b><?=$orden['ESTADO']?></b><br>
 
-                            <label for="">FECHA_CREACION: </label>
+                            <label for="">FECHA CREACION: </label>
                             <b><?=$orden['FECHA_CREACION']?></b><br>
 
-                            <label for="">FECHA_ACTUALIZACION: </label>
+                            <label for="">FECHA ACTUALIZACION: </label>
                             <b><?=$orden['FECHA_ACTUALIZACION']?></b><br>
 
                             <label for="">DESCRIPCION: </label>
                             <b><?=$orden['DESCRIPCION']?></b><br>
+
+                            <label for="">USUARIO CREA: </label>
+                            <b><?=$orden['USUARIO_CREA']?></b><br>
+
+                            <label for="">USAURIO ACTUALIZA: </label>
+                            <b><?=$orden['USAURIO_ACTUALIZA']?></b><br>
 
                         </div>
                     </div>
@@ -128,15 +134,6 @@ class ViewOrdenCompraShow {
 
                 </div>
 
-                <div class="card-footer">
-                    <div class="row">
-                        <div class="col-sm-8">
-                            <button type="submit" class="btn-primary btn rounded" name="submit" value="1" >
-                                <i class="icon-floppy-disk"></i> Guardar
-                            </button>
-                        </div>
-                    </div>
-                </div>
             </div>
 
         </form>

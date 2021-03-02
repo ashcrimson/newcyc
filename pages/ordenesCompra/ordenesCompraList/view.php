@@ -90,7 +90,7 @@ class ViewOrdenCompra {
                             <select name="estado" class="selectpicker selectField" placeholder='Seleccione Estado' data-live-search='true'>                                <option value=""></option>
                             <option value=""></option>
                                     <?php 
-                                    foreach (['Aceptado', 'Pendiente', 'Recepcion Conforme'] as $index => $estado) {
+                                    foreach (['Aceptado', 'Pendiente', 'Recepcion Conforme','Anulada'] as $index => $estado) {
                                         
                                         $selected = $_GET["estado"]==$estado ? 'selected' : '';
                                         ?>
@@ -133,6 +133,8 @@ class ViewOrdenCompra {
 							<th>Total</th>
 							<th>Estado</th>
 							<th>Adjunto</th> <!-- Implementar pdf-->
+                            <th>CREADO POR</th>
+                            <th>ACTUALIZADO POR</th>
 							<th>Acción</th>
                         </tr>
                     </thead>
@@ -153,6 +155,8 @@ class ViewOrdenCompra {
 								</a>
 						
 							</td>
+                            <td> <?= $ordenCompra["USUARIO_CREA"]; ?></td>
+                            <td> <?= $ordenCompra["USAURIO_ACTUALIZA"]; ?></td>
                                 <td>
 
                                     <a href="<?=base("/ordenCompra/show?id=").$ordenCompra["NRO_ORDEN_COMPRA"];?>" class="btn btn-sm btn-secondary btn-xs">

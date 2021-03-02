@@ -101,13 +101,16 @@ class ModelOrdenCompra {
 				d.NRO_DOCUMENTO,   
 				d.tipo_archivo,
 				d.archivo,
-				c.tipo
-				
+				c.tipo,
+			    u.NOMBRE as USUARIO_CREA,
+				u2.NOMBRE AS USAURIO_ACTUALIZA
 			from 
 				ORDEN_COMPRA O 
 				LEFT JOIN documento_orden_compra do on do.nro_orden_compra = o.nro_orden_compra
 				LEFT JOIN documento d on d.nro_documento = do.nro_documento
 				left join contratos c on c.id_contrato = o.id_contrato
+				LEFT JOIN USUARIOS u on u.ID_USUARIO = o.CREADO_POR
+				LEFT JOIN USUARIOS u2 on u2.ID_USUARIO = o.ACTUALIZADO_POR
 			$where
 			ORDER BY
 				nro_documento
