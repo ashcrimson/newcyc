@@ -81,17 +81,17 @@ class ModelContratos {
         if ($_GET['rut_proveedor']){
             $where .= " and p.RUT_PROVEEDOR = '" . $_GET['rut_proveedor'] . "'";
         }
-        
+
         if ($_GET['cargos']){
-            $where .= " and NOMBRE = '" . $_GET['cargos'] . "'";
+            $where .= " and c.ID_CARGO = '" . $_GET['cargos'] . "'";
         }
-        
+
         if ($_GET['licitacion']){
-            $where .= " and NRO_LICITACION = '" . $_GET['licitacion'] . "'";
+            $where .= " and c.NRO_LICITACION = '" . $_GET['licitacion'] . "'";
         }
 
         if ($_GET['objeto']){
-            $where .= " and OBJETO_CONTRATO = '" . $_GET['objeto'] . "'";
+            $where .= " and c.OBJETO_CONTRATO = '" . $_GET['objeto'] . "'";
         }
 
         //consulta principal
