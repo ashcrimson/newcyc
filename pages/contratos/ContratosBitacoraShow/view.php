@@ -12,10 +12,7 @@ class ViewContratos {
 	
 	public function output(ModelContratos $model){
 
-
-		if(isset($_GET["id"])){
-            $contrato = $model->get();
-        }
+        $contrato = $model->get();
 
 
 
@@ -43,6 +40,9 @@ class ViewContratos {
 			</li>
 			 
 		</ol>
+
+        <?= feedback2()?>
+
 
 		<div class="card mb-3">
 			<div class="card-header">
@@ -125,6 +125,7 @@ class ViewContratos {
                         <th>Glosa</th>
                         <th>Documento</th>
 						<th>Ingresada por</th>
+						<th>Actualizado por</th>
 
                     </tr>
                     </thead>
@@ -139,7 +140,8 @@ class ViewContratos {
                                     <?= $bitacora["DOCUMENTO"] ?>
                                 </a>
                             </td>
-							<td><?= $bitacora["CREADO_POR"]; ?></td>
+							<td><?= $bitacora["USUARIO_CREA"]; ?></td>
+							<td><?= $bitacora["USUARIO_ACTUALIZA"]; ?></td>
 
 
 
@@ -153,7 +155,7 @@ class ViewContratos {
 
             <div class="card-footer">
                 <?php
-                paginador($contrato['TOTAL_DETALLES'], base()."/contratos/show?id=".$_GET["id"], 10);
+                paginador($contrato['TOTAL_DETALLES'], base()."/contratos/bitacora/show?id=".$_GET["id"], 10);
                 ?>
             </div>
 		</div>

@@ -194,27 +194,28 @@ class Router{
 
 
         $this->model = new \ContratosBitacoraShow\ModelContratos($this->pdo);
-        $this->view = new \ContratosBitacoraShow\ViewContratos;
-		$this->controller = new \ContratosBitacoraShow\ControllerContratos;
-        $this->model = $this->controller->all($this->model);
-
-        //si no esta vacío el dato id de la url
-        if(!empty($_GET["id"] && $_GET["id"] >= 1)){
-            $this->model = $this->controller->show($this->model);
-        }
+        $this->view = new \ContratosBitacoraShow\ViewContratos();
+        $this->controller = new \ContratosBitacoraShow\ControllerContratos();
+        $this->model = $this->controller->show($this->model);
 
         if(isset($_GET["page"])){
             $this->model = $this->controller->page($this->model);
 		}
-		
-		if(isset($_GET['id'])){
-            $this->model = $this->controller->filter($this->model);
-		}
-		
-		if(isset($_POST["save_bitacora"])){
-            $this->model = $this->controller->saveBitacora($this->model);
-        }
+//
+//		if(isset($_GET['id'])){
+//            $this->model = $this->controller->filter($this->model);
+//		}
+
     }
+
+    public function contratosBitacoraStore()
+    {
+
+        $model = new \ContratosBitacoraShow\ModelContratos($this->pdo);
+
+        $model->saveBitacora();
+    }
+
 
 
 	/***********************************

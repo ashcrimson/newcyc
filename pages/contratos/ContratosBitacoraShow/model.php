@@ -27,7 +27,7 @@ class ModelContratos {
     //Constructor
 	function __construct($pdo, string $id = '', int $page = 1){
 		$this->pdo = $pdo;
-		$this->id = $id;
+		$this->id = $_GET["id"];
 		$this->page = $page;
 
     } 
@@ -100,9 +100,10 @@ class ModelContratos {
         return $contrato;
     }
 
-    public function saveBitacora(): self{
+    public function saveBitacora(){
 
         $nro_documento="NULL";
+        $userId = authUser($this->pdo)['ID_USUARIO'];
 
 
         if($_FILES["archivo_bitacora"]["error"] == 0){
@@ -153,40 +154,42 @@ class ModelContratos {
             $blob->free();
         }
 
-        $id_contrato= $_POST['id_contrato'];
-        $glosa= $_POST['glosa'];
-
 
         //Consulta guarda bitacora
-        $consulta = "
-            INSERT INTO BITACORA (  
+        $query = "
+            INSERT INTO 
+                BITACORA (  
                     ID_CONTRATO, 
                     GLOSA, 
                     NRO_DOCUMENTO, 
-                    FECHA_CREACION 
+                    FECHA_CREACION, 
+                    CREADO_POR 
                 )  
 			VALUES (
-				'{$id_contrato}', 
-				'{$glosa}',  
-				$nro_documento, 
-				TO_DATE('2020-10-19 00:00:00', 'YYYY-MM-DD HH24:MI:SS')  
+				'{$_POST['id_contrato']}', 
+				'{$_POST['glosa']}',  
+				{$nro_documento}, 
+				SYSDATE,
+			    {$userId}    
 			)
         ";
-        
-        // dd($consulta);
 
+        $result = oci_parse($this->pdo, $query);
 
-        $result = oci_parse($this->pdo, $consulta);
-
-        if($result){
-            $_SESSION["feedback"] = "Contrato ingresado correctamente";
+        if (oci_execute($result)){
+            oci_commit($this->pdo);
+            flash('Bitácora ingresada correctamente')->success();
+        }else{
+            oci_rollback($this->pdo);
+            $error = oci_error($result);
+            flash($error['message'])->error();
+            redirect("/contratos/bitacora/show?id=".$_POST['id_contrato']);
         }
 
-        oci_execute($result);
 
-        oci_commit($this->pdo);
+        oci_close($this->pdo);
 
-        header("Location: ". base() . "/contratos/bitacora/show?id=".$_POST['id_contrato']);
+        redirect( "/contratos/bitacora/show?id=".$_POST['id_contrato']);
 
     }
 
