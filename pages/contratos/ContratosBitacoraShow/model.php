@@ -70,8 +70,12 @@ class ModelContratos {
         $consulta = "select 
 				documento.nombre AS DOCUMENTO,
 				bitacora.* 
+                u.NOMBRE as USUARIO_CREA,
+                u2.NOMBRE as USUARIO_ACTUALIZA
 			from 
 				BITACORA LEFT JOIN documento on bitacora.nro_documento = documento.nro_documento
+                left join USUARIOS u on u.ID_USUARIO= c.CREADO_POR
+                left join USUARIOS u2 on u2.ID_USUARIO= c.ACTUALIZADO_POR   
 			where 
 				ID_CONTRATO='" . $this->id . "' ".$where;
 

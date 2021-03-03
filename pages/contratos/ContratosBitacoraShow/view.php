@@ -121,16 +121,17 @@ class ViewContratos {
                 <table class="table table-bordered"  class="table-sm w-25" id="dataBitacoras" width=100% cellspacing="0">
                     <thead>
                     <tr>
-                        <th>ID Contrato</th>
+                        <th>Fecha</th>
                         <th>Glosa</th>
                         <th>Documento</th>
+						<th>Ingresada por</th>
 
                     </tr>
                     </thead>
                     <tbody>
                     <?php foreach($contrato['BITACORAS'] as $bitacora){?>
                         <tr>
-                            <td> <?= $bitacora["ID_CONTRATO"]; ?></td>
+                            <td> <?= $bitacora["FECHA_CREACION"]; ?></td>
                             <td> <?= $bitacora["GLOSA"]; ?></td>
 
                             <td>
@@ -138,6 +139,7 @@ class ViewContratos {
                                     <?= $bitacora["DOCUMENTO"] ?>
                                 </a>
                             </td>
+							<td><?= $bitacora["CREADO_POR"]; ?></td>
 
 
 
