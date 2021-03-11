@@ -206,20 +206,18 @@ class ViewOrdenCompra {
                                                 >
                                                 </multiselect>
                                             </td>
-                                            <{
-                                            cantidad : 0>
+                                            <td>
                                                 <input type="text" class="form-control" v-model="item.cantidad" id="cantidad" >
-                                            </>
+                                            </td>
 
-                                            <{
-                                        cantidad : 0>
+                                            <td>
                                                 <input type="text" class="form-control" id="saldo" readonly :value="item.saldo">
-                                            </>
+                                            </td>
                                             <td>
                                                 <input type="text" class="form-control" id="precio" readonly :value="item.precio">
                                             </td>
                                             <td>
-                                                <input type="text" class="form-control" id="subtotal" readonly value="item.precio*item.cantidad">
+                                                <input type="text" class="form-control" id="subtotal" readonly :value="item.precio*item.cantidad">
                                             </td>
                                             <td>
                                                 <button type="button" class="btn btn-success"  @click.prevent="addDet()">Agregar</button>
@@ -291,7 +289,9 @@ class ViewOrdenCompra {
                 },
                 data: {
                     item: {
-                        cantidad : 0
+                        cantidad: 0,
+                        precio: 0,
+                        saldo: 0,
                     },
                     items : [],
                     contrato: '',
