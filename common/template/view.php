@@ -64,6 +64,7 @@ class ViewTemplateCYC {
 	<link rel="stylesheet" href="<?=base();?>/assets/assets/frontend/css/selectize.default.css" rel="stylesheet">
 
     <link rel="stylesheet" href="<?=base();?>/assets/assets/vendor/datatables/datatables.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="<?=base();?>/assets/assets/vendor/vue-multiselect.min.css" rel="stylesheet">
 
 	<style>
 		.navbar-dark .navbar-nav .nav-link {

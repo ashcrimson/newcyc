@@ -138,14 +138,16 @@ class Router{
     public function getDetallesContratosAjax()
     {
 
-        $id = $_POST['id'];
+        $id = $_POST['id'] ?? $_GET['id'];
 
         $query = 'select * from detalle_contrato where id_contrato='.$id;
 
         $result = queryToArray($query,$this->pdo);
 
+        $detalles = [];
+
         if ($result){
-            $detalles = [];
+
 
             foreach ($result as $index => $item) {
                 $codigo = $item['CODIGO'];
@@ -153,16 +155,18 @@ class Router{
                 $precio = $item['PRECIO_U_BRUTO'];
                 $saldo = $item['SALDO'];
 
-                $detalles[] = ['value' => $codigo,'text' => $nombre,'precio' => $precio,'saldo' => $saldo];
+                $detalles[] = [
+                    'id' => $codigo,
+                    'nombre' => utf8_encode($nombre),
+                    'precio' => $precio,
+                    'saldo' => $saldo
+                ];
             }
 
-            echo json_encode($detalles);
-
-        }else{
-            echo json_encode("No tiene items");
         }
 
 
+        echo json_encode($detalles);
 
 
 	}

@@ -183,8 +183,22 @@ class ModelOrdenCompra {
 
 		$query = "SELECT * FROM CONTRATOS order by ID_CONTRATO asc";
 
+		$contratos = queryToArray($query,$this->pdo);
 
-		return queryToArray($query,$this->pdo);;
+		$res = [];
+
+        foreach ($contratos as $index => $contrato) {
+
+            $nombre = $contrato['TIPO']."-".$contrato['ID_CONTRATO'];
+
+            $res[] = [
+                'id' => $contrato['ID_CONTRATO'],
+                'nombre' => utf8_encode($nombre),
+            ];
+		}
+
+
+		return $res;
 	}
 
 

@@ -20,7 +20,6 @@ class ViewOrdenCompra {
 
         $dataContratos = $model->getContratos();
 
-
 		ob_start();
 
 		?>
@@ -33,41 +32,37 @@ class ViewOrdenCompra {
             <!-- <li class="breadcrumb-item active">Mantenedor</li> -->
         </ol>
 
-        <form method="post" class="form-horizontal" action="<?=base();?>/ordenCompra/save" enctype="multipart/form-data">
+        <?php feedback2();?>
 
-            <div class="card mb-3">
+        <div class="card mb-3" id="root">
+            <form method="post" class="form-horizontal" action="<?=base();?>/ordenCompra/save" enctype="multipart/form-data">
                 <div class="card-body">
 
-                    <?php feedback2();?>
 
+                    <!--            Encabezado
+                    ------------------------------------------------------------------------>
                     <div class="row">
-                        <div class="form-group has-feedback col-xs-4 col-md-4 col-lg-4 <?=$selectContrato ? 'has-error' : '' ;?>">
+                        <div class="form-group has-feedback col-xs-4 col-md-4 col-lg-4">
                             <label>
                                 ID Contrato
-                                <i class="fa fa-spinner fa-spin " style="display: none" id="iconLoading"></i>
+                                <i class="fa fa-spinner fa-spin " v-show="buscandoDetalles"></i>
                             </label>
-                            <select class="selectpicker "
-                                    placeholder='Seleccione Tipo de Contrato'
-                                    name="id_contrato"
-                                    id="selectContrato">
-                                <option value=""></option>
-                                <?php
-                                foreach ($dataContratos as $contrato) {
-                                    $selected = $registroEdit['ID_CONTRATO']==$contrato["ID_CONTRATO"] ? "selected" : "";
-                                    ?>
-                                    <option value="<?= $contrato["ID_CONTRATO"];?>" <?=$selected?> >
-                                        <?=$contrato["TIPO"] ."-". $contrato["ID_CONTRATO"];?>
-                                    </option>
-                                    <?php
-                                }
-                                ?>
-                            </select>
+                            <multiselect
+                                v-model="contrato"
+                                :options="contratos"
+                                :close-on-select="true"
+                                :show-labels="false"
+                                placeholder="Seleccione un contrato..."
+                                track-by="id"
+                                label="nombre"
+                                @select="getDetallesContrato()"
+                            >
+
+                            </multiselect>
                             <input type="hidden" name="id" value="<?=isset($_GET["nro_orden_compra"]) ? $_GET["nro_orden_compra"]: "" ?>" >
                         </div>
 
-
-
-                        <div class="form-group has-feedback col-xs-4 col-md-4 col-lg-4 <?=$nro_orden_compra ? 'has-error' : '' ;?>" id="nro_orden_compra">
+                        <div class="form-group has-feedback col-xs-4 col-md-4 col-lg-4" id="nro_orden_compra">
                             <label>Número Orden de Compra * </label>
 
                             <!-- <input type="text" name="numeroOrdenCompra"  class="form-control" value="{{ $ordenCompraData->numeroOrdenCompra ?: old('numeroOrdenCompra') }}"> -->
@@ -77,36 +72,26 @@ class ViewOrdenCompra {
 
                         </div>
 
-
-
-                        <div class="form-group has-feedback col-xs-4 col-md-4 col-lg-4 {{ $errors->has('fecha_envio') ? 'has-error' : '' }}">
+                        <div class="form-group has-feedback col-xs-4 col-md-4 col-lg-4">
                             <label>Fecha de Envío</label>
 
                             <input type="date" name="fecha_envio" class="form-control"
                                    value="<?=$_GET["fecha_envio"] ??  fechaEn($registroEdit['FECHA_ENVIO']) ?? ''?>" required>
-
-                            <?php if ($fecha_envio){ ?>
-                                <span class="help-block text-danger">
-                        <strong>Error: fecha_envio vacio</strong>
-                    </span>
-                            <?php } ?>
                         </div>
 
-
-
-
-                        <div class="form-group has-feedback col-xsñ-4 col-md-4 col-lg-4 {{ $errors->has('estado') ? 'has-error' : ''}}">
+                        <div class="form-group has-feedback col-xsñ-4 col-md-4 col-lg-4">
                             <label>Estado *</label>
-                            <select class="selectpicker selectField" placeholder='Seleccione Estado' name="estado" id="estado" value="<?=isset($_GET["estado"]) ? $_GET["estado"]: (isset($registroEdit["ESTADO"]) ? $registroEdit["ESTADO"] : "") ?>">
-                                <option value="Aceptada" <?=$registroEdit['ESTADO']=='Aceptada' ? 'selected' : ''?>>Aceptada</option>
-                                <option value="Pendiente" <?=$registroEdit['ESTADO']=='Pendiente' ? 'selected' : ''?>>Pendiente</option>
-                                <option value="Recepcion Conforme" <?=$registroEdit['ESTADO']=='Recepcion Conforme' ? 'selected' : ''?>>Recepcion Conforme</option>
+                            <multiselect
+                                    v-model="estado"
+                                    :options="estados"
+                                    :close-on-select="true"
+                                    :show-labels="false"
+                                    placeholder="Seleccione un..."
+                            >
 
-                            </select>
+                            </multiselect>
 
                         </div>
-
-                        
 
 
                         <div class="form-group has-feedback col-xsñ-4 col-md-4 col-lg-4">
@@ -120,50 +105,40 @@ class ViewOrdenCompra {
                         <div class="form-group has-feedback col-xs-4 col-md-4 col-lg-4">
                             <label>¿Agregar detalles de Contrato?</label>
                             <input type="hidden" name="submit" value="true">
-                            <select class="selectpicker " placeholder='Seleccione Tipo de Contrato'
-                                    name="tiene_detalles"
-                                    id="tiene_detalles">
-                                <option value="S" <?=$registroEdit['TIENE_DETALLES'] ? 'selected' : ''?>>Sí</option>
-                                <option value="N" <?=!$registroEdit['TIENE_DETALLES'] ? 'selected' : ''?>>No</option>
-                            </select>
-						</div>
+                            <multiselect
+                                    v-model="agregar_detalles"
+                                    :options="agregar_detalles_options"
+                                    :close-on-select="true"
+                                    :show-labels="false"
+                                    placeholder="Seleccione un..."
+                            >
 
-                        
-						
-                        <div class="form-group has-feedback col-xs-12 col-md-12 col-lg-12 <?=$descripcion ? 'has-error' : '' ;?>" id="descripcion">
+                            </multiselect>
+
+                        </div>
+
+                        <div class="form-group has-feedback col-xs-12 col-md-12 col-lg-12 " id="descripcion">
                             <label>Descripción Orden de Compra</label>
 
                             <textarea name="descripcion" class="form-control" rows="2"><?=$_GET["descripcion"] ?? $registroEdit['DESCRIPCION'] ?></textarea>
 
                         </div>
 
-                        <div class="form-group has-feedback col-xs-4 col-md-4 col-lg-4 " id="total">
+                        <div class="form-group has-feedback col-xs-4 col-md-4 col-lg-4 " v-show="!puedeAgregarDetalles">
                             <label>Monto </label>
 
                             <input type="text" name="total"   class="form-control" required
                                    value="<?= $_GET["total"] ?? $registroEdit['TOTAL']  ?? 0?>">
 
                         </div>
-                		
-					
-                        
 
-                    </div> <!-- AAAA -->
-
-                    <div class="container">
-						<?php feedback();?>
-						<div class="row ">
-							
-            			</div>
-					</div>
-					
-			
-
-					
-                    
+                    </div>
 
 
-                    <div class="row" id="licitacion2" >
+
+                    <!--            Detalles
+                    ------------------------------------------------------------------------>
+                    <div class="row" v-show="puedeAgregarDetalles" >
                         <div class="col-sm-12">
                             <div class="card card-outline card-success">
                                 <div class="card-header pb-1">
@@ -172,106 +147,97 @@ class ViewOrdenCompra {
                                 </div>
                                 <!-- /.card-header -->
                                 <div class="card-body">
-                                    <?php
-                                    if ($registroEdit){
-                                        ?>
-                                        <table class="table table-bordered table-sm">
-                                            <thead>
-                                            <tr>
-                                                <th>Descripción</th>
-                                                <th>Cantidad</th>
-                                                <th>Saldo</th>
-                                                <th>Precio</th>
-                                                <th>Sub Total</th>
-                                                <th>Agregar</th>
-                                            </tr>
-                                            </thead>
-                                            <tbody>
-                                            <?php
-                                            if ($registroEdit && count($registroEdit['detalles_compra'])){
-                                                $total = 0;
-                                                foreach ($registroEdit['detalles_compra'] as $index => $detalle) {
-                                                    $sub = toFloat($detalle['CANTIDAD']) * toFloat($detalle['PRECIO']);
+                                    <table class="table table-bordered table-sm">
+                                        <thead>
+                                        <tr>
+                                            <th>Descripción</th>
+                                            <th>Cantidad</th>
+                                            <th>Saldo</th>
+                                            <th>Precio</th>
+                                            <th>Sub Total</th>
+                                            <th>Agregar</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <?php
+                                        if ($registroEdit && count($registroEdit['detalles_compra'])){
+                                            $total = 0;
+                                            foreach ($registroEdit['detalles_compra'] as $index => $detalle) {
+                                                $sub = toFloat($detalle['CANTIDAD']) * toFloat($detalle['PRECIO']);
 
-                                                    $total += $sub;
-                                                    ?>
-                                                    <tr>
-                                                        <td><?=$detalle['DESC_PROD_SOLI']." / ".$detalle['DESC_TEC_PROD_OFERTADO']?></td>
-                                                        <td><?=$detalle['CANTIDAD']?></td>
-                                                        <td><?=$detalle['SALDO']?></td>
-                                                        <td><?=$detalle['PRECIO']?></td>
-                                                        <td><?=$sub?></td>
-
-                                                        <td>
-                                                            <a href="<?=base()?>/ordenCompra/detalles/delete?nro_orden_compra=<?=$detalle['NRO_ORDEN_COMPRA']?>&codigo=<?=$detalle['CODIGO_DETALLE_CONTRATO']?>&cantidad=<?=$detalle['CANTIDAD']?>&id=<?=$detalle['ID']?>"
-                                                               class="btn btn-danger"
-                                                                role="button">Eliminar</a>
-                                                        </td>
-                                                    </tr>
-                                                    <?php
-                                                }
-                                                ?>
-                                                <?php
-                                            } else{
+                                                $total += $sub;
                                                 ?>
                                                 <tr>
-                                                    <td colspan="5" class="text-center text-warning">No hay ningún detalles agregado</td>
+                                                    <td><?=$detalle['DESC_PROD_SOLI']." / ".$detalle['DESC_TEC_PROD_OFERTADO']?></td>
+                                                    <td><?=$detalle['CANTIDAD']?></td>
+                                                    <td><?=$detalle['SALDO']?></td>
+                                                    <td><?=$detalle['PRECIO']?></td>
+                                                    <td><?=$sub?></td>
+
+                                                    <td>
+                                                        <a href="<?=base()?>/ordenCompra/detalles/delete?nro_orden_compra=<?=$detalle['NRO_ORDEN_COMPRA']?>&codigo=<?=$detalle['CODIGO_DETALLE_CONTRATO']?>&cantidad=<?=$detalle['CANTIDAD']?>&id=<?=$detalle['ID']?>"
+                                                           class="btn btn-danger"
+                                                           role="button">Eliminar</a>
+                                                    </td>
                                                 </tr>
                                                 <?php
                                             }
                                             ?>
-
-                                            <tr id="filaNuevoDetalle">
-                                                <td width="45%">
-                                                    <select name='detalle_contrato' class='selectpicker'
-                                                            placeholder='Seleccione un contrato'
-                                                            data-live-search='true' id='detalle_contrato'>
-
-
-                                                    </select>
-                                                </td>
-                                                <td>
-                                                    <input type="text" class="form-control" name="cantidad" id="cantidad" value="0">
-                                                </td>
-
-                                                
-                                                <td>
-                                                    <input type="text" class="form-control" name="saldo" id="saldo" readonly value="0">
-                                                </td>
-                                                <td>
-                                                    <input type="text" class="form-control" name="precio" id="precio" readonly value="0">
-                                                </td>
-                                                <td>
-                                                    <input type="text" class="form-control" id="subtotal" readonly value="0">
-                                                </td>
-                                                <td>
-                                                    <input type="hidden" name="nro_orden_compra" value="<?=$registroEdit['NRO_ORDEN_COMPRA']?>">
-                                                    <button type="button" id="btnAdd" class="btn btn-success"
-                                                            href="#" role="button">Agregar</button>
-                                                </td>
-                                            </tr>
-                                            </tbody>
-                                            <tfoot>
+                                            <?php
+                                        } else{
+                                            ?>
                                             <tr>
-                                                <th colspan="4">Total</th>
-                                                <th class="text-right" >
+                                                <td colspan="10" class="text-center text-warning">No hay ningún detalles agregado</td>
+                                            </tr>
+                                            <?php
+                                        }
+                                        ?>
+
+                                        <tr id="filaNuevoDetalle">
+                                            <td width="45%">
+                                                <multiselect
+                                                        v-model="item"
+                                                        :options="items"
+                                                        :close-on-select="true"
+                                                        :show-labels="false"
+                                                        :placeholder="placeholderSelectItem"
+                                                        track-by="id"
+                                                        label="nombre"
+                                                >
+                                                </multiselect>
+                                            </td>
+                                            <{
+                                            cantidad : 0>
+                                                <input type="text" class="form-control" v-model="item.cantidad" id="cantidad" >
+                                            </>
+
+                                            <{
+                                        cantidad : 0>
+                                                <input type="text" class="form-control" id="saldo" readonly :value="item.saldo">
+                                            </>
+                                            <td>
+                                                <input type="text" class="form-control" id="precio" readonly :value="item.precio">
+                                            </td>
+                                            <td>
+                                                <input type="text" class="form-control" id="subtotal" readonly value="item.precio*item.cantidad">
+                                            </td>
+                                            <td>
+                                                <button type="button" class="btn btn-success"  @click.prevent="addDet()">Agregar</button>
+                                            </td>
+                                        </tr>
+                                        </tbody>
+                                        <tfoot>
+                                        <tr>
+                                            <th colspan="4">Total</th>
+                                            <th class="text-right" >
                                                     <span id="total">
                                                         <?=$total?>
                                                     </span>
-                                                </th>
-                                                <th></th>
-                                            </tr>
-                                            </tfoot>
-                                        </table>
-                                        <?php
-                                    }else {
-                                        ?>
-                                        <h3 class="text-info text-center">
-                                            Guarde primero para poder agregar detalles
-                                        </h3>
-                                        <?php
-                                    }
-                                    ?>
+                                            </th>
+                                            <th></th>
+                                        </tr>
+                                        </tfoot>
+                                    </table>
 
                                 </div>
                                 <!-- /.card-body -->
@@ -280,6 +246,7 @@ class ViewOrdenCompra {
 
                         </div>
                     </div>
+
 
                 </div>
 
@@ -292,58 +259,106 @@ class ViewOrdenCompra {
                         </div>
                     </div>
                 </div>
-            </div>
+            </form>
+        </div>
 
-        </form>
+
 
 
 
         <script src="<?=base();?>/assets/assets/frontend/js/jquery-3.3.1.js"></script>
         <script src="<?=base();?>/assets/assets/frontend/js/selectize.js"></script>
+        <script src="<?=base();?>/assets/assets/vendor/vue.js"></script>
+        <script src="<?=base();?>/assets/assets/vendor/vue.js"></script>
+        <script src="<?=base();?>/assets/assets/vendor/vue-multiselect.min.js"></script>
+
+
         <script>
 
-            var optionsSelect = {
-                create: false,
-                sortField: {
-                    field: 'text',
-                    direction: 'asc'
+
+
+            var vm = new Vue({
+                el: '#root',
+                mounted() {
+                    console.log('Instancia vue montada');
                 },
-                dropdownParent: 'body'
+                components: {
+                    Multiselect: window.VueMultiselect.default
+                },
+                created() {
+                    this.getDetallesContrato();
+                    console.log('Instancia vue creada');
+                },
+                data: {
+                    item: {
+                        cantidad : 0
+                    },
+                    items : [],
+                    contrato: '',
+                    contratos: <?=json_encode($dataContratos)?>,
 
-            };
+                    estado: '',
+                    estados: ['Aceptada','Pendiente','Recepcion Conforme'],
 
-			$('.selectField').selectize(optionsSelect);
+                    agregar_detalles: '',
+                    agregar_detalles_options: ['Sí','No'],
 
+                    detalles: [],
+                    detalleEdit: {},
+                    detalleDefault: {
+                        codigo : '',
+                        descripcion : '',
+                        cantidad : '',
+                        precio : '',
+                        saldo : '',
+                    },
+                    buscandoDetalles: false
+                },
+                methods: {
+                    async getDetallesContrato(){
+                        if (this.contrato!==''){
 
-            <?php
-            if ($registroEdit){
-                ?>
-                    getDetallesContrato("<?=$registroEdit['ID_CONTRATO']?>");
-                <?php
-            }
-            ?>
+                            let url = '<?=base()."/get/detalles/contratos/ajax";?>';
 
-            var $selectContrato = $('#selectContrato').selectize({
-                create: false,
-                dropdownParent: 'body',
-                <?php
-                if ($registroEdit){
-                    ?>
-                    onChange: function(value) {
+                            console.log(url);
 
-                        $("#iconLoading").show();
+                            try {
+                                let res = await axios.get(url,
+                                    {
+                                        params: {
+                                            id: this.contrato.id
+                                        }
+                                    }
+                                );
 
-                        getDetallesContrato(value)
+                                this.items = res.data || [];
 
+                                console.log(res);
+
+                            }catch (e) {
+
+                                console.log(e);
+                            }
+                        }
                     }
-                    <?php
+                },
+                computed: {
+                    hayItems(){
+                        return this.items.length > 0;
+                    },
+                    puedeAgregarDetalles(){
+                        return this.agregar_detalles=='Sí' ? true : false;
+                    },
+                    placeholderSelectItem(){
+                        return this.hayItems ? "Seleccione un articulo..." : "Seleccione un contrato";
+                    }
                 }
-                ?>
             });
 
 
 
-            var items = [];
+
+
 
             var $selectDetalleContrato = $('#detalle_contrato').selectize({
                 create: false,
@@ -351,7 +366,7 @@ class ViewOrdenCompra {
                 onChange: function(value) {
 
 
-                    var item = items.find( o => (o.value == value));
+                    var item = vm.items.find( o => (o.value == value));
 
                     console.log('Selecciona el articulo:',item);
 
@@ -361,143 +376,63 @@ class ViewOrdenCompra {
 
                 }
             });
-
-            function getDetallesContrato(id) {
-                $.ajax({
-                    method: 'POST',
-                    url: '<?=base()."/get/detalles/contratos/ajax";?>',
-                    data: {
-                        id: id
-                    },
-                    dataType: 'json',
-                    success: function (res) {
-                        console.log('respuesta ajax:',res);
-
-                        items = res;
-
-                        var selectize = $selectDetalleContrato[0].selectize;
-
-                        selectize.clearOptions();
-
-
-                        if (Array.isArray(res)){
-                            $.each(res, function(index,item) {
-                                selectize.addOption(item);
-                                selectize.addItem(1);
-                            });
-                            // selectize.refreshOptions();
-                            selectize.settings.placeholder = "Seleccione un item...";
-                        }else{
-                            selectize.settings.placeholder = res;
-                        }
-
-                        selectize.updatePlaceholder();
-
-
-                        $("#iconLoading").hide();
-
-
-                    },
-                    error: function (res) {
-                        console.log('respuesta ajax error:',res);
-                        $("#iconLoading").hide();
-
-                    }
-                })
-            }
-
-            $("#cantidad").focus(function () {
-                $(this).select();
-            });
-
-            
-
-            $("#cantidad").keyup(function (e) {
-                subTotal();
-            });
-
-            function subTotal(){
-
-                var cantidad = parseFloat($("#cantidad").val().replace(',', '.'));
-                var precio = parseFloat($("#precio").val().replace(',', '.'));
+            //
+            //
+            //$("#cantidad").focus(function () {
+            //    $(this).select();
+            //});
+            //
+            //
+            //$("#cantidad").keyup(function (e) {
+            //    subTotal();
+            //});
+            //
+            //function subTotal(){
+            //
+            //    var cantidad = parseFloat($("#cantidad").val().replace(',', '.'));
+            //    var precio = parseFloat($("#precio").val().replace(',', '.'));
+            //
+            //
+            //    if(cantidad && precio){
+            //        $("#subtotal").val(cantidad*precio) ;
+            //    }
+            //}
+            //
+            //
+			//$("#btnAdd").click(function (e) {
+            //    e.preventDefault();
+            //
+            //    var cantidad = parseFloat($("#cantidad").val());
+            //    var saldo = parseFloat($("#saldo").val());
+            //
+            //    if(cantidad <= 0){
+            //
+            //        alert('La cantidad debe ser mayor a 0');
+            //        $("#cantidad").focus().select();
+            //        return
+            //    }
+            //
+            //    if(cantidad > saldo){
+            //
+            //        alert('La cantidad no  puede ser mayor al saldo');
+            //        $("#cantidad").focus().select();
+            //        return
+            //    }
+            //
+            //
+            //    var nuevoDet = $('#filaNuevoDetalle *').serialize();
+            //
+            //    var uri = "<?//=base()?>///ordenCompra/detalles/add?" + nuevoDet;
+            //
+            //    console.log('Agregar item',uri);
+            //
+            //    window.location.href= uri;
+            //})
 
 
-                if(cantidad && precio){
-                    $("#subtotal").val(cantidad*precio) ;
-                }
-            }
 
-
-			$("#btnAdd").click(function (e) {
-                e.preventDefault();
-
-                var cantidad = parseFloat($("#cantidad").val());
-                var saldo = parseFloat($("#saldo").val());
-
-                if(cantidad <= 0){
-
-                    alert('La cantidad debe ser mayor a 0');
-                    $("#cantidad").focus().select();
-                    return
-                }
-
-                if(cantidad > saldo){
-
-                    alert('La cantidad no  puede ser mayor al saldo');
-                    $("#cantidad").focus().select();
-                    return
-                }
-
-
-                var nuevoDet = $('#filaNuevoDetalle *').serialize();
-
-                var uri = "<?=base()?>/ordenCompra/detalles/add?" + nuevoDet;
-
-                console.log('Agregar item',uri);
-
-                window.location.href= uri;
-            })
         </script>
 
-        <script>
-			$('.selectField2').selectize({
-				create: false,
-				sortField: {
-					field: 'text', 
-					direction: 'asc'
-				},
-				dropdownParent: 'body'
-				
-			});
-
-
-            $('#total').hide();
-
-			$('#tiene_detalles').selectize({
-
-				create: false,
-				sortField: {
-					field: 'text',
-					direction: 'asc'
-				},
-				dropdownParent: 'body',
-				onChange: function(value) {
-					validaTieneDetalles()
-				}
-			});
-
-            validaTieneDetalles();
-
-			function validaTieneDetalles() {
-                if($('#tiene_detalles').val()=='S'){
-                    $('#total').hide();
-                    $('#licitacion2').show();
-                }else {
-                    $('#total').show();
-                    $('#licitacion2').hide();
-                }
-            }
-		</script>
 
 
 
