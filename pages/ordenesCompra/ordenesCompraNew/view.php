@@ -160,14 +160,14 @@ class ViewOrdenCompra {
                                         </thead>
                                         <tbody>
 
-                                        <tr v-for="det in detalles">
+                                        <tr v-for="(det,index) in detalles">
                                             <td v-text="det.nombre"></td>
                                             <td v-text="det.cantidad"></td>
                                             <td v-text="det.saldo"></td>
                                             <td v-text="det.precio"></td>
                                             <td v-text="det.precio*det.cantidad"></td>
                                             <td>
-                                                <button class="btn btn-danger" role="button">Eliminar</button>
+                                                <button class="btn btn-danger btn-sm" role="button" @click.prevent="removeDet(index)">Eliminar</button>
                                             </td>
                                         </tr>
 
@@ -234,6 +234,7 @@ class ViewOrdenCompra {
                 <div class="card-footer">
                     <div class="row">
                         <div class="col-sm-8">
+                            <input type="hidden" name="detalles" :value="JSON.stringify(detalles, null, 3)">
                             <button type="submit" class="btn-primary btn rounded" name="submit" value="1" >
                                 <i class="icon-floppy-disk"></i> Guardar
                             </button>
@@ -292,6 +293,7 @@ class ViewOrdenCompra {
                 methods: {
                     async getDetallesContrato(){
                         if (this.contrato!==''){
+                            this.buscandoDetalles = true;
 
                             let url = '<?=base()."/get/detalles/contratos/ajax";?>';
 
@@ -309,10 +311,12 @@ class ViewOrdenCompra {
                                 this.items = res.data || [];
 
                                 console.log(res);
+                                this.buscandoDetalles = false;
 
                             }catch (e) {
 
                                 console.log(e);
+                                this.buscandoDetalles = false;
                             }
                         }
                     },
@@ -321,7 +325,7 @@ class ViewOrdenCompra {
                         this.detalles.push(newDet);
                     },
                     removeDet(index){
-                        this.detalles.splice(index);
+                        this.detalles.splice(index,1);
                     }
                 },
                 computed: {

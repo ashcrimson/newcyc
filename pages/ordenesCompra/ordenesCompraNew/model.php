@@ -204,6 +204,9 @@ class ModelOrdenCompra {
 
 	public function execute(){
 
+	    $detalles = json_decode($_POST['detalles']);
+
+
 	    $actualiza = false;
         $tienDetalles = $_POST['tiene_detalles']=='S' ? 1 : 0;
         $userId = authUser($this->pdo)['ID_USUARIO'];
