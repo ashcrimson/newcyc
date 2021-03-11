@@ -75,5 +75,50 @@ class ModelOrdenCompraShow {
 
 	}
 
+	public function anula()
+    {
+
+
+        $query = "
+            select  
+                *
+            from 
+                ORDEN_COMPRA_DETALLES 
+            where 
+                NRO_ORDEN_COMPRA='{$_GET['nro_orden_compra']}'";
+
+        $detalles = queryToArray($query,$this->pdo);
+
+        foreach ($detalles as $index => $detalle) {
+            $query="
+                update DETALLE_CONTRATO set SALDO=SALDO+to_number('".$detalle['CANTIDAD']."') where CODIGO='".$detalle['CODIGO_DETALLE_CONTRATO']."'
+            ";
+
+            $result = oci_parse($this->pdo, $query);
+            oci_execute($result);
+        }
+
+        //query actualizar el campo total de la compra
+        $query="
+            update 
+                ORDEN_COMPRA 
+            set 
+                ESTADO='Anulada' 
+            where 
+                NRO_ORDEN_COMPRA='".$_GET['nro_orden_compra']."'
+        ";
+
+        $result = oci_parse($this->pdo, $query);
+        oci_execute($result);
+
+
+        oci_commit($this->pdo);
+        oci_close($this->pdo);
+
+        flash("Orden de compra anulada")->success();
+
+        redirect('/ordenCompra');
+    }
+
 	
 }
