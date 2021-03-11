@@ -125,7 +125,7 @@ class ViewContratos {
                         <th>Glosa</th>
                         <th>Documento</th>
 						<th>Ingresada por</th>
-						<th>Actualizado por</th>
+						<!-- <th>Actualizado por</th> -->
 
                     </tr>
                     </thead>
@@ -141,7 +141,7 @@ class ViewContratos {
                                 </a>
                             </td>
 							<td><?= $bitacora["USUARIO_CREA"]; ?></td>
-							<td><?= $bitacora["USUARIO_ACTUALIZA"]; ?></td>
+							<!-- <td><?= $bitacora["USUARIO_ACTUALIZA"]; ?></td> -->
 
 
 

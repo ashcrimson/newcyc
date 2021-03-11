@@ -224,7 +224,8 @@ class ViewContratos {
                 <table class="table table-sm table-bordered table-hover nowrap" id="tablaContratos">
                     <thead>
                     <tr >
-                        <th data-priority="1">ID Contrato</th>
+                        <!-- <th data-priority="1">ID Contrato</th> -->
+                        <th data-priority="1">ID Mercado Público</th>
                         <th data-priority="100001">Rut Proveedor</th>
                         <th data-priority="2" width="50%">Razón Social Proveedor</th>
                         <th data-priority="3">Licitación</th>
@@ -260,7 +261,8 @@ class ViewContratos {
                         ?>
                         <tr class="text-sm">
 
-                            <td ><?= $contrato["TIPO"] ."-". $contrato["ID_CONTRATO"]; ?></td>
+                            <!-- <td ><?= $contrato["TIPO"] ."-". $contrato["ID_CONTRATO"]; ?></td> -->
+                            <td ><?= $contrato["ID_MERCADO_PUBLICO"]; ?></td>
                             <td ><?= $contrato["RUT_PROVEEDOR"]; ?></td>
                             <td><?= $contrato["RAZON_SOCIAL"]; ?></td>
 

@@ -45,7 +45,7 @@ class ModelContratos {
 	private $fecha_vencimiento;
 	private $fecha_vencimiento_boleta;
 	private $alerta_boleta;
-
+	private $mpublico;
 
 
 
@@ -67,6 +67,14 @@ class ModelContratos {
 		//validacion de datos recividos
 		$params = "";
 		if(isset($_POST["submit"])){
+
+			if(isset($_POST["mpublico"]) && $_POST["mpublico"] != ""){
+				$this->params .= "mpublico" . $_POST["mpublico"] . "&";
+				$this->mpublico = $_POST["mpublico"];
+			}else{
+				// $this->errores["mpublico"] = true;
+				// $this->error = true;
+			}
 
 			if(isset($_POST["id_contrato"]) && $_POST["id_contrato"] != ""){
 				$this->params .= "id_contrato" . $_POST["id_contrato"] . "&";
@@ -314,6 +322,7 @@ class ModelContratos {
             if(isset($_POST["id"]) && $_POST["id"] != "") {
                 $query = "
                     UPDATE CONTRATOS SET 
+						 ID_MERCADO_PUBLICO='" . $_POST['mpublico'] . "', 
                          NRO_LICITACION='" . $_POST['licitacion'] . "', 
                          RUT_PROVEEDOR='" . $_POST['proveedor_id'] . "', 
                          ID_CARGO='" . $_POST['id_admin'] . "', 
@@ -364,6 +373,7 @@ class ModelContratos {
 
                 $consulta = "
                     INSERT INTO CONTRATOS (
+						ID_MERCADO_PUBLICO, 
                         NRO_LICITACION, 
                         RUT_PROVEEDOR, 
                         ID_CARGO, 
@@ -384,6 +394,7 @@ class ModelContratos {
                         CREADO_POR
                     ) 
                     VALUES (
+						'{$this->mpublico}',
                         '{$this->licitacion}',  
                         '{$this->proveedor_id}',
                         '{$this->id_admin}', 

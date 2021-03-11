@@ -134,6 +134,23 @@ class ViewContratos {
 		<div class="card mb-3">
 			<div class="card-header">
 				<form method="post" class="form-horizontal" action="<?=base();?>/contratos/new" enctype="multipart/form-data">
+
+				<div class="container">
+						<div class="row col-12">
+							<div class="form-group has-feedback col-xs-4 col-md-4 col-lg-4 <?=$mpublico ? 'has-error' : '' ;?>">
+								<label>ID Mercado Público*</label>
+								
+								<input type="text" name="mpublico" class="form-control"
+									value="<?=$_GET["mpublico"] ?? $registroEdit['ID_MERCADO_PUBLICO'] ?? ''?>"
+								>
+								<?php if ($numero){ ?>
+								<span class="help-block text-danger"> 
+									<strong>Error: ID Mercado Público</strong>
+								</span>
+								<?php } ?>
+                			</div>
+						</div>
+					</div>
 					
 					<div class="container">
 						<div class="row col-12">
