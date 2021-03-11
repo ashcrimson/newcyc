@@ -55,7 +55,7 @@ class ViewOrdenCompra {
                                 placeholder="Seleccione un contrato..."
                                 track-by="id"
                                 label="nombre"
-                                @select="getDetallesContrato()"
+                                @input="getDetallesContrato"
                             >
 
                             </multiselect>
@@ -167,7 +167,7 @@ class ViewOrdenCompra {
                                             <td v-text="det.precio"></td>
                                             <td v-text="det.precio*det.cantidad"></td>
                                             <td>
-                                                <button class="btn btn-danger btn-sm" role="button" @click.prevent="removeDet(index)">Eliminar</button>
+                                                <button class="btn btn-danger btn-sm" role="button" @click.prevent="removeDet(index,det)">Eliminar</button>
                                             </td>
                                         </tr>
 
@@ -194,13 +194,13 @@ class ViewOrdenCompra {
                                             </td>
 
                                             <td>
-                                                <input type="text" class="form-control" id="saldo" readonly :value="item.saldo">
+                                                <input type="text" class="form-control" readonly :value="item.saldo">
                                             </td>
                                             <td>
-                                                <input type="text" class="form-control" id="precio" readonly :value="item.precio">
+                                                <input type="text" class="form-control"  readonly :value="item.precio">
                                             </td>
                                             <td>
-                                                <input type="text" class="form-control" id="subtotal" readonly :value="item.precio*item.cantidad">
+                                                <input type="text" class="form-control" readonly :value="subTotalDet(item)">
                                             </td>
                                             <td>
                                                 <button type="button" class="btn btn-success"  @click.prevent="addDet()">Agregar</button>
@@ -211,9 +211,7 @@ class ViewOrdenCompra {
                                         <tr>
                                             <th colspan="4">Total</th>
                                             <th class="text-right" >
-                                                    <span id="total">
-                                                        <?=$total?>
-                                                    </span>
+                                                <span v-text="total"></span>
                                             </th>
                                             <th></th>
                                         </tr>
@@ -272,13 +270,9 @@ class ViewOrdenCompra {
                     console.log('Instancia vue creada');
                 },
                 data: {
-                    item: {
-                        cantidad: 0,
-                        precio: 0,
-                        saldo: 0,
-                    },
+                    item: '',
                     items : [],
-                    contrato: '',
+                    contrato: null,
                     contratos: <?=json_encode($dataContratos)?>,
 
                     estado: '',
@@ -292,12 +286,14 @@ class ViewOrdenCompra {
                 },
                 methods: {
                     async getDetallesContrato(){
-                        if (this.contrato!==''){
+
+                        if (this.contrato){
+                            console.log("get detalles contrato id: ",this.contrato.id);
+
+                            this.items = [];
                             this.buscandoDetalles = true;
 
                             let url = '<?=base()."/get/detalles/contratos/ajax";?>';
-
-                            console.log(url);
 
                             try {
                                 let res = await axios.get(url,
@@ -321,11 +317,41 @@ class ViewOrdenCompra {
                         }
                     },
                     addDet(){
-                        const newDet = Object.assign({}, this.item);
+                        var newDet = Object.assign({}, this.item);
+
+
+                       if(this.item.cantidad <= 0){
+
+                           alert('La cantidad debe ser mayor a 0');
+                           $("#cantidad").focus().select();
+                           return
+                       }
+
+                       if(this.item.cantidad > this.item.saldo){
+
+                           alert('La cantidad no  puede ser mayor al saldo');
+                           $("#cantidad").focus().select();
+                           return
+                       }
+
+
+                        newDet.saldo = parseFloat(newDet.saldo)-parseFloat(newDet.cantidad);
+                        this.item.saldo = parseFloat(this.item.saldo)-parseFloat(this.item.cantidad);
+
                         this.detalles.push(newDet);
                     },
-                    removeDet(index){
+                    removeDet(index,detalle){
+                        this.item.saldo += parseFloat(detalle.cantidad);
                         this.detalles.splice(index,1);
+                    },
+                    subTotalDet(item){
+                        var sub = 0;
+
+                        if (item.cantidad && item.precio){
+                            sub = item.cantidad * item.precio;
+                        }
+
+                        return sub;
                     }
                 },
                 computed: {
@@ -336,84 +362,20 @@ class ViewOrdenCompra {
                         return this.agregar_detalles=='Sí' ? true : false;
                     },
                     placeholderSelectItem(){
-                        return this.hayItems ? "Seleccione un articulo..." : "Seleccione un contrato";
+
+                        if (this.contrato){
+                            return this.hayItems ? "Seleccione un artículo..." : "El contrato no tiene artículos";
+                        }
+
+                        return this.hayItems ? "Seleccione un artículo..." : "Seleccione un contrato";
+                    },
+                    total(){
+                        return 0
                     }
                 }
             });
 
 
-
-
-
-
-            var $selectDetalleContrato = $('#detalle_contrato').selectize({
-                create: false,
-                dropdownParent: 'body',
-                onChange: function(value) {
-
-
-                    var item = vm.items.find( o => (o.value == value));
-
-                    console.log('Selecciona el articulo:',item);
-
-                    $("#filaNuevoDetalle").find("#precio").val(item.precio);
-                    $("#filaNuevoDetalle").find("#saldo").val(item.saldo);
-                    subTotal();
-
-                }
-            });
-            //
-            //
-            //$("#cantidad").focus(function () {
-            //    $(this).select();
-            //});
-            //
-            //
-            //$("#cantidad").keyup(function (e) {
-            //    subTotal();
-            //});
-            //
-            //function subTotal(){
-            //
-            //    var cantidad = parseFloat($("#cantidad").val().replace(',', '.'));
-            //    var precio = parseFloat($("#precio").val().replace(',', '.'));
-            //
-            //
-            //    if(cantidad && precio){
-            //        $("#subtotal").val(cantidad*precio) ;
-            //    }
-            //}
-            //
-            //
-			//$("#btnAdd").click(function (e) {
-            //    e.preventDefault();
-            //
-            //    var cantidad = parseFloat($("#cantidad").val());
-            //    var saldo = parseFloat($("#saldo").val());
-            //
-            //    if(cantidad <= 0){
-            //
-            //        alert('La cantidad debe ser mayor a 0');
-            //        $("#cantidad").focus().select();
-            //        return
-            //    }
-            //
-            //    if(cantidad > saldo){
-            //
-            //        alert('La cantidad no  puede ser mayor al saldo');
-            //        $("#cantidad").focus().select();
-            //        return
-            //    }
-            //
-            //
-            //    var nuevoDet = $('#filaNuevoDetalle *').serialize();
-            //
-            //    var uri = "<?//=base()?>///ordenCompra/detalles/add?" + nuevoDet;
-            //
-            //    console.log('Agregar item',uri);
-            //
-            //    window.location.href= uri;
-            //})
 
 
 
