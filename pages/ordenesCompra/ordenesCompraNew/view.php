@@ -159,39 +159,22 @@ class ViewOrdenCompra {
                                         </tr>
                                         </thead>
                                         <tbody>
-                                        <?php
-                                        if ($registroEdit && count($registroEdit['detalles_compra'])){
-                                            $total = 0;
-                                            foreach ($registroEdit['detalles_compra'] as $index => $detalle) {
-                                                $sub = toFloat($detalle['CANTIDAD']) * toFloat($detalle['PRECIO']);
 
-                                                $total += $sub;
-                                                ?>
-                                                <tr>
-                                                    <td><?=$detalle['DESC_PROD_SOLI']." / ".$detalle['DESC_TEC_PROD_OFERTADO']?></td>
-                                                    <td><?=$detalle['CANTIDAD']?></td>
-                                                    <td><?=$detalle['SALDO']?></td>
-                                                    <td><?=$detalle['PRECIO']?></td>
-                                                    <td><?=$sub?></td>
+                                        <tr v-for="det in detalles">
+                                            <td v-text="det.nombre"></td>
+                                            <td v-text="det.cantidad"></td>
+                                            <td v-text="det.saldo"></td>
+                                            <td v-text="det.precio"></td>
+                                            <td v-text="det.precio*det.cantidad"></td>
+                                            <td>
+                                                <button class="btn btn-danger" role="button">Eliminar</button>
+                                            </td>
+                                        </tr>
 
-                                                    <td>
-                                                        <a href="<?=base()?>/ordenCompra/detalles/delete?nro_orden_compra=<?=$detalle['NRO_ORDEN_COMPRA']?>&codigo=<?=$detalle['CODIGO_DETALLE_CONTRATO']?>&cantidad=<?=$detalle['CANTIDAD']?>&id=<?=$detalle['ID']?>"
-                                                           class="btn btn-danger"
-                                                           role="button">Eliminar</a>
-                                                    </td>
-                                                </tr>
-                                                <?php
-                                            }
-                                            ?>
-                                            <?php
-                                        } else{
-                                            ?>
-                                            <tr>
-                                                <td colspan="10" class="text-center text-warning">No hay ningún detalles agregado</td>
-                                            </tr>
-                                            <?php
-                                        }
-                                        ?>
+                                        <tr v-if="detalles.length == 0">
+                                            <td colspan="10" class="text-center text-warning">No hay ningún detalles agregado</td>
+                                        </tr>
+
 
                                         <tr id="filaNuevoDetalle">
                                             <td width="45%">
@@ -304,14 +287,6 @@ class ViewOrdenCompra {
                     agregar_detalles_options: ['Sí','No'],
 
                     detalles: [],
-                    detalleEdit: {},
-                    detalleDefault: {
-                        codigo : '',
-                        descripcion : '',
-                        cantidad : '',
-                        precio : '',
-                        saldo : '',
-                    },
                     buscandoDetalles: false
                 },
                 methods: {
@@ -340,6 +315,13 @@ class ViewOrdenCompra {
                                 console.log(e);
                             }
                         }
+                    },
+                    addDet(){
+                        const newDet = Object.assign({}, this.item);
+                        this.detalles.push(newDet);
+                    },
+                    removeDet(index){
+                        this.detalles.splice(index);
                     }
                 },
                 computed: {
