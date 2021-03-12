@@ -356,7 +356,10 @@ class ViewContratos {
 								<label>Resolución Aprueba</label>
 								<input type="date" name="fecha_aprobacion" class="form-control"
                                        value="<?=$_GET["fecha_aprobacion"] ??  fechaEn($registroEdit['FECHA_APROBACION']) ?? ''?>"
+									   
                                 >
+
+								
 
 								<?php if ($fecha_aprobacion){ ?>
 								<span class="help-block text-danger"> 
@@ -372,9 +375,14 @@ class ViewContratos {
 						<div class="row col-12">
 							<div class="form-group has-feedback col-xs-4 col-md-4 col-lg-4">
 								<label>Fecha Alerta Término Contrato</label>
-								<input type="date" name="fecha_alert" class="form-control"
+								<input type="date" name="fecha_alert" id="fecha_alert" class="form-control"
                                        value="<?=$_GET["fecha_alert"] ??  fechaEn($registroEdit['FECHA_ALERTA_VENCIMIENTO']) ?? ''?>"
+									   oninput="fecha_alerta();"
                                 >
+
+								<div class="alert alert-danger" role="alert" id="error_alerta" style="display:none;">
+								"La fecha de alerta no puede ser mayor a la fecha de término."
+								</div>
 
 								<?php if ($fecha_alert){ ?>
 								<span class="help-block text-danger"> 
@@ -556,6 +564,21 @@ function fecha(){
     	document.getElementById("error_fecha").style.display = "block";
   	} else {
     	document.getElementById("error_fecha").style.display = "none";
+	  }
+
+}
+</script>
+
+<script>
+function fecha_alerta(){
+	
+	var fecha_termino = document.getElementById("fecha_termino").value;
+	var fecha_alerta = document.getElementById("fecha_alert").value;
+
+	if (fecha_termino <= fecha_alerta) {
+    	document.getElementById("error_alerta").style.display = "block";
+  	} else {
+    	document.getElementById("error_alerta").style.display = "none";
 	  }
 
 }
