@@ -200,7 +200,7 @@ class ViewOrdenCompra {
                                             <tfoot>
                                             <tr>
                                                 <th colspan="4">Total</th>
-                                                <th><?=nfp($registroEdit['TOTAL'])?></th>
+                                                <th><?=nfp(array_sum(array_column($registroEdit['detalles_compra'], 'SUBTOTAL')) )?></th>
                                             </tr>
                                             </tfoot>
                                         </table>
@@ -325,18 +325,23 @@ class ViewOrdenCompra {
         <script>
 
 
+            function toFloat(number) {
+
+                if (isNaN(number)){
+                    return parseFloat(number.replace(',', '.'))
+                }else {
+                    return parseFloat(number)
+                }
+            }
 
             var vm = new Vue({
                 el: '#root',
                 mounted() {
-                    console.log('Instancia vue montada');
                 },
                 components: {
                     Multiselect: window.VueMultiselect.default
                 },
                 created() {
-                    this.getDetallesContrato();
-                    console.log('Instancia vue creada');
                 },
                 data: {
                     item: null,
@@ -363,7 +368,6 @@ class ViewOrdenCompra {
                     async getDetallesContrato(){
 
                         if (this.contrato){
-                            console.log("get detalles contrato id: ",this.contrato.id);
 
                             this.items = [];
                             this.buscandoDetalles = true;
@@ -398,8 +402,8 @@ class ViewOrdenCompra {
                     addDet(){
                         var newDet = Object.assign({}, this.detalle);
 
-                        var cantidad = parseFloat(newDet.cantidad);
-                        var saldo = parseFloat(newDet.saldo);
+                        var cantidad = toFloat(newDet.cantidad);
+                        var saldo = toFloat(newDet.saldo);
 
                        if(cantidad <= 0){
 
@@ -423,15 +427,15 @@ class ViewOrdenCompra {
                         this.detalles.push(newDet);
                     },
                     removeDet(index,detalle){
-                        this.item.saldo += parseFloat(detalle.cantidad);
+                        this.item.saldo += toFloat(detalle.cantidad);
                         this.detalles.splice(index,1);
                     },
                     subTotalDet(item){
                         var sub = 0;
 
 
-                        var cantidad = parseFloat(item.cantidad );
-                        var precio = parseFloat(item.precio );
+                        var cantidad = toFloat(item.cantidad );
+                        var precio = toFloat(item.precio );
 
 
                         if (cantidad && precio){
@@ -462,8 +466,8 @@ class ViewOrdenCompra {
                         var precio = 0;
 
                         this.detalles.forEach(function (item) {
-                            cantidad= parseFloat(item.cantidad);
-                            precio= parseFloat(item.precio);
+                            cantidad= toFloat(item.cantidad);
+                            precio= toFloat(item.precio);
                             total+= (cantidad*precio);
                         })
 

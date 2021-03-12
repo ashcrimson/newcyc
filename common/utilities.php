@@ -238,7 +238,8 @@ function dvs(){
 }
 
 function nfp($numero){
-        return dvs().number_format($numero,2,',','.');
+    $numero = toFloat($numero);
+    return dvs().number_format($numero,2,',','.');
 }
 
 function errorsToList($errores){
