@@ -127,7 +127,7 @@ class ViewOrdenCompra {
                         <div class="form-group has-feedback col-xs-4 col-md-4 col-lg-4 " v-show="!puedeAgregarDetalles">
                             <label>Monto </label>
 
-                            <input type="text" name="total"   class="form-control" required
+                            <input type="text" name="total_campo"   class="form-control" required
                                    value="<?= $_GET["total"] ?? $registroEdit['TOTAL']  ?? 0?>">
 
                         </div>
@@ -186,21 +186,22 @@ class ViewOrdenCompra {
                                                         :placeholder="placeholderSelectItem"
                                                         track-by="id"
                                                         label="nombre"
+                                                        @input="onSelectItem"
                                                 >
                                                 </multiselect>
                                             </td>
                                             <td>
-                                                <input type="text" class="form-control" v-model="item.cantidad" id="cantidad" >
+                                                <input type="text" class="form-control" v-model="detalle.cantidad" id="cantidad" >
                                             </td>
 
                                             <td>
-                                                <input type="text" class="form-control" readonly :value="item.saldo">
+                                                <input type="text" class="form-control" readonly :value="detalle.saldo">
                                             </td>
                                             <td>
-                                                <input type="text" class="form-control"  readonly :value="item.precio">
+                                                <input type="text" class="form-control"  readonly :value="detalle.precio">
                                             </td>
                                             <td>
-                                                <input type="text" class="form-control" readonly :value="subTotalDet(item)">
+                                                <input type="text" class="form-control" readonly :value="subTotalDet(detalle)">
                                             </td>
                                             <td>
                                                 <button type="button" class="btn btn-success"  @click.prevent="addDet()">Agregar</button>
@@ -233,6 +234,9 @@ class ViewOrdenCompra {
                     <div class="row">
                         <div class="col-sm-8">
                             <input type="hidden" name="detalles" :value="JSON.stringify(detalles, null, 3)">
+                            <input type="hidden" name="total" :value="total">
+                            <input type="hidden" name="id_contrato" :value="idContrato">
+                            <input type="hidden" name="estado" :value="estado">
                             <button type="submit" class="btn-primary btn rounded" name="submit" value="1" >
                                 <i class="icon-floppy-disk"></i> Guardar
                             </button>
@@ -270,7 +274,12 @@ class ViewOrdenCompra {
                     console.log('Instancia vue creada');
                 },
                 data: {
-                    item: '',
+                    item: null,
+                    detalle: {
+                        cantidad: 0,
+                        precio: 0,
+                        saldo: 0
+                    },
                     items : [],
                     contrato: null,
                     contratos: <?=json_encode($dataContratos)?>,
@@ -285,6 +294,7 @@ class ViewOrdenCompra {
                     buscandoDetalles: false
                 },
                 methods: {
+
                     async getDetallesContrato(){
 
                         if (this.contrato){
@@ -316,18 +326,24 @@ class ViewOrdenCompra {
                             }
                         }
                     },
+                    onSelectItem(){
+                        this.item.cantidad = this.detalle.cantidad;
+                        this.detalle = Object.assign({}, this.item);
+                    },
                     addDet(){
-                        var newDet = Object.assign({}, this.item);
+                        var newDet = Object.assign({}, this.detalle);
 
+                        var cantidad = parseFloat(newDet.cantidad);
+                        var saldo = parseFloat(newDet.saldo);
 
-                       if(this.item.cantidad <= 0){
+                       if(cantidad <= 0){
 
                            alert('La cantidad debe ser mayor a 0');
                            $("#cantidad").focus().select();
                            return
                        }
 
-                       if(this.item.cantidad > this.item.saldo){
+                       if(cantidad > saldo){
 
                            alert('La cantidad no  puede ser mayor al saldo');
                            $("#cantidad").focus().select();
@@ -335,8 +351,9 @@ class ViewOrdenCompra {
                        }
 
 
-                        newDet.saldo = parseFloat(newDet.saldo)-parseFloat(newDet.cantidad);
-                        this.item.saldo = parseFloat(this.item.saldo)-parseFloat(this.item.cantidad);
+                        newDet.saldo -= cantidad;
+                        this.detalle.saldo -= cantidad;
+                        this.item.saldo -= cantidad;
 
                         this.detalles.push(newDet);
                     },
@@ -347,8 +364,13 @@ class ViewOrdenCompra {
                     subTotalDet(item){
                         var sub = 0;
 
-                        if (item.cantidad && item.precio){
-                            sub = item.cantidad * item.precio;
+
+                        var cantidad = parseFloat(item.cantidad );
+                        var precio = parseFloat(item.precio );
+
+
+                        if (cantidad && precio){
+                            sub = cantidad * precio;
                         }
 
                         return sub;
@@ -370,7 +392,23 @@ class ViewOrdenCompra {
                         return this.hayItems ? "Seleccione un artículo..." : "Seleccione un contrato";
                     },
                     total(){
-                        return 0
+                        var total = 0;
+                        var cantidad = 0;
+                        var precio = 0;
+
+                        this.detalles.forEach(function (item) {
+                            cantidad= parseFloat(item.cantidad);
+                            precio= parseFloat(item.precio);
+                            total+= (cantidad*precio);
+                        })
+
+                        return total;
+                    },
+                    idContrato(){
+                        if(this.contrato)
+                            return  this.contrato.id;
+
+                        return null
                     }
                 }
             });

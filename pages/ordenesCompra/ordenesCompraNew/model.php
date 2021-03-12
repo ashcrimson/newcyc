@@ -208,8 +208,9 @@ class ModelOrdenCompra {
 
 
 	    $actualiza = false;
-        $tienDetalles = $_POST['tiene_detalles']=='S' ? 1 : 0;
+        $tienDetalles = count($detalles) > 0 ? 1 : 0;
         $userId = authUser($this->pdo)['ID_USUARIO'];
+        $total = $tienDetalles ? $_POST['total'] : $_POST['total_campo'];
 		
 		//validar si faltó algo
 		if(!$this->error)
@@ -220,7 +221,7 @@ class ModelOrdenCompra {
 						NRO_ORDEN_COMPRA='" . $_POST['nro_orden_compra'] . "', 
 						ID_CONTRATO='" . $_POST['id_contrato'] . "', 
 						FECHA_ENVIO=SYSDATE, 
-						TOTAL='". $_POST['total'] ."',  
+						TOTAL='". $total ."',  
 						ESTADO='" . $_POST['estado'] . "', 
 						FECHA_CREACION=SYSDATE, 
 						FECHA_ACTUALIZACION=SYSDATE, 
@@ -233,7 +234,6 @@ class ModelOrdenCompra {
 					WHERE 
 						NRO_ORDEN_COMPRA='" . $_POST['id'] . "'
                 ";
-
 
                 $result = oci_parse($this->pdo, $query);
 
@@ -271,7 +271,7 @@ class ModelOrdenCompra {
                             '{$this->nro_orden_compra}', 
                             {$this->id_contrato}, 
                             SYSDATE, 
-                            {$_POST['total']}, 
+                            {$total}, 
                             '{$this->estado}', 
                             SYSDATE, 
                             '{$_POST['descripcion']}', 
@@ -281,8 +281,7 @@ class ModelOrdenCompra {
 			    ";
 
 
-				$result = oci_parse($this->pdo, $query);
-
+                $result = oci_parse($this->pdo, $query);
 
 
                 if (oci_execute($result)){
@@ -294,6 +293,11 @@ class ModelOrdenCompra {
                     flash($error['message'])->error();
                     redirect('/ordenCompra/new');
                 }
+
+                if ($tienDetalles){
+                    $this->agregarDetalles($detalles,$this->nro_orden_compra);
+                }
+
 
 
 			}
@@ -361,15 +365,10 @@ class ModelOrdenCompra {
             oci_commit($this->pdo);
             oci_close($this->pdo);
 
-            $id = $_GET['nro_orden_compra'] ?? $_POST['nro_orden_compra'];
+//            $id = $_GET['nro_orden_compra'] ?? $_POST['nro_orden_compra'];
 
 
-            if ($_POST['tiene_detalles']=='N' || $actualiza){
-                flash("Orden de compra ingresada correctamente")->success();
-                redirect('/ordenCompra');
-            }
-
-            redirect('/ordenCompra/new?nro_orden_compra='.$id);
+            redirect('/ordenCompra');;
 		}else{
 
             unset($_POST['id']);
@@ -402,125 +401,49 @@ class ModelOrdenCompra {
         return $this->nro_orden_compra;
 	}
 
-    public function detalleDelete()
+
+    public function agregarDetalles($detlles,$nro_orden_compra)
     {
 
-        $query = "delete from orden_compra_detalles WHERE id=".$_GET['id'];
-        $result = oci_parse($this->pdo, $query);
-        oci_execute($result);
-
-        $query = "
-            select  
-                sum(CANTIDAD*PRECIO) as total
-            from 
-                ORDEN_COMPRA_DETALLES 
-            where 
-                NRO_ORDEN_COMPRA='".$_GET['nro_orden_compra']."' group by 1";
-
-        $total = queryToArray($query,$this->pdo)[0]['TOTAL'];
-
-        //query actualizar el campo total de la compra
-        $query="
-            update 
-                ORDEN_COMPRA 
-            set 
-                TOTAL=TO_NUMBER('".$_POST['total']."') 
-            where 
-                NRO_ORDEN_COMPRA='".$_GET['nro_orden_compra']."'
-        ";
-
-        $result = oci_parse($this->pdo, $query);
-        oci_execute($result);
-
-        //query cantidad total detalle contrato
-        $query="
-          update DETALLE_CONTRATO set SALDO=SALDO+to_number('".$_GET['cantidad']."') where CODIGO='".$_GET['codigo']."'
-        ";
+        foreach ($detlles as $index => $detlle) {
+            $query = "
+                INSERT INTO 
+                    ORDEN_COMPRA_DETALLES(
+                        ID,
+                        NRO_ORDEN_COMPRA, 
+                        CODIGO_DETALLE_CONTRATO, 
+                        CANTIDAD, 
+                        PRECIO, 
+                        FECHA_CREACION
+                    ) 
+                VALUES(
+                    0,
+                    '{$nro_orden_compra}', 
+                    '".$detlle->id."', 
+                    TO_NUMBER('".$detlle->cantidad."'),
+                    TO_NUMBER('".$detlle->precio."'),
+                    SYSDATE
+                     
+                )
+            ";
 
 
-
-        $result = oci_parse($this->pdo, $query);
-        oci_execute($result);
-
-
-        oci_commit($this->pdo);
-        oci_close($this->pdo);
-
-        flash("Detalle eliminado")->success();
-
-        redirect('/ordenCompra/new?nro_orden_compra='.$_GET['nro_orden_compra']);
-	}
-
-	public function detalleAdd()
-    {
-
-        $query = "
-            INSERT INTO 
-                ORDEN_COMPRA_DETALLES(
-                    ID,
-                    NRO_ORDEN_COMPRA, 
-                    CODIGO_DETALLE_CONTRATO, 
-                    CANTIDAD, 
-                    PRECIO, 
-                    FECHA_CREACION
-                ) 
-            VALUES(
-                0,
-                '".$_GET['nro_orden_compra']."', 
-                '".$_GET['detalle_contrato']."', 
-                TO_NUMBER('".$_GET['cantidad']."'),
-                TO_NUMBER('".$_GET['precio']."'),
-                SYSDATE,
-                 
-            )
-        ";
+            $result = oci_parse($this->pdo, $query);
+            oci_execute($result);
 
 
-        $result = oci_parse($this->pdo, $query);
-
-        oci_execute($result);
-
-        $query = "
-            select  
-                sum(CANTIDAD*PRECIO) as total
-            from 
-                ORDEN_COMPRA_DETALLES 
-            where 
-                NRO_ORDEN_COMPRA='".$_GET['nro_orden_compra']."' group by 1";
-
-        $total = queryToArray($query,$this->pdo)[0]['TOTAL'];
+            //query cantidad total detalle contrato
+            $query="
+              update DETALLE_CONTRATO set SALDO=SALDO-to_number('".$detlle->cantidad."') where CODIGO='".$detlle->id."'
+            ";
 
 
-        //query actualizar el campo total de la compra
-        $query="
-            update  
-                ORDEN_COMPRA 
-            set 
-                TOTAL=TO_NUMBER('".$total."') 
-            where 
-                NRO_ORDEN_COMPRA='".$_GET['nro_orden_compra']."'
-        ";
-
-        $result = oci_parse($this->pdo, $query);
-        oci_execute($result);
+            $result = oci_parse($this->pdo, $query);
+            oci_execute($result);
+        }
 
 
-        //query cantidad total detalle contrato
-        $query="
-          update DETALLE_CONTRATO set SALDO=SALDO-to_number('".$_GET['cantidad']."') where CODIGO='".$_GET['detalle_contrato']."'
-        ";
 
-        $result = oci_parse($this->pdo, $query);
-        oci_execute($result);
-
-        oci_commit($this->pdo);
-        oci_close($this->pdo);
-
-        flash("Detalle agregado")->success();
-
-        redirect('/ordenCompra/new?nro_orden_compra='.$_GET['nro_orden_compra']);
-
-        
 	}
 	
 }
