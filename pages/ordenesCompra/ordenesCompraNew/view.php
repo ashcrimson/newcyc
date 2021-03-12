@@ -10,15 +10,33 @@ namespace OrdenCompraNew;
 class ViewOrdenCompra {
 
 	public function output(\OrdenCompraNew\ModelOrdenCompra $model){
+        $readonly = "";
+        $disabled = "";
 
+
+        $dataContratos = $model->getContratos();
+
+
+        $contrato= null;
 
         if(isset($_GET["nro_orden_compra"])){
 			$registroEdit = $model->get();
 
+			if ($registroEdit['TIENE_DETALLES']){
+                $readonly = "readonly";
+                $disabled = ":disabled='true'";
+            }
+
+            $key = array_search($registroEdit['ID_CONTRATO'], array_column($dataContratos, 'id'));
+
+            $contrato = $dataContratos[$key];
+
         }
 
 
-        $dataContratos = $model->getContratos();
+
+
+
 
 		ob_start();
 
@@ -56,6 +74,7 @@ class ViewOrdenCompra {
                                 track-by="id"
                                 label="nombre"
                                 @input="getDetallesContrato"
+                                <?=$disabled?>
                             >
 
                             </multiselect>
@@ -68,7 +87,8 @@ class ViewOrdenCompra {
                             <!-- <input type="text" name="numeroOrdenCompra"  class="form-control" value="{{ $ordenCompraData->numeroOrdenCompra ?: old('numeroOrdenCompra') }}"> -->
                             <input type="text" name="nro_orden_compra"  class="form-control"
                                    required id="nro_orden_compra"
-                                   value="<?= $_GET["nro_orden_compra"] ?? $registroEdit['NRO_ORDEN_COMPRA'] ?>">
+                                   value="<?= $_GET["nro_orden_compra"] ?? $registroEdit['NRO_ORDEN_COMPRA'] ?>"
+                            <?=$readonly?>>
 
                         </div>
 
@@ -87,6 +107,7 @@ class ViewOrdenCompra {
                                     :close-on-select="true"
                                     :show-labels="false"
                                     placeholder="Seleccione un..."
+
                             >
 
                             </multiselect>
@@ -111,6 +132,7 @@ class ViewOrdenCompra {
                                     :close-on-select="true"
                                     :show-labels="false"
                                     placeholder="Seleccione un..."
+                                    <?=$disabled?>
                             >
 
                             </multiselect>
@@ -147,77 +169,119 @@ class ViewOrdenCompra {
                                 </div>
                                 <!-- /.card-header -->
                                 <div class="card-body">
-                                    <table class="table table-bordered table-sm">
-                                        <thead>
-                                        <tr>
-                                            <th>Descripción</th>
-                                            <th>Cantidad</th>
-                                            <th>Saldo</th>
-                                            <th>Precio</th>
-                                            <th>Sub Total</th>
-                                            <th>Agregar</th>
-                                        </tr>
-                                        </thead>
-                                        <tbody>
+                                    <?php
+                                    if (isset($registroEdit) && $registroEdit['TIENE_DETALLES']){
+                                        ?>
+                                        <table class="table table-bordered table-striped table-sm table-hover">
+                                            <thead>
+                                            <tr>
+                                                <th>CODIGO</th>
+                                                <th>DESCRIPCION</th>
+                                                <th>CANTIDAD</th>
+                                                <th>PRECIO</th>
+                                                <th>SUB TOTAL</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            <?php
+                                            foreach ($registroEdit['detalles_compra'] as $det) {
+                                                ?>
+                                                <tr>
+                                                    <td><?=$det['CODIGO']?></td>
+                                                    <td><?=$det['DESCRIPCION']?></td>
+                                                    <td><?=nfp($det['CANTIDAD'])?></td>
+                                                    <td><?=nfp($det['PRECIO'])?></td>
+                                                    <td><?=nfp($det['SUBTOTAL'])?></td>
+                                                </tr>
+                                                <?php
+                                            }
+                                            ?>
+                                            </tbody>
+                                            <tfoot>
+                                            <tr>
+                                                <th colspan="4">Total</th>
+                                                <th><?=nfp($registroEdit['TOTAL'])?></th>
+                                            </tr>
+                                            </tfoot>
+                                        </table>
+                                        <?php
+                                    }else{
+                                        ?>
+                                        <table class="table table-bordered table-sm">
+                                            <thead>
+                                            <tr>
+                                                <th>Descripción</th>
+                                                <th>Cantidad</th>
+                                                <th>Saldo</th>
+                                                <th>Precio</th>
+                                                <th>Sub Total</th>
+                                                <th>Agregar</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
 
-                                        <tr v-for="(det,index) in detalles">
-                                            <td v-text="det.nombre"></td>
-                                            <td v-text="det.cantidad"></td>
-                                            <td v-text="det.saldo"></td>
-                                            <td v-text="det.precio"></td>
-                                            <td v-text="det.precio*det.cantidad"></td>
-                                            <td>
-                                                <button class="btn btn-danger btn-sm" role="button" @click.prevent="removeDet(index,det)">Eliminar</button>
-                                            </td>
-                                        </tr>
+                                            <tr v-for="(det,index) in detalles">
+                                                <td v-text="det.nombre"></td>
+                                                <td v-text="det.cantidad"></td>
+                                                <td v-text="det.saldo"></td>
+                                                <td v-text="det.precio"></td>
+                                                <td v-text="det.precio*det.cantidad"></td>
+                                                <td>
+                                                    <button class="btn btn-danger btn-sm" role="button" @click.prevent="removeDet(index,det)">Eliminar</button>
+                                                </td>
+                                            </tr>
 
-                                        <tr v-if="detalles.length == 0">
-                                            <td colspan="10" class="text-center text-warning">No hay ningún detalles agregado</td>
-                                        </tr>
+                                            <tr v-if="detalles.length == 0">
+                                                <td colspan="10" class="text-center text-warning">No hay ningún detalles agregado</td>
+                                            </tr>
 
 
-                                        <tr id="filaNuevoDetalle">
-                                            <td width="45%">
-                                                <multiselect
-                                                        v-model="item"
-                                                        :options="items"
-                                                        :close-on-select="true"
-                                                        :show-labels="false"
-                                                        :placeholder="placeholderSelectItem"
-                                                        track-by="id"
-                                                        label="nombre"
-                                                        @input="onSelectItem"
-                                                >
-                                                </multiselect>
-                                            </td>
-                                            <td>
-                                                <input type="text" class="form-control" v-model="detalle.cantidad" id="cantidad" >
-                                            </td>
+                                            <tr id="filaNuevoDetalle">
+                                                <td width="45%">
+                                                    <multiselect
+                                                            v-model="item"
+                                                            :options="items"
+                                                            :close-on-select="true"
+                                                            :show-labels="false"
+                                                            :placeholder="placeholderSelectItem"
+                                                            track-by="id"
+                                                            label="nombre"
+                                                            @input="onSelectItem"
+                                                    >
+                                                    </multiselect>
+                                                </td>
+                                                <td>
+                                                    <input type="text" class="form-control" v-model="detalle.cantidad" id="cantidad" >
+                                                </td>
 
-                                            <td>
-                                                <input type="text" class="form-control" readonly :value="detalle.saldo">
-                                            </td>
-                                            <td>
-                                                <input type="text" class="form-control"  readonly :value="detalle.precio">
-                                            </td>
-                                            <td>
-                                                <input type="text" class="form-control" readonly :value="subTotalDet(detalle)">
-                                            </td>
-                                            <td>
-                                                <button type="button" class="btn btn-success"  @click.prevent="addDet()">Agregar</button>
-                                            </td>
-                                        </tr>
-                                        </tbody>
-                                        <tfoot>
-                                        <tr>
-                                            <th colspan="4">Total</th>
-                                            <th class="text-right" >
-                                                <span v-text="total"></span>
-                                            </th>
-                                            <th></th>
-                                        </tr>
-                                        </tfoot>
-                                    </table>
+                                                <td>
+                                                    <input type="text" class="form-control" readonly :value="detalle.saldo">
+                                                </td>
+                                                <td>
+                                                    <input type="text" class="form-control"  readonly :value="detalle.precio">
+                                                </td>
+                                                <td>
+                                                    <input type="text" class="form-control" readonly :value="subTotalDet(detalle)">
+                                                </td>
+                                                <td>
+                                                    <button type="button" class="btn btn-success"  @click.prevent="addDet()">Agregar</button>
+                                                </td>
+                                            </tr>
+                                            </tbody>
+                                            <tfoot>
+                                            <tr>
+                                                <th colspan="4">Total</th>
+                                                <th class="text-right" >
+                                                    <span v-text="total"></span>
+                                                </th>
+                                                <th></th>
+                                            </tr>
+                                            </tfoot>
+                                        </table>
+                                        <?php
+                                    }
+                                    ?>
+
 
                                 </div>
                                 <!-- /.card-body -->
@@ -237,6 +301,7 @@ class ViewOrdenCompra {
                             <input type="hidden" name="total" :value="total">
                             <input type="hidden" name="id_contrato" :value="idContrato">
                             <input type="hidden" name="estado" :value="estado">
+                            <input type="hidden" name="tiene_detalles" value="<?=$registroEdit['TIENE_DETALLES'] ?? 0?>">
                             <button type="submit" class="btn-primary btn rounded" name="submit" value="1" >
                                 <i class="icon-floppy-disk"></i> Guardar
                             </button>
@@ -281,13 +346,13 @@ class ViewOrdenCompra {
                         saldo: 0
                     },
                     items : [],
-                    contrato: null,
+                    contrato: <?=json_encode($contrato)?>,
                     contratos: <?=json_encode($dataContratos)?>,
 
                     estado: '',
                     estados: ['Aceptada','Pendiente','Recepcion Conforme'],
 
-                    agregar_detalles: '',
+                    agregar_detalles: '<?=(!$registroEdit['TIENE_DETALLES'] ?? 0) ? 'No' : 'Sí'?>',
                     agregar_detalles_options: ['Sí','No'],
 
                     detalles: [],

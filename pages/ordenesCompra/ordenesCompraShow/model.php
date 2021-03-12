@@ -54,15 +54,15 @@ class ModelOrdenCompraShow {
 
         $query = "
             select 
-            cd.CODIGO,
-            cd.DESC_PROD_SOLI || ' / ' || cd.PRESENTACION_PROD_SOLI  DESCRIPCION,
-            od.CANTIDAD,
-            od.PRECIO,
-            od.PRECIO * od.CANTIDAD as subtotal
-        from 
-            ORDEN_COMPRA_DETALLES od inner join DETALLE_CONTRATO cd on od.CODIGO_DETALLE_CONTRATO=cd.CODIGO
-        where 
-            od.NRO_ORDEN_COMPRA='{$this->id}'
+                cd.CODIGO,
+                cd.DESC_PROD_SOLI || ' / ' || cd.PRESENTACION_PROD_SOLI  DESCRIPCION,
+                od.CANTIDAD,
+                od.PRECIO,
+                od.PRECIO * od.CANTIDAD as subtotal
+            from 
+                ORDEN_COMPRA_DETALLES od inner join DETALLE_CONTRATO cd on od.CODIGO_DETALLE_CONTRATO=cd.CODIGO
+            where 
+                od.NRO_ORDEN_COMPRA='{$this->id}'
         ";
 
         $detalles = queryToArray($query,$this->pdo);

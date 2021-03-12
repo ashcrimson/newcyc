@@ -160,17 +160,23 @@ class ModelOrdenCompra {
         }
 
 
-        $query = "select 
-                    * 
-                from 
-                    orden_compra_detalles do inner join detalle_contrato dc on dc.codigo=do.codigo_detalle_contrato 
-                where 
-                    NRO_ORDEN_COMPRA='" . $this->nro_orden_compra . "'";
+        $query = "
+            select 
+                cd.CODIGO,
+                cd.DESC_PROD_SOLI || ' / ' || cd.PRESENTACION_PROD_SOLI  DESCRIPCION,
+                od.CANTIDAD,
+                od.PRECIO,
+                od.PRECIO * od.CANTIDAD as subtotal
+            from 
+                ORDEN_COMPRA_DETALLES od inner join DETALLE_CONTRATO cd on od.CODIGO_DETALLE_CONTRATO=cd.CODIGO
+            where 
+                od.NRO_ORDEN_COMPRA='{$this->nro_orden_compra}'
+        ";
 
-        $result = queryToArray($query,$this->pdo);
+        $detalles = queryToArray($query,$this->pdo);
 
 
-        $ordenCompra['detalles_compra'] = $result ?? [];
+        $ordenCompra['detalles_compra'] = $detalles ?? [];
 
 
 
@@ -229,7 +235,7 @@ class ModelOrdenCompra {
 						CODIGO='" . $_POST['detalle_contrato'] . "',
 						CANTIDAD='" . $_POST['cantidad'] . "',
                         DESCRIPCION='" . $_POST['descripcion'] . "',
-                        TIENE_DETALLES='" . $tienDetalles . "',
+                        TIENE_DETALLES='" . $_POST['tiene_detalles'] . "',
                         ACTUALIZADO_POR ='{$userId}'
 					WHERE 
 						NRO_ORDEN_COMPRA='" . $_POST['id'] . "'
