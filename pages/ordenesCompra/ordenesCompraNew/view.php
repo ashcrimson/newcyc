@@ -225,7 +225,7 @@ class ViewOrdenCompra {
                                                 <td v-text="det.cantidad"></td>
                                                 <td v-text="det.saldo"></td>
                                                 <td v-text="det.precio"></td>
-                                                <td v-text="det.precio*det.cantidad"></td>
+                                                <td v-text="subTotalDet(det)"></td>
                                                 <td>
                                                     <button class="btn btn-danger btn-sm" role="button" @click.prevent="removeDet(index,det)">Eliminar</button>
                                                 </td>
