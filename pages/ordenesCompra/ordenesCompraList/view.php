@@ -123,10 +123,10 @@ class ViewOrdenCompra {
             </form>
         </div>
         <div class="card-body">
-            <div class="table table-sm table-bordered table-hover nowrap">
-                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                    <thead>
-                        <tr>
+            <div class="table-responsive">
+                <table class="table table-sm table-bordered table-hover nowrap" id="tablaCompras" width="100%" cellspacing="0">
+                    <thead >
+                        <tr >
 							<th>ID Contrato</th>
 							<th>Nro. Orden de Compra</th>
 							<th>Fecha de Envío</th>
@@ -139,11 +139,11 @@ class ViewOrdenCompra {
                         </tr>
                     </thead>
                     
-                    <tbody>
+                    <tbody  >
                     	<?php
                     	foreach ($listado as $index => $ordenCompra) {
 						?>
-                        <tr>
+                        <tr >
 							<td><?= $ordenCompra["TIPO"] . "-" .$ordenCompra["ID_CONTRATO"];?></td>
 							<td><?= $ordenCompra["NRO_ORDEN_COMPRA"];?></td>
 							<td><?= $ordenCompra["FECHA_ENVIO"];?></td>
@@ -159,17 +159,25 @@ class ViewOrdenCompra {
                             <td> <?= $ordenCompra["USAURIO_ACTUALIZA"]; ?></td>
                                 <td>
 
-                                    <a href="<?=base("/ordenCompra/show?id=").$ordenCompra["NRO_ORDEN_COMPRA"];?>" class="btn btn-sm btn-secondary btn-xs">
-                                        <i class="fa fa-eye"></i> Ver
+                                    <a href="<?=base("/ordenCompra/show?id=").$ordenCompra["NRO_ORDEN_COMPRA"];?>"
+                                       class="btn btn-sm btn-secondary "
+                                       data-toggle="tooltip" title="Ver">
+                                        <i class="fa fa-eye"></i>
                                     </a>
 
                                     <?php if($ordenCompra["ESTADO"]!='Anulada'){ ?>
 
-                                        <a href="<?=base("/ordenCompra/new?nro_orden_compra=").$ordenCompra["NRO_ORDEN_COMPRA"];?>" class="btn btn-sm btn-primary btn-xs">
-                                            <i class="fa fa-pencil-alt"></i> Editar
+                                        <a href="<?=base("/ordenCompra/new?nro_orden_compra=").$ordenCompra["NRO_ORDEN_COMPRA"];?>"
+                                           class="btn btn-sm btn-primary "
+                                           data-toggle="tooltip" title="Editar">
+                                            <i class="fa fa-pencil-alt"></i>
                                         </a>
-                                        
-                                        <a href="#" data-target="#miModal<?=$index;?>" data-toggle="modal" class="btn btn-sm btn-danger btn-xs"  ><i class="far fa-trash-alt"></i> Anular</a>
+
+                                        <span data-toggle="tooltip" title="Anular">
+                                            <a href="#" data-target="#miModal<?=$index;?>" data-toggle="modal" class="btn btn-sm btn-danger "  >
+                                                <i class="far fa-trash-alt"></i>
+                                            </a>
+                                        </span>
                                         <!-- <a href="#" data-target="#restoreModal<?=$index;?>" data-toggle="modal" class="btn btn-sm btn-info btn-xs"  ><i class="far fa-eye"></i> Restaurar</a> -->
                                         <!-- modal starts -->
                                         <div class="modal fade" id="miModal<?= $index; ?>">
@@ -218,7 +226,9 @@ class ViewOrdenCompra {
 
     <script src="<?=base();?>/assets/assets/frontend/js/jquery-3.3.1.js"></script>
     <script src="<?=base();?>/assets/assets/frontend/js/selectize.js"></script>
-    <script>
+    <script src="<?=base();?>/assets/assets/vendor/datatables/datatables.min.js"></script>
+
+        <script>
         $('.selectField').selectize({
             create: false,
             sortField: {
@@ -232,6 +242,40 @@ class ViewOrdenCompra {
             maxItems: 3
         });
 	</script>
+
+        <script>
+
+
+                var dt = $('#tablaCompras').DataTable({
+                    responsive: {
+                        details: {
+                            display: $.fn.dataTable.Responsive.display.modal( {
+                                header: function ( row ) {
+                                    var data = row.data();
+                                    return 'Detalles de orden compra: '+data[0];
+                                }
+                            } ),
+                            renderer: $.fn.dataTable.Responsive.renderer.tableAll( {
+                                tableClass: 'table'
+                            } )
+                        }
+                    },
+                    columnDefs: [
+                        { responsivePriority: 2, targets: -1 }
+                    ],
+                    dom: 'Br',
+                    buttons: [
+                        'copy', 'csv', 'excel', 'pdf', 'print'
+                    ]
+                });
+
+
+
+                $(function () {
+                    $('[data-toggle="tooltip"]').tooltip()
+                })
+
+        </script>
 
 
 
