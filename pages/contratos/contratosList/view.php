@@ -434,7 +434,10 @@ class ViewContratos {
                 columnDefs: [
                     { responsivePriority: 2, targets: -1 }
                 ],
-                dom: 'r'
+                dom: 'Br',
+                buttons: [
+                    'copy', 'csv', 'excel', 'pdf', 'print'
+                ]
             } );
 
             $(function () {
