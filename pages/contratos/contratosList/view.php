@@ -221,13 +221,14 @@ class ViewContratos {
                 <span>
                     <i class="fas fa-table"> Registros</i>
                 </span>
+                <div class="table-responsive">
                 <table class="table table-sm table-bordered table-hover nowrap" id="tablaContratos">
                     <thead>
                     <tr >
                         <!-- <th data-priority="1">ID Contrato</th> -->
                         <th data-priority="1">ID Mercado Público</th>
                         <th data-priority="100001">Rut Proveedor</th>
-                        <th data-priority="2" width="50%">Razón Social Proveedor</th>
+                        <th data-priority="100001" width="50%">Razón Social Proveedor</th>
                         <th data-priority="3">Licitación</th>
                         <th data-priority="100001">Moneda</th>
                         <!-- <th data-priority="5">Precio</th> -->
@@ -379,15 +380,16 @@ class ViewContratos {
                     }
                     ?>
                 </table>
+                </div>
             </div>
         </div>
 
 
-        <nav class="d-flex justify-content-center wow fadeIn mt-3">
-            <?php
-            paginador($totales, "./contratos", 10);
-            ?>
-        </nav>
+<!--        <nav class="d-flex justify-content-center wow fadeIn mt-3">-->
+<!--            --><?php
+//            paginador($totales, "./contratos", 10);
+//            ?>
+<!--        </nav>-->
 
     </div>
 
@@ -434,7 +436,8 @@ class ViewContratos {
                 columnDefs: [
                     { responsivePriority: 2, targets: -1 }
                 ],
-                dom: 'Br',
+                // dom: 'Br',
+                dom: 'Bfltrip',
                 buttons: [
                     'copy', 'csv', 'excel', 'pdf', 'print'
                 ]

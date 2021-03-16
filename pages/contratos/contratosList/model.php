@@ -129,10 +129,14 @@ class ModelContratos {
            
 
 		//consulta paginada
-		$query = queryPagination($consulta, $this->page);
-		$result = oci_parse($this->pdo, $query);
-		oci_execute($result);
-		$listado = queryResultToAssoc($result);
+//		$query = queryPagination($consulta, $this->page);
+//		$result = oci_parse($this->pdo, $query);
+//		oci_execute($result);
+//		$listado = queryResultToAssoc($result);
+
+        $listado = queryToArray($consulta,$this->pdo);
+
+
 
 
 		//se iteran todos los contrtos para añadirles las bitacoras
@@ -145,7 +149,7 @@ class ModelContratos {
 			from 
 				BITACORA LEFT JOIN documento on bitacora.nro_documento = documento.nro_documento
 			where 
-				ID_CONTRATO=".$contrato['ID_CONTRATO'];
+				ID_CONTRATO='{$contrato['ID_CONTRATO']}'";
             $result = oci_parse($this->pdo, $query);
             oci_execute($result);
             $bitacoras = queryResultToAssoc($result);
@@ -161,19 +165,19 @@ class ModelContratos {
                 from 
                     CONTRATOS C LEFT JOIN DETALLE_CONTRATO DE ON c.id_contrato = de.id_contrato
                     where 
-                        C.ID_CONTRATO=".$contrato['ID_CONTRATO'];
+                        C.ID_CONTRATO='{$contrato['ID_CONTRATO']}'";
             $result = oci_parse($this->pdo, $query);
             oci_execute($result);
             $detalles= queryResultToAssoc($result);
 
             $contrato['DETALLES'] = $detalles;
 
-            $query = "select * from AREAS where ID_CARGO=".$contrato['ID_CARGO'];
+            $query = "select * from AREAS where ID_CARGO='{$contrato['ID_CARGO']}'";
             $areas = queryToArray($query,$this->pdo);
 
             $contrato['AREAS'] = $areas ?? [];
 
-            $query = "select * from CONTRATOS_ASIGNACION where ID_CONTRATO=".$contrato['ID_CONTRATO'];
+            $query = "select * from CONTRATOS_ASIGNACION where ID_CONTRATO='{$contrato['ID_CONTRATO']}'";
             $asignado = queryToArray($query,$this->pdo)[0];
 
             $contrato['ASIGNADO'] = $asignado ? 1 : 0;

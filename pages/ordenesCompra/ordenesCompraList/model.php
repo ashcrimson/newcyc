@@ -118,35 +118,16 @@ class ModelOrdenCompra {
 			";
 
 
-		
-		//consulta para recuperar todos los codigos de monedas
-		$query = "select * from licitaciones ";
-		//$query = "select CODIGO from licitaciones ";
-		$result = oci_parse($this->pdo, $query);
-		oci_execute($result);
-		$codigos = queryResultToAssoc($result);
 
-		
+        //consulta paginada
+//        $query = queryPagination($consulta, $this->page);
+//        $result = oci_parse($this->pdo, $query);
+//        oci_execute($result);
+//        $listado = queryResultToAssoc($result);
 
-		//consulta para recuperar cantidad de páginas disponibles
-		$result = oci_parse($this->pdo, $consulta);
-		oci_execute($result);
-		$totales = queryResultToAssoc($result);
-			
-		// $consulta = "SELECT * FROM PROVEEDORES";
+        $listado = queryToArray($consulta,$this->pdo);
 
-		//consulta paginada
-		$query = queryPagination($consulta, $this->page);
-		$result = oci_parse($this->pdo, $query);
-		oci_execute($result);
-		$listado = queryResultToAssoc($result);
 
-		
-
-		//consulta para recuperar todos los numeros de licitaciones
-		$result = oci_parse($this->pdo, $consulta);
-		oci_execute($result);
-		$numeros = queryResultToAssoc($result);
 
 		//consulta para recuperar cantidad de páginas disponibles
 		$result = oci_parse($this->pdo, $consulta);
@@ -156,10 +137,10 @@ class ModelOrdenCompra {
 		
 
 		array_push($assoc, $listado);
-		array_push($assoc, $numeros);
 		array_push($assoc, $totales);
 
 		oci_close($this->pdo);
+
 		return $assoc;
 	}
 

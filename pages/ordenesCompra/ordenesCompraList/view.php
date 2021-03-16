@@ -219,9 +219,9 @@ class ViewOrdenCompra {
             </div>
         </div>
         
-        <div class="card-footer">
-        	<?=paginador($totales, base("/ordenCompra"), 12);?>
-        </div>
+<!--        <div class="card-footer">-->
+<!--        	--><?//=paginador($totales, base("/ordenCompra"), 12);?>
+<!--        </div>-->
     </div>
 
     <script src="<?=base();?>/assets/assets/frontend/js/jquery-3.3.1.js"></script>
@@ -263,7 +263,8 @@ class ViewOrdenCompra {
                     columnDefs: [
                         { responsivePriority: 2, targets: -1 }
                     ],
-                    dom: 'Br',
+                    // dom: 'Br',
+                    dom: 'Bfltrip',
                     buttons: [
                         'copy', 'csv', 'excel', 'pdf', 'print'
                     ]
