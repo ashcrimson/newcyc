@@ -2,7 +2,7 @@
 
   
 
-namespace LicitacionesList;
+namespace LicitacionesList; 
 
 
 /**
@@ -80,10 +80,12 @@ class ModelLicitaciones {
 
 
 		//consulta paginada
-		$query = queryPagination($consulta, $this->page);
-		$result = oci_parse($this->pdo, $query);
-		oci_execute($result);
-		$listado = queryResultToAssoc($result);
+		// $query = queryPagination($consulta, $this->page);
+		// $result = oci_parse($this->pdo, $query);
+		// oci_execute($result);
+		// $listado = queryResultToAssoc($result);
+
+		$listado = queryToArray($consulta,$this->pdo);
 
 		//consulta para recuperar todos los numeros de licitaciones
 		$query = "select NRO_LICITACION from licitaciones ";

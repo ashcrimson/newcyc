@@ -127,14 +127,14 @@ class ViewOrdenCompra {
                 <table class="table table-sm table-bordered table-hover nowrap" id="tablaCompras" width="100%" cellspacing="0">
                     <thead >
                         <tr >
-							<th>ID Contrato</th>
+							<th>ID Mercado Público</th>
 							<th>Nro. Orden de Compra</th>
 							<th>Fecha de Envío</th>
 							<th>Total</th>
 							<th>Estado</th>
 							<th>Adjunto</th> <!-- Implementar pdf-->
-                            <th>CREADO POR</th>
-                            <th>ACTUALIZADO POR</th>
+                            <th>Creada por</th>
+                            <th>Actualizada por</th>
 							<th>Acción</th>
                         </tr>
                     </thead>
@@ -144,7 +144,7 @@ class ViewOrdenCompra {
                     	foreach ($listado as $index => $ordenCompra) {
 						?>
                         <tr >
-							<td><?= $ordenCompra["TIPO"] . "-" .$ordenCompra["ID_CONTRATO"];?></td>
+							<td><?= $ordenCompra["ID_MERCADO_PUBLICO"];?></td>
 							<td><?= $ordenCompra["NRO_ORDEN_COMPRA"];?></td>
 							<td><?= $ordenCompra["FECHA_ENVIO"];?></td>
 							<td><?= $ordenCompra["TOTAL"];?></td>
@@ -264,10 +264,12 @@ class ViewOrdenCompra {
                         { responsivePriority: 2, targets: -1 }
                     ],
                     // dom: 'Br',
-                    dom: 'Bfltrip',
+                    dom: 'Bltrip',
                     buttons: [
-                        'copy', 'csv', 'excel', 'pdf', 'print'
-                    ]
+                         'excel'
+                    ],
+                    pageLength: 0,
+                    lengthMenu: [10, 20, 50, 100, 200, 500]
                 });
 
 

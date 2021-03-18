@@ -96,7 +96,7 @@ class ViewLicitaciones {
 				<div class="alert alert-success" role="alert">
 					{{ session('status')}}
 				</div>
-
+ 
 				@endif -->
 				<div class="table table-sm table-bordered table-hover nowrap">
 					<table class="table table-bordered"  class="table-sm w-25" id="dataLicitaciones" width=100% cellspacing="0">
@@ -116,10 +116,10 @@ class ViewLicitaciones {
 							foreach ($listado as $licitacion) {
 								// foreach ($documentos as $documento) {	
 								?>
-							<tr>
+							<tr> 
 								<td> <?= $licitacion["NRO_LICITACION"]; ?></td>
-								<td> <?= $licitacion["PRESUPUESTO"]; ?></td>
-								<td> <?= $licitacion["DETALLE"]; ?></td>
+								<td>$ <?= number_format($licitacion["PRESUPUESTO"], 0, ',', '.'); ?></td>
+								<td> <?= acentos($licitacion["DETALLE"]); ?></td>
 								<td>
 									<a href="<?= base()."/archivo/download?id=".$licitacion['NRO_DOCUMENTO'] ?>" target="_blank">
 										<?= $licitacion["NOMBRE_DOCUMENTO"] ?>

@@ -142,7 +142,7 @@ class ViewContratos {
 								
 								<input type="text" name="mpublico" class="form-control"
 									value="<?=$_GET["mpublico"] ?? $registroEdit['ID_MERCADO_PUBLICO'] ?? ''?>"
-								>
+								required>
 								<?php if ($numero){ ?>
 								<span class="help-block text-danger"> 
 									<strong>Error: ID Mercado Público</strong>
@@ -298,12 +298,12 @@ class ViewContratos {
 								<label>Monto *</label> <!--Sección que guarda el monto del contrato   -->
 								<!-- <input type="number" name="monto" class="form-control" value="<?=!empty($_GET["monto"]) ? $_GET["monto"]: '' ;?>"> -->
 								<input type="number" class="form-control" name="monto" onchange="setTwoNumberDecimal" min="0" max="100000000000000" step="0.25"
-									value="<?= $_GET["monto"] ?? $registroEdit['MONTO'] ?? '0.00'?>" />
-								<?php if ($monto){ ?>0
+									value="<?= $_GET["monto"] ?? $registroEdit['MONTO'] ?? '0.00'?>" >
+								<!-- <?php if ($monto){ ?>0
 								<span class="help-block text-danger"> 
 									<strong>Error: Numero de licitacion vacio</strong>
 								</span> 
-								<?php } ?>
+								<?php } ?> -->
 							</div>
 						</div>
 					</div>
@@ -317,7 +317,7 @@ class ViewContratos {
 								
 								<input type="date" name="fecha_inicio" id="fecha_inicio" class="form-control"
 									value="<?=$_GET["fecha_inicio"] ??  fechaEn($registroEdit['FECHA_INICIO']) ?? ''?>" 
-								>
+								required>
 								<?php if ($fecha_inicio){ ?>
 								<span class="help-block text-danger"> 
 									<strong>Fecha incorrecta</strong>
@@ -399,7 +399,7 @@ class ViewContratos {
 							<div class="form-group has-feedback col-xs-4 col-md-4 col-lg-4 <?=$objeto_contrato ? 'has-error' : '' ;?>">
 								<label>Objeto del contrato *</label>
 								 
-								<textarea name="objeto_contrato" class="form-control"><?=$_GET["objeto_contrato"] ?? $registroEdit['OBJETO_CONTRATO'] ?? ''?></textarea>
+								<textarea name="objeto_contrato" class="form-control" required><?=$_GET["objeto_contrato"] ?? $registroEdit['OBJETO_CONTRATO'] ?? ''?></textarea>
 								<?php if ($objeto_contrato){ ?>
 								<span class="help-block text-danger"> 
 									<strong>Error: Objeto Contrato vacio</strong>
@@ -417,7 +417,7 @@ class ViewContratos {
 								
 								<input type="text" name="numero" class="form-control"
 									value="<?=$_GET["numero"] ?? $registroEdit['NRO_BOLETA_GARANTIA'] ?? ''?>"
-								>
+								required>
 								<?php if ($numero){ ?>
 								<span class="help-block text-danger"> 
 									<strong>Error: Numero boleta garantia vacio</strong>
@@ -434,7 +434,7 @@ class ViewContratos {
 								
 								<input type="number" name="mboleta" class="form-control"
 									value="<?=$_GET["mboleta"] ?? $registroEdit['MONTO_BOLETA_GARANTIA'] ?? ''?>"
-								>
+								required>
 								<?php if ($mboleta){ ?>
 								<span class="help-block text-danger"> 
 									<strong>Error: Monto boleta garantia vacio</strong>
@@ -451,7 +451,7 @@ class ViewContratos {
 									<label>Fecha Vencimiento Boleta</label>
 									<input type="date" name="fecha_vencimiento_boleta" class="form-control"
 										value="<?=$_GET["fecha_vencimiento_boleta"] ??  fechaEn($registroEdit['FECHA_VENCIMIENTO_BOLETA']) ?? ''?>"
-									>
+									required>
 
 									<?php if ($fecha_vencimiento_boleta){ ?>
 									<span class="help-block text-danger"> 
@@ -469,7 +469,7 @@ class ViewContratos {
 								<label>Alerta Vencimiento Boleta</label>
 								<input type="date" name="alerta_vencimiento_boleta" class="form-control"
                                        value="<?=$_GET["alerta_vencimiento_boleta"] ??  fechaEn($registroEdit['ALERTA_VENCIMIENTO_BOLETA']) ?? ''?>"
-                                >
+                                required>
 
 								<?php if ($fecha_vencimiento_boleta){ ?>
 								<span class="help-block text-danger"> 

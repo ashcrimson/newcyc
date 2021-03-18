@@ -102,6 +102,7 @@ class ModelOrdenCompra {
 				d.tipo_archivo,
 				d.archivo,
 				c.tipo,
+				c.ID_MERCADO_PUBLICO,
 			    u.NOMBRE as USUARIO_CREA,
 				u2.NOMBRE AS USAURIO_ACTUALIZA
 			from 

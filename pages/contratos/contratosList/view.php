@@ -170,7 +170,7 @@ class ViewContratos {
                             </div>
                         </div>
 
-                        <div class="col-md-3 col-sm-12 mt-3">
+                        <!-- <div class="col-md-3 col-sm-12 mt-3">
                             <label>Objeto Contrato</label>
                             <div>
                                 <select name="objeto" class="selectpicker selectField" placeholder='Seleccione Objeto' data-live-search='true'>
@@ -190,7 +190,7 @@ class ViewContratos {
                                     ?>
                                 </select>
                             </div>
-                        </div>
+                        </div> -->
                     </div>
 
                     <hr>
@@ -245,8 +245,8 @@ class ViewContratos {
                         <th data-priority="100001">Fecha Alerta de Vencimiento</th>
                         <th data-priority="100001">Fecha Vencimiento Boleta</th>
                         <th data-priority="100001">Adjunto</th>
-                        <th data-priority="100001">USUARIO CREA</th>
-                        <th data-priority="100001">USUARIO ACTUALIZA</th>
+                        <th data-priority="100001">Creado por</th>
+                        <th data-priority="100001">Actualizado por</th>
 
                         <th width="25%">Acciones</th>
                         <?php if($authUser['ID_PERMISO'] == 2) {
@@ -437,11 +437,13 @@ class ViewContratos {
                     { responsivePriority: 2, targets: -1 }
                 ],
                 // dom: 'Br',
-                dom: 'Bfltrip',
+                dom: 'Bltrip',
                 buttons: [
-                    'copy', 'csv', 'excel', 'pdf', 'print'
-                ]
-            } );
+                    'excel'
+                ],
+                pageLength: 0,
+                lengthMenu: [10, 20, 50, 100, 200, 500]
+                } );
 
             $(function () {
                 $('[data-toggle="tooltip"]').tooltip()
