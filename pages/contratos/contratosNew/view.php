@@ -362,6 +362,7 @@ class ViewContratos {
 								<input type="date" name="fecha_termino" id="fecha_termino" class="form-control"
                                        value="<?=$_GET["fecha_termino"] ??  fechaEn($registroEdit['FECHA_TERMINO']) ?? ''?>"
                                        oninput="fecha();"
+                                       required
                                 >
 								<div class="alert alert-danger" role="alert" id="error_fecha" style="display:none;">
 								"La fecha de término no puede ser menor a la fecha de inicio."
@@ -383,6 +384,7 @@ class ViewContratos {
 								<label>Resolución Aprueba</label>
 								<input type="date" name="fecha_aprobacion" class="form-control"
                                        value="<?=$_GET["fecha_aprobacion"] ??  fechaEn($registroEdit['FECHA_APROBACION']) ?? ''?>"
+                                       required
 									   
                                 >
 
@@ -405,6 +407,7 @@ class ViewContratos {
 								<input type="date" name="fecha_alert" id="fecha_alert" class="form-control"
                                        value="<?=$_GET["fecha_alert"] ??  fechaEn($registroEdit['FECHA_ALERTA_VENCIMIENTO']) ?? ''?>"
 									   oninput="fecha_alerta();"
+                                       required
                                 >
 
 								<div class="alert alert-danger" role="alert" id="error_alerta" style="display:none;">
