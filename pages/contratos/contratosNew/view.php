@@ -141,8 +141,7 @@ class ViewContratos {
 								<label>ID Mercado Público*</label>
 								
 								<input type="text" name="mpublico" class="form-control"
-									value="<?=$_GET["mpublico"] ?? $registroEdit['ID_MERCADO_PUBLICO'] ?? ''?>"
-								required>
+									value="<?=$_GET["mpublico"] ?? $registroEdit['ID_MERCADO_PUBLICO'] ?? ''?>" required>
 								<?php if ($numero){ ?>
 								<span class="help-block text-danger"> 
 									<strong>Error: ID Mercado Público</strong>
@@ -174,9 +173,17 @@ class ViewContratos {
 
 					<div class="container">
 						<div class="row col-12">
-							<div class="form-group has-feedback col-xs-4 col-md-4 col-lg-4 <?=$licitacion ? 'has-error' : '' ;?>" id="licitacion"  >
+							<div class="form-group has-feedback col-xs-4 col-md-4 col-lg-4 <?=$licitacion ? 'has-error' : '' ;?>" id="divLicitacion"  >
 								<label>Licitacion *</label>
-								<select name='licitacion' class ='selectpicker selectField' placeholder='Seleccione Licitacion' data-live-search='true' id ='licitacion_id' value="<?=isset($_GET["licitacion"]) ? $_GET["licitacion"]: (isset($registroEdit["NRO_LICITACION"]) ? $registroEdit["NRO_LICITACION"] : "") ?>">
+
+								<select name='licitacion'
+                                        class='selectpicker '
+                                        placeholder='Seleccione Licitacion'
+                                        data-live-search='true'
+                                        id='licitacion_id'
+                                        value="<?=isset($_GET["licitacion"]) ? $_GET["licitacion"]: (isset($registroEdit["NRO_LICITACION"]) ? $registroEdit["NRO_LICITACION"] : "") ?>"
+                                        required
+                                    >
 									<option value=""></option>
 									<?php 
 									foreach ($dataLicitaciones as $licitacionn) {
@@ -187,6 +194,7 @@ class ViewContratos {
 									}
 									?>
 								</select>
+
 								<?php if (!isset($licitacion)){ ?>
 								<span class="help-block text-danger"> 
 									<strong>Error: Numero de licitacion vacio</strong>
@@ -218,7 +226,11 @@ class ViewContratos {
 							<div class="form-group has-feedback col-xs-4 col-md-4 col-lg-4 <?=$proveedor_id ? 'has-error' : '' ;?>">
 								<label>Proveedor *</label>
 
-								<select class="selectpicker selectField" name='proveedor_id'  class ='form-control selectpicker selectField' placeholder='Seleccione Proveedor' data-live-search='true' id ='proveedor_id' value="<?=isset($_GET["proveedor_id"]) ? $_GET["proveedor_id"]: (isset($registroEdit["RUT_PROVEEDOR"]) ? $registroEdit["RUT_PROVEEDOR"] : "") ?>">
+								<select class="selectpicker selectField" name='proveedor_id'  class ='form-control selectpicker selectField'
+                                        placeholder='Seleccione Proveedor' data-live-search='true' id ='proveedor_id'
+                                        value="<?=isset($_GET["proveedor_id"]) ? $_GET["proveedor_id"]: (isset($registroEdit["RUT_PROVEEDOR"]) ? $registroEdit["RUT_PROVEEDOR"] : "") ?>"
+                                        required
+                                >
 									<option value=""></option>
 									<?php 
 									foreach ($dataProveedores as $proveedor) {
@@ -244,7 +256,14 @@ class ViewContratos {
 						<div class="row col-12">
 							<div class="form-group has-feedback col-xs-4 col-md-4 col-lg-4 ">
 								<label>Cargo</label>
-								<select class="selectpicker selectField" name='id_admin'  class ='form-control selectpicker selectField' placeholder='Seleccione Cargo' data-live-search='true' id ='id_admin' value="<?=isset($_GET["id_admin"]) ? $_GET["id_admin"]: (isset($registroEdit["ID_CARGO"]) ? $registroEdit["ID_CARGO"] : "") ?>">
+								<select class="selectpicker selectField" name='id_admin'
+                                        class ='form-control selectpicker selectField'
+                                        placeholder='Seleccione Cargo'
+                                        data-live-search='true'
+                                        id ='id_admin'
+                                        value="<?=isset($_GET["id_admin"]) ? $_GET["id_admin"]: (isset($registroEdit["ID_CARGO"]) ? $registroEdit["ID_CARGO"] : "") ?>"
+                                        required
+                                >
 									<option value=""></option>
 									<?php 
 									foreach ($dataCargos as $cargo) {
@@ -297,7 +316,7 @@ class ViewContratos {
 							<div class="form-group has-feedback col-xs-4 col-md-4 col-lg-4 <?=$monto ? 'has-error' : '' ;?>">
 								<label>Monto *</label> <!--Sección que guarda el monto del contrato   -->
 								<!-- <input type="number" name="monto" class="form-control" value="<?=!empty($_GET["monto"]) ? $_GET["monto"]: '' ;?>"> -->
-								<input type="number" class="form-control" name="monto" onchange="setTwoNumberDecimal" min="0" max="100000000000000" step="0.25"
+								<input type="number" class="form-control" id="monto" name="monto" onchange="setTwoNumberDecimal" min="0" max="100000000000000" step="0.25"
 									value="<?= $_GET["monto"] ?? $registroEdit['MONTO'] ?? '0.00'?>" >
 								<!-- <?php if ($monto){ ?>0
 								<span class="help-block text-danger"> 
@@ -514,15 +533,30 @@ class ViewContratos {
 		<script src="<?=base();?>/assets/assets/frontend/js/jquery-3.3.1.js"></script>
 		<script src="<?=base();?>/assets/assets/frontend/js/selectize.js"></script>
 		<script>
-			$('.selectField').selectize({
-				create: false,
-				sortField: {
-					field: 'text', 
-					direction: 'asc'
-				},
-				dropdownParent: 'body'
-				
-			});
+
+            $('form').submit(function (e) {
+                var monto = parseFloat($("#monto").val());
+
+                if (monto <= 0){
+                    alert('El monto debe ser mayo a 0');
+                    e.preventDefault();
+                    return
+                }
+            })
+
+            var options = {
+                create: false,
+                sortField: {
+                    field: 'text',
+                    direction: 'asc'
+                },
+                dropdownParent: 'body'
+            };
+
+			$('.selectField').selectize(options);
+
+
+            var $selectLiscitacion = $('#licitacion_id').selectize(options);
 		
 			$('#selectContrato').selectize({
 
@@ -534,10 +568,17 @@ class ViewContratos {
 				dropdownParent: 'body',
 				onChange: function(value) {
 					if(value == "td"){
-						$('#licitacion').hide(); 
-					} else {
-						$('#licitacion').show(); 
-					}
+						// $('#divLicitacion').hide();
+						$('#licitacion_id').removeAttr('required');
+                        $selectLiscitacion[0].selectize.disable();
+
+                    } else {
+						// $('#divLicitacion').show();
+                        $('#licitacion_id').attr('required',true);
+                        $selectLiscitacion[0].selectize.enable();
+
+                    }
+
 					// console.log("Cambio", value);
 				}
 			});
