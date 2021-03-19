@@ -123,6 +123,10 @@ class ViewContratos {
                             </div>
                         </div>
 
+                        <?php if($authUser['ID_PERMISO']== 1)
+                        {
+                            ?>
+
                         <div class="col-md-3 col-sm-12">
                             <label>Cargo Admin. Técnico</label>
                             <div>
@@ -143,13 +147,17 @@ class ViewContratos {
                                         }
                                     }
                                     ?>
+                                    
                                 </select>
                             </div>
                         </div>
+                        <?php
+                        }
+                        ?>
 
 
 
-                        <div class="col-md-3 col-sm-12 mt-3">
+                        <div class="col-md-3 col-sm-12 mt-3" style="margin-top:0 !important;">
                             <label>Vigencia Contrato</label>
                             <div>
                                 <select name="vigencia" class="selectpicker selectField" placeholder='Seleccione Vigencia' data-live-search='true'>
@@ -160,7 +168,7 @@ class ViewContratos {
                             </div>
                         </div>
 
-                        <div class="col-md-3 col-sm-12 mt-3">
+                        <div class="col-md-3 col-sm-12 mt-3" style="margin-top:0 !important;">
                             <label>Licitación</label>
                             <div>
                                 <select name="licitacion" class="selectpicker selectField" placeholder='Seleccione Licitación' data-live-search='true'>
@@ -309,11 +317,17 @@ class ViewContratos {
                                    data-toggle="tooltip" title="Bitacoras">
                                     <i class="fa fa-book-reader"></i>
                                 </a>
+                                <?php
+                            if($authUser['ID_PERMISO'] == 1) {
+                                ?>
                                 <a href="<?=base("/contratos/new?id=").$contrato["ID_CONTRATO"];?>"
                                    class="btn btn-sm btn-primary btn-sm"
                                    data-toggle="tooltip" title="Editar">
                                     <i class="fa fa-pencil-alt"></i>
                                 </a>
+                                <?php
+                            }
+                            ?>
                                 <a href="<?=base("/contratos/show?id=").$contrato["ID_CONTRATO"].$queryString;?>"
                                    class="btn btn-sm btn-success btn-xs"
                                    data-toggle="tooltip" title="Detalles">
