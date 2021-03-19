@@ -18,6 +18,16 @@ class ViewContratos {
 
 		ob_start();
 
+		$queryString = $_SERVER['QUERY_STRING'] ?? '';
+
+        $id = $_GET['id'] ?? 0;
+
+		if($id){
+		    $search= 'id='.$id.'&';
+            $queryString = str_replace($search,'?',$queryString);
+        }
+
+
 		?>
 
 
@@ -36,7 +46,7 @@ class ViewContratos {
 		<link rel="stylesheet" href="//cdn.datatables.net/1.10.22/css/jquery.dataTables.min.css">
 		<ol class="breadcrumb">
 			<li class="breadcrumb-item">
-                <a href="<?=base("/contratos/");?>">Contratos</a>
+                <a href="<?=base("/contratos/").$queryString;?>">Contratos</a>
 			</li>
 			 
 		</ol>

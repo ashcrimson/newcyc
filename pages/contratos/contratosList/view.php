@@ -34,6 +34,18 @@ class ViewContratos {
         $cargos = $dataListBox['cargos'];
 
 
+        $queryString = $_SERVER['QUERY_STRING'] ?? '';
+
+        $id = $_GET['id'] ?? 0;
+
+        if($id){
+            $search= 'id='.$id;
+            $queryString = str_replace($search,'',$queryString);
+        }
+
+        $queryString = $queryString!='' ? '&'.$queryString : '';
+
+
 		ob_start();
 
 		?>
@@ -292,7 +304,7 @@ class ViewContratos {
                             <td><?= $contrato["USUARIO_CREA"]; ?></td>
                             <td><?= $contrato["USUARIO_ACTUALIZA"]; ?></td>
                             <td>
-                                <a href="<?=base("/contratos/bitacora/show?id=").$contrato["ID_CONTRATO"];?>"
+                                <a href="<?=base("/contratos/bitacora/show?id=").$contrato["ID_CONTRATO"].$queryString;?>"
                                    class="btn btn-sm btn-secondary btn-sm "
                                    data-toggle="tooltip" title="Bitacoras">
                                     <i class="fa fa-book-reader"></i>
@@ -302,7 +314,7 @@ class ViewContratos {
                                    data-toggle="tooltip" title="Editar">
                                     <i class="fa fa-pencil-alt"></i>
                                 </a>
-                                <a href="<?=base("/contratos/show?id=").$contrato["ID_CONTRATO"];?>"
+                                <a href="<?=base("/contratos/show?id=").$contrato["ID_CONTRATO"].$queryString;?>"
                                    class="btn btn-sm btn-success btn-xs"
                                    data-toggle="tooltip" title="Detalles">
                                     <i class="fa fa-list-ol"></i>

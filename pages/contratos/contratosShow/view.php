@@ -17,11 +17,18 @@ class ViewContratos {
 			$contrato = $model->get();
 			// $suma = $model->suma();
 		}
-		
-		
-		
-            
-	
+
+
+
+
+        $queryString = $_SERVER['QUERY_STRING'] ?? '';
+
+        $id = $_GET['id'] ?? 0;
+
+        if($id){
+            $search= 'id='.$id.'&';
+            $queryString = str_replace($search,'?',$queryString);
+        }
 
 		ob_start();
 
@@ -43,7 +50,7 @@ class ViewContratos {
 		
 		<ol class="breadcrumb">
 			<li class="breadcrumb-item">
-                <a href="<?=base("/contratos/");?>">Contratos</a>
+                <a href="<?=base("/contratos/").$queryString;?>">Contratos</a>
 			</li>
 			 
 		</ol>
