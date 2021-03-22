@@ -94,6 +94,10 @@ class ModelContratos {
             $where .= " and c.OBJETO_CONTRATO = '" . $_GET['objeto'] . "'";
         }
 
+        if ($_GET['id_mercado_publico']){
+            $where .= " and c.ID_MERCADO_PUBLICO = '" . $_GET['id_mercado_publico'] . "'";
+        }
+
         //consulta principal
 		$consulta = "
 			select  
