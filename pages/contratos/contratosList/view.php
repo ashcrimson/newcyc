@@ -413,7 +413,7 @@ class ViewContratos {
                                         </div>
                                         <?php
                                     } else {
-                                        echo "asignado";
+                                        echo "Asignado a: ".$contrato['ASIGNADO_A'];
                                     }
                                     ?>
                                 </td>

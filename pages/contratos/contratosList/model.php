@@ -113,8 +113,8 @@ class ModelContratos {
                 ca.nombre as nombre_cargo,
                 oc.total,
                 u.NOMBRE as USUARIO_CREA,
-                u2.NOMBRE as USUARIO_ACTUALIZA
-				
+                u2.NOMBRE as USUARIO_ACTUALIZA,
+			    a.AREA as asignado_a
 			from 
 				CONTRATOS C LEFT JOIN PROVEEDORES P ON c.rut_proveedor = p.rut_proveedor
 				LEFT JOIN documento_contratos dc on dc.nro_contrato = c.id_contrato
@@ -123,7 +123,9 @@ class ModelContratos {
                 LEFT JOIN cargos ca on ca.id_cargo = c.id_cargo
                 LEFT JOIN ORDEN_COMPRA oc on oc.id_contrato = c.id_cargo
                 left join USUARIOS u on u.ID_USUARIO= c.CREADO_POR
-                left join USUARIOS u2 on u2.ID_USUARIO= c.ACTUALIZADO_POR               
+                left join USUARIOS u2 on u2.ID_USUARIO= c.ACTUALIZADO_POR
+                left join CONTRATOS_ASIGNACION ca on ca.ID_CONTRATO = c.ID_CONTRATO
+                left join AREAS a on ca.ID_AREA = a.ID_AREA               
                 
 			$where
 			ORDER BY
