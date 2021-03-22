@@ -84,6 +84,10 @@ class ModelOrdenCompra {
 		if ($_GET['id_contrato']){
             $where .= " and C.ID_CONTRATO = '" . $_GET['id_contrato'] . "'";
 		}
+
+		if ($_GET['id_mercado_publico']){
+            $where .= " and C.ID_MERCADO_PUBLICO = '" . $_GET['id_mercado_publico'] . "'";
+		}
 		
 		if ($_GET['ordenes_compra']){
             $where .= " and O.NRO_ORDEN_COMPRA = '" . $_GET['ordenes_compra'] . "'";

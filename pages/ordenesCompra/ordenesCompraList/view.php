@@ -64,6 +64,30 @@ class ViewOrdenCompra {
                             </div>
                     </div>
 
+                    
+                    <div class="col-3">
+                        <label>ID Mercado Público</label>
+                            <div>
+                                <select name="id_mercado_publico" class="selectpicker selectField" placeholder='Seleccione Contrato' data-live-search='true'>
+                                    <option value=""></option>
+                                    <?php 
+                                    foreach ($contratos as $index => $contrato) {
+                                        
+                                        $selected = $_GET["id_mercado_publico"]==$contrato["ID_MERCADO_PUBLICO"] ? 'selected' : '';
+                                        ?>
+                                        
+                                            <option value="<?=$contrato["ID_MERCADO_PUBLICO"]; ?>" <?=$selected?>>
+                                            <?= $contrato["ID_MERCADO_PUBLICO"]; ?>
+                                            </option>
+                                        <?php
+                                    }
+                                    ?>
+                                </select>
+                            </div>
+                    </div>
+
+                    
+
                     <div class="col-3">
                         <label>N° Orden de Compra</label>
                             <div>
