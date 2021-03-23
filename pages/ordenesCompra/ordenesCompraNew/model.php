@@ -195,7 +195,7 @@ class ModelOrdenCompra {
 
         foreach ($contratos as $index => $contrato) {
 
-            $nombre = $contrato['TIPO']."-".$contrato['ID_CONTRATO'];
+            $nombre = $contrato['ID_MERCADO_PUBLICO'];
 
             $res[] = [
                 'id' => $contrato['ID_CONTRATO'],

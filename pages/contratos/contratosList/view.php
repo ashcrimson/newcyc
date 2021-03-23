@@ -102,7 +102,7 @@ class ViewContratos {
                             </div>
                         </div>
 
-                        <div class="col-md-3 col-sm-12">
+                        <!-- <div class="col-md-3 col-sm-12">
                             <label>ID Contrato</label>
                             <div>
                                 <select name="id_contrato" class="selectpicker selectField" placeholder='Seleccione Contrato' data-live-search='true'>
@@ -121,7 +121,7 @@ class ViewContratos {
                                     ?>
                                 </select>
                             </div>
-                        </div>
+                        </div> -->
 
                         <div class="col-md-3 col-sm-12">
                             <label>ID Mercado Público</label>
@@ -269,7 +269,7 @@ class ViewContratos {
                         <!-- <th data-priority="1">ID Contrato</th> -->
                         <th data-priority="1">ID Mercado Público</th>
                         <th data-priority="100001">Rut Proveedor</th>
-                        <th data-priority="100001" width="50%">Razón Social Proveedor</th>
+                        <th data-priority="1" width="20%">Razón Social Proveedor</th>
                         <th data-priority="3">Licitación</th>
                         <th data-priority="100001">Moneda</th>
                         <!-- <th data-priority="5">Precio</th> -->

@@ -60,9 +60,30 @@ class ViewOrdenCompra {
                     <!--            Encabezado
                     ------------------------------------------------------------------------>
                     <div class="row">
-                        <div class="form-group has-feedback col-xs-4 col-md-4 col-lg-4">
+                        <!-- <div class="form-group has-feedback col-xs-4 col-md-4 col-lg-4">
                             <label>
                                 ID Contrato
+                                <i class="fa fa-spinner fa-spin " v-show="buscandoDetalles"></i>
+                            </label>
+                            <multiselect
+                                v-model="contrato"
+                                :options="contratos"
+                                :close-on-select="true"
+                                :show-labels="false"
+                                placeholder="Seleccione un contrato..."
+                                track-by="id"
+                                label="nombre"
+                                @input="getDetallesContrato"
+                                <?=$disabled?>
+                            >
+
+                            </multiselect>
+                            <input type="hidden" name="id" value="<?=isset($_GET["nro_orden_compra"]) ? $_GET["nro_orden_compra"]: "" ?>" >
+                        </div> -->
+
+                        <div class="form-group has-feedback col-xs-4 col-md-4 col-lg-4">
+                            <label>
+                                ID Mercado Público
                                 <i class="fa fa-spinner fa-spin " v-show="buscandoDetalles"></i>
                             </label>
                             <multiselect
