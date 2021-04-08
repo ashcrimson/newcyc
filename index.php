@@ -143,6 +143,24 @@ switch ($request) {
 	//case (preg_match("/\/cargos\/\d*\/edit\/{0,1}/", $base . $request) ? true : false) :
 		$router->cargosNew(); 
 		break;
+	
+		/** AREAS **/
+	case $base . '/areas' :
+	case $base . '/areas/' :
+	case $base . '/areas/delete' :
+	case $base . '/areas/delete/' :
+		$router->areasList(); 
+		break;
+	case $base . '/areas/new' :
+	case $base . '/areas/new/' :
+	case $base . '/areas/save' :
+	case $base . '/areas/save/' :
+		$router->areasNew(); 
+		break;
+	//edicion de areass
+	//case (preg_match("/\/areass\/\d*\/edit\/{0,1}/", $base . $request) ? true : false) :
+		$router->areasNew(); 
+		break;
 
 	/** MONEDAS **/
 	case $base . '/monedas' :

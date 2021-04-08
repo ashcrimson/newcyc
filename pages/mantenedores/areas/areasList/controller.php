@@ -2,20 +2,20 @@
 
 
 
-namespace CargosList;
+namespace AreasList;
  
 /**
  * controlador de vista
  */
-class ControllerCargos {
+class ControllerAreas {
 	
-	//retorna todos las licitaciones
-	public function all(\CargosList\ModelCargos $model){
+	//retorna todos las areas
+	public function all(\AreasList\ModelAreas $model){
 		return $model;
 	}
 
-	//retorna solo la licitacion solicitada
-	public function filter(\CargosList\ModelCargos $model){
+	//retorna solo la area solicitada
+	public function filter(\AreasList\ModelAreas $model){
 		if(isset($_GET["tipo"])){
 			$model = $model->getId($_GET["tipo"]);
 		}
@@ -24,7 +24,7 @@ class ControllerCargos {
 
 
 	//retorna con la paginación 
-	public function page(\CargosList\ModelCargos $model){
+	public function page(\AreasList\ModelAreas $model){
 		if(isset($_GET["page"]) && $_GET["page"] >=1 ){
 			$model = $model->getPage($_GET["page"]);
 		}
@@ -32,7 +32,7 @@ class ControllerCargos {
 	}
 
 
-	public function delete(\CargosList\ModelCargos $model){
+	public function delete(\AreasList\ModelAreas $model){
 		if(isset($_GET["id"])){
 			$model = $model->delete($_GET["id"]);
 		}

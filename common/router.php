@@ -365,6 +365,39 @@ class Router{
 		}
 	}
 
+	/***********************************
+	 * mantenedor areas
+	 ***********************************/
+	//pagina listado de areas
+	public function areasList(){
+		$this->model = new \AreasList\ModelAreas($this->pdo);
+		$this->view = new \AreasList\ViewAreas;
+		$this->controller = new \AreasList\ControllerAreas;
+		$this->model = $this->controller->all($this->model);
+		if(!empty($_GET["tipo"])){
+			$this->model = $this->controller->filter($this->model);
+		}
+
+		if(!empty($_GET["id"])){
+            $this->controller->delete($this->model);
+		}
+		
+		if(isset($_GET["page"])){
+			$this->model = $this->controller->page($this->model);
+		}
+	}
+
+	//pagina agregado de areas
+	public function areasNew(){
+		$this->model = new \AreasNew\ModelAreas($this->pdo);
+		$this->view = new \AreasNew\ViewAreas;
+		$this->controller = new \AreasNew\ControllerAreas;
+		$this->model = $this->controller->all($this->model);
+		if(!empty($_GET["id"])){
+			$this->model = $this->controller->edit($this->model);
+		}
+	}
+
 
 
 	/***********************************
@@ -515,6 +548,8 @@ class Router{
 		if(isset($_GET["page"])){
 			$this->model = $this->controller->page($this->model);
 		}
+
+		
 	}
 
 	//pagina agregado de usuarios
