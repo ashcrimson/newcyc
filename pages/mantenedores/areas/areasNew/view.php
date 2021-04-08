@@ -17,7 +17,7 @@ class ViewAreas {
             $data = $model->get()[0];
         }
 
-		$nombre = false;
+		$cargos = $model->getDataListBox()['cargos'];
 
 
 		if(sizeof($_GET) && !isset($_GET["id"])){
@@ -44,15 +44,29 @@ class ViewAreas {
 
         <div class="card-body row">
             <input type="hidden" name="id" value="<?= $_GET["id"] ?? "" ?>" >
-            <div class="form-group has-feedback col-xs-4 col-md-4 col-lg-4 {{ $errors->has('area') ? 'has-error' : '' }}">
+            <div class="form-group col-xs-4 col-md-4 col-lg-4 ">
                 <label>Nombre del area *</label>
                 <input type="text" name="area" class="form-control" value="<?=isset($_GET["area"]) ? $_GET["area"]: (isset($data["AREA"]) ? $data["AREA"] : "") ?>">
 
-				<?php if ($area){ ?>
-				<span class="help-block text-danger"> 
-					<strong>Error: Area vacía</strong>
-				</span>
-				<?php } ?>
+            </div>
+
+            <div class="form-group col-xs-4 col-md-4 col-lg-4 ">
+                <label>Cargos</label>
+                <div>
+                    <select name="id_cargo" class="selectpicker selectField" placeholder='Seleccione cargo' data-live-search='true'>
+                        <option value=""></option>
+                        <?php
+                        foreach ($cargos as $cargo){
+                            $select =  ($data["ID_CARGO"] == $cargo["ID_CARGO"]) ? "selected" : '';
+                            ?>
+                            <option value="<?=$cargo["ID_CARGO"];?>" <?=$select;?>>
+                                <?=$cargo["NOMBRE"];?>
+                            </option>
+                            <?php
+                        }
+                        ?>
+                    </select>
+                </div>
             </div>
         </div>
 
@@ -68,7 +82,22 @@ class ViewAreas {
   </form>
 
 
+        <script src="<?=base();?>/assets/assets/frontend/js/jquery-3.3.1.js"></script>
+        <script src="<?=base();?>/assets/assets/frontend/js/selectize.js"></script>
+        <script>
+            $('.selectField').selectize({
+                create: false,
+                sortField: {
+                    field: 'text',
+                    direction: 'asc'
+                },
+                dropdownParent: 'body'
+            });
 
+            $('.selectMulti').selectize({
+                maxItems: 3
+            });
+        </script>
 
 
 

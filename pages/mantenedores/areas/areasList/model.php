@@ -55,44 +55,16 @@ class ModelAreas {
 	public function get(){
 		
 		$assoc = [];
-		$listado = [];
-		$numeros = [];
-		$totales = [];
-
 
 		if ($this->id){
 			$where = " WHERE ID_AREA = '" . $this->id . "'";
 		}else{
 			$where = "";
 		}
-/*
-		$parameters = [];
-		$sql = $this->pdo->prepare("SELECT * FROM licitaciones" . $where);
-		$sql->execute($parameters);
-
-		$query = "select * from licitaciones " . $where;
-		$result = oci_parse($this->pdo, $query);
-		oci_execute($result);
-		//oci_fetch_all($result, $res);
 
 		//consulta principal
-		$query = "
-		select * from (
-			select consulta.*, rownum rn from (
-			    select *
-			    from LICITACIONES" . 
-			    $where .
-				"
-			    order by FECHA_CREACION desc
-			) consulta 
-			where rownum <= " . $this->fin . "
-		) cosnulta
-		where rn > " . $this->inicio . "
-		";*/
-		//consulta principal
-		$consulta = "SELECT * FROM AREAS " . $where . " ORDER BY ID_AREA DESC";
+		$consulta = "SELECT a.*,c.NOMBRE nombre_cargo FROM AREAS a left join CARGOS c on a.ID_CARGO=c.ID_CARGO " . $where . " ORDER BY ID_AREA DESC";
 
-		//print_r($consulta);
 
 		//consulta paginada
 		$query = queryPagination($consulta, $this->page);
@@ -118,6 +90,8 @@ class ModelAreas {
 		array_push($assoc, $totales);
 
 		oci_close($this->pdo);
+
+
 		return $assoc;
 	}
 }

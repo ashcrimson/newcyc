@@ -44,15 +44,12 @@ class viewAreas {
                             <option value=""></option>
                             <?php
                             foreach ($listaAreas as $areas){
-                            	if ($_GET["tipo"] == $areas["ID_AREA"]) {
-	                            	?>
-	                            	<option value="<?=$areas["ID_AREA"];?>" selected="true"><?=$areas["AREA"];?></option>
-	                            	<?php
-                            	}else{
-	                            	?>
-	                            	<option value="<?=$areas["ID_AREA"];?>"><?=$areas["AREA"];?></option>
-	                            	<?php
-                            	}
+                            	$select =  ($_GET["tipo"] == $areas["ID_AREA"]) ? "selected" : '';
+	                            ?>
+	                            <option value="<?=$areas["ID_AREA"];?>" <?=$select;?>>
+                                    <?=$areas["AREA"];?>
+                                </option>
+                                <?php
                             }
                             ?>
                         </select>
@@ -92,6 +89,7 @@ class viewAreas {
                 <thead>
                     <tr>
                         <th>Nombre</th>
+                        <th>Cargo</th>
                         <th>Acción</th>
                     </tr>
                 </thead>
@@ -101,6 +99,7 @@ class viewAreas {
                 		?>
                     <tr>
                         <td><?=$areas["AREA"];?></td>
+                        <td><?=$areas["NOMBRE_CARGO"];?></td>
                         <td>
                         	<?php
                         	if(!$areas["ELIMINADO"]){

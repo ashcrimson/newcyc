@@ -77,9 +77,16 @@ class Modelareas {
 			//consulta de inserción
 			//$consulta = "SELECT * FROM LICITACIONES " . " ORDER BY FECHA_CREACION DESC";
 			if(isset($_POST["id"]) && $_POST["id"] != ""){
-				$consulta = "UPDATE AREAS
-							 SET AREA = '". $_POST["area"] ."'
-							 WHERE ID_AREA='" . $_POST["id"] . "'";
+
+			    $consulta = "
+                        UPDATE AREAS SET 
+						     AREA = '{$_POST["area"]}',
+						     ID_CARGO = {$_POST["id_cargo"]}
+					    WHERE 
+					        ID_AREA='{$_POST["id"]}'
+			    ";
+
+
 				//ejecucion consulta
 				$query = $consulta;
 				$result = oci_parse($this->pdo, $query);
@@ -103,13 +110,23 @@ class Modelareas {
                     flash("Area ingresada correctamente")->success() ;
                 }
 				oci_execute($result);
-				$numero = queryResultToAssoc($result)[0]["CTA"];
-				
 
-				/*$consulta = "INSERT into cargos (ID, NOMBRE) values (
-							".$numero.",'". $this->nombre ."')";*/
-				$consulta = "INSERT into areas (ID_AREA, AREA) values (
-							".$numero.", '". acentos($_POST["area"]) ."')";
+				$numero = queryResultToAssoc($result)[0]["CTA"];
+				$nombre = acentos($_POST["area"]);
+
+				$consulta = "
+                        INSERT into areas (
+                            ID_AREA, 
+                            AREA,
+                            ID_CARGO
+                        ) 
+                        values (
+							'{$numero}', 
+							'{$nombre}',
+							{$_POST["id_cargo"]}
+						)
+				";
+
 				//ejecucion consulta
 				$query = $consulta;
 				$result = oci_parse($this->pdo, $query);
@@ -145,5 +162,15 @@ class Modelareas {
 		oci_close($this->pdo);
 		header("Location:". base() ."/areas");
 		//return $assoc;
+	}
+
+    public function getDataListBox()
+    {
+        $query = "SELECT * FROM CARGOS";
+        $cargos = queryToArray($query,$this->pdo);
+
+        return [
+            'cargos' => $cargos,
+        ];
 	}
 }
