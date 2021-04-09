@@ -330,12 +330,26 @@ class ViewTemplateCYC {
           </ul>
           </li>
 
+          <?php
+            }
+            ?>
+
+        <?php
+            if( ($permisos["ID_PERMISO"] == 1) ||
+
+            ($permisos["ID_PERMISO"] == 2)){
+        ?>
+
             <li class="nav-item" style="padding-top:10px;">
                 <a class="nav-link" href="<?=base();?>/usuarios">
                     <i class="fas fa-fw fa-user-circle"></i>
                     <span>Usuarios</span>
                 </a>
             </li>
+        
+            <?php
+            }
+            ?>
 
 
 
@@ -352,10 +366,30 @@ class ViewTemplateCYC {
                   <i class="fa fa-angle-right pull-right" style="padding-left:50px;"></i>
                 </span>
               </a>
+
+              
               <ul class="treeview-menu elmenu" style="display: none;">
+              <?php
+                if( ($permisos["ID_PERMISO"] == 1) ){
+                ?>
                 <li ><a href="<?=base();?>/cargos" class="elmenu"><i class="fa fa-circle-o"></i> Cargos</a></li>
+                <?php
+            }
+            ?>
+            <?php
+                if( ($permisos["ID_PERMISO"] == 1) ){
+                ?>
                 <li><a href="<?=base();?>/monedas" class="elmenu"><i class="fa fa-circle-o"></i> Monedas</a></li>
+                <?php
+            }
+            ?>
+            <?php
+                if( ($permisos["ID_PERMISO"] == 1) ){
+                ?>
                 <li><a href="<?=base();?>/proveedores" class="elmenu"><i class="fa fa-circle-o"></i> Proveedores</a></li>
+                <?php
+            }
+            ?>
                 <li><a href="<?=base();?>/areas" class="elmenu"><i class="fa fa-circle-o"></i> Areas</a></li>
                 <!-- <li><a href="<?=base();?>/prestaciones" class="elmenu"><i class="fa fa-circle-o"></i> Prestaciones</a></li> -->
               </ul>
@@ -376,9 +410,7 @@ class ViewTemplateCYC {
                     <a class="dropdown-item" href="<?=base();?>/cvreportes">Convenio</a>
                 </div>
             </li>   -->
-                <?php
-            }
-            ?>
+            
             <!-- @endrole -->
         </ul>
 
