@@ -27,6 +27,7 @@ class ViewUsuarios {
         $dataListBox = $model->getDataListBox();
         $cargos = $dataListBox['cargos'];
         $permisos = $dataListBox['permisos'];
+        $areas = $dataListBox['areas'];
 
 
 		ob_start();
@@ -99,6 +100,23 @@ class ViewUsuarios {
 
                 </div>
 
+                <div class="form-group has-feedback col-xs-4 col-md-4 col-lg-4"   >
+                    <label>Area</label>
+                    <select name='id_area' class='selectpicker selectField' placeholder='Seleccione Cargo' >
+                        <option value="" ></option>
+
+                        <?php
+                        foreach ($areas as $area) {
+                            $selected = $registroEdit['ID_AREA']==$area["ID_AREA"] ? "selected" : "";
+                            ?>
+                            <option value="<?= $area["ID_AREA"];?>" <?=$selected?>><?= $area["AREA"];?></option>
+                            <?php
+                        }
+                        ?>
+                    </select>
+
+                </div>
+
 
 <!--                <div class="form-group has-feedback col-xs-4 col-md-4 col-lg-4">-->
 <!--                    <label>Estado</label>-->
@@ -160,7 +178,7 @@ class ViewUsuarios {
 
 
             function visibleDivCargo(value) {
-                if(value != "2"){
+                if(value != "2" && value!= "4"){
                     $('#divCargo').hide();
                 } else {
                     $('#divCargo').show();

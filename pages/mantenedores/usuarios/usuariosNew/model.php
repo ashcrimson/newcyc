@@ -114,6 +114,7 @@ class ModelUsuarios {
                         ID_CARGO='{$_POST['cargo_id']}',
                         ANEXO='{$_POST['anexo']}',
                         ID_PERMISO='{$_POST['rol']}',
+                        ID_AREA='{$_POST['id_area']}',
                         FECHA_ACTUALIZACION=SYSDATE
 	                WHERE 
 	                    ID_USUARIO='{$_POST['id']}'
@@ -143,6 +144,7 @@ class ModelUsuarios {
                     ID_CARGO,
                     ID_PERMISO,
                     ANEXO,
+                    ID_AREA,
                     FECHA_CREACION,
                     FECHA_ACTUALIZACION
                     ) 
@@ -153,6 +155,7 @@ class ModelUsuarios {
                     '". $_POST["cargo_id"] ."',
                     '". $_POST["rol"] ."',
                     '". $_POST["anexo"] ."',
+                    '". $_POST["id_area"] ."',
                     SYSDATE,
                     SYSDATE
 				)";
@@ -217,9 +220,21 @@ class ModelUsuarios {
 
     public function getDataListBox()
     {
+        $authUser = authUser($this->pdo);
+
+        if ($authUser['ID_PERMISO']==2){
+            $queryAreas = "SELECT * FROM AREAS WHERE ID_CARGO='{$authUser['ID_CARGO']}'";
+        }else{
+            $queryAreas = "SELECT * FROM AREAS";
+        }
+
+        $areas = queryToArray($queryAreas,$this->pdo);
+
+
         return [
             'cargos' => queryToArray("SELECT * FROM CARGOS",$this->pdo),
-            'permisos' => queryToArray("SELECT * FROM PERMISOS",$this->pdo)
+            'permisos' => queryToArray("SELECT * FROM PERMISOS",$this->pdo),
+            'areas' => $areas
         ];
     }
 

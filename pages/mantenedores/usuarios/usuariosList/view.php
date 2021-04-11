@@ -63,6 +63,7 @@ class viewUsuarios {
                             <th>ROL</th>
                             <th>CARGO</th>
                             <th>Anexo</th>
+                            <th>Area</th>
                             <th>Acción</th>
                         </tr>
                     </thead>
@@ -79,6 +80,7 @@ class viewUsuarios {
                                 <td> <?=$users["NOMBRE_PERMISO"];?></td>
                                 <td> <?=$users["NOMBRE_CARGO"];?></td>
                                 <td> <?=$users["ANEXO"];?></td>
+                                <td> <?=$users["NOMBRE_AREA"];?></td>
                                 <td>
                                 <?php
 

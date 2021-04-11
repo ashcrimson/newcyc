@@ -250,14 +250,14 @@ class ViewTemplateCYC {
             <!-- @hasanyrole('SuperAdmin|Admin|Comprador') -->
             <?php
             if( ($permisos["ID_PERMISO"] == 1)){
-            ?>
+                ?>
 
-            <li class="nav-item dropdown">
-                <a class="nav-link" href="<?=base();?>/licitaciones" id="pagesDropdown" role="button" >
-                <i class="fas fa-book"></i>
-                    <span>Licitaciones</span>
-                </a>
-            </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link" href="<?=base();?>/licitaciones" id="pagesDropdown" role="button" >
+                    <i class="fas fa-book"></i>
+                        <span>Licitaciones</span>
+                    </a>
+                </li>
                 <?php
             }
             ?>
@@ -277,17 +277,17 @@ class ViewTemplateCYC {
                 ($permisos["ID_PERMISO"] == 3)){
                     ?>
 
-            <li class="nav-item dropdown">
-                <a class="nav-link" href="<?=base();?>/ordenCompra" id="pagesDropdown" role="button">
-                <i class="fa fa-file"></i>
-                    <span>Órdenes de Compra</span>
-                </a>
-                <div class="dropdown-menu" aria-labelledby="pagesDropdown">
-                    <a class="dropdown-item" href="<?=base();?>/ordenCompra">Buscar</a>
-                    <div class="dropdown-divider"></div>
-                    <a class="dropdown-item" href="<?=base();?>/ordenCompra/new">Agregar</a>
-                </div>
-            </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link" href="<?=base();?>/ordenCompra" id="pagesDropdown" role="button">
+                    <i class="fa fa-file"></i>
+                        <span>Órdenes de Compra</span>
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="pagesDropdown">
+                        <a class="dropdown-item" href="<?=base();?>/ordenCompra">Buscar</a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" href="<?=base();?>/ordenCompra/new">Agregar</a>
+                    </div>
+                </li>
                 <?php
             }
             ?>
@@ -309,95 +309,53 @@ class ViewTemplateCYC {
 
             <li class="nav-item dropdown">
 
-            <ul class="sidebar-menu  " data-widget="tree">
+                <ul class="sidebar-menu  " data-widget="tree">
 
 
-            <li class="treeview " style="height: auto; text-align:left; margin-left:-22px; padding-top:10px;">
-              <a href="#" class="elmenu">
-                <i class="fa fa-exclamation-triangle"></i>
-                <span style="color:#fff;">Alertas</span>
-                <span class="pull-right-container">
-                  <i class="fa fa-angle-right pull-right" style="padding-left:102px;"></i>
-                </span>
-              </a>
-              <ul class="treeview-menu elmenu" style="display: none;">
-                <li ><a href="<?=base();?>/alertaContrato" class="elmenu"><i class="fa fa-circle-o"></i> Contratos</a></li>
+                <li class="treeview " style="height: auto; text-align:left; margin-left:-22px; padding-top:10px;">
+                  <a href="#" class="elmenu">
+                    <i class="fa fa-exclamation-triangle"></i>
+                    <span style="color:#fff;">Alertas</span>
+                    <span class="pull-right-container">
+                      <i class="fa fa-angle-right pull-right" style="padding-left:102px;"></i>
+                    </span>
+                  </a>
+                  <ul class="treeview-menu elmenu" style="display: none;">
+                    <li ><a href="<?=base();?>/alertaContrato" class="elmenu"><i class="fa fa-circle-o"></i> Contratos</a></li>
 
-              </ul>
+                  </ul>
+                </li>
+
+
+                </ul>
+              </li>
+
+
+
+            <li class="nav-item dropdown" style="padding-top:10px;">
+                <ul class="sidebar-menu  " data-widget="tree">
+
+
+                    <li class="treeview " style="height: auto; text-align:left; margin-left:-22px; padding-top:10px;">
+                      <a href="#" class="elmenu">
+                        <i class="fa fa-folder"></i>
+                        <span style="padding-left:2px;  color:#fff;">Mantenedores</span>
+                        <span class="pull-right-container">
+                          <i class="fa fa-angle-right pull-right" style="padding-left:50px;"></i>
+                        </span>
+                      </a>
+                      <ul class="treeview-menu elmenu" style="display: none;">
+                        <li ><a href="<?=base();?>/cargos" class="elmenu"><i class="fa fa-circle-o"></i> Cargos</a></li>
+                        <li><a href="<?=base();?>/monedas" class="elmenu"><i class="fa fa-circle-o"></i> Monedas</a></li>
+                        <li><a href="<?=base();?>/proveedores" class="elmenu"><i class="fa fa-circle-o"></i> Proveedores</a></li>
+                        <li><a href="<?=base();?>/areas" class="elmenu"><i class="fa fa-circle-o"></i> Areas</a></li>
+                        <!-- <li><a href="<?=base();?>/prestaciones" class="elmenu"><i class="fa fa-circle-o"></i> Prestaciones</a></li> -->
+                      </ul>
+                    </li>
+
+
+                  </ul>
             </li>
-
-
-          </ul>
-          </li>
-
-          <?php
-            }
-            ?>
-
-        <?php
-            if( ($permisos["ID_PERMISO"] == 1) ||
-
-            ($permisos["ID_PERMISO"] == 2)){
-        ?>
-
-            <li class="nav-item" style="padding-top:10px;">
-                <a class="nav-link" href="<?=base();?>/usuarios">
-                    <i class="fas fa-fw fa-user-circle"></i>
-                    <span>Usuarios</span>
-                </a>
-            </li>
-        
-            <?php
-            }
-            ?>
-
-
-
-            <li class="nav-item dropdown">
-
-            <ul class="sidebar-menu  " data-widget="tree">
-
-
-            <li class="treeview " style="height: auto; text-align:left; margin-left:-22px; padding-top:10px;">
-              <a href="#" class="elmenu">
-                <i class="fa fa-folder"></i>
-                <span style="padding-left:2px;  color:#fff;">Mantenedores</span>
-                <span class="pull-right-container">
-                  <i class="fa fa-angle-right pull-right" style="padding-left:50px;"></i>
-                </span>
-              </a>
-
-              
-              <ul class="treeview-menu elmenu" style="display: none;">
-              <?php
-                if( ($permisos["ID_PERMISO"] == 1) ){
-                ?>
-                <li ><a href="<?=base();?>/cargos" class="elmenu"><i class="fa fa-circle-o"></i> Cargos</a></li>
-                <?php
-            }
-            ?>
-            <?php
-                if( ($permisos["ID_PERMISO"] == 1) ){
-                ?>
-                <li><a href="<?=base();?>/monedas" class="elmenu"><i class="fa fa-circle-o"></i> Monedas</a></li>
-                <?php
-            }
-            ?>
-            <?php
-                if( ($permisos["ID_PERMISO"] == 1) ){
-                ?>
-                <li><a href="<?=base();?>/proveedores" class="elmenu"><i class="fa fa-circle-o"></i> Proveedores</a></li>
-                <?php
-            }
-            ?>
-                <li><a href="<?=base();?>/areas" class="elmenu"><i class="fa fa-circle-o"></i> Areas</a></li>
-                <!-- <li><a href="<?=base();?>/prestaciones" class="elmenu"><i class="fa fa-circle-o"></i> Prestaciones</a></li> -->
-              </ul>
-            </li>
-
-
-          </ul>
-          </li>
 
             <!-- <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="#" id="pagesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -410,8 +368,25 @@ class ViewTemplateCYC {
                     <a class="dropdown-item" href="<?=base();?>/cvreportes">Convenio</a>
                 </div>
             </li>   -->
-            
+                <?php
+            }
+            ?>
             <!-- @endrole -->
+
+            <?php
+            if( ($permisos["ID_PERMISO"] == 1)  ||
+
+                ($permisos["ID_PERMISO"] == 2)){
+                ?>
+            <li class="nav-item" style="padding-top:10px;">
+                <a class="nav-link" href="<?=base();?>/usuarios">
+                    <i class="fas fa-fw fa-user-circle"></i>
+                    <span>Usuarios</span>
+                </a>
+            </li>
+                <?php
+            }
+            ?>
         </ul>
 
         <div id="content-wrapper">

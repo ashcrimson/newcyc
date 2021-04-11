@@ -78,10 +78,12 @@ class ModelUsuarios {
             SELECT 
                 U.*,
                 c.NOMBRE AS NOMBRE_CARGO,
-                p.NOMBRE_PERMISO AS NOMBRE_PERMISO
+                p.NOMBRE_PERMISO AS NOMBRE_PERMISO,
+                a.AREA as nombre_area
             FROM 
                 USUARIOS u left join CARGOS c on u.ID_CARGO=c.ID_CARGO
                 left join PERMISOS p on u.ID_PERMISO= p.ID_PERMISO
+                left join AREAS a on a.ID_AREA = u.ID_AREA
         ";
 
         //consulta paginada
