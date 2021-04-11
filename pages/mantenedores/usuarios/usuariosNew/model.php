@@ -224,8 +224,10 @@ class ModelUsuarios {
 
         if ($authUser['ID_PERMISO']==2){
             $queryAreas = "SELECT * FROM AREAS WHERE ID_CARGO='{$authUser['ID_CARGO']}'";
+            $queryPermisos = "select * from PERMISOS where ID_PERMISO=4";
         }else{
             $queryAreas = "SELECT * FROM AREAS";
+            $queryPermisos = "select * from PERMISOS";
         }
 
         $areas = queryToArray($queryAreas,$this->pdo);
@@ -233,7 +235,7 @@ class ModelUsuarios {
 
         return [
             'cargos' => queryToArray("SELECT * FROM CARGOS",$this->pdo),
-            'permisos' => queryToArray("SELECT * FROM PERMISOS",$this->pdo),
+            'permisos' => queryToArray($queryPermisos,$this->pdo),
             'areas' => $areas
         ];
     }
