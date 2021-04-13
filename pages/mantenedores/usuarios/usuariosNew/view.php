@@ -178,7 +178,7 @@ class ViewUsuarios {
 
 
             function visibleDivCargo(value) {
-                if(value != "2" && value!= "4"){
+                if(value != "2"){
                     $('#divCargo').hide();
                 } else {
                     $('#divCargo').show();

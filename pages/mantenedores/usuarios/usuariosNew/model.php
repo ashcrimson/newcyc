@@ -97,7 +97,17 @@ class ModelUsuarios {
 
 
 	public function execute(){
-		
+
+	    $authUser = authUser($this->pdo);
+
+//	    if ($authUser['ID_PERMISO']==1){
+
+            $cargoId = $_POST['cargo_id'];
+//        }else{
+//            $cargoId = $authUser['ID_CARGO'];
+//        }
+
+
 		//validar si faltó algo
 		if(!$this->error){
 
@@ -111,7 +121,7 @@ class ModelUsuarios {
 	                SET 
                         NOMBRE='{$_POST['nombre']}',
 	                    MAIL='{$_POST['email']}',
-                        ID_CARGO='{$_POST['cargo_id']}',
+                        ID_CARGO='{$cargoId}',
                         ANEXO='{$_POST['anexo']}',
                         ID_PERMISO='{$_POST['rol']}',
                         ID_AREA='{$_POST['id_area']}',
@@ -152,7 +162,7 @@ class ModelUsuarios {
                     '". $_POST["email"] ."',
                     '". $_POST["nombre"] ."', 
                     '12345',
-                    '". $_POST["cargo_id"] ."',
+                    '". $cargoId ."',
                     '". $_POST["rol"] ."',
                     '". $_POST["anexo"] ."',
                     '". $_POST["id_area"] ."',
