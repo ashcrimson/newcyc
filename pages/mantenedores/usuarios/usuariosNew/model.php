@@ -155,6 +155,7 @@ class ModelUsuarios {
                     ID_PERMISO,
                     ANEXO,
                     ID_AREA,
+                    ESTADO,
                     FECHA_CREACION,
                     FECHA_ACTUALIZACION
                     ) 
@@ -166,6 +167,7 @@ class ModelUsuarios {
                     '". $_POST["rol"] ."',
                     '". $_POST["anexo"] ."',
                     '". $_POST["id_area"] ."',
+                    'ACTIVO',
                     SYSDATE,
                     SYSDATE
 				)";
