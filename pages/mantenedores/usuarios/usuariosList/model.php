@@ -77,7 +77,7 @@ class ModelUsuarios {
 		$where = 'where 1=1';
 
         if ($authUser['ID_PERMISO']==2){
-            $where = " and u.ID_AREA='{$authUser['ID_AREA']}'";
+            $where = " and u.ID_CARGO='{$authUser['ID_CARGO']}'";
         }
 
 
