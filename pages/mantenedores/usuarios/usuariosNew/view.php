@@ -12,6 +12,8 @@ class ViewUsuarios {
 	public function output(\UsuariosNew\ModelUsuarios $model){
 
 
+        $authUser = authUser($model->pdo);
+
         //si se envia el formulario
 		if(!empty($_POST)){
 			$model->execute();
@@ -100,22 +102,28 @@ class ViewUsuarios {
 
                 </div>
 
-                <div class="form-group has-feedback col-xs-4 col-md-4 col-lg-4"   >
-                    <label>Area</label>
-                    <select name='id_area' class='selectpicker selectField' placeholder='Seleccione Cargo' >
-                        <option value="" ></option>
+                <?php
+                if ($authUser['ID_PERMISO']!=1) {
+                    ?>
+                    <div class="form-group has-feedback col-xs-4 col-md-4 col-lg-4">
+                        <label>Area</label>
+                        <select name='id_area' class='selectpicker selectField' placeholder='Seleccione Cargo'>
+                            <option value=""></option>
 
-                        <?php
-                        foreach ($areas as $area) {
-                            $selected = $registroEdit['ID_AREA']==$area["ID_AREA"] ? "selected" : "";
-                            ?>
-                            <option value="<?= $area["ID_AREA"];?>" <?=$selected?>><?= $area["AREA"];?></option>
                             <?php
-                        }
-                        ?>
-                    </select>
+                            foreach ($areas as $area) {
+                                $selected = $registroEdit['ID_AREA'] == $area["ID_AREA"] ? "selected" : "";
+                                ?>
+                                <option value="<?= $area["ID_AREA"]; ?>" <?= $selected ?>><?= $area["AREA"]; ?></option>
+                                <?php
+                            }
+                            ?>
+                        </select>
 
-                </div>
+                    </div>
+                    <?php
+                }
+                ?>
 
 
 <!--                <div class="form-group has-feedback col-xs-4 col-md-4 col-lg-4">-->

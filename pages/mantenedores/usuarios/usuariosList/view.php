@@ -188,7 +188,7 @@ class viewUsuarios {
 
         <div class="card-footer">
 	    	<?php
-	    	paginador($totales, "/newcyc/usuarios");
+	    	paginador($totales, "/usuarios");
 	    	?>
         </div>
     </div>

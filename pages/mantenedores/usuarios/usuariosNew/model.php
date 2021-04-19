@@ -14,7 +14,7 @@ class ModelUsuarios {
 	 * varaibles globales
 	 */
 	//Obj de conexion de db
-	private $pdo;
+	public $pdo;
 	private $error = false;
 	private $errores = [];
 	private $params = "";
@@ -234,7 +234,11 @@ class ModelUsuarios {
     {
         $authUser = authUser($this->pdo);
 
-        if ($authUser['ID_PERMISO']==2){
+        if ($authUser['ID_PERMISO']==1){
+            $queryAreas = "SELECT * FROM AREAS WHERE ID_CARGO='{$authUser['ID_CARGO']}'";
+            $queryPermisos = "select * from PERMISOS where ID_PERMISO not in (4)";
+        }
+        else if ($authUser['ID_PERMISO']==2){
             $queryAreas = "SELECT * FROM AREAS WHERE ID_CARGO='{$authUser['ID_CARGO']}'";
             $queryPermisos = "select * from PERMISOS where ID_PERMISO=4";
         }else{
