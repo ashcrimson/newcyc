@@ -77,7 +77,7 @@ class ModelUsuarios {
 		$where = 'where 1=1';
 
         if ($authUser['ID_PERMISO']==2){
-            $where = " and u.ID_CARGO='{$authUser['ID_CARGO']}'";
+            $where .= " and u.ID_CARGO='{$authUser['ID_CARGO']}'";
         }
 
 
@@ -94,6 +94,7 @@ class ModelUsuarios {
                 left join AREAS a on a.ID_AREA = u.ID_AREA
             {$where}
         ";
+
 
         //consulta paginada
 		$query = queryPagination($consulta, $this->page);
