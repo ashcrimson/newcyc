@@ -66,11 +66,19 @@ class ModelUsuarios {
 
 	//retorna el/los datos seleccionados
 	public function get(){
-		
+
+        $authUser = authUser($this->pdo);
+
 		$assoc = [];
 		$listado = [];
 		$mail = [];
 		$totales = [];
+
+		$where = 'where 1=1';
+
+        if ($authUser['ID_PERMISO']==2){
+            $where = " and u.ID_AREA='{$authUser['ID_AREA']}'";
+        }
 
 
 		//consulta principal
@@ -84,6 +92,7 @@ class ModelUsuarios {
                 USUARIOS u left join CARGOS c on u.ID_CARGO=c.ID_CARGO
                 left join PERMISOS p on u.ID_PERMISO= p.ID_PERMISO
                 left join AREAS a on a.ID_AREA = u.ID_AREA
+            {$where}
         ";
 
         //consulta paginada
