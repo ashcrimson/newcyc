@@ -207,7 +207,12 @@ class ViewContratos {
 					<div class="container">
 						<div class="row col-12">
 							<div class="form-group has-feedback col-xsñ-4 col-md-4 col-lg-4">
-								<label for="">Adjuntar contrato.</label>
+								<label for="">
+                                    Adjuntar contrato.
+                                    <a href="<?= base()."/archivo/download?id=".$registroEdit['NRO_DOCUMENTO'] ?>" target="_blank">
+                                        (<?= $registroEdit["NOMBRE_DOCUMENTO"] ?>)
+                                    </a>
+                                </label>
 								<div class="custom-file">
 									<input type="file" name="archivo_contrato"
                                            class="custom-file-input" id="customFileLangHTML"

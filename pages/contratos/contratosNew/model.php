@@ -256,7 +256,15 @@ class ModelContratos {
 
     public function get(){
 
-        $query = "SELECT * FROM CONTRATOS WHERE ID_CONTRATO='" . $this->id . "'";
+        $query = "SELECT 
+                    c.*,
+                    d.nombre as nombre_documento,
+                    d.NRO_DOCUMENTO
+                FROM 
+                    CONTRATOS c LEFT JOIN documento_contratos dc on dc.nro_contrato = c.id_contrato
+                    LEFT JOIN documento d on d.nro_documento = dc.nro_documento 
+                WHERE 
+                    ID_CONTRATO='" . $this->id . "'";
 
         //consulta paginada
         $result = oci_parse($this->pdo, $query);
