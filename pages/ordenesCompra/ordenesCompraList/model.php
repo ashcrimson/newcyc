@@ -189,12 +189,18 @@ class ModelOrdenCompra {
             oci_execute($result);
         }
 
+        $query="select COUNT(*) as cnt from ORDEN_COMPRA where NRO_ORDEN_COMPRA like '%{$_GET['nro_orden_compra']}%'";
+        $cnt = queryToArray($query,$this->pdo)[0]['CNT'];
+
+
+
         //query actualizar el campo total de la compra
         $query="
             update 
                 ORDEN_COMPRA 
             set 
-                ESTADO='Anulada' 
+                ESTADO='Anulada',
+                NRO_ORDEN_COMPRA=NRO_ORDEN_COMPRA || 'BK{$cnt}'
             where 
                 NRO_ORDEN_COMPRA='".$_GET['nro_orden_compra']."'
         ";
