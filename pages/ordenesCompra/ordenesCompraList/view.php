@@ -171,8 +171,9 @@ class ViewOrdenCompra {
 							<td><?= $ordenCompra["ID_MERCADO_PUBLICO"];?></td>
 							<td><?= $ordenCompra["NRO_ORDEN_COMPRA"];?></td>
 							<td><?= $ordenCompra["FECHA_ENVIO"];?></td>
-							<td><?= $ordenCompra["TOTAL"];?></td>
-							<td><?= $ordenCompra["ESTADO"];?></td> 
+                            <td>$<?= number_format($ordenCompra["TOTAL"], 2, ',', '.') ?></td>
+
+                            <td><?= $ordenCompra["ESTADO"];?></td>
 							<td>
 								<a href="<?= base()."/archivo/download?id=".$ordenCompra['NRO_DOCUMENTO'] ?>" target="_blank">
 									<?= $ordenCompra["NOMBRE_DOCUMENTO"] ?>
