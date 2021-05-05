@@ -55,7 +55,7 @@ class ModelContratos {
 	public function get(){
 
         
-        if($this->authUser['ID_PERMISO'] == 1 )
+        if($this->authUser['ID_PERMISO'] == 1 || $this->authUser['ID_PERMISO'] == 3 )
         {
             $where = 'where 1=1';
         } elseif($this->authUser['ID_PERMISO'] == 4 ) {
