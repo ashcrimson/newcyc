@@ -573,7 +573,17 @@ class ViewContratos {
 
 
             var $selectLiscitacion = $('#licitacion_id').selectize(options);
-		
+
+
+            <?php
+                if ($registroEdit && $registroEdit['TIPO'] == 'td'){
+                    ?>
+                        $('#licitacion_id').removeAttr('required');
+                        $selectLiscitacion[0].selectize.disable();
+                    <?php
+                }
+            ?>
+
 			$('#selectContrato').selectize({
 
 				create: false,
