@@ -84,9 +84,9 @@ class ViewProveedores {
 		
 		<ol class="breadcrumb">
 			<li class="breadcrumb-item">
-                <a href="<?=base("/proveedores/");?>">Proveedores</a>
+                <a href="<?=base("/proveedores/");?>" class="encabezado">Proveedores</a>
 			</li>
-            <li class="breadcrumb-item active">Mantenedor</li>
+           
 		</ol>
 
 		<div class="card mb-3">

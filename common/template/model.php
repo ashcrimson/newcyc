@@ -14,7 +14,7 @@ class ModelTemplateCYC {
 	 *
 	 */
 	//Obj de conexion de db
-	private $pdo;
+	public $pdo;
 	//mail usuario
 	private $mail;
 	//permisos

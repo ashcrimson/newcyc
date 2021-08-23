@@ -15,19 +15,8 @@ class ModelLicitaciones {
 	 */
 	//Obj de conexion de db
 	private $pdo;
-	private $error = false;
 	private $errores = [];
-	private $params = "";
 
-
-	private $nro_licitacion;
-	private $presupuesto;
-	private $descripcion_licitacion;
-	private $archivo_licitacion;
-	private $nro_documento;
-	private $archivo_nombre;
-	private $fecha_creacion;
-	private $pdf;
 
 	//Constructor
 	function __construct($pdo){
@@ -37,45 +26,27 @@ class ModelLicitaciones {
 	//retorna el/los datos seleccionados
 	public function new(){
 		error_reporting(0);
-		$result = [];
-		$assoc = [];
-		$listado = [];
 
-
-		//validacion de datos recividos
-		$params = "";
 		if(isset($_POST["submit"])){
-			if(isset($_POST["nro_licitacion"]) && $_POST["nro_licitacion"] != ""){
-				$this->params .= "nro_licitacion=" . $_POST["nro_licitacion"] . "&";
-				$this->nro_licitacion = $_POST["nro_licitacion"];
-			}else{
-				$this->errores["nro_licitacion"] = true;
-				$this->error = true;
+
+			if($_POST["nro_licitacion"]=='' ?? false){
+				$this->errores[] = "llene el campo ID Licitación";
 			}
 
-			if(isset($_POST["presupuesto"]) && $_POST["presupuesto"] != ""){
-				$this->params .= "presupuesto=" . $_POST["presupuesto"] . "&";
-				$this->presupuesto = $_POST["presupuesto"];
-			}else{
-				$this->errores["presupuesto"] = true;
-				$this->error = true;
-			}
+            if($_POST["presupuesto"]=='' ?? false){
+                $this->errores[] = "llene el campo presupuesto";
+            }
 
 
-			if(isset($_POST["descripcion_licitacion"]) && $_POST["descripcion_licitacion"] != ""){
-				$this->params .= "descripcion_licitacion=" . $_POST["descripcion_licitacion"] . "&";
-				$this->descripcion_licitacion = $_POST["descripcion_licitacion"];
-			}else{
-				$this->errores["descripcion_licitacion"] = true;
-				$this->error = true;
+            if($_POST["descripcion_licitacion"]=='' ?? false){
+                $this->errores[] = "llene el campo descripción ";
+            }
+
+
+			if(isset($_FILES["archivo_licitacion"]) && $_FILES['archivo_licitacion']['error']==UPLOAD_ERR_NO_FILE){
+//				$this->errores[] = "No se cargo ningun archivo";
 			}
 
-			if(isset($_FILES["archivo_licitacion"]) && $_FILES['archivo_licitacion']['error']!=UPLOAD_ERR_NO_FILE){
-				$this->params .= "archivo_licitacion=" . $_FILES["archivo_licitacion"] . "&";
-			}else{
-				// $this->errores["archivo_licitacion"] = true;
-				// $this->error = true;
-			}
 		}
 
 		return new self($this->pdo);
@@ -83,49 +54,93 @@ class ModelLicitaciones {
 	}
 
 	public function execute(){
-		
-		//validar si faltó algo
-		if(!$this->error){
 
-			$numero = 0;
-			
-			try {
-				$consulta = "INSERT into LICITACIONES values (
-				'". $this->nro_licitacion ."',
-				'". $this->descripcion_licitacion ."',
-				".  $this->presupuesto .",
-				TO_DATE('". date('yy-m-d') ."','yyyy-mm-dd'), null, null)";
+	    $user = authUser($this->pdo);
 
-				//ejecucion consulta
-				$query = $consulta;
-				$result = oci_parse($this->pdo, $query);
-				
-				oci_execute($result);
-				oci_commit($this->pdo);
+	    //validar si faltó algo
+		if(count($this->errores) > 0){
 
-			} catch (Exception $e) {
-				oci_rollback($this->pdo);
-				throw new Exception($e);
-			}
 
-			
+            unset($_POST['id']);
+            unset($_POST['submit']);
 
-			oci_error();
-			//$listado = queryResultToAssoc($result);
+            $data = http_build_query($_POST);
+
+            flash(errorsToList($this->errores))->error();
+            redirect('/licitaciones/new/?'.$data);
 			
 		}else{
-			foreach($this->errores as $campo => $valor ){
-				echo $campo. "=". $valor."<br>";
-			}
-			// header("Location: ". base() . "/ordenCompra/new?" . $params);
-			
-			
-			dump($_FILES);
-			
-			dump($_POST);
-		
-			
-			die();
+
+
+
+            if($_POST["id"] ?? false){
+
+                //consulta de inserción
+                $query = "
+                    UPDATE 
+                        LICITACIONES 
+	                SET     
+	                    NRO_LICITACION='{$_POST['nro_licitacion']}', 
+	                    DETALLE='{$_POST['descripcion_licitacion']}', 
+	                    PRESUPUESTO={$_POST['presupuesto']}, 
+	                    FECHA_ACTUALIZACION=SYSDATE, 
+	                    ACTUALIZADO_POR={$user['ID_USUARIO']}
+	                WHERE
+                        NRO_LICITACION='{$_POST['id']}'
+    
+                ";
+
+
+                $result = oci_parse($this->pdo, $query);
+
+                if (oci_execute($result)){
+                    oci_commit($this->pdo);
+                    flash('Licitación ingresada correctamente')->success();
+                }else{
+                    oci_rollback($this->pdo);
+                    $error = oci_error($result);
+                    flash($error['message'])->error();
+                    redirect('/licitaciones/new');
+                }
+
+            }else{
+
+                //consulta de inserción
+                $query = "
+        
+                    INSERT INTO LICITACIONES(
+                        NRO_LICITACION, 
+                        DETALLE, 
+                        PRESUPUESTO, 
+                        FECHA_CREACION, 
+                        CREADO_POR 
+                    ) 
+                    VALUES(
+                        '{$_POST['nro_licitacion']}', 
+                        '{$_POST['descripcion_licitacion']}', 
+                        {$_POST['presupuesto']}, 
+                        SYSDATE, 
+                        {$user['ID_USUARIO']}
+                    )
+    
+                ";
+
+
+
+                $result = oci_parse($this->pdo, $query);
+
+                if (oci_execute($result)){
+                    oci_commit($this->pdo);
+                    flash('Licitación actualizada correctamente')->success();
+                }else{
+                    oci_rollback($this->pdo);
+                    $error = oci_error($result);
+                    flash($error['message'])->error();
+                    redirect('/licitaciones/new');
+                }
+
+            }
+
 		}
 
 		if(isset($_FILES["archivo_licitacion"]) && $_FILES["archivo_licitacion"] != ""){
@@ -193,11 +208,19 @@ class ModelLicitaciones {
 			oci_execute($result2, OCI_DEFAULT);
 		}
 
-		
-
-		//$results["result"] = $result;
 
 		oci_close($this->pdo);
-		//return $assoc;
+
+        redirect('/licitaciones');
+
 	}
+
+    public function get(){
+
+        $query = "SELECT * FROM LICITACIONES WHERE NRO_LICITACION='{$_GET['id']}'";
+
+        $licitacion = queryToArray($query,$this->pdo)[0];
+
+        return $licitacion;
+    }
 }

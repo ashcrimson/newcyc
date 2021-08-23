@@ -24,13 +24,14 @@ class viewUsuarios {
 
 
 
-
     <ol class="breadcrumb">
         <li class="breadcrumb-item">
-            <a href="<?=base("/usuarios");?>">Usuarios</a>
+            <a href="<?=base("/usuarios");?>" class="encabezado">Usuarios</a>
         </li>
-        <li class="breadcrumb-item active">Mantenedor</li>
+        
     </ol>
+
+        <?php feedback2();?>
 
     <!-- DataTables -->
     <div class="card mb-3">
@@ -53,11 +54,16 @@ class viewUsuarios {
            
             <div class="table-responsive">
 
-                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                <table class="table table-sm table-bordered table-hover nowrap" id="dataTable" width="100%" cellspacing="0">
                     <thead>
                         <tr>
+                            <th>ID</th>
                             <th>Nombre</th>
                             <th>E-mail</th>
+                            <th>ROL</th>
+                            <th>CARGO</th>
+                            <th>Anexo</th>
+                            <th>Area</th>
                             <th>Acción</th>
                         </tr>
                     </thead>
@@ -68,29 +74,50 @@ class viewUsuarios {
                 			?>
                         
                             <tr>
+                                <td> <?=$users["ID_USUARIO"];?></td>
                                 <td> <?=$users["NOMBRE"];?></td>
                                 <td> <?=$users["MAIL"];?></td>
+                                <td> <?=$users["NOMBRE_PERMISO"];?></td>
+                                <td> <?=$users["NOMBRE_CARGO"];?></td>
+                                <td> <?=$users["ANEXO"];?></td>
+                                <td> <?=$users["NOMBRE_AREA"];?></td>
                                 <td>
                                 <?php
 
-                                if(!$users["FECHA_ELIMINACION"]) { ?>
+                                if($users["ESTADO"] != 'INACTIVO') { ?>
                                 
-                                        <a href="<?=base('/usuarios/new?id=').$users['ID'];?>" class="btn btn-primary btn-xs"><i class="fa fa-pencil-alt"></i> Editar</a>
-                                        <a href="#" class="btn btn-danger btn-xs" data-target="#deleteModal<?= $users["ID"]; ?>" data-toggle="modal"><i class="far fa-trash-alt"></i> Eliminar</a>
+                                        <a href="<?=base('/usuarios/new?id=').$users['ID_USUARIO'];?>"
+                                           class="btn btn-primary btn-sm">
+                                            <i class="fa fa-pencil-alt"></i> Editar
+                                        </a>
+                                        <a href="#" class="btn btn-danger btn-sm"
+                                           data-target="#deleteModal<?= $users["ID_USUARIO"]; ?>"
+                                           data-toggle="modal">
+                                            <i class="fa fa-ban"></i> Desactivar
+                                        </a>
 
                                         <!-- modal starts -->
-                                        <div class="modal fade" id="deleteModal<?= $users["ID"]; ?>">
+                                        <div class="modal fade" id="deleteModal<?= $users["ID_USUARIO"]; ?>">
                                             <div class="modal-dialog">
                                                 <div class="modal-content">
-                                                    <form class="form-horizontal" method="post" action="<?=base('/usuarios/delete?id=').$users['ID'];?>" >
+                                                    <form class="form-horizontal" method="post" action="<?=base('/usuarios/delete?id=').$users['ID_USUARIO'];?>" >
                                                     <div class="modal-header">
-                                                        <h4 class="modal-title"> Borrar <?=$users["NOMBRE"];?> </h4>
+                                                        <h4 class="modal-title"> Desactivar  <?=$users["NOMBRE"];?></h4>
                                                         <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <div class="row">
+                                                            <div class="col-sm-12">
+                                                                <p>
+                                                                    Presione continuar para confirmar la acción.
+                                                                </p>
+                                                            </div>
+                                                        </div>
                                                     </div>
 
                                                     <div class="modal-footer">
-                                                        <button type="submit" class="btn btn-default">Continuar</button>
-                                                        <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
+                                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                                                        <button type="submit" class="btn btn-danger">Continuar</button>
                                                     </div>
                                                     </form>
                                                 </div>
@@ -100,14 +127,16 @@ class viewUsuarios {
                                         <?php
                                     }else{
                                     	?>
-                                        <a href="#" class="btn btn-xs btn-success" data-target="#restoreModal<?=$users['ID'];?>" data-toggle="modal"><i class="fas fa-arrow-circle-up"></i> Restaurar</a>
+                                        <a href="#" class="btn btn-sm btn-success" data-target="#restoreModal<?=$users['ID_USUARIO'];?>" data-toggle="modal">
+                                            <i class="fas fa-arrow-circle-up"></i> Re-Activar
+                                        </a>
         
 
                                         <!-- modal starts -->
-                                        <div class="modal fade" id="restoreModal<?=$users["ID"];?>">
+                                        <div class="modal fade" id="restoreModal<?=$users["ID_USUARIO"];?>">
                                             <div class="modal-dialog">
                                                 <div class="modal-content">
-                                                    <form class="form-horizontal" method="post" action="<?=base("/usuarios/new?restore=true&id=").$users["ID"];?>" >
+                                                    <form class="form-horizontal" method="post" action="<?=base("/usuarios?restore=1&id=").$users["ID_USUARIO"];?>" >
 
                                                     <div class="modal-header">
                                                         <h4 class="modal-title"> Restaurar  <?=$users["NOMBRE"];?> </h4>
@@ -125,10 +154,10 @@ class viewUsuarios {
                                         <!-- modal ends -->
 
                                         <!-- modal starts -->
-                                        <div class="modal fade" id="forceDeleteModal<?=$users["ID"];?>">
+                                        <div class="modal fade" id="forceDeleteModal<?=$users["ID_USUARIO"];?>">
                                             <div class="modal-dialog">
                                                 <div class="modal-content">
-                                                <form class="form-horizontal" method="post" action="<?=base("/usuarios/delete?force=true&id=").$users["ID"];?>" >
+                                                <form class="form-horizontal" method="post" action="<?=base("/usuarios/delete?force=true&id=").$users["ID_USUARIO"];?>" >
                                                     <div class="modal-header">
                                                         <h4 class="modal-title"> Borrar permanentemente <?=$users["NOMBRE"];?> </h4>
                                                         <button type="button" class="close" data-dismiss="modal">&times;</button>
@@ -159,7 +188,7 @@ class viewUsuarios {
 
         <div class="card-footer">
 	    	<?php
-	    	paginador($totales, "/usuarios");
+	    	paginador($totales, "/newcyc/usuarios");
 	    	?>
         </div>
     </div>

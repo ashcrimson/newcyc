@@ -102,6 +102,18 @@ function base(string $ruta = ""){
 	return substr($_SERVER["SCRIPT_NAME"], 0, -10) . $ruta;
 }
 
+
+function flash($message = null, $level = 'info')
+{
+    $notifier = new \Laracasts\Flash\FlashNotifier();
+
+    if (! is_null($message)) {
+        return $notifier->message($message, $level);
+    }
+
+    return $notifier;
+}
+
 function feedback(){
     if(isset($_SESSION["feedback"])){
         echo "
@@ -111,6 +123,43 @@ function feedback(){
 		";
 		unset($_SESSION["feedback"]);
 	}
+}
+
+function feedback2(){
+
+    session_start();
+
+
+
+    if (is_array($_SESSION['flash_notification'])){
+
+
+        foreach ($_SESSION['flash_notification'] as $message){
+            ?>
+            <div class="alert
+                    alert-<?=$message['level']?>
+                    <?=$message['important'] ? 'alert-important' : '' ?>"
+                 role="alert"
+            >
+                <?php
+                if ($message['important']){
+                    ?>
+                    <button type="button"
+                            class="close"
+                            data-dismiss="alert"
+                            aria-hidden="true"
+                    >&times;</button>
+                    <?php
+                }
+
+                echo  $message['message'];
+                ?>
+            </div>
+            <?php
+        }
+        unset($_SESSION["flash_notification"]);
+    }
+
 }
 
 function fechaEn($fecha=null){
@@ -151,4 +200,56 @@ function dump($variable){
 	print_r($variable);
 	echo "</pre>";
 	echo "<br>";
+}
+
+function authUser($pdo){
+
+    session_start();
+	if(!isset($_SESSION['mail'])){
+		return false;
+	}
+
+	$query = "SELECT * FROM USUARIOS WHERE mail='".$_SESSION['mail']."'";
+
+	$user = queryToArray($query,$pdo)[0];
+
+    return $user;
+}
+
+function acentos($string){
+
+	$string = str_replace(array("á", "é", "í", "ó", "ú","ñ"), array("a", "e", "i", "o", "u","n"), $string);
+	return $string;
+}
+
+function redirect($ruta){
+    header("Location: ". base() . $ruta);
+    exit();
+}
+
+function toFloat($val){
+    $val = str_replace(",",".",$val);
+    $val = preg_replace('/\.(?=.*\.)/', '', $val);
+    return floatval($val);
+}
+
+function dvs(){
+    return "$";
+}
+
+function nfp($numero){
+    $numero = toFloat($numero);
+    return dvs().number_format($numero,2,',','.');
+}
+
+function errorsToList($errores){
+    $res = "<ul>";
+
+        foreach ($errores as $index => $error) {
+            $res .= "<li>{$error}</li>";
+        }
+
+    $res .=  "</ul>";
+
+    return $res;
 }

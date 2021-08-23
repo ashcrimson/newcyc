@@ -58,7 +58,11 @@ class ViewLoginCYC {
 
 
     <div class="container">
+
         <div class="card card-login mx-auto mt-5">
+
+            <?=feedback2()?>
+
             <div class="card-header">Acceder</div>
             
             <div class="card-body">

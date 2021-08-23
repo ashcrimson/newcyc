@@ -5,6 +5,10 @@
 namespace ContratosNew;
 
 
+
+function html($string) {
+    return htmlspecialchars($string, REPLACE_FLAGS, CHARSET);
+}
 /**
  * modelo de lista de  licitaciones
  */
@@ -39,8 +43,9 @@ class ModelContratos {
 	private $numero;
 	private $monto;
 	private $fecha_vencimiento;
+	private $fecha_vencimiento_boleta;
 	private $alerta_boleta;
-
+	private $mpublico;
 
 
 
@@ -62,6 +67,14 @@ class ModelContratos {
 		//validacion de datos recividos
 		$params = "";
 		if(isset($_POST["submit"])){
+
+			if(isset($_POST["mpublico"]) && $_POST["mpublico"] != ""){
+				$this->params .= "mpublico" . $_POST["mpublico"] . "&";
+				$this->mpublico = $_POST["mpublico"];
+			}else{
+				// $this->errores["mpublico"] = true;
+				// $this->error = true;
+			}
 
 			if(isset($_POST["id_contrato"]) && $_POST["id_contrato"] != ""){
 				$this->params .= "id_contrato" . $_POST["id_contrato"] . "&";
@@ -110,7 +123,7 @@ class ModelContratos {
 				} else {
 					$this->params .= "licitacion" . "td". "&";
 					$this->licitacion = "td";
-				}
+				} 
 			}else{
 				$this->errores["selectContrato"] = true;
 				$this->error = true;
@@ -167,7 +180,10 @@ class ModelContratos {
 			}
 			if(isset($_POST["objeto_contrato"]) && $_POST["objeto_contrato"] != ""){
 				$this->params .= "objeto_contrato" . $_POST["objeto_contrato"] . "&";
-				$this->objeto_contrato = $_POST["objeto_contrato"];
+				$this->objeto_contrato = acentos($_POST["objeto_contrato"]);
+
+				// $this->objeto_contrato = str_replace(array("á", "é", "í", "ó", "ú"), array("a", "e", "i", "o", "u"), $this->objeto_contrato);
+				
 			}else{
 				$this->errores["objeto_contrato"] = true;
 				$this->error = true;
@@ -175,6 +191,13 @@ class ModelContratos {
 			if(isset($_POST["numero"]) && $_POST["numero"] != ""){
 				$this->params .= "numero" . $_POST["numero"] . "&";
 				$this->numero = $_POST["numero"];
+			}else{
+				$this->errores["numero"] = true;
+				// $this->error = true;
+			}
+			if(isset($_POST["mboleta"]) && $_POST["mboleta"] != ""){
+				$this->params .= "mboleta" . $_POST["mboleta"] . "&";
+				$this->mboleta = $_POST["mboleta"];
 			}else{
 				$this->errores["numero"] = true;
 				// $this->error = true;
@@ -202,6 +225,22 @@ class ModelContratos {
 				$error = true;
 			}
 
+			if(isset($_POST["fecha_vencimiento_boleta"]) && $_POST["fecha_vencimiento_boleta"] != ""){
+				$this->params .= "fecha_vencimiento_boleta" . $_POST["fecha_vencimiento_boleta"] . "&";
+				$this->fecha_vencimiento_boleta = $_POST["fecha_vencimiento_boleta"];
+			}else{
+				$this->errores["fecha_vencimiento_boleta"] = true;
+				$this->error = true;
+			}
+
+			if(isset($_POST["alerta_vencimiento_boleta"]) && $_POST["alerta_vencimiento_boleta"] != ""){
+				$this->params .= "alerta_vencimiento_boleta" . $_POST["alerta_vencimiento_boleta"] . "&";
+				$this->alerta_vencimiento_boleta = $_POST["alerta_vencimiento_boleta"];
+			}else{
+				$this->errores["alerta_vencimiento_boleta"] = true;
+				$this->error = true;
+			}
+
 			$feedback = "Contrato subido correctamente";
 
 		}
@@ -217,7 +256,15 @@ class ModelContratos {
 
     public function get(){
 
-        $query = "SELECT * FROM CONTRATOS WHERE ID_CONTRATO='" . $this->id . "'";
+        $query = "SELECT 
+                    c.*,
+                    d.nombre as nombre_documento,
+                    d.NRO_DOCUMENTO
+                FROM 
+                    CONTRATOS c LEFT JOIN documento_contratos dc on dc.nro_contrato = c.id_contrato
+                    LEFT JOIN documento d on d.nro_documento = dc.nro_documento 
+                WHERE 
+                    ID_CONTRATO='" . $this->id . "'";
 
         //consulta paginada
         $result = oci_parse($this->pdo, $query);
@@ -272,7 +319,9 @@ class ModelContratos {
 
 	public function execute(){
 
-		
+        $user = authUser($this->pdo);
+
+
 		//validar si faltó algo
 		if(!$this->error){
 			
@@ -281,6 +330,7 @@ class ModelContratos {
             if(isset($_POST["id"]) && $_POST["id"] != "") {
                 $query = "
                     UPDATE CONTRATOS SET 
+						 ID_MERCADO_PUBLICO='" . $_POST['mpublico'] . "', 
                          NRO_LICITACION='" . $_POST['licitacion'] . "', 
                          RUT_PROVEEDOR='" . $_POST['proveedor_id'] . "', 
                          ID_CARGO='" . $_POST['id_admin'] . "', 
@@ -291,7 +341,13 @@ class ModelContratos {
                          FECHA_TERMINO=TO_DATE('" . $_POST['fecha_termino'] . "','yyyy-mm-dd'), 
                          FECHA_APROBACION=TO_DATE('" . $_POST['fecha_aprobacion'] . "','yyyy-mm-dd'), 
                          FECHA_ALERTA_VENCIMIENTO=TO_DATE('" . $_POST['fecha_alert'] . "','yyyy-mm-dd'),                      
-                         OBJETO_CONTRATO='" . $_POST['objeto_contrato'] . "'
+						 OBJETO_CONTRATO='" . $_POST['objeto_contrato'] . "',
+						 NRO_BOLETA_GARANTIA='" . $_POST['numero'] . "',
+						 MONTO_BOLETA_GARANTIA='" . $_POST['mboleta'] . "',
+						 FECHA_VENCIMIENTO_BOLETA=TO_DATE('" . $_POST['fecha_vencimiento_boleta'] . "','yyyy-mm-dd'),
+						 ALERTA_VENCIMIENTO_BOLETA=TO_DATE('" . $_POST['alerta_vencimiento_boleta'] . "','yyyy-mm-dd'),
+						 FECHA_ACTUALIZACION=SYSDATE,
+						 ACTUALIZADO_POR={$user['ID_USUARIO']}
 					WHERE 
 					    ID_CONTRATO='" . $_POST['id'] . "'
                 ";
@@ -303,76 +359,94 @@ class ModelContratos {
 //                echo "</pre>";
 
 
+				
                 $result = oci_parse($this->pdo, $query);
 
-                if($result){
-                    $_SESSION["feedback"] = "Contrato actualizado correctamente";
+                if (oci_execute($result)){
+                    oci_commit($this->pdo);
+                    flash("Contrato actualizado correctamente")->success() ;
+                }else{
+                    oci_rollback($this->pdo);
+                    $error = oci_error($result);
+                    flash($error['message'])->error();
                 }
 
-                oci_execute($result);
-
-                oci_commit($this->pdo);
 
                 $last_id = $_POST['id'];
+				
 
             }
 	        //inserta
 	        else{
 
-                $consulta = "INSERT INTO CONTRATOS (
-				NRO_LICITACION, 
-				RUT_PROVEEDOR, 
-				ID_CARGO, 
-				ID_MONEDA, 
-				TIPO, 
-				MONTO, 
-				ESTADO_ALERTA, 
-				FECHA_INICIO, 
-				FECHA_TERMINO, 
-				FECHA_APROBACION, 
-				FECHA_ALERTA_VENCIMIENTO, 
-				FECHA_CREACION, 
-				FECHA_ACTUALIZACION, 
-				FECHA_ELIMINACION, 
-				OBJETO_CONTRATO
-				) 
-			VALUES (
-				'". $this->licitacion ."',  
-				'". $this->proveedor_id ."',
-				'". $this->id_admin ."', 
-				'". $this->moneda_id ."',  
-				'". $this->selectContrato ."',  
-				". $this->monto .", 
-				null, 
-				TO_DATE('". $this->fecha_inicio ."','yyyy-mm-dd'),  
-				TO_DATE('". $this->fecha_termino ."','yyyy-mm-dd'), 
-				TO_DATE('". $this->fecha_aprobacion ."','yyyy-mm-dd'), 
-				TO_DATE('". $this->fecha_alert ."','yyyy-mm-dd'), 
-				TO_DATE('2020-10-19 00:00:00', 'YYYY-MM-DD HH24:MI:SS'), 
-				TO_DATE('2020-10-19 00:00:00', 'YYYY-MM-DD HH24:MI:SS'), 
-				TO_DATE('2020-10-19 00:00:00', 'YYYY-MM-DD HH24:MI:SS'), 
-				'". $this->objeto_contrato ."')
-				RETURNING ID_CONTRATO INTO :mylastid";
+                $consulta = "
+                    INSERT INTO CONTRATOS (
+						ID_MERCADO_PUBLICO, 
+                        NRO_LICITACION, 
+                        RUT_PROVEEDOR, 
+                        ID_CARGO, 
+                        ID_MONEDA, 
+                        TIPO, 
+                        MONTO, 
+                        ESTADO_ALERTA, 
+                        FECHA_INICIO, 
+                        FECHA_TERMINO, 
+                        FECHA_APROBACION, 
+                        FECHA_ALERTA_VENCIMIENTO, 
+                        FECHA_CREACION, 
+                        OBJETO_CONTRATO,
+                        NRO_BOLETA_GARANTIA,
+                        MONTO_BOLETA_GARANTIA,
+                        FECHA_VENCIMIENTO_BOLETA,
+                        ALERTA_VENCIMIENTO_BOLETA,
+                        CREADO_POR
+                    ) 
+                    VALUES (
+						'{$this->mpublico}',
+                        '{$this->licitacion}',  
+                        '{$this->proveedor_id}',
+                        '{$this->id_admin}', 
+                        '{$this->moneda_id}',  
+                        '{$this->selectContrato}',  
+                        {$this->monto}, 
+                        null, 
+                        TO_DATE('". $this->fecha_inicio ."','yyyy-mm-dd'),  
+                        TO_DATE('". $this->fecha_termino ."','yyyy-mm-dd'), 
+                        TO_DATE('". $this->fecha_aprobacion ."','yyyy-mm-dd'), 
+                        TO_DATE('". $this->fecha_alert ."','yyyy-mm-dd'), 
+                        SYSDATE, 
+                        '{$this->objeto_contrato}',
+                        '{$this->numero}',
+                        '{$this->mboleta}',
+                        TO_DATE('". $this->fecha_vencimiento_boleta ."','yyyy-mm-dd'),
+                        TO_DATE('". $this->alerta_vencimiento_boleta ."','yyyy-mm-dd'),
+                        {$user['ID_USUARIO']}
+                    )
+                    RETURNING ID_CONTRATO INTO :mylastid
+                ";
+
 
                 //ejecucion consulta
                 $query = $consulta;
                 $result = oci_parse($this->pdo, $query);
 
-                if($result){
-                    $_SESSION["feedback"] = "Contrato ingresado correctamente";
+                oci_bind_by_name($result, "mylastid", $last_id, 8, SQLT_INT);
+
+                if (oci_execute($result)){
+                    oci_commit($this->pdo);
+                    flash("Contrato ingresado correctamente")->success();
+                }else{
+                    oci_rollback($this->pdo);
+                    $error = oci_error($result);
+                    flash($error['message'])->error();
                 }
 
-				oci_bind_by_name($result, "mylastid", $last_id, 8, SQLT_INT);
 				
 				
-
-                oci_execute($result);
-
-
-                oci_commit($this->pdo);
             }
 			
 		}else{
+			
 			
 			print_r($this->errores);
 			
@@ -424,20 +498,22 @@ class ModelContratos {
 
 			oci_free_statement($result);
 			$blob->free();
-			//OJOOOOOOOOOOOOOO
-			//DESPUES DE INSERTAR EL BLOB
-			////Guardar en lka tbla documento_lictacion
-			///LA RELACION DE ESTE DOCUMENTO $nro_documento ----> id y  $this->nro_licitacion ---> nro_lictacion
+			
 
-
-			$consulta2 = "INSERT into DOCUMENTO_CONTRATOS (NRO_DOCUMENTO, NRO_CONTRATO) values (
-				'". $nro_documento ."',
-				'". $last_id ."'
-			)";
+			$consulta2= "DELETE FROM DOCUMENTO_CONTRATOS WHERE NRO_CONTRATO ='{$last_id}'";
 
 			$query2 = $consulta2;
 			$result2 = oci_parse($this->pdo, $query2);
 			oci_execute($result2, OCI_DEFAULT) or die ("No se pudo");
+
+			$consulta3 = "INSERT into DOCUMENTO_CONTRATOS (NRO_DOCUMENTO, NRO_CONTRATO) values (
+				'". $nro_documento ."',
+				'". $last_id ."'
+			)";
+
+			$query3 = $consulta3;
+			$result3 = oci_parse($this->pdo, $query3);
+			oci_execute($result3, OCI_DEFAULT) or die ("No se pudo");
 		}
  
  
@@ -447,6 +523,8 @@ class ModelContratos {
 		oci_close($this->pdo);
 		
 		//return $assoc;
+
+		header("Location:". base() ."/contratos");
 	}
 
 

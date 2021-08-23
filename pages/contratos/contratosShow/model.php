@@ -1,5 +1,5 @@
 <?php
-
+ 
 
 
 namespace ContratosShow;
@@ -37,6 +37,11 @@ class ModelContratos {
         return new self($this->pdo, $id);
     }
 
+    //filtra consulta por nro de contrato (id, llave primaria)
+	public function getId($id): self{
+        return new self($this->pdo, $id, $this->page);
+	}
+
     //filtra consulta por nro de página
 	public function getPage(int $page): self{
 		return new self($this->pdo, $this->id, $page);
@@ -53,7 +58,17 @@ class ModelContratos {
         oci_execute($result);
         $contrato = queryResultToAssoc($result)[0];
 
-        $consulta = "SELECT * FROM DETALLE_CONTRATO WHERE ID_CONTRATO='" . $this->id . "'";
+
+        $where = '';
+ 
+ 
+        if ($_GET['codigo']){
+            $where .= " and CODIGO = '" . $_GET['codigo'] . "'";
+        }
+
+
+        $consulta = "SELECT * FROM DETALLE_CONTRATO WHERE ID_CONTRATO='" . $this->id . "' ".$where;
+
 
         //consulta paginada
         $query = queryPagination($consulta, $this->page);
@@ -74,6 +89,28 @@ class ModelContratos {
         // exit();
         return $contrato;
     }
+
+    // public function suma(){
+    //     $where = '';
+
+ 
+    //     if ($_GET['codigo']){
+    //         $where .= " and CODIGO = '" . $_GET['codigo'] . "'";
+    //     }
+    //     $consulta="SELECT
+    //         SUM( PRECIO_U_BRUTO )AS SUMA
+    //         FROM
+    //             DETALLE_CONTRATO
+    //         WHERE
+    //             ID_CONTRATO='" . $this->id . "' ".$where;
+    //         $result = oci_parse($this->pdo, $query);
+    //         oci_execute($result);
+    //         $suma = queryResultToAssoc($result);
+
+    //         dd($consulta);
+
+    //         return $suma;
+    // }
 
 
 

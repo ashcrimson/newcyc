@@ -15,34 +15,12 @@ class ViewLicitaciones {
 			$model->execute();
 		}
 
-		$nro_licitacion = false;
-		$presupuesto = false;
-		$archivo_licitacion = false;
-		$descripcion_licitacion = false;
+		if(isset($_GET["id"])){
+            $registroEdit = $model->get();
+        }
 
-
-		if(sizeof($_GET)){
-			if(!isset($_GET["nro_licitacion"])){
-				$nro_licitacion = !$nro_licitacion;
-			}
-			if(!isset($_GET["presupuesto"])){
-				$presupuesto = !$presupuesto;
-			}
-			if(!isset($_GET["archivo_licitacion"])){
-				$archivo_licitacion = !$archivo_licitacion;
-			}
-			if(!isset($_GET["descripcion_licitacion"])){
-				$descripcion_licitacion = !$descripcion_licitacion;
-			}
-		}
-
-//print_r(sizeof($_GET));
 		ob_start();
-
 		?>
-
-
-
 
 		<!-- Habilitar nombre de archivo adjunto-->
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
@@ -55,74 +33,57 @@ class ViewLicitaciones {
 		<!-- Breadcrumbs-->
 		<ol class="breadcrumb">
 			<li class="breadcrumb-item">
-				<a href="<?=base();?>/licitaciones">Licitaciones</a>
+				<a href="<?=base();?>/licitaciones" class="encabezado">Licitaciones</a>
 			</li>
 			<!-- <li class="breadcrumb-item active">Mantenedor</li> -->
 		</ol>
 
+        <?=feedback2(); ?>
+
 		<div class="card mb-3">
 			<div class="card-header">
 				<form method="post" class="form-horizontal" action="<?=base();?>/licitaciones/new" enctype="multipart/form-data">
-					<!-- {!! csrf_field() !!} -->
-					<div class="container">
-					<?php feedback();?>
-						<div class="row col-12">
-							<div class="form-group has-feedback col-xs-4 col-md-4 col-lg-4 {{ $errors->has('nro_licitacion') ? 'has-error' : '' }}">
-								<label>ID Licitación</label>
-								<input type="hidden" name="submit" value="true">
-								<input type="text" name="nro_licitacion" class="form-control" value="<?=isset($_GET["nro_licitacion"]) ? $_GET["nro_licitacion"]: '' ?>" required>
-
-								<?php if ($nro_licitacion){ ?>
-								<span class="help-block text-danger"> 
-									<strong>Error: Numero de licitacion vacio</strong>
-								</span>
-								<?php } ?>
-							</div>
-						</div>
-					</div>
 
 
-					<div class="container">
-						<div class="row col-12">
-							<div class="form-group has-feedback col-xsñ-4 col-md-4 col-lg-4">
-								<label for="">Adjuntar licitación.</label>
-								<div class="custom-file">
-									<input type="file" name="archivo_licitacion" class="custom-file-input" id="customFileLangHTML" lang="es" >
-									<label class="custom-file-label" for="customFileLangHTML" data-browse="Buscar">Seleccionar Archivo</label>
-								</div>
-							</div>
-						</div>
-					</div>
+                    <div class="form-group has-feedback col-xs-4 col-md-4 col-lg-4 ">
+                        <label>ID Licitación</label>
+                        <input type="text" name="nro_licitacion" class="form-control"
+                               value="<?=$registroEdit['NRO_LICITACION'] ?? $_GET['nro_licitacion'] ?? ''?>" >
 
-					<div class="container">
-						<div class="row col-12">
-							<div class="form-group has-feedback col-xs-4 col-md-4 col-lg-4">
-								<label>Presupuesto</label>
-								<input type="number" name="presupuesto" class="form-control" value="<?=$_GET["presupuesto"] ?: '' ?>">
+                    </div>
 
-								<?php if ($presupuesto){ ?>
-								<span class="help-block text-danger"> 
-									<strong>Error: Presupuesto invalido.</strong>
-								</span>
-								<?php } ?>
-							</div>
-						</div>
-					</div>
-					<div class="container">
-						<div class="row col-12">
-							<div class="form-group has-feedback col-xsñ-6 col-md-6 col-lg-6">
-								<div class="form-group">
-									<label for="exampleFormControlTextarea3">Descripción</label>
-									<textarea class="form-control" name="descripcion_licitacion" rows="7"></textarea>
-								</div>
-							</div>
-						</div>
-					</div>
-					<br>    
+
+
+                    <div class="form-group has-feedback col-xsñ-4 col-md-4 col-lg-4">
+                        <label for="">Adjuntar licitación.</label>
+                        <div class="custom-file">
+                            <input type="file" name="archivo_licitacion" class="custom-file-input" id="customFileLangHTML" lang="es" >
+                            <label class="custom-file-label" for="customFileLangHTML" data-browse="Buscar">Seleccionar Archivo</label>
+                        </div>
+                    </div>
+
+
+                    <div class="form-group has-feedback col-xs-4 col-md-4 col-lg-4">
+                        <label>Presupuesto</label>
+                        <input type="number" name="presupuesto" class="form-control"
+                               value="<?=$registroEdit['PRESUPUESTO'] ?? $_GET['presupuesto']  ?? '' ?>">
+
+                    </div>
+
+
+                    <div class="form-group has-feedback col-xs-6 col-md-6 col-lg-6">
+                        <div class="form-group">
+                            <label for="exampleFormControlTextarea3">Descripción</label>
+                            <textarea class="form-control" name="descripcion_licitacion" rows="7"><?=$registroEdit['DETALLE']  ?? $_GET['descripcion_licitacion'] ?? '' ?></textarea>
+                        </div>
+                    </div>
+					<br>
 
 					<div class="card-footer">
 						<div class="row">
 							<div class="col-sm-8">
+                                <input type="hidden" name="submit" value="true">
+                                <input type="hidden" name="id" value="<?=$registroEdit['NRO_LICITACION']?>">
 								<button type="submit" class="btn-primary btn rounded" ><i class="icon-floppy-disk"></i> Guardar</button>
 							</div>
 						</div>

@@ -14,7 +14,7 @@ class ModelUsuarios {
 	 * varaibles globales
 	 */
 	//Obj de conexion de db
-	private $pdo;
+	public $pdo;
 	private $error = false;
 	private $errores = [];
 	private $params = "";
@@ -22,13 +22,16 @@ class ModelUsuarios {
 
 	private $nombre;
 	private $mail;
+	private $anexo;
+	private $id;
 
 
 
 
 	//Constructor
-	function __construct($pdo){
+	function __construct($pdo,$id= null){
 		$this->pdo = $pdo;
+        $this->id = $id;
 	}
 
 	//retorna el/los datos seleccionados
@@ -75,6 +78,14 @@ class ModelUsuarios {
 				$this->errores["cargo_id"] = true;
 				$this->error = true;
 			}
+
+			if(isset($_POST["anexo"]) && $_POST["anexo"] != ""){
+				$this->params .= "anexo" . $_POST["anexo"] . "&";
+				$this->anexo = $_POST["anexo"];
+			}else{
+				$this->errores["anexo"] = true;
+				$this->error = true;
+			}
 			
 
 		}
@@ -86,58 +97,113 @@ class ModelUsuarios {
 
 
 	public function execute(){
-		
+
+	    $authUser = authUser($this->pdo);
+
+//	    if ($authUser['ID_PERMISO']==1){
+
+            $cargoId = $_POST['cargo_id'];
+//        }else{
+//            $cargoId = $authUser['ID_CARGO'];
+//        }
+
+
 		//validar si faltó algo
 		if(!$this->error){
-			
 
-			$consulta = "INSERT INTO USUARIOS (
-				MAIL, 
-				NOMBRE, 
-				PASSWORD,
-				ID_CARGO,
-				ID_PERMISO,
-				FECHA_CREACION,
-				FECHA_ACTUALIZACION
-				) 
-			VALUES (
-				'". $_POST["email"] ."',
-				'". $_POST["nombre"] ."', 
-				'12345',
-				'". $_POST["cargo_id"] ."',
-				'". $_POST["rol"] ."',
-				TO_DATE('2020-11-05 00:00:00', 'YYYY-MM-DD HH24:MI:SS'),
-				TO_DATE('2020-11-05 00:00:00', 'YYYY-MM-DD HH24:MI:SS')
+
+		    //actualiza registro
+            if(isset($_POST["id"]) && $_POST["id"] != ""){
+
+                $query = "
+                    UPDATE 
+                        USUARIOS 
+	                SET 
+                        NOMBRE='{$_POST['nombre']}',
+	                    MAIL='{$_POST['email']}',
+                        ID_CARGO='{$cargoId}',
+                        ANEXO='{$_POST['anexo']}',
+                        ID_PERMISO='{$_POST['rol']}',
+                        ID_AREA='{$_POST['id_area']}',
+                        FECHA_ACTUALIZACION=SYSDATE
+	                WHERE 
+	                    ID_USUARIO='{$_POST['id']}'
+                ";
+
+                $result = oci_parse($this->pdo, $query);
+
+
+                if (oci_execute($result)){
+                    oci_commit($this->pdo);
+                    flash("Usuario actualizado correctamente")->success() ;
+                }else{
+                    oci_rollback($this->pdo);
+                    $error = oci_error($result);
+                    flash($error['message'])->error();
+                }
+
+
+            }
+
+            //nuevo registro
+            else {
+                $query = "INSERT INTO USUARIOS (
+                    MAIL, 
+                    NOMBRE, 
+                    PASSWORD,
+                    ID_CARGO,
+                    ID_PERMISO,
+                    ANEXO,
+                    ID_AREA,
+                    ESTADO,
+                    FECHA_CREACION,
+                    FECHA_ACTUALIZACION
+                    ) 
+                VALUES (
+                    '". $_POST["email"] ."',
+                    '". $_POST["nombre"] ."', 
+                    '12345',
+                    '". $cargoId ."',
+                    '". $_POST["rol"] ."',
+                    '". $_POST["anexo"] ."',
+                    '". $_POST["id_area"] ."',
+                    'ACTIVO',
+                    SYSDATE,
+                    SYSDATE
 				)";
 
 
+                $result = oci_parse($this->pdo, $query);
 
-			//ejecucion consulta
-			$query = $consulta;
+                oci_bind_by_name($result, "mylastid", $last_id, 8, SQLT_INT);
 
-			print($consulta);
-			$result = oci_parse($this->pdo, $query);
 
-			// oci_bind_by_name($result, "mylastid", $last_id, 8, SQLT_INT);
-			
-			oci_execute($result);
+                if (oci_execute($result)){
+                    oci_commit($this->pdo);
+                    flash("Usuario creado correctamente")->success() ;
+                }else{
+                    oci_rollback($this->pdo);
+                    $error = oci_error($result);
+                    flash($error['message'])->error();
+                }
+            }
 
-			// var_dump($last_id);
-			// exit();
 
-			oci_commit($this->pdo);
 
-			$consulta2 = "INSERT INTO USUARIOS_PERMISOS (
-				MAIL_USUARIO, 
-				ID_PERMISO)
-			VALUES(
-				'". $_POST["email"] ."',
-				'". $_POST["rol"] ."'
-				)";
 
-			$query2 = $consulta2;
-			$result2 = oci_parse($this->pdo, $query2);
-			oci_execute($result2, OCI_DEFAULT) or die ("No se pudo");
+            oci_close($this->pdo);
+
+			// $consulta2 = "INSERT INTO USUARIOS_PERMISOS (
+			// 	MAIL,
+			// 	ID_PERMISO)
+			// VALUES(
+			// 	'". $_POST["email"] ."',
+			// 	'". $_POST["rol"] ."'
+			// 	)";
+
+			// $query2 = $consulta2;
+			// $result2 = oci_parse($this->pdo, $query2);
+			// oci_execute($result2, OCI_DEFAULT) or die ("No se pudo");
 			
 		}else{
 			
@@ -146,14 +212,9 @@ class ModelUsuarios {
 			die();
 		}
 
-	
-		
 
-		//agrega resultados a retorno
+		redirect("/usuarios");
 
-		oci_close($this->pdo);
-		
-		//return $assoc;
 	}
 
 	public function edit($id){
@@ -162,32 +223,37 @@ class ModelUsuarios {
 
 
 
-	public function get(){
-		
-		$assoc = [];
+    public function get(){
+
+        $query = "SELECT * FROM USUARIOS WHERE ID_USUARIO='" . $this->id . "'";
+
+        return queryToArray($query,$this->pdo)[0];
+    }
+
+    public function getDataListBox()
+    {
+        $authUser = authUser($this->pdo);
+
+        if ($authUser['ID_PERMISO']==1){
+            $queryAreas = "SELECT * FROM AREAS WHERE ID_CARGO='{$authUser['ID_CARGO']}'";
+            $queryPermisos = "select * from PERMISOS where ID_PERMISO not in (4)";
+        }
+        else if ($authUser['ID_PERMISO']==2){
+            $queryAreas = "SELECT * FROM AREAS WHERE ID_CARGO='{$authUser['ID_CARGO']}'";
+            $queryPermisos = "select * from PERMISOS where ID_PERMISO=4";
+        }else{
+            $queryAreas = "SELECT * FROM AREAS";
+            $queryPermisos = "select * from PERMISOS";
+        }
+
+        $areas = queryToArray($queryAreas,$this->pdo);
 
 
-		//consulta para recuperar cargos
-		$query = "SELECT * FROM CARGOS";
-		$result = oci_parse($this->pdo, $query);
-		oci_execute($result);
-		$cargos = queryResultToAssoc($result);
-		array_push($assoc, $cargos);
-
-
-		//consulta para recuperar permisos
-		$query = "SELECT * FROM PERMISOS";
-		$result = oci_parse($this->pdo, $query);
-		oci_execute($result);
-		$permisos = queryResultToAssoc($result);
-		array_push($assoc, $permisos);
-
-
-
-		oci_close($this->pdo);
-		return $assoc;
-
-
-	}
+        return [
+            'cargos' => queryToArray("SELECT * FROM CARGOS",$this->pdo),
+            'permisos' => queryToArray($queryPermisos,$this->pdo),
+            'areas' => $areas
+        ];
+    }
 
 }

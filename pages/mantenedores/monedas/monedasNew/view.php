@@ -46,9 +46,9 @@ class ViewMonedas {
     <!-- Breadcrumbs-->
     <ol class="breadcrumb">
         <li class="breadcrumb-item">
-            <a href="<?=base("/monedas/");?>">Monedas</a>
+            <a href="<?=base("/monedas/");?>" class="encabezado">Monedas</a>
         </li>
-        <li class="breadcrumb-item active">Mantenedor</li>
+        
     </ol>
     
     <form method="post" action="<?=base("/monedas/new");?>" enctype="multipart/form-data" >

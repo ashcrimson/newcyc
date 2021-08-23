@@ -42,7 +42,7 @@ class Modelcargos {
 		if(isset($_POST["submit"])){
 			if(isset($_POST["nombre"]) && $_POST["nombre"] != ""){
 				$this->params .= "nombre=" . $_POST["nombre"] . "&";
-				$this->nombre = $_POST["nombre"];
+				$this->nombre = acentos($_POST["nombre"]);
 			}else{
 				$this->errores["nombre"] = true;
 				$this->error = true;
@@ -84,6 +84,11 @@ class Modelcargos {
 				$query = $consulta;
 				$result = oci_parse($this->pdo, $query);
 				//print_r($consulta);
+				if($result){
+
+                    $_SESSION["feedback"] = "Contrato actualizado correctamente";
+                    flash("Cargo actualizado correctamente")->success() ;
+                }
 				oci_execute($result);
 
 				//oci_error();
@@ -92,18 +97,28 @@ class Modelcargos {
 			}else{
 				$cons = "SELECT COUNT(*)+5 AS CTA FROM CARGOS";
 				$result = oci_parse($this->pdo, $cons);
+				if($result){
+
+                    $_SESSION["feedback"] = "Contrato actualizado correctamente";
+                    flash("Cargo ingresado correctamente")->success() ;
+                }
 				oci_execute($result);
 				$numero = queryResultToAssoc($result)[0]["CTA"];
-				print_r($numero);
+				
 
 				/*$consulta = "INSERT into cargos (ID, NOMBRE) values (
 							".$numero.",'". $this->nombre ."')";*/
 				$consulta = "INSERT into cargos (ID_CARGO, NOMBRE) values (
-							".$numero.", '". $_POST["nombre"] ."')";
+							".$numero.", '". acentos($_POST["nombre"]) ."')";
 				//ejecucion consulta
 				$query = $consulta;
 				$result = oci_parse($this->pdo, $query);
 				//print_r($consulta);
+				if($result){
+
+                    $_SESSION["feedback"] = "Contrato actualizado correctamente";
+                    flash("Cargo ingresado correctamente")->success() ;
+                }
 				oci_execute($result);
 
 				//oci_error();
@@ -111,7 +126,7 @@ class Modelcargos {
 				oci_commit($this->pdo);
 			}
 
-			print_r($consulta);
+			
 
 		}else{
 			//print_r("redirige");
@@ -128,6 +143,7 @@ class Modelcargos {
 		//$results["result"] = $result;
 
 		oci_close($this->pdo);
+		header("Location:". base() ."/cargos");
 		//return $assoc;
 	}
 }

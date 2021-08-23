@@ -11,251 +11,197 @@ class ViewUsuarios {
 	
 	public function output(\UsuariosNew\ModelUsuarios $model){
 
-        $data = $model->get();
 
-        
+        $authUser = authUser($model->pdo);
+
+        //si se envia el formulario
 		if(!empty($_POST)){
 			$model->execute();
 		}
+
+		//si se esta editando un registro
         if(isset($_GET["id"])){
-            $data = $model->get()[0];
+            $registroEdit = $model->get();
         }
         
-        
-        $cargos = $data[0];
-        $permisos = $data[1];
 
 
-		$nombre = false;
+        $dataListBox = $model->getDataListBox();
+        $cargos = $dataListBox['cargos'];
+        $permisos = $dataListBox['permisos'];
+        $areas = $dataListBox['areas'];
 
 
-
-        $nombre =false;
-        $email =false;
-        $rol =false;
-        $cargo_id =false;
-        $password =false;
-        
-
-
-		if(sizeof($_GET) && !isset($_GET["id"])){
-            if(!isset($_GET["nombre"])){
-                $nombre = !$nombre;
-            }
-            if(!isset($_GET["email"])){
-                $email = !$email;
-            }
-            if(!isset($_GET["rol"])){
-                $rol = !$rol;
-            }
-            if(!isset($_GET["cargo_id"])){
-                $cargo_id = !$cargo_id;
-            }
-            
-		}
-
-//print_r(sizeof($_GET));
 		ob_start();
 
 		?>
 
 
-    <ol class="breadcrumb">
-        <li class="breadcrumb-item">
-            <a href="<?=base("/usuarios");?>">Usuarios</a>
-        </li>
-        <li class="breadcrumb-item active">Mantenedor</li>
-    </ol>
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item">
+                <a href="<?=base("/usuarios");?>" class="encabezado">Usuarios</a>
+            </li>
 
-    <form method="post" action="<?=base("/usuarios/save");?>" enctype="multipart/form-data" >
-    <div class="card">
-        <div class="card-body row">
-            <input type="hidden" name="id" value="{{ $users->id }}" >
-            <div class="form-group has-feedback col-xs-4 col-md-4 col-lg-4 {{ $errors->has('nombre') ? 'has-error' : '' }}">
-                <label>Nombre *</label>
-                <input type="text" name="nombre" class="form-control" value="<?=isset($_GET['nombre']) ? $_GET['nombre']: (isset($data['NOMBRE']) ? $data['NOMBRE'] : '') ?>" required>
+        </ol>
 
-
-                <?php if ($nombre){ ?>
-                <span class="help-block text-danger"> 
-                    <strong>Error: Nombre vacio</strong>
-                </span>
-                <?php } ?>
-
-            </div>
+        <form method="post" action="<?=base("/usuarios/save");?>" enctype="multipart/form-data" >
+        <div class="card">
+            <div class="card-body row">
+                <input type="hidden" name="id" value="<?= $_GET["id"] ?? "" ?>" >
+                <div class="form-group has-feedback col-xs-4 col-md-4 col-lg-4">
+                    <label>Nombre *</label>
+                    <input type="text" name="nombre" class="form-control"
+                           value="<?=$_GET["nombre"] ?? $registroEdit["NOMBRE"] ?? "" ?>">
+                </div>
 
 
-<!-- 
-                <?php if ($nombre){ ?>
-                <span class="help-block text-danger"> 
-                    <strong>Error: Nombre vacio</strong>
-                </span>
-                <?php } ?>
- -->
+                <!-- </div> -->
+                <div class="form-group has-feedback col-xs-4 col-md-4 col-lg-4 ">
+                    <label>E-mail *</label>
+                    <input type="text" name="email" class="form-control"
+                           value="<?=$_GET["email"] ?? $registroEdit["MAIL"] ?? "" ?>" required>
+                </div>
 
+                <div class="form-group has-feedback col-xs-4 col-md-4 col-lg-4 ">
+                    <label>Anexo</label>
+                    <input type="text" name="anexo" class="form-control"
+                           value="<?=$_GET["anexo"] ?? $registroEdit["ANEXO"] ?? "" ?>" required>
+                </div>
 
-            <!-- </div> -->
-            <div class="form-group has-feedback col-xs-4 col-md-4 col-lg-4 {{ $errors->has('email') ? 'has-error' : '' }}">
-                <label>E-mail *</label>
-                <input type="text" name="email" class="form-control" value="<?=isset($_GET['email']) ? $_GET['email']: (isset($data['MAIL']) ? $data['MAIL'] : '') ?>" required>
-<!--                 @if ($errors->has('email'))
-                    <span class="help-block text-danger">
-                        <strong>{{ $errors->first('email') }}</strong>
-                    </span>
-                @endif
- -->
-            
-
-
-            </div>
-            <div class="form-group has-feedback col-xs-4 col-md-4 col-lg-4 {{ $errors->has('rol') ? 'has-error' : '' }}">
-                <label>Rol *</label>
-                <select name="rol" class="selectpicker selectField" placeholder='Seleccione rol' data-live-search='true' required>
-                    <option value=""></option>
-
-                    <?php 
-                    foreach ($permisos as $rol) { 
-                        if (!empty($_GET["rol"]) && $_GET["rol"] == $rol["ID_PERMISO"]){
+                <div class="form-group has-feedback col-xs-4 col-md-4 col-lg-4">
+                    <label>Rol</label>
+                    <select class="selectpicker " placeholder='Seleccione Rol' name="rol" id="selectRol">
+                        <option value=""></option>
+                        <?php
+                        foreach ($permisos as $rol) {
+                            $selected = $registroEdit['ID_PERMISO']==$rol["ID_PERMISO"] ? "selected" : "";
                             ?>
-                            <option selected="true" value="<?= $rol["ID_PERMISO"];?>"><?= $rol["NOMBRE_PERMISO"];?></option>
-                            <?php
-                        }else{
-                            ?>
-                            <option value="<?= $rol["ID_PERMISO"];?>"><?= $rol["NOMBRE_PERMISO"];?></option>
+                            <option value="<?= $rol["ID_PERMISO"];?>" <?=$selected?>><?= $rol["NOMBRE_PERMISO"];?></option>
                             <?php
                         }
-                    }
-                    ?>
-                </select>
-<!--                 @if ($errors->has('rol'))
-                    <span class="help-block text-danger">
-                        <strong>{{ $errors->first('rol') }}</strong>
-                    </span>
-                @endif
- -->
-                <!-- <?php if ($rol){ ?>
-                <span class="help-block text-danger"> 
-                    <strong>Error: rol</strong>
-                </span>
-                <?php } ?> -->
+                        ?>
+                    </select>
 
 
-            </div>
+                </div>
 
-            <!--***CARGO*** -->
-            <div class="form-group has-feedback col-xs-4 col-md-4 col-lg-4 {{ $errors->has('cargo_id') ? 'has-error' : '' }}">
-                <label>Cargo *</label>
+                <div class="form-group has-feedback col-xs-4 col-md-4 col-lg-4"  id="divCargo"  >
+                    <label>Cargo</label>
+                    <select name='cargo_id' class='selectpicker selectField' placeholder='Seleccione Cargo' >
+                        <option value="" ></option>
 
-                <select name='cargo_id' class ='selectpicker selectField' placeholder='Seleccione Cargo' data-live-search='true' id ='cargo_id' required>
-                    <option value="" ></option>
-
-
-                    <?php 
-                    foreach ($cargos as $cargo) { 
-                        if (!empty($_GET["cargo_id"]) && $_GET["cargo_id"] == $cargo["ID_CARGO"]){
+                        <?php
+                        foreach ($cargos as $cargo) {
+                            $selected = $registroEdit['ID_CARGO']==$cargo["ID_CARGO"] ? "selected" : "";
                             ?>
-                            <option selected="true" value="<?= $cargo["ID_CARGO"];?>"><?= $cargo["NOMBRE"];?></option>
-                            <?php
-                        }else{
-                            ?>
-                            <option value="<?= $cargo["ID_CARGO"];?>"><?= $cargo["NOMBRE"];?></option>
+                            <option value="<?= $cargo["ID_CARGO"];?>" <?=$selected?>><?= $cargo["NOMBRE"];?></option>
                             <?php
                         }
-                    }
+                        ?>
+                    </select>
+
+                </div>
+
+                <?php
+                if ($authUser['ID_PERMISO']!=1) {
                     ?>
-                </select>
+                    <div class="form-group has-feedback col-xs-4 col-md-4 col-lg-4">
+                        <label>Area</label>
+                        <select name='id_area' class='selectpicker selectField' placeholder='Seleccione Cargo'>
+                            <option value=""></option>
 
-<!--                 @if ($errors->has('cargo_id'))
-                    <span class="help-block text-danger">
-                    <strong>{{ $errors->first('cargo_id') }}</strong>
-                    </span>
-                @endif
- -->
+                            <?php
+                            foreach ($areas as $area) {
+                                $selected = $registroEdit['ID_AREA'] == $area["ID_AREA"] ? "selected" : "";
+                                ?>
+                                <option value="<?= $area["ID_AREA"]; ?>" <?= $selected ?>><?= $area["AREA"]; ?></option>
+                                <?php
+                            }
+                            ?>
+                        </select>
 
-                <?php if ($cargo_id){ ?>
-                <span class="help-block text-danger"> 
-                    <strong>Error: Cargo</strong>
-                </span>
-                <?php } ?>
+                    </div>
+                    <?php
+                }
+                ?>
+
+
+<!--                <div class="form-group has-feedback col-xs-4 col-md-4 col-lg-4">-->
+<!--                    <label>Estado</label>-->
+<!--                    <select class="selectpicker selectField" name="estado" ">-->
+<!--                        <option value="ACTIVO" --><?//=$registroEdit['ESTADO']=='ACTIVO' ? 'selected' : ''?><!-- >-->
+<!--                            ACTIVO-->
+<!--                        </option>-->
+<!--                        <option value="INACTIVO" --><?//=$registroEdit['ESTADO']=='INACTIVO' ? 'selected' : ''?><!-- >-->
+<!--                            INACTIVO-->
+<!--                        </option>-->
+<!--                    </select>-->
+<!--                </div>-->
+
 
 
             </div>
 
-
-<!--             <div class="form-group has-feedback col-xs-4 col-md-4 col-lg-4 {{ $errors->has('password') ? 'has-error' : '' }}">
-                <label>Contraseña *</label>
-                <input type="password" name="password" class="form-control"> -->
-<!--                 @if ($errors->has('password'))
-                    <span class="help-block text-danger">
-                        <strong>{{ $errors->first('password') }}</strong>
-                    </span>
-                @endif
- -->
-
-<!--                 <?php if ($password){ ?>
-                <span class="help-block text-danger"> 
-                    <strong>Error: Contraseña</strong>
-                </span>
-                <?php } ?>
-
             </div>
-            <div class="form-group has-feedback col-xs-4 col-md-4 col-lg-4 {{ $errors->has('password') ? 'has-error' : '' }}">
-                <label>Confirmar contraseña *</label>
-                <input type="password" name="password2" class="form-control"> -->
-<!--                 @if ($errors->has('password2'))
-                    <span class="help-block text-danger">
-                        <strong>{{ $errors->first('password2') }}</strong>
-                    </span>
-                @endif
- -->
 
-
-
-                <!-- <?php if ($password2){ ?>
-                <span class="help-block text-danger"> 
-                    <strong>Error: Contraseña</strong>
-                </span>
-                <?php } ?> -->
-
+            <div class="card-footer">
+            <div class="row">
+                <div class="col-sm-8">
+                    <input type="hidden" name="submit" value="true">
+                    <input type="hidden" name="id" value="<?=$registroEdit['ID_USUARIO'] ?? '' ?>" >
+                    <button type="submit" class="btn-primary btn rounded" ><i class="icon-floppy-disk"></i> Guardar</button>
+                </div>
             </div>
-                            
+            </div>
+
         </div>
+      </form>
+        <script src="<?=base();?>/assets/assets/frontend/js/jquery-3.3.1.js"></script>
+        <script src="<?=base();?>/assets/assets/frontend/js/selectize.js"></script>
+        <script>
+            $('.selectField').selectize({
+                create: false,
+                sortField: {
+                    field: 'text',
+                    direction: 'asc'
+                },
+                dropdownParent: 'body'
+            });
 
-        <div class="card-footer">
-        <div class="row">
-            <div class="col-sm-8">
-            <button type="submit" class="btn-primary btn rounded" ><i class="icon-floppy-disk"></i> Guardar</button>
-            </div>
-        </div>
-        </div>
+            var selectRol = $('#selectRol').selectize({
 
-    </div>
-  </form>
-<script src="<?=base();?>/assets/assets/frontend/js/jquery-3.3.1.js"></script>
-    <script src="<?=base();?>/assets/assets/frontend/js/selectize.js"></script>
-    <script>
-        $('.selectField').selectize({
-            create: false,
-            sortField: {
-                field: 'text',
-                direction: 'asc'
-            },
-            dropdownParent: 'body'
-        });
-    </script>
+                create: false,
+                sortField: {
+                    field: 'text',
+                    direction: 'asc'
+                },
+                dropdownParent: 'body',
+                onChange: function(value) {
+
+                    visibleDivCargo(value)
+                },
+            });
+
+            visibleDivCargo(selectRol.val())
 
 
+            function visibleDivCargo(value) {
+                if(value != "2"){
+                    $('#divCargo').hide();
+                } else {
+                    $('#divCargo').show();
+                }
+            }
+        </script>
 
 
+        <?php
 
+        $output = ob_get_contents();
+        ob_end_clean();
 
-		<?php
+        return $output;
 
-		$output = ob_get_contents();
-		ob_end_clean();
-
-		return $output;
-//		return "";
 
 	}
 }

@@ -3,13 +3,20 @@
  
  
 namespace ContratosList;
+
+
  
 /**
  * clase vista, retorna html con lo recuperado desde el modelo
  */
 class ViewContratos {
+
+    
 	
 	public function output(\ContratosList\ModelContratos $model){
+
+        
+        $authUser = authUser($model->pdo);
 
 		$data = $model->get();
 
@@ -27,6 +34,18 @@ class ViewContratos {
         $cargos = $dataListBox['cargos'];
 
 
+        $queryString = $_SERVER['QUERY_STRING'] ?? '';
+
+        $id = $_GET['id'] ?? 0;
+
+        if($id){
+            $search= 'id='.$id;
+            $queryString = str_replace($search,'',$queryString);
+        }
+
+        $queryString = $queryString!='' ? '&'.$queryString : '';
+
+
 		ob_start();
 
 		?>
@@ -41,33 +60,31 @@ class ViewContratos {
     <style>
     .card-body {
         overflow: scroll;
+        
     }
 
-    .table-responsiva{
-        width: 230%;
-    }
 
-    
-
-   
     </style>
  
     <!-- Breadcrumbs-->
     <ol class="breadcrumb">
         <li class="breadcrumb-item">
-            <a href="<?=base();?>/contratos">Contratos</a>
+            <a href="<?=base();?>/contratos" class="encabezado">Contratos</a>
         </li>
-        <li class="breadcrumb-item active">Mantenedor</li>
+        
     </ol>
 
-    <!-- DataTables Example -->
-    <div class="card mb-3">
-        <div class="card-header">
-            <form method="get" class="form-horizontal" action="<?=base("/contratos/")?>">
-                
-                <div class="row">
-                    <div class="col-6">
-                        <label>Proveedor</label>
+        <?php feedback2();?>
+
+        <!-- DataTables Example -->
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12">
+                <form method="get" class="form-horizontal" action="<?=base("/contratos/")?>">
+
+                    <div class="row">
+                        <div class="col-md-6 col-sm-12">
+                            <label>Proveedor</label>
                             <div>
                                 <select name="rut_proveedor" class="selectpicker selectField"  placeholder='Seleccione RUT Proveedor' data-live-search='true'>
                                     <option value=""></option>
@@ -83,37 +100,65 @@ class ViewContratos {
                                     ?>
                                 </select>
                             </div>
-                    </div>
+                        </div>
 
-                    <div class="col-3">
-                        <label>ID Contrato</label>
+                        <!-- <div class="col-md-3 col-sm-12">
+                            <label>ID Contrato</label>
                             <div>
                                 <select name="id_contrato" class="selectpicker selectField" placeholder='Seleccione Contrato' data-live-search='true'>
                                     <option value=""></option>
-                                    <?php 
-                                    foreach ($contratos as $contrato) {
+                                    <?php
+                                    foreach ($contratos as $index => $contrato) {
+
                                         $selected = $_GET["id_contrato"]==$contrato["ID_CONTRATO"] ? 'selected' : '';
                                         ?>
-                                            <option value="<?= $contrato["ID_CONTRATO"];?>" <?=$selected?>>
-                                                <?= $contrato["ID_CONTRATO"];?>
-                                            </option>
+
+                                        <option value="<?=$contrato["ID_CONTRATO"]; ?>" <?=$selected?>>
+                                            <?= $contrato["TIPO"] ."-". $contrato["ID_CONTRATO"]; ?>
+                                        </option>
                                         <?php
                                     }
                                     ?>
                                 </select>
                             </div>
-                    </div>
+                        </div> -->
 
-                    <div class="col-3">
-                        <label>Cargo Admin. Técnico</label>
+                        <div class="col-md-3 col-sm-12">
+                            <label>ID Mercado Público</label>
+                            <div>
+                                <select name="id_mercado_publico" class="selectpicker selectField" placeholder='Seleccione Contrato' data-live-search='true'>
+                                    <option value=""></option>
+                                    <?php
+                                    foreach ($contratos as $index => $contrato) {
+
+                                        $selected = $_GET["id_mercado_publico"]==$contrato["ID_MERCADO_PUBLICO"] ? 'selected' : '';
+                                        ?>
+
+                                        <option value="<?=$contrato["ID_MERCADO_PUBLICO"]; ?>" <?=$selected?>>
+                                            <?= $contrato["ID_MERCADO_PUBLICO"]; ?>
+                                        </option>
+                                        <?php
+                                    }
+                                    ?>
+                                </select>
+                            </div>
+                        </div>
+
+                        <?php if($authUser['ID_PERMISO']== 1)
+                        {
+                            ?>
+
+                        <div class="col-md-3 col-sm-12">
+                            <label>Cargo Admin. Técnico</label>
                             <div>
                                 <select name="cargos" class="selectpicker selectField" placeholder='Seleccione Cargo' data-live-search='true'>
                                     <option value=""></option>
-                                    <?php 
-                                    
-                                    foreach ($cargos as $cargo) { 
+                                    <?php
+
+                                    foreach ($cargos as $cargo) {
                                         if (!empty($_GET["cargos"]) && $_GET["cargos"] == $cargo["ID_CARGO"]){
                                             ?>
+
                                             <option selected="true" value="<?= $cargo["ID_CARGO"];?>"><?= $cargo["NOMBRE"];?></option>
                                             <?php
                                         }else{
@@ -123,294 +168,283 @@ class ViewContratos {
                                         }
                                     }
                                     ?>
+                                    
                                 </select>
                             </div>
-                    </div>
-
-                    <div class="col-3 mt-3">
-                        <label>Vigencia Contrato</label>
-                        <div>
-                            <select name="vigencia" class="selectpicker selectField" placeholder='Seleccione Vigencia' data-live-search='true'>
-                                <option value=""></option>
-                                <option value="si">Vigente</option>
-                                <option value="no">No vigente</option>
-                            </select>
-                        </div> 
-                    </div>
-
-		            <div class="col-3 mt-3">
-                        <label>Licitación</label>
-                        <div>
-                            <select name="licitacion" class="selectpicker selectField" placeholder='Seleccione licitación' data-live-search='true'>
-                                <option value=""></option>
-                                <?php 
-                                foreach ($licitaciones as $licitacion) { 
-                                    if (!empty($_GET["licitacion"]) && $_GET["licitacion"] == $licitacion["NRO_LICITACION"]){
-                                        ?>
-                                        <option selected="true" value="<?= $licitacion["NRO_LICITACION"];?>"><?= $licitacion["NRO_LICITACION"];?></option>
-                                        <?php
-                                    }else{
-                                        ?>
-                                        <option value="<?= $licitacion["NRO_LICITACION"];?>"><?= $licitacion["NRO_LICITACION"];?></option>
-                                        <?php
-                                    }
-                                }
-                                ?>
-                            </select>
                         </div>
+                        <?php
+                        }
+                        ?>
+
+
+
+                        <div class="col-md-3 col-sm-12 mt-3" style="margin-top:0 !important;">
+                            <label>Vigencia Contrato</label>
+                            <div>
+                                <select name="vigencia" class="selectpicker selectField" placeholder='Seleccione Vigencia' data-live-search='true'>
+                                    <option value=""></option>
+                                    <option value="si">Vigente</option>
+                                    <option value="no">No vigente</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="col-md-3 col-sm-12 mt-3" style="margin-top:0 !important;">
+                            <label>Licitación</label>
+                            <div>
+                                <select name="licitacion" class="selectpicker selectField" placeholder='Seleccione Licitación' data-live-search='true'>
+                                    <option value=""></option>
+                                    <?php
+                                    foreach ($licitaciones as $licitacion) {
+                                        if (!empty($_GET["licitacion"]) && $_GET["licitacion"] == $licitacion["NRO_LICITACION"]){
+                                            ?>
+                                            <option selected="true" value="<?= $licitacion["NRO_LICITACION"];?>"><?= $licitacion["NRO_LICITACION"];?></option>
+                                            <?php
+                                        }else{
+                                            ?>
+                                            <option value="<?= $licitacion["NRO_LICITACION"];?>"><?= $licitacion["NRO_LICITACION"];?></option>
+                                            <?php
+                                        }
+                                    }
+                                    ?>
+                                </select>
+                            </div>
+                        </div>
+
+                        <!-- <div class="col-md-3 col-sm-12 mt-3">
+                            <label>Objeto Contrato</label>
+                            <div>
+                                <select name="objeto" class="selectpicker selectField" placeholder='Seleccione Objeto' data-live-search='true'>
+                                    <option value=""></option>
+                                    <?php
+                                    foreach ($contratos as $index => $contrato) {
+                                        if (!empty($_GET["objeto"]) && $_GET["objeto"] == $contrato["OBJETO_CONTRATO"]){
+                                            ?>
+                                            <option selected="true" value="<?= $contrato["OBJETO_CONTRATO"];?>"><?= $contrato["OBJETO_CONTRATO"];?></option>
+                                            <?php
+                                        }else{
+                                            ?>
+                                            <option value="<?= $contrato["OBJETO_CONTRATO"];?>"><?= $contrato["OBJETO_CONTRATO"];?></option>
+                                            <?php
+                                        }
+                                    }
+                                    ?>
+                                </select>
+                            </div>
+                        </div> -->
                     </div>
-                </div>
 
-                <hr>
-                <div class="btn-group float-right ml-3">
-                    <a href="<?=base("/contratos/new/");?>" class="btn btn-primary rounded"><i class="fa fa-plus-circle"></i>&nbsp;&nbsp;Nuevo</a>         
-        </div>
-                <div class="btn-group float-right">
-                    <?php if(!empty($_GET)){ ?> 
-                        <a class="btn btn-default" href="<?=base()."/contratos";?>">Limpiar Filtros</a>
-                    <?php } ?>
+                    <hr>
+                    <div class="btn-group float-right ml-3">
+                        <?php if($authUser['ID_PERMISO']== 1)
+                        {
+                            ?>
+                            <a href="<?=base("/contratos/new/");?>" class="btn btn-primary rounded"><i class="fa fa-plus-circle"></i>&nbsp;&nbsp;Nuevo</a>
+                            <?php
+                        }
+                        ?>
+                    </div>
+                    <div class="btn-group float-right">
+                        <?php if(!empty($_GET)){ ?>
+                            <a class="btn btn-default" href="<?=base()."/contratos";?>">Limpiar Filtros</a>
+                        <?php } ?>
                         <button type="submit" class="btn btn-primary rounded"><i class="fa fa-search"></i> Buscar</button>
-                </div>
+                    </div>
 
-                <div>
-                    <i class="fas fa-table"> Registros</i>
-                </div>
-            </form>
+
+                </form>
+            </div>
+
         </div>
 
-        <div class="card-body">
-
-
-            <div class="table-responsive">
-                <table class="table table-bordered table-condensed table-fixed" id="dataTable" >
+        <div class="row">
+            <div class="col-sm-12">
+                <span>
+                    <i class="fas fa-table"> Registros</i>
+                </span>
+                <div class="table-responsive">
+                <table class="table table-sm table-bordered table-hover nowrap" id="tablaContratos">
                     <thead>
                     <tr >
-                        <th >Rut Proveedor</th>
-                        <th >Razón Social Proveedor</th>
-                        <th >ID Contrato</th>
-                        <th >Licitación</th>
-                        <th >Moneda</th>
-                        <!-- <th>Precio</th> -->
-                        <!-- <th>Valor CLP</th> -->
-                        <!-- <th>Restante</th> -->
-                        <th>Cargo</th>
-                        <th>Fecha inicio contrato</th>
-                        <th>Fecha termino contrato</th>
-                        <th>Fecha último acto administrativo</th>
-                        <th>Objeto del contrato</th>
-                        <!-- <th>N° Boleta Garantía</th> -->
-                        <th>Monto</th>
-                        <th>Fecha de Vencimiento</th>
-                        <th>Adjunto</th>
-                        <!-- @role('Admin')
-                            <th>Acción</th>
-                        @endrole -->
-                        <th>Bitácora</th>
-                        <th>Editar</th>
-                        <th>Detalle Contrato</th>
-                        <th>Asignar Contrato</th>
+                        <!-- <th data-priority="1">ID Contrato</th> -->
+                        <th data-priority="1">ID Mercado Público</th>
+                        <th data-priority="100001">Rut Proveedor</th>
+                        <th data-priority="1" width="20%">Razón Social Proveedor</th>
+                        <th data-priority="3">Licitación</th>
+                        <th data-priority="100001">Moneda</th>
+                        <!-- <th data-priority="5">Precio</th> -->
+                        <!-- <th data-priority="100001">Restante</th> -->
+                        <th data-priority="100001">Cargo</th>
+                        <th data-priority="100001">Fecha inicio contrato</th>
+                        <th data-priority="100001">Fecha termino contrato</th>
+                        <th data-priority="100001">Fecha último acto administrativo</th>
+                        <th data-priority="100001">Objeto del contrato</th>
+                        <th data-priority="100001">N° Boleta Garantía</th>
+                        <th data-priority="1">Monto</th>
+                        <th data-priority="100001">Valor CLP</th>
+                        <th data-priority="1">Saldo</th>
+                        <th data-priority="100001">Fecha Alerta de Vencimiento</th>
+                        <th data-priority="100001">Fecha Vencimiento Boleta</th>
+                        <th data-priority="100001">Adjunto</th>
+                        <th data-priority="100001">Creado por</th>
+                        <th data-priority="100001">Actualizado por</th>
+
+                        <th width="25%">Acciones</th>
+                        <?php if($authUser['ID_PERMISO'] == 2) {
+                            ?>
+                            <th>Asignar Contrato</th>
+                            <?php
+                        }
+                        ?>
                     </tr>
                     </thead>
                     <?php
                     foreach ($listado as $index => $contrato) {
-                        // foreach ($documentos as $documento) {
                         ?>
-                        <tr>
+                        <tr class="text-sm">
 
+                            <!-- <td ><?= $contrato["TIPO"] ."-". $contrato["ID_CONTRATO"]; ?></td> -->
+                            <td ><?= $contrato["ID_MERCADO_PUBLICO"]; ?></td>
+                            <td ><?= $contrato["RUT_PROVEEDOR"]; ?></td>
+                            <td><?= $contrato["RAZON_SOCIAL"]; ?></td>
 
-                            <td style="width:2%;"><?= $contrato["RUT_PROVEEDOR"]; ?></td>
-                            <td style="width:7%;"><?= $contrato["RAZON_SOCIAL"]; ?></td>
-                            <td style="width:1%;"><?= $contrato["TIPO"] ."-". $contrato["ID_CONTRATO"]; ?></td>
-                            <td style="width:6%;"><?= $contrato["NRO_LICITACION"]; ?></td>
-                            <td style="width:1%;"><?= $contrato["NOMBRE_MONEDA"]; ?></td>
+                            <td ><?= $contrato["NRO_LICITACION"]; ?></td>
+                            <td><?= $contrato["NOMBRE_MONEDA"]; ?></td>
                             <!-- <td><?= $contrato["PRECIO"]; ?></td> -->
-                            <!-- <td><?= $contrato["PRECIO"] * $contrato["EQUIVALENCIA"]; ?></td> -->
+
                             <!-- <td><?= $contrato["RESTANTE"];?></td> -->
-                            <td style="width:2%;"><?= $contrato["ID_CARGO"];?></td>
-                            <td style="width:3%;"><?= $contrato["FECHA_INICIO"]; ?></td>
-                            <td style="width:3%;"><?= $contrato["FECHA_TERMINO"]; ?></td>
-                            <td style="width:2%;"><?= $contrato["FECHA_APROBACION"]; ?></td>
+                            <td><?= $contrato["NOMBRE_CARGO"];?></td>
+                            <td><?= $contrato["FECHA_INICIO"]; ?></td>
+                            <td><?= $contrato["FECHA_TERMINO"]; ?></td>
+                            <td><?= $contrato["FECHA_APROBACION"]; ?></td>
                             <td><?= $contrato["OBJETO_CONTRATO"]; ?></td>
-                            <!-- <td><?= $contrato["BOLETA"]; ?></td> -->
+                            <td><?= $contrato["NRO_BOLETA_GARANTIA"]; ?></td>
                             <td>$<?= number_format($contrato["MONTO"], 2, ',', '.') ?></td>
-                            <td style="width:2%;"><?= $contrato["FECHA_ALERTA_VENCIMIENTO"]; ?></td>
+                            <td>$<?= number_format($contrato["MONTO"] * $contrato["EQUIVALENCIA"], 2, ',', '.'); ?></td>
+                            <td>$<?= number_format($contrato["SALDO"], 2, ',', '.') ?></td>
+                            <td><?= $contrato["FECHA_ALERTA_VENCIMIENTO"]; ?></td>
+                            <td><?= $contrato["FECHA_VENCIMIENTO_BOLETA"]; ?></td>
                             <td>
                                 <a href="<?= base()."/archivo/download?id=".$contrato['NRO_DOCUMENTO'] ?>" target="_blank">
                                     <?= $contrato["NOMBRE_DOCUMENTO"] ?>
                                 </a>
-                            </td>
 
-                            <td style="width:2%;">
-                                <a href="#" class="btn btn-sm btn-info btn-xs" data-target="#modalBitacoras<?=$contrato['ID_CONTRATO'];?>" data-toggle="modal">
-                                    <i class="far fa-eye"></i> Bitacora
+                            </td>
+                            <td><?= $contrato["USUARIO_CREA"]; ?></td>
+                            <td><?= $contrato["USUARIO_ACTUALIZA"]; ?></td>
+                            <td>
+                                <a href="<?=base("/contratos/bitacora/show?id=").$contrato["ID_CONTRATO"].$queryString;?>"
+                                   class="btn btn-sm btn-secondary btn-sm "
+                                   data-toggle="tooltip" title="Bitacoras">
+                                    <i class="fa fa-book-reader"></i>
+                                </a>
+                                <?php
+                            if($authUser['ID_PERMISO'] == 1) {
+                                ?>
+                                <a href="<?=base("/contratos/new?id=").$contrato["ID_CONTRATO"];?>"
+                                   class="btn btn-sm btn-primary btn-sm"
+                                   data-toggle="tooltip" title="Editar">
+                                    <i class="fa fa-pencil-alt"></i>
+                                </a>
+                                <?php
+                            }
+                            ?>
+                                <a href="<?=base("/contratos/show?id=").$contrato["ID_CONTRATO"].$queryString;?>"
+                                   class="btn btn-sm btn-success btn-xs"
+                                   data-toggle="tooltip" title="Detalles">
+                                    <i class="fa fa-list-ol"></i>
                                 </a>
 
-                                <!-- modal starts -->
-                                <div class="modal fade" id="modalBitacoras<?=$contrato['ID_CONTRATO'];?>">
-                                    <div class="modal-dialog">
-                                        <div class="modal-content">
-                                            <form method="post" action="<?=base("/contratos/bitacora/store");?>"  enctype="multipart/form-data">
-                                                <div class="modal-header">
-                                                    <h5 class="modal-title">
-                                                        Bitacoras
-                                                    </h5>
-                                                </div>
-
-                                                <div class="table-responsive table-sm -md -lg -x tabla-bitacora">
-                                                    <table class="table table-bordered"  class="table-sm w-25" id="dataBitacoras" width=100% cellspacing="0">
-                                                        <thead>
-                                                        <tr>
-                                                            <th>ID Contrato</th>
-                                                            <th>Glosa</th>
-                                                            <th>Documento</th>
-
-                                                        </tr>
-                                                        </thead>
-                                                        <tbody>
-                                                        <?php foreach($contrato['BITACORAS'] as $bitacora){?>
-                                                            <tr>
-                                                                <td> <?= $bitacora["ID_CONTRATO"]; ?></td>
-                                                                <td> <?= $bitacora["GLOSA"]; ?></td>
-
-                                                                <td>
-                                                                    <a href="<?= base()."/archivo/download?id=".$bitacora['NRO_DOCUMENTO'] ?>" target="_blank">
-                                                                        <?= $bitacora["DOCUMENTO"] ?>
-                                                                    </a>
-                                                                </td>
+                            </td>
 
 
+                            <?php
+                            if($authUser['ID_PERMISO'] == 2) {
+                                ?>
+                                <td >
+                                    <?php
+                                    if(!$contrato['ASIGNADO']) {
+                                        ?>
 
-                                                            </tr>
-                                                        <?php }?>
+                                        <a href="#" class="btn btn-sm btn-warning btn-xs" data-target="#modalAsigna<?=$index;?>" data-toggle="modal">
+                                            <i class="fa fa-plus-square"></i> Asignar
+                                        </a>
+
+                                        <div class="modal fade" id="modalAsigna<?=$index;?>">
+                                            <div class="modal-dialog">
+                                                <div class="modal-content">
+                                                    <form method="post" action="<?=base("/contratos/asignar/store");?>">
+                                                        <div class="modal-header">
+                                                            <h5 class="modal-title">
+                                                                Asignar Contrato
+                                                            </h5>
+                                                        </div>
 
 
-                                                        </tbody>
-                                                    </table>
-                                                </div>
+                                                        <div class="modal-body">
+                                                            <div class="table-responsive table-sm -md -lg -x">
+                                                                <?php
+                                                                foreach ($contrato['AREAS'] as $i => $area) {
 
-                                                <div class="modal-body">
-                                                    <div class="form-row">
-                                                        <div class="form-group col-12">
-                                                            <label for="">Adjuntar archivo bitácora.</label>
-                                                            <div class="custom-file">
-                                                                <input type="file" name="archivo_bitacora" class="custom-file-input" id="customFileLangHTML" lang="es">
-                                                                <label class="custom-file-label" for="customFileLangHTML" data-browse="Buscar">Seleccionar Archivo</label>
+                                                                    ?>
+                                                                    <input type="radio" id="radio<?=$i?>" name="area" value="<?=$area['ID_AREA'];?>">
+                                                                    <label for="radio<?=$i?>"><?=$area['AREA'];?></label><br>
+                                                                    <?php
+                                                                }
+                                                                ?>
+
                                                             </div>
                                                         </div>
-                                                        <div class="form-group col-12">
-                                                            <label>Comentarios *</label>
-                                                            <textarea type="text" name="glosa" class="form-control" value="" ></textarea>
+
+                                                        <div class="modal-footer">
+                                                            <button type="button" class="btn btn-default" data-dismiss="modal">
+                                                                Cancelar
+                                                            </button>
+                                                            <button type="submit" class="btn btn-success">
+                                                                <i class="fa fa-floppy-o"></i>
+                                                                Guardar
+                                                            </button>
+                                                            <input type="hidden" name="asignar" value="1">
                                                             <input type="hidden" name="id_contrato" value="<?=$contrato['ID_CONTRATO']?>">
-                                                            <input type="hidden" name="save_bitacora" value="1">
                                                         </div>
-                                                    </div>
+                                                    </form>
                                                 </div>
-
-                                                <div class="modal-footer">
-                                                    <button type="button" class="btn btn-default" data-dismiss="modal">
-                                                        Cancelar
-                                                    </button>
-                                                    <button type="submit" class="btn btn-success">
-                                                        <i class="fa fa-floppy-o"></i>
-                                                        Guardar
-                                                    </button>
-                                                </div>
-                                            </form>
+                                            </div>
                                         </div>
-                                    </div>
-                                </div>
-
-
-
-
-                            </td>
-                            <td style="width:2%;">
-                                <a href="<?=base("/contratos/new?id=").$contrato["ID_CONTRATO"];?>" class="btn btn-sm btn-primary btn-xs">
-                                    <i class="fa fa-pencil-alt"></i> Editar
-                                </a>
-                            </td>
-                            <td style="width:2%;">
-                                <!-- <a href="#" data-target="#miModal<?=$index;?>" data-toggle="modal" class="btn btn-sm btn-success btn-xs">
-                            <i class="fa fa-book-open"></i> Detalle</a>
--->
-                                <a href="<?=base("/contratos/show?id=").$contrato["ID_CONTRATO"];?>" class="btn btn-sm btn-success btn-xs">
-                                    <i class="fa fa-pencil-alt"></i> Detalles
-                                </a>
-
-                            </td>
-                            <td style="width:2%;">
-                                <a href="#" class="btn btn-sm btn-warning btn-xs" data-target="#modalAsigna<?=$index;?>" data-toggle="modal">
-                                    <i class="fa fa-plus-square"></i> Asignar
-                                </a>
-
-
-                                <div class="modal fade" id="modalAsigna<?=$index;?>">
-                                    <div class="modal-dialog">
-                                        <div class="modal-content">
-                                            <form method="post" action="<?=base("/contratos/asignar/store");?>">
-                                                <div class="modal-header">
-                                                    <h5 class="modal-title">
-                                                        Asignar Contrato
-                                                    </h5>
-                                                </div>
-
-
-                                                <div class="modal-body">
-                                                    <div class="table-responsive table-sm -md -lg -x">
-                                                        <?php
-                                                            foreach ($contrato['AREAS'] as $i => $area) {
-
-                                                                ?>
-                                                                <input type="radio" id="radio<?=$i?>" name="area" value="<?=$area['ID_AREA'];?>">
-                                                                <label for="radio<?=$i?>"><?=$area['AREA'];?></label><br>
-                                                                <?php
-                                                            }
-                                                        ?>
-
-                                                    </div>
-                                                </div>
-
-                                                <div class="modal-footer">
-                                                    <button type="button" class="btn btn-default" data-dismiss="modal">
-                                                        Cancelar
-                                                    </button>
-                                                    <button type="submit" class="btn btn-success">
-                                                        <i class="fa fa-floppy-o"></i>
-                                                        Guardar
-                                                    </button>
-                                                    <input type="hidden" name="asignar" value="1">
-                                                    <input type="hidden" name="id_contrato" value="<?=$contrato['ID_CONTRATO']?>">
-                                                </div>
-                                            </form>
-                                        </div>
-                                    </div>
-                                </div>
-
-                            </td>
+                                        <?php
+                                    } else {
+                                        echo "Asignado a: ".$contrato['ASIGNADO_A'];
+                                    }
+                                    ?>
+                                </td>
+                                <?php
+                            }
+                            ?>
 
 
                         </tr>
                         <?php
-                        // }
                     }
                     ?>
-
-                    </tbody>
                 </table>
+                </div>
             </div>
-
-            
         </div>
 
-        <div class="card-footer">
-            <?php
-            paginador($totales, "./contratos", 10);
-            ?>
-        </div>
+
+<!--        <nav class="d-flex justify-content-center wow fadeIn mt-3">-->
+<!--            --><?php
+//            paginador($totales, "./contratos", 10);
+//            ?>
+<!--        </nav>-->
+
     </div>
+
+    
 
     <script src="<?=base();?>/assets/assets/frontend/js/jquery-3.3.1.js"></script>
     <script src="<?=base();?>/assets/assets/frontend/js/selectize.js"></script>
+    <script src="<?=base();?>/assets/assets/vendor/datatables/datatables.min.js"></script>
     <script>
         $('.selectField').selectize({
             create: false,
@@ -422,7 +456,7 @@ class ViewContratos {
         });
 	</script>
 
-<!-- {{-- Script para mostrar nombre archivo en el select --}} -->
+    <!-- {{-- Script para mostrar nombre archivo en el select --}} -->
     <script>
         $(".custom-file-input").on("change", function() {
             var fileName = $(this).val().split("\\").pop();
@@ -430,56 +464,40 @@ class ViewContratos {
         });
     </script>
 
-<script>
-function checkRut(rut) {
-    // Despejar Puntos
-    var valor = rut.value.replace('.','');
-    // Despejar Guión
-    valor = valor.replace('-','');
-    
-    // Aislar Cuerpo y Dígito Verificador
-    cuerpo = valor.slice(0,-1);
-    dv = valor.slice(-1).toUpperCase();
-    
-    // Formatear RUN
-    rut.value = cuerpo + '-'+ dv
-    
-    // Si no cumple con el mínimo ej. (n.nnn.nnn)
-    if(cuerpo.length < 7) { rut.setCustomValidity("RUT Incompleto"); return false;}
-    
-    // Calcular Dígito Verificador
-    suma = 0;
-    multiplo = 2;
-    
-    // Para cada dígito del Cuerpo
-    for(i=1;i<=cuerpo.length;i++) {
-    
-        // Obtener su Producto con el Múltiplo Correspondiente
-        index = multiplo * valor.charAt(cuerpo.length - i);
-        
-        // Sumar al Contador General
-        suma = suma + index;
-        
-        // Consolidar Múltiplo dentro del rango [2,7]
-        if(multiplo < 7) { multiplo = multiplo + 1; } else { multiplo = 2; }
-  
-    }
-    
-    // Calcular Dígito Verificador en base al Módulo 11
-    dvEsperado = 11 - (suma % 11);
-    
-    // Casos Especiales (0 y K)
-    dv = (dv == 'K')?10:dv;
-    dv = (dv == 0)?11:dv;
-    
-    // Validar que el Cuerpo coincide con su Dígito Verificador
-    if(dvEsperado != dv) { rut.setCustomValidity("RUT Inválido"); return false; }
-    
-    // Si todo sale bien, eliminar errores (decretar que es válido)
-    rut.setCustomValidity('');
-}
 
-</script>
+        <script>
+            $('#tablaContratos').DataTable( {
+                responsive: {
+                    details: {
+                        display: $.fn.dataTable.Responsive.display.modal( {
+                            header: function ( row ) {
+                                var data = row.data();
+                                return 'Detalles de contrato: '+data[0];
+                            }
+                        } ),
+                        renderer: $.fn.dataTable.Responsive.renderer.tableAll( {
+                            tableClass: 'table'
+                        } )
+                    }
+                },
+                columnDefs: [
+                    { responsivePriority: 2, targets: -1 }
+                ],
+                // dom: 'Br',
+                dom: 'Bltrip',
+                buttons: [
+                    'excel'
+                ],
+                pageLength: 0,
+                lengthMenu: [10, 20, 50, 100, 200, 500]
+                } );
+
+            $(function () {
+                $('[data-toggle="tooltip"]').tooltip()
+            })
+
+        </script>
+
     
 
 

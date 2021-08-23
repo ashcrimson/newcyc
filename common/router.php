@@ -72,6 +72,11 @@ class Router{
 		$this->model = new \LicitacionesNew\ModelLicitaciones($this->pdo);
 		$this->view = new \LicitacionesNew\ViewLicitaciones;
 		$this->controller = new \LicitacionesNew\ControllerLicitaciones;
+
+		if(!empty($_GET["id"])){
+            $this->model = $this->controller->edit($this->model);
+        }
+
 		if(!empty($_POST["submit"])){
 			$this->model = $this->controller->new($this->model);
 		}else {
@@ -130,6 +135,42 @@ class Router{
         }
 	}
 
+    public function getDetallesContratosAjax()
+    {
+
+        $id = $_POST['id'] ?? $_GET['id'];
+
+        $query = 'select * from detalle_contrato where id_contrato='.$id;
+
+        $result = queryToArray($query,$this->pdo);
+
+        $detalles = [];
+
+        if ($result){
+
+
+            foreach ($result as $index => $item) {
+                $codigo = $item['CODIGO'];
+                $nombre = $item['CODIGO']." / ".$item['DESC_PROD_SOLI']." / ".$item['DESC_TEC_PROD_OFERTADO'];
+                $precio = $item['PRECIO_U_BRUTO'];
+                $saldo = $item['SALDO'];
+
+                $detalles[] = [
+                    'id' => $codigo,
+                    'nombre' => utf8_encode($nombre),
+                    'precio' => $precio,
+                    'saldo' => $saldo
+                ];
+            }
+
+        }
+
+
+        echo json_encode($detalles);
+
+
+	}
+
 
     public function contratosShow(){
 
@@ -146,27 +187,59 @@ class Router{
 
         if(isset($_GET["page"])){
             $this->model = $this->controller->page($this->model);
+		}
+		
+		if(isset($_GET['id'])){
+            $this->model = $this->controller->filter($this->model);
         }
+	}
+	
+	public function contratosBitacoraShow(){
+
+
+        $this->model = new \ContratosBitacoraShow\ModelContratos($this->pdo);
+        $this->view = new \ContratosBitacoraShow\ViewContratos();
+        $this->controller = new \ContratosBitacoraShow\ControllerContratos();
+        $this->model = $this->controller->show($this->model);
+
+        if(isset($_GET["page"])){
+            $this->model = $this->controller->page($this->model);
+		}
+//
+//		if(isset($_GET['id'])){
+//            $this->model = $this->controller->filter($this->model);
+//		}
+
     }
+
+    public function contratosBitacoraStore()
+    {
+
+        $model = new \ContratosBitacoraShow\ModelContratos($this->pdo);
+
+        $model->saveBitacora();
+    }
+
 
 
 	/***********************************
 	 * ordenes compra
 	 ***********************************/
-	//pagina listado ordenes compra
+	//pagina listado ordenes compra 
 	public function ordenCompraList(){
 		$this->model = new \OrdenCompraList\ModelOrdenCompra($this->pdo);
 		$this->view = new \OrdenCompraList\ViewOrdenCompra;
 		$this->controller = new \OrdenCompraList\ControllerOrdenCompra;
 		$this->model = $this->controller->all($this->model);
-		if(!empty($_GET["nro_orden_compra"])){
-            $this->controller->delete($this->model);
+
+		if(!empty($_GET["anula"])){
+            $this->controller->anula($this->model);
 		}
 		if(isset($_GET["page"])){
             $this->model = $this->controller->page($this->model);
 		}
 		
-		if(isset($_GET['nro_orden_compra'])){
+		if(isset($_GET['ordenes_compra'])){
             $this->model = $this->controller->filter($this->model);
         }
 	}
@@ -182,6 +255,48 @@ class Router{
 		}else {
 			$this->model = $this->controller->all($this->model);
 		}
+
+		// if(!empty($_GET["nro_orden_compra"] && $_GET["nro_orden_compra"] >= 1)){
+        //     $this->model = $this->controller->edit($this->model);
+		// }
+		
+		if(!empty($_GET["nro_orden_compra"])){
+			$this->model = $this->controller->edit($this->model);
+		}
+	}
+
+    public function ordenCompraSave()
+    {
+        $model = new \OrdenCompraNew\ModelOrdenCompra($this->pdo);
+
+        $model->new();
+        $model->execute();
+	}
+
+
+    public function ordenCompraShow(){
+
+
+        $this->model = new \OrdenCompraShow\ModelOrdenCompraShow($this->pdo);
+        $this->view = new \OrdenCompraShow\ViewOrdenCompraShow();
+        $this->controller = new \OrdenCompraShow\ControllerOrdenCompraShow();
+        $this->model = $this->controller->show($this->model);
+
+    }
+
+
+    public function ordenCompraDetalleDelete()
+    {
+        $model = new \OrdenCompraNew\ModelOrdenCompra($this->pdo);
+
+        $model->detalleDelete();
+	}
+
+	public function ordenCompraDetalleAdd()
+    {
+        $model = new \OrdenCompraNew\ModelOrdenCompra($this->pdo);
+
+        $model->detalleAdd();
 	}
 
 
@@ -244,6 +359,39 @@ class Router{
 		$this->model = new \CargosNew\ModelCargos($this->pdo);
 		$this->view = new \CargosNew\ViewCargos;
 		$this->controller = new \CargosNew\ControllerCargos;
+		$this->model = $this->controller->all($this->model);
+		if(!empty($_GET["id"])){
+			$this->model = $this->controller->edit($this->model);
+		}
+	}
+
+	/***********************************
+	 * mantenedor areas
+	 ***********************************/
+	//pagina listado de areas
+	public function areasList(){
+		$this->model = new \AreasList\ModelAreas($this->pdo);
+		$this->view = new \AreasList\ViewAreas;
+		$this->controller = new \AreasList\ControllerAreas;
+		$this->model = $this->controller->all($this->model);
+		if(!empty($_GET["tipo"])){
+			$this->model = $this->controller->filter($this->model);
+		}
+
+		if(!empty($_GET["id"])){
+            $this->controller->delete($this->model);
+		}
+		
+		if(isset($_GET["page"])){
+			$this->model = $this->controller->page($this->model);
+		}
+	}
+
+	//pagina agregado de areas
+	public function areasNew(){
+		$this->model = new \AreasNew\ModelAreas($this->pdo);
+		$this->view = new \AreasNew\ViewAreas;
+		$this->controller = new \AreasNew\ControllerAreas;
 		$this->model = $this->controller->all($this->model);
 		if(!empty($_GET["id"])){
 			$this->model = $this->controller->edit($this->model);
@@ -328,6 +476,51 @@ class Router{
         if(!empty($_GET["id"] && $_GET["id"] >= 1)){
             $this->model = $this->controller->show($this->model);
         }
+	}
+	
+	/***********************************
+	 * mantenedor prestaciones
+	 ***********************************/
+	//pagina listado de prestaciones
+	public function prestacionesList(){
+		$this->model = new \prestacionesList\ModelPrestaciones($this->pdo);
+		$this->view = new \prestacionesList\ViewPrestaciones;
+		$this->controller = new \prestacionesList\ControllerPrestaciones;
+		$this->model = $this->controller->all($this->model);
+		if(!empty($_GET["id"])){
+			$this->model = $this->controller->filter($this->model);
+		}
+		if(!empty($_GET["id"])){
+            $this->controller->delete($this->model);
+		}
+		
+		if(isset($_GET["page"])){
+			$this->model = $this->controller->page($this->model);
+		}
+	}
+
+	//pagina agregado de prestaciones
+	public function prestacionesNew(){
+		$this->model = new \prestacionesNew\ModelPrestaciones($this->pdo);
+		$this->view = new \prestacionesNew\ViewPrestaciones;
+		$this->controller = new \prestacionesNew\ControllerPrestaciones;
+		$this->model = $this->controller->all($this->model);
+		if(!empty($_GET["id"])){
+			$this->model = $this->controller->edit($this->model);
+		}
+	}
+
+	public function prestacionesShow(){
+
+
+        $this->model = new \prestacionesShow\ModelPrestaciones($this->pdo);
+        $this->view = new \prestacionesShow\ViewPrestaciones;
+        $this->controller = new \prestacionesShow\ControllerPrestaciones;
+
+        //si no esta vacío el dato id de la url
+        if(!empty($_GET["id"] && $_GET["id"] >= 1)){
+            $this->model = $this->controller->show($this->model);
+        }
     }
 
 
@@ -341,15 +534,22 @@ class Router{
 		$this->view = new \usuariosList\ViewUsuarios;
 		$this->controller = new \usuariosList\ControllerUsuarios;
 		$this->model = $this->controller->all($this->model);
-		if(!empty($_GET["id"])||!empty($_GET["nombre"])){
-			$this->model = $this->controller->filter($this->model);
-		}
+
+        if(!empty($_GET["restore"])){
+            $this->model->restore();
+        }
+
 		if(!empty($_GET["id"])){
             $this->controller->delete($this->model);
         }
+
+
+
 		if(isset($_GET["page"])){
 			$this->model = $this->controller->page($this->model);
 		}
+
+		
 	}
 
 	//pagina agregado de usuarios
@@ -358,6 +558,8 @@ class Router{
 		$this->view = new \UsuariosNew\ViewUsuarios;
 		$this->controller = new \UsuariosNew\ControllerUsuarios;
 		$this->model = $this->controller->all($this->model);
+
+
 		if(!empty($_GET["id"])){
 			$this->model = $this->controller->edit($this->model);
 		}
@@ -455,7 +657,7 @@ class Router{
         }
 
 
-
+ 
 	}
 
 	public function detalle(){

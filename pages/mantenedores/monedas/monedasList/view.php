@@ -27,10 +27,12 @@ class ViewMonedas {
 
     <ol class="breadcrumb">
         <li class="breadcrumb-item">
-            <a href="<?=base("/monedas");?>">Monedas</a>
+            <a href="<?=base("/monedas");?>" class="encabezado">Monedas</a>
         </li>
-        <li class="breadcrumb-item active">Mantenedor</li>
+        
     </ol>
+
+    <?php feedback2();?>
 
     <!-- DataTables -->
     <div class="card mb-3">
@@ -86,7 +88,7 @@ class ViewMonedas {
 
         <div class="card-body">
             
-            <div class="table-responsive">
+            <div class="table table-sm table-bordered table-hover nowrap">
 
                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                     <thead>

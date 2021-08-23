@@ -30,11 +30,13 @@ class ViewLicitaciones {
 
 		<ol class="breadcrumb">
 			<li class="breadcrumb-item">
-				<a href="./licitaciones">Licitaciones</a>
+				<a href="./licitaciones" class="encabezado">Licitaciones</a>
 			</li>        
 		</ol>
 
-		<!-- DataTables Example -->
+        <?php feedback2();?>
+
+        <!-- DataTables Example -->
 		<div class="card mb-3">
 			<div class="card-header">
 				<form method="get" class="form-horizontal" action="./licitaciones">
@@ -94,9 +96,9 @@ class ViewLicitaciones {
 				<div class="alert alert-success" role="alert">
 					{{ session('status')}}
 				</div>
-
+ 
 				@endif -->
-				<div class="table-responsive table-sm -md -lg -x">
+				<div class="table table-sm table-bordered table-hover nowrap">
 					<table class="table table-bordered"  class="table-sm w-25" id="dataLicitaciones" width=100% cellspacing="0">
 						<thead>
 							<tr>
@@ -104,23 +106,36 @@ class ViewLicitaciones {
 								<th>Presupuesto</th>
 								<th>Descripción</th>
 								<th>Adjunto</th>
-								<!-- {{-- <th>Acción</th> --}} -->
+								<th>CREADO POR</th>
+								<th>ACTUALIZADO POR</th>
+                                <th>Acción</th>
 							</tr>
 						</thead>
 						<tbody>
 							<?php 
-							foreach ($listado as $licitaciones) {
+							foreach ($listado as $licitacion) {
 								// foreach ($documentos as $documento) {	
 								?>
-							<tr>
-								<td> <?= $licitaciones["NRO_LICITACION"]; ?></td>
-								<td> <?= $licitaciones["PRESUPUESTO"]; ?></td>
-								<td> <?= $licitaciones["DETALLE"]; ?></td>
+							<tr> 
+								<td> <?= $licitacion["NRO_LICITACION"]; ?></td>
+								<td>$ <?= number_format($licitacion["PRESUPUESTO"], 0, ',', '.'); ?></td>
+								<td> <?= acentos($licitacion["DETALLE"]); ?></td>
 								<td>
-									<a href="<?= base()."/archivo/download?id=".$licitaciones['NRO_DOCUMENTO'] ?>" target="_blank">
-										<?= $licitaciones["NOMBRE_DOCUMENTO"] ?>
+									<a href="<?= base()."/archivo/download?id=".$licitacion['NRO_DOCUMENTO'] ?>" target="_blank">
+										<?= $licitacion["NOMBRE_DOCUMENTO"] ?>
 									</a>
 								</td>
+                                <td> <?= $licitacion["USUARIO_CREA"]; ?></td>
+                                <td> <?= $licitacion["USAURIO_ACTUALIZA"]; ?></td>
+                                <td>
+
+                                    <a href="<?=base("/licitaciones/new?id=").$licitacion["NRO_LICITACION"];?>"
+                                       class="btn btn-sm btn-primary btn-sm"
+                                       data-toggle="tooltip" title="Editar">
+                                        <i class="fa fa-pencil-alt"></i>
+                                    </a>
+
+                                </td>
 
 								
 							</tr>

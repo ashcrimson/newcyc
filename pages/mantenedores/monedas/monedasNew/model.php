@@ -38,7 +38,7 @@ class ModelMonedas {
 		$listado = [];
 
 
-		//validacion de datos recividos
+		//validacion de datos recibidos
 		$params = "";
 		if(isset($_POST["submit"])){
 			if(isset($_POST["codigo"]) && $_POST["codigo"] != ""){
@@ -102,7 +102,12 @@ class ModelMonedas {
 							  WHERE CODIGO='" . $_POST["id"] . "'";
 				//ejecucion consulta
 				$result = oci_parse($this->pdo, $query);
-				print_r($query);
+				// print_r($query);
+				if($result){
+
+                 
+                    flash("Moneda actualizada correctamente")->success() ;
+                }
 				oci_execute($result);
 
 				//oci_error();
@@ -117,15 +122,20 @@ class ModelMonedas {
 						)";
 				*/
 				$query = "INSERT INTO MONEDA VALUES(
-						  '". $_POST["codigo"] ."',
-							 '". $_POST["nombre"] ."',
+						  	 '". $_POST["codigo"] ."',
+							 '". acentos($_POST["nombre"]) ."',
 							 ". $_POST["factor_conversion"] .",
 							 0
 						  )";
-print_r($query);
+				// print_r($query);
 				//ejecucion consulta
 				$result = oci_parse($this->pdo, $query);
 				//print_r($consulta);
+				if($result){
+
+                    
+                    flash("Moneda ingresada correctamente")->success() ;
+                }
 				oci_execute($result);
 
 				//oci_error();
@@ -149,6 +159,7 @@ print_r($query);
 		//$results["result"] = $result;
 
 		oci_close($this->pdo);
+		header("Location:". base() ."/monedas");
 		//return $assoc;
 	}
 }

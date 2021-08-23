@@ -18,6 +18,7 @@ class ModelProveedores  {
 	private $error = false;
 	private $errores = [];
 	private $params = "";
+	private $feedback = "";
 	private $rut;
 
 
@@ -180,7 +181,8 @@ class ModelProveedores  {
                 $result = oci_parse($this->pdo, $query);
 
                 if($result){
-                    $_SESSION["feedback"] = "Proveedor actualizado correctamente";
+					
+                    flash("Contrato actualizado correctamente")->success() ;
                 }
 
                 oci_execute($result);
@@ -203,8 +205,8 @@ class ModelProveedores  {
 				) 
 			VALUES (
 				'". $_POST["rut"] ."', 
-				'". $_POST["nombre"] ."',
-				'". $_POST["nombre_fantasia"] ."',
+				'". acentos($_POST["nombre"]) ."',
+				'". acentos($_POST["nombre_fantasia"]) ."',
 				'". $_POST["telefono"] ."',
 				'". $_POST["email"] ."',
 				'". $_POST["direccion"] ."',
@@ -217,7 +219,8 @@ class ModelProveedores  {
                 $result = oci_parse($this->pdo, $query);
 
                 if($result){
-                    $_SESSION["feedback"] = "Proveedor ingresado correctamente";
+					
+                    flash("Proveedor ingresado correctamente")->success() ;
                 }
 
                 oci_execute($result);
@@ -233,11 +236,13 @@ class ModelProveedores  {
 			die();
 		}
 
- 
+  
 
 		//agrega resultados a retorno
 
 		oci_close($this->pdo);
+
+		header("Location:". base() ."/proveedores");
 		
 		//return $assoc;
 	}

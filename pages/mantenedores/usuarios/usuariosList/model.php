@@ -32,21 +32,27 @@ class ModelUsuarios {
 	//elimina registro indicado
 	public function delete($id): self{
 
-		$sql = "DELETE FROM USUARIOS_PERMISOS WHERE MAIL_USUARIO = '{$id}'";
-		$result = oci_parse($this->pdo, $sql);
-		oci_execute($result);
 
-		
+        $query = "update USUARIOS set ESTADO='INACTIVO' WHERE ID_USUARIO='{$id}'";
 
-        $sql = "DELETE FROM USUARIOS WHERE ID = '{$id}'";
-        $result = oci_parse($this->pdo, $sql);
-		oci_execute($result);
+        $result = oci_parse($this->pdo, $query);
+
+
+        if (oci_execute($result)){
+            oci_commit($this->pdo);
+            flash("Usuario desactivado correctamente")->success() ;
+        }else{
+            oci_rollback($this->pdo);
+            $error = oci_error($result);
+            flash($error['message'])->error();
+        }
+
 		
         oci_commit($this->pdo);
 
-        return new self($this->pdo, '', $this->page);
+        redirect('/usuarios');
 
-	} 
+    }
 
 	//filtra consulta por nro de licitación(id, llave primaria)
 	public function getId($id): self{
@@ -60,22 +66,37 @@ class ModelUsuarios {
 
 	//retorna el/los datos seleccionados
 	public function get(){
-		
+
+        $authUser = authUser($this->pdo);
+
 		$assoc = [];
 		$listado = [];
 		$mail = [];
 		$totales = [];
 
+		$where = 'where 1=1';
+
+        if ($authUser['ID_PERMISO']==2){
+            $where .= " and u.ID_CARGO='{$authUser['ID_CARGO']}'";
+        }
 
 
-		if ($this->id){
-			$where = " WHERE ID = '" . $this->id . "'";
-		}else{
-			$where = "";
-		}
 		//consulta principal
-		$consulta = "SELECT * FROM USUARIOS " . $where;// . " ORDER BY CODIGO DESC";
-		//consulta paginada
+		$consulta = "
+            SELECT 
+                U.*,
+                c.NOMBRE AS NOMBRE_CARGO,
+                p.NOMBRE_PERMISO AS NOMBRE_PERMISO,
+                a.AREA as nombre_area
+            FROM 
+                USUARIOS u left join CARGOS c on u.ID_CARGO=c.ID_CARGO
+                left join PERMISOS p on u.ID_PERMISO= p.ID_PERMISO
+                left join AREAS a on a.ID_AREA = u.ID_AREA
+            {$where}
+        ";
+
+
+        //consulta paginada
 		$query = queryPagination($consulta, $this->page);
 		$result = oci_parse($this->pdo, $query);
 		oci_execute($result);
@@ -101,5 +122,32 @@ class ModelUsuarios {
 
 		oci_close($this->pdo);
 		return $assoc;
+	}
+
+    public function restore()
+    {
+        $id = $_GET['id'];
+
+
+        $query = "update USUARIOS set ESTADO='ACTIVO' WHERE ID_USUARIO='{$id}'";
+
+        $result = oci_parse($this->pdo, $query);
+
+
+        if (oci_execute($result)){
+            oci_commit($this->pdo);
+            flash("Usuario restaurado correctamente")->success() ;
+        }else{
+            oci_rollback($this->pdo);
+            $error = oci_error($result);
+            flash($error['message'])->error();
+        }
+
+
+        oci_commit($this->pdo);
+
+        redirect('/usuarios');
+
+
 	}
 }

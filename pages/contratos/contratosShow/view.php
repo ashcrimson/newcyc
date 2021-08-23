@@ -14,10 +14,21 @@ class ViewContratos {
 
 
 		if(isset($_GET["id"])){
-            $contrato = $model->get();
+			$contrato = $model->get();
+			// $suma = $model->suma();
+		}
+
+
+
+
+        $queryString = $_SERVER['QUERY_STRING'] ?? '';
+
+        $id = $_GET['id'] ?? 0;
+
+        if($id){
+            $search= 'id='.$id.'&';
+            $queryString = str_replace($search,'?',$queryString);
         }
-
-
 
 		ob_start();
 
@@ -47,16 +58,49 @@ class ViewContratos {
 		<div class="card mb-3">
 			<div class="card-header">
 
+			
+
 			<table>
 			<tr>
-				<td>ID CONTRATO</td>
-				<td><?= $contrato["TIPO"] ."-". $contrato["ID_CONTRATO"]; ?></td>
+				<td>ID MERCADO PUBLICO</td>
+				<td><?= $contrato["ID_MERCADO_PUBLICO"]; ?></td>
 			</tr>
 			<tr>
 				<td>PROVEEDOR</td>
 				<td><?=$contrato["RUT_PROVEEDOR"]?></td>
 			</tr>
 			</table>
+			<hr>
+			<div class="row">
+				<form method="get" class="form-horizontal" action="<?=base()."/contratos/show"?>">
+					<div class="col-12" style="width:600px;">
+						<label>Buscar</label>
+							
+								<select name="codigo" class="selectpicker selectField"  placeholder='Seleccione Código' data-live-search='true'>
+									<option value=""></option>
+									<?php
+									foreach($contrato["DETALLES"] as  $detalle) {
+										$selected = $_GET["codigo"]==$detalle["CODIGO"]? 'selected' : '';
+										?>
+										<option value="<?= $detalle["CODIGO"];?>" <?=$selected?>>
+											<?= $detalle["CODIGO"]." / ".$detalle["DESC_PROD_SOLI"];?>
+										</option>
+										<?php
+									}
+									?>
+								</select>
+								
+							
+                        <input type="hidden" name="id" value="<?=$contrato['ID_CONTRATO']?>">
+					</div>
+					<div class="btn-group float-right">
+						<?php if(!empty($_GET)){ ?> 
+							<a class="btn btn-default" href="<?=base()."/contratos/show?id=".$contrato['ID_CONTRATO'];?>">Limpiar Filtros</a>
+						<?php } ?>
+							<button type="submit" class="btn btn-primary rounded"><i class="fa fa-search"></i> Buscar</button>
+					</div>
+				</form>
+			</div>
 
 			<div class="table-responsive table-sm -md -lg -x">
 
@@ -73,9 +117,10 @@ class ViewContratos {
 							<th>F_F</th>
 							<th>DESC_TEC_PROD_OFERTADO</th>
 							<th>U_ENTREGA_OFERENTE</th>
+							<!-- <th>SUMA</th> -->
 						</tr>
 					</thead>
-					<tbody>
+					<tbody>  
  
 					
 						<?php foreach($contrato["DETALLES"] as  $detalle){?>
@@ -90,6 +135,8 @@ class ViewContratos {
 									<td> <?= $detalle["F_F"]; ?></td>
 									<td> <?= $detalle["DESC_TEC_PROD_OFERTADO"]; ?></td>
 									<td> <?= $detalle["U_ENTREGA_OFERENTE"]; ?></td>
+									<!-- <td><?= $suma ?></td> -->
+									
 								</tr>
 						<?php }?>
 						
@@ -99,9 +146,10 @@ class ViewContratos {
 				
                 </div>
 			</div>
+
             <div class="card-footer">
                 <?php
-                paginador($contrato['TOTAL_DETALLES'], "/contratos/show?id=".$_GET["id"], 10);
+                paginador($contrato['TOTAL_DETALLES'], base()."/contratos/show?id=".$_GET["id"], 10);
                 ?>
             </div>
 		</div>
@@ -116,6 +164,25 @@ class ViewContratos {
 
 		<script src="<?=base();?>/assets/assets/frontend/js/jquery-3.3.1.js"></script>
 		<script src="<?=base();?>/assets/assets/frontend/js/selectize.js"></script>
+
+		<script>
+        $('.selectField').selectize({
+            create: false,
+            sortField: {
+                field: 'text',
+                direction: 'asc'
+            },
+            dropdownParent: 'body'
+        });
+	</script>
+
+<!-- {{-- Script para mostrar nombre archivo en el select --}} -->
+    <script>
+        $(".custom-file-input").on("change", function() {
+            var fileName = $(this).val().split("\\").pop();
+            $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
+        });
+    </script>
 
 
 

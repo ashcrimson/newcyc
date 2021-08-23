@@ -30,12 +30,14 @@ class ViewProveedores {
     <!-- Breadcrumbs-->
     <ol class="breadcrumb">
         <li class="breadcrumb-item">
-            <a href="<?=base("/proveedores/");?>">Proveedores</a>
+            <a href="<?=base("/proveedores/");?>" class="encabezado">Proveedores</a>
         </li>
-        <li class="breadcrumb-item active">Mantenedor</li>
+        
     </ol>
 
-    <!-- DataTables -->
+    <?php feedback2();?>
+
+    <!-- DataTables --> 
     <div class="card mb-3">
         <div class="card-header">
             <form method="get" class="form-horizontal" action="<?=base("/proveedores/");?>">
@@ -97,7 +99,7 @@ class ViewProveedores {
             </form>
         </div>
         <div class="card-body">
-            <div class="table-responsive">
+            <div class="table table-sm table-bordered table-hover nowrap">
                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                     <thead>
                         <tr>

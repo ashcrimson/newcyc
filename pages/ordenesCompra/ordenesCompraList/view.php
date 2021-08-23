@@ -1,7 +1,7 @@
 <?php
 
-     
-
+      
+ 
 namespace OrdenCompraList;
 
 /**
@@ -14,7 +14,13 @@ class ViewOrdenCompra {
 		$data = $model->get();
 
 		$listado = $data[0];
-		$totales = $data[1];
+        $totales = $data[1];
+        
+        $dataListBox = $model->getDataListBox();
+
+        //arrays para los selects
+        $contratos = $dataListBox['contratos'];
+        $ordenes_compra = $dataListBox['ordenes_compra'];
 
 		ob_start();
 
@@ -24,10 +30,12 @@ class ViewOrdenCompra {
     <!-- Breadcrumbs-->
     <ol class="breadcrumb">
         <li class="breadcrumb-item">
-			<a href="<?= base("/ordenCompra");?>">Orden de Compra</a>
+			<a href="<?= base("/ordenCompra");?>" class="encabezado">Ordenes de Compra</a>
         </li>
-        <li class="breadcrumb-item active">Mantenedor</li>
+       
     </ol>
+
+        <?php feedback2();?>
 
     <!-- DataTables -->
     <div class="card mb-3">
@@ -35,71 +43,91 @@ class ViewOrdenCompra {
 			<form method="get" class="form-horizontal" action="<?= base("/ordenCompra");?>">
 
                 <div class="row">
+                    <!-- <div class="col-3">
+                        <label>ID Contrato</label>
+                            <div>
+                                <select name="id_contrato" class="selectpicker selectField" placeholder='Seleccione Contrato' data-live-search='true'>
+                                    <option value=""></option>
+                                    <?php 
+                                    foreach ($contratos as $index => $contrato) {
+                                        
+                                        $selected = $_GET["id_contrato"]==$contrato["ID_CONTRATO"] ? 'selected' : '';
+                                        ?>
+                                        
+                                            <option value="<?=$contrato["ID_CONTRATO"]; ?>" <?=$selected?>>
+                                            <?= $contrato["TIPO"] ."-". $contrato["ID_CONTRATO"]; ?>
+                                            </option>
+                                        <?php
+                                    }
+                                    ?>
+                                </select>
+                            </div>
+                    </div> -->
+
+                    
                     <div class="col-3">
-						<label>ID Contrato</label>
-                        <div>
-						<select name="numeroLicitacion" class="selectpicker selectField" placeholder='Seleccione ID Contrato' data-live-search='true'>
-                                <option value=""></option>
-                                <?php
-	                            foreach ($listado as $contrato){
-	                            	if (!empty($_GET["numeroLicitacion"]) && $_GET["numeroLicitacion"] == $contrato["ID_CONTRATO"]){
-										?>
-										<option selected="true" value="<?= $contrato["ID_CONTRATO"];?>"><?= $contrato["ID_CONTRATO"];?></option>
-										<?php
-									}else{
-										?>
-										<option value="<?= $contrato["ID_CONTRATO"];?>"><?= $contrato["ID_CONTRATO"];?></option>
-										<?php
-									}
-								}
-	                            ?>
-                            </select>
+                        <label>ID Mercado Público</label>
+                            <div>
+                                <select name="id_mercado_publico" class="selectpicker selectField" placeholder='Seleccione Contrato' data-live-search='true'>
+                                    <option value=""></option>
+                                    <?php 
+                                    foreach ($contratos as $index => $contrato) {
+                                        
+                                        $selected = $_GET["id_mercado_publico"]==$contrato["ID_MERCADO_PUBLICO"] ? 'selected' : '';
+                                        ?>
+                                        
+                                            <option value="<?=$contrato["ID_MERCADO_PUBLICO"]; ?>" <?=$selected?>>
+                                            <?= $contrato["ID_MERCADO_PUBLICO"]; ?>
+                                            </option>
+                                        <?php
+                                    }
+                                    ?>
+                                </select>
+                            </div>
                     </div>
-                </div>
+
+                    
+
                     <div class="col-3">
-						<label>N° Orden de Compra</label>
+                        <label>N° Orden de Compra</label>
+                            <div>
+                                <select name="ordenes_compra" class="selectpicker selectField" placeholder='Seleccione Orden de Compra' data-live-search='true'>
+                                    <option value=""></option>
+                                    <?php 
+                                    foreach ($ordenes_compra as $index => $orden) {
+                                        
+                                        $selected = $_GET["ordenes_compra"]==$orden["NRO_ORDEN_COMPRA"] ? 'selected' : '';
+                                        ?>
+                                        
+                                            <option value="<?=$orden["NRO_ORDEN_COMPRA"]; ?>" <?=$selected?>>
+                                            <?=$orden["NRO_ORDEN_COMPRA"]; ?>
+                                            </option>
+                                        <?php
+                                    }
+                                    ?>
+                                </select>
+                            </div>
+                    </div>
+                    <div class="col-3">
+                        <label>Estado</label>
                         <div>
-							<select name="numeroOrden" class="selectpicker selectField" placeholder='Seleccione N° Orden de Compra' data-live-search='true'>
-                                <option value=""></option>
-                                <?php
-	                            foreach ($listado as $orden) { 
-									if (!empty($_GET["numeroOrden"]) && $_GET["numeroOrden"] == $orden["NRO_ORDEN_COMPRA"]){
-										?>
-										<option selected="true" value="<?= $orden["NRO_ORDEN_COMPRA"];?>"><?= $orden["NRO_ORDEN_COMPRA"];?></option>
-										<?php
-									}else{
-										?>
-										<option value="<?= $orden["NRO_ORDEN_COMPRA"];?>"><?= $orden["NRO_ORDEN_COMPRA"];?></option>
-										<?php
-									}
-								}
-	                            ?>
+                            <select name="estado" class="selectpicker selectField" placeholder='Seleccione Estado' data-live-search='true'>                                <option value=""></option>
+                            <option value=""></option>
+                                    <?php 
+                                    foreach (['Aceptado', 'Pendiente', 'Recepcion Conforme','Anulada'] as $index => $estado) {
+                                        
+                                        $selected = $_GET["estado"]==$estado ? 'selected' : '';
+                                        ?>
+                                        
+                                            <option value="<?=$estado; ?>" <?=$selected?>>
+                                            <?=$estado; ?>
+                                            </option>
+                                        <?php
+                                    }
+                                    ?>
                             </select>
                         </div>
                     </div>
-
-					<div class="col-3">
-						<label>Estado</label>
-                        <div>
-							<select name="estado" class="selectpicker selectField" placeholder='Seleccione Estado' data-live-search='true'>                                <option value=""></option>
-							<option value=""></option>
-	                                <?php 
-	                                foreach ($listado as $estado) { 
-	                                    if (!empty($_GET["estado"]) && $_GET["estado"] == $estado["ESTADO"]){
-	                                        ?>
-	                                        <option selected="true" value="<?= $estado["ESTADO"];?>"><?= $estado["ESTADO"];?></option>
-	                                        <?php
-	                                    }else{
-	                                        ?>
-	                                        <option value="<?= $estado["ESTADO"];?>"><?= $estado["ESTADO"];?></option>
-	                                        <?php
-	                                    }
-	                                }
-	                                ?>
-                            </select>
-                        </div>
-                    </div>
-
                 </div>
                 <hr>
                 <div class="btn-group float-right ml-3">
@@ -120,47 +148,69 @@ class ViewOrdenCompra {
         </div>
         <div class="card-body">
             <div class="table-responsive">
-                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                    <thead>
-                        <tr>
-							<th>ID Contrato</th>
-							<th>Nro. Licitación</th>
+                <table class="table table-sm table-bordered table-hover nowrap" id="tablaCompras" width="100%" cellspacing="0">
+                    <thead >
+                        <tr >
+							<th>ID Mercado Público</th>
 							<th>Nro. Orden de Compra</th>
 							<th>Fecha de Envío</th>
 							<th>Total</th>
 							<th>Estado</th>
 							<th>Adjunto</th> <!-- Implementar pdf-->
+                            <th>Creada por</th>
+                            <th>Actualizada por</th>
 							<th>Acción</th>
                         </tr>
                     </thead>
                     
-                    <tbody>
+                    <tbody  >
                     	<?php
-                    	foreach ($listado as $ordenCompra) {
-							?>
-                        <tr>
-							<td><?= $ordenCompra["ID_CONTRATO"];?></td>
-							<td><?= $ordenCompra["NRO_LICITACION"];?></td>
+                    	foreach ($listado as $index => $ordenCompra) {
+						?>
+                        <tr >
+							<td><?= $ordenCompra["ID_MERCADO_PUBLICO"];?></td>
 							<td><?= $ordenCompra["NRO_ORDEN_COMPRA"];?></td>
 							<td><?= $ordenCompra["FECHA_ENVIO"];?></td>
-							<td><?= $ordenCompra["TOTAL"];?></td>
-							<td><?= $ordenCompra["ESTADO"];?></td> 
+                            <td>$<?= number_format($ordenCompra["TOTAL"], 2, ',', '.') ?></td>
+
+                            <td><?= $ordenCompra["ESTADO"];?></td>
 							<td>
 								<a href="<?= base()."/archivo/download?id=".$ordenCompra['NRO_DOCUMENTO'] ?>" target="_blank">
 									<?= $ordenCompra["NOMBRE_DOCUMENTO"] ?>
 								</a>
 						
 							</td>
+                            <td> <?= $ordenCompra["USUARIO_CREA"]; ?></td>
+                            <td> <?= $ordenCompra["USAURIO_ACTUALIZA"]; ?></td>
                                 <td>
-                                    <?php if(!$proveedores["FECHA_ELIMINACION"]){ ?>
-                                        <a href="#" data-target="#miModal<?=$index;?>" data-toggle="modal" class="btn btn-danger btn-xs"  ><i class="far fa-trash-alt"></i> Eliminar</a>
+
+                                    <a href="<?=base("/ordenCompra/show?id=").$ordenCompra["NRO_ORDEN_COMPRA"];?>"
+                                       class="btn btn-sm btn-secondary "
+                                       data-toggle="tooltip" title="Ver">
+                                        <i class="fa fa-eye"></i>
+                                    </a>
+
+                                    <?php if($ordenCompra["ESTADO"]!='Anulada'){ ?>
+
+                                        <a href="<?=base("/ordenCompra/new?nro_orden_compra=").$ordenCompra["NRO_ORDEN_COMPRA"];?>"
+                                           class="btn btn-sm btn-primary "
+                                           data-toggle="tooltip" title="Editar">
+                                            <i class="fa fa-pencil-alt"></i>
+                                        </a>
+
+                                        <span data-toggle="tooltip" title="Anular">
+                                            <a href="#" data-target="#miModal<?=$index;?>" data-toggle="modal" class="btn btn-sm btn-danger "  >
+                                                <i class="far fa-trash-alt"></i>
+                                            </a>
+                                        </span>
+                                        <!-- <a href="#" data-target="#restoreModal<?=$index;?>" data-toggle="modal" class="btn btn-sm btn-info btn-xs"  ><i class="far fa-eye"></i> Restaurar</a> -->
                                         <!-- modal starts -->
                                         <div class="modal fade" id="miModal<?= $index; ?>">
                                             <div class="modal-dialog">
                                                 <div class="modal-content">
-                                                    <form class="form-horizontal" method="post" action="<?=base("/ordenCompra/delete?id=").$ordenCompra["NRO_ORDEN_COMPRA"];?>" >
+                                                    <form class="form-horizontal" method="post" action="<?=base("/ordenCompra?anula=1&nro_orden_compra=").$ordenCompra["NRO_ORDEN_COMPRA"];?>" >
                                                     <div class="modal-header">
-                                                        <h4 class="modal-title"> Borrar <?= $ordenCompra["NRO_ORDEN_COMPRA"]; ?> </h4>
+                                                        <h4 class="modal-title"> Anular Orden de Compra n°<?= $ordenCompra["NRO_ORDEN_COMPRA"]; ?> </h4>
                                                         <button type="button" class="close" data-dismiss="modal">&times;</button>
                                                     </div>
 
@@ -177,50 +227,7 @@ class ViewOrdenCompra {
                                     <?php
                                 }else{
                                 	?>
-                                        <a href="#" class="btn btn-xs btn-success" data-target="#restoreModal<?=$proveedores["RUT_PROVEEDOR"];?>" data-toggle="modal"><i class="fas fa-arrow-circle-up"></i> Restaurar</a>
 
-                                        <!-- modal starts -->
-                                        <div class="modal fade" id="restoreModal<?=$proveedores["RUT_PROVEEDOR"];?>">
-                                            <div class="modal-dialog">
-                                                <div class="modal-content">
-                                                    <form class="form-horizontal" method="post" action="<?=base("/ordenCompra/new?restore=true&id=").$ordenCompra["NRO_ORDEN_COMPRA"];?>" >
-
-                                                    <div class="modal-header">
-                                                        <h4 class="modal-title"> Restaurar  <?=$proveedores["RAZON_SOCIAL"];?> </h4>
-                                                        <button type="button" class="close" data-dismiss="modal">&times;</button>
-                                                    </div>
-                        
-                                                    <div class="modal-footer">
-                                                        <button type="submit" class="btn btn-success">Restaurar</button>
-                                                        <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
-                                                    </div>
-                                                    </form>
-                                                </div>
-                                            </div>
-                                        </div> 
-                                        <!-- modal ends -->
-
-                                        <!-- modal starts -->
-                                        <div class="modal fade" id="forceDeleteModal<?=$proveedores["RUT"];?>">
-                                            <div class="modal-dialog">
-                                                <div class="modal-content">
-                                                    <form class="form-horizontal" method="post" action="<?=base("/proveedores/delete?force=true&id=").$proveedores["ID"];?>" >
-                                                        <div class="modal-header">
-                                                            <h4 class="modal-title"> Borrar permanentemente <?=$proveedores["RAZON_SOCIAL"];?> </h4>
-                                                            <button type="button" class="close" data-dismiss="modal">&times;</button>
-                                                        </div>
-                                        
-                                                        <div class="modal-footer">
-                                                            <button type="submit" class="btn btn-primary">Eliminar</button>
-                                                            <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
-                                                        </div>
-                                                    </form>
-                                                </div>
-                                            </div>
-                                        </div> 
-                                        <!-- modal ends -->
-
-                                        
 
 
                                     <?php
@@ -237,14 +244,16 @@ class ViewOrdenCompra {
             </div>
         </div>
         
-        <div class="card-footer">
-        	<?=paginador($totales, base("/ordenCompra"), 12);?>
-        </div>
+<!--        <div class="card-footer">-->
+<!--        	--><?//=paginador($totales, base("/ordenCompra"), 12);?>
+<!--        </div>-->
     </div>
 
     <script src="<?=base();?>/assets/assets/frontend/js/jquery-3.3.1.js"></script>
     <script src="<?=base();?>/assets/assets/frontend/js/selectize.js"></script>
-    <script>
+    <script src="<?=base();?>/assets/assets/vendor/datatables/datatables.min.js"></script>
+
+        <script>
         $('.selectField').selectize({
             create: false,
             sortField: {
@@ -259,17 +268,51 @@ class ViewOrdenCompra {
         });
 	</script>
 
+        <script>
+
+
+                var dt = $('#tablaCompras').DataTable({
+                    responsive: {
+                        details: {
+                            display: $.fn.dataTable.Responsive.display.modal( {
+                                header: function ( row ) {
+                                    var data = row.data();
+                                    return 'Detalles de orden compra: '+data[0];
+                                }
+                            } ),
+                            renderer: $.fn.dataTable.Responsive.renderer.tableAll( {
+                                tableClass: 'table'
+                            } )
+                        }
+                    },
+                    columnDefs: [
+                        { responsivePriority: 2, targets: -1 }
+                    ],
+                    // dom: 'Br',
+                    dom: 'Bltrip',
+                    buttons: [
+                         'excel'
+                    ],
+                    pageLength: 0,
+                    lengthMenu: [10, 20, 50, 100, 200, 500]
+                });
 
 
 
+                $(function () {
+                    $('[data-toggle="tooltip"]').tooltip()
+                })
+
+        </script>
 
 
-		<?php
 
-		$output = ob_get_contents();
-		ob_end_clean();
+    <?php
 
-		return $output;
+    $output = ob_get_contents();
+    ob_end_clean();
+
+    return $output;
 //		return "";
 
 	}

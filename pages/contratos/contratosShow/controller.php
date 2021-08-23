@@ -1,6 +1,6 @@
 <?php
 
-
+ 
 
 namespace ContratosShow;
 
@@ -12,7 +12,15 @@ class ControllerContratos {
     //retorna todos las licitaciones
     public function all(ModelContratos $model){
         return $model;
-    }
+	}
+	
+	//retorna solo la licitacion solicitada
+	public function filter(ModelContratos $model){
+	    if(isset($_GET["id_contrato"])){
+			$model = $model->getId($_GET["id_contrato"]);
+		}
+		return $model;
+	}
 
 	public function show(ModelContratos $model){
 		$model = $model->show($_GET["id"]);

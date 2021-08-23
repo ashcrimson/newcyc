@@ -14,7 +14,7 @@ class ModelContratos {
 	 * varaibles globales
 	 */
 	//Obj de conexion de db
-	private $pdo;
+	public $pdo;
 	//filtro de licitacion
 	private $id;
 	//pagina 
@@ -22,7 +22,7 @@ class ModelContratos {
 	//resultados por pagina
 	private $resultados = 10;
 
-	private $authUser;
+	private $authUser; 
 
 	//Constructor
 	function __construct($pdo, string $id = '', int $page = 1){
@@ -31,7 +31,7 @@ class ModelContratos {
 		$this->page = $page;
 
         session_start();
-        //consulta para recuperar numeros de licitaciones
+        
         $query = "SELECT * FROM USUARIOS WHERE mail='".$_SESSION['mail']."'";
 
 
@@ -54,10 +54,17 @@ class ModelContratos {
 	//retorna el/los datos seleccionados
 	public function get(){
 
-        if($this->authUser['ID_PERMISO'] == 1 )
+        
+        if($this->authUser['ID_PERMISO'] == 1 || $this->authUser['ID_PERMISO'] == 3 )
         {
             $where = 'where 1=1';
-        } 
+        } elseif($this->authUser['ID_PERMISO'] == 4 ) {
+
+ 
+
+            $where = "WHERE c.id_contrato in (select id_contrato from contratos_asignacion where id_area = '".$this->authUser['ID_AREA']."')";
+        
+        }  
         
         
         else {
@@ -74,41 +81,68 @@ class ModelContratos {
         if ($_GET['rut_proveedor']){
             $where .= " and p.RUT_PROVEEDOR = '" . $_GET['rut_proveedor'] . "'";
         }
-        
+
         if ($_GET['cargos']){
-            $where .= " and NOMBRE = '" . $_GET['cargos'] . "'";
+            $where .= " and c.ID_CARGO = '" . $_GET['cargos'] . "'";
         }
-        
+
         if ($_GET['licitacion']){
-            $where .= " and NRO_LICITACION = '" . $_GET['licitacion'] . "'";
+            $where .= " and c.NRO_LICITACION = '" . $_GET['licitacion'] . "'";
+        }
+
+        if ($_GET['objeto']){
+            $where .= " and c.OBJETO_CONTRATO = '" . $_GET['objeto'] . "'";
+        }
+
+        if ($_GET['id_mercado_publico']){
+            $where .= " and c.ID_MERCADO_PUBLICO = '" . $_GET['id_mercado_publico'] . "'";
         }
 
         //consulta principal
 		$consulta = "
-			select 
-				c.*, 
+			select  
+                c.*,  
+                saldoContrato(c.ID_CONTRATO) as saldo,
 				p.razon_social,
 				d.nombre as nombre_documento,
 			    d.NRO_DOCUMENTO,   
 				d.tipo_archivo,
                 d.archivo,
-                m.nombre as nombre_moneda
-				
+                m.nombre as nombre_moneda,
+                m.equivalencia as equivalencia,
+                ca.nombre as nombre_cargo,
+                TOTAL_COMPRAS_CONTRATO(c.id_contrato) AS TOTAL,
+                u.NOMBRE as USUARIO_CREA,
+                u2.NOMBRE as USUARIO_ACTUALIZA,
+			    a.AREA as asignado_a
 			from 
 				CONTRATOS C LEFT JOIN PROVEEDORES P ON c.rut_proveedor = p.rut_proveedor
 				LEFT JOIN documento_contratos dc on dc.nro_contrato = c.id_contrato
                 LEFT JOIN documento d on d.nro_documento = dc.nro_documento
                 LEFT JOIN moneda m on m.codigo = c.id_moneda
+                LEFT JOIN cargos ca on ca.id_cargo = c.id_cargo
+               
+                left join USUARIOS u on u.ID_USUARIO= c.CREADO_POR
+                left join USUARIOS u2 on u2.ID_USUARIO= c.ACTUALIZADO_POR
+                left join CONTRATOS_ASIGNACION ca on ca.ID_CONTRATO = c.ID_CONTRATO
+                left join AREAS a on ca.ID_AREA = a.ID_AREA               
+                
 			$where
 			ORDER BY
-				id_contrato
-			";
+				c.id_contrato
+            ";
+            
+           
 
 		//consulta paginada
-		$query = queryPagination($consulta, $this->page);
-		$result = oci_parse($this->pdo, $query);
-		oci_execute($result);
-		$listado = queryResultToAssoc($result);
+//		$query = queryPagination($consulta, $this->page);
+//		$result = oci_parse($this->pdo, $query);
+//		oci_execute($result);
+//		$listado = queryResultToAssoc($result);
+
+        $listado = queryToArray($consulta,$this->pdo);
+
+
 
 
 		//se iteran todos los contrtos para añadirles las bitacoras
@@ -121,7 +155,7 @@ class ModelContratos {
 			from 
 				BITACORA LEFT JOIN documento on bitacora.nro_documento = documento.nro_documento
 			where 
-				ID_CONTRATO=".$contrato['ID_CONTRATO'];
+				ID_CONTRATO='{$contrato['ID_CONTRATO']}'";
             $result = oci_parse($this->pdo, $query);
             oci_execute($result);
             $bitacoras = queryResultToAssoc($result);
@@ -137,17 +171,24 @@ class ModelContratos {
                 from 
                     CONTRATOS C LEFT JOIN DETALLE_CONTRATO DE ON c.id_contrato = de.id_contrato
                     where 
-                        C.ID_CONTRATO=".$contrato['ID_CONTRATO'];
+                        C.ID_CONTRATO='{$contrato['ID_CONTRATO']}'";
             $result = oci_parse($this->pdo, $query);
             oci_execute($result);
             $detalles= queryResultToAssoc($result);
 
             $contrato['DETALLES'] = $detalles;
 
-            $query = "select * from AREAS where ID_CARGO=".$contrato['ID_CARGO'];
+            $query = "select * from AREAS where ID_CARGO='{$contrato['ID_CARGO']}'";
             $areas = queryToArray($query,$this->pdo);
 
             $contrato['AREAS'] = $areas ?? [];
+
+            $query = "select * from CONTRATOS_ASIGNACION where ID_CONTRATO='{$contrato['ID_CONTRATO']}'";
+            $asignado = queryToArray($query,$this->pdo)[0];
+
+            $contrato['ASIGNADO'] = $asignado ? 1 : 0;
+
+
 
             return $contrato;
 
@@ -171,7 +212,6 @@ class ModelContratos {
     public function getDataListBox()
     {
 
-
         $query = "SELECT * FROM PROVEEDORES";
         $proveedores = queryToArray($query,$this->pdo);
 
@@ -181,7 +221,6 @@ class ModelContratos {
         } else {
 
             $where = "WHERE ID_CARGO='".$this->authUser['ID_CARGO']."' ";
-
            
         }
 
